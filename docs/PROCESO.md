@@ -3370,3 +3370,13 @@ Víctor quiere preparar la app para Google Play (App Store, más adelante), sobr
 - Documentos: `seguridad.md` (nuevo), `despliegue.md` § Preparación para Google Play (pasos de Víctor y los que dependen del dominio), `arquitectura.md`, `desarrollo.md` y `CLAUDE.md`.
 
 **Verificación:** `npm run test` (267 archivos, 3.134 pruebas) y `npm run build` correctos; `validar-seguridad`, `test:ui:offline` y `validar-actualizaciones` (dos builds) correctos en Chromium.
+
+## 310. Nombre: criba de «Vetta» y «Vetta Fit» (2026-11-03)
+
+Víctor pidió un informe para decidir si la app puede llamarse «Vetta» (en italiano, «cumbre») o «Vetta Fit» antes de publicarla en Google Play: marcas (EUIPO, TMview, OEPM, WIPO; clases 9, 41, 42 y 44), apps en las tiendas, dominios, empresas, redes y significado en otros idiomas. Resultado en [`nombre-vetta.md`](nombre-vetta.md).
+
+- La red de la sesión bloqueó las bases oficiales de marcas, RDAP/whois, las tiendas y las redes: todo sale del buscador web y de fichas indexadas, marcado como comprobado, indicio o sin comprobar. Las marcas de la UE y de España, los dominios y casi todos los usuarios quedan **sin comprobar**; el informe trae los pasos para hacerlo a mano.
+- Hallazgos: una app «Vetta» de senderismo (datos en el móvil, sin cuenta) en Google Play y la App Store desde 2026; «VettaOS», app de gimnasio y nutrición con XP en Google Play; `vettafit.com` y `@vettafit` en Instagram de un negocio de entrenamiento y nutrición en EE. UU.; muchas marcas «VETTA» en EE. UU., ninguna de apps de deporte. La antigua marca de ciclismo Vetta ya no está activa.
+- Riesgo: alto para «Vetta» y medio-alto para «Vetta Fit». Alternativas cribadas igual: Cota (la mejor), Cumbra y Collado; descartadas Cresta e Hito.
+
+Sin cambios de código.
