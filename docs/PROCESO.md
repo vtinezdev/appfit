@@ -3395,3 +3395,12 @@ Víctor señaló que en Social se podía responder a un comentario, pero no a la
 ## 312. Recetas: «AppFit» a la izquierda (2026-11-04)
 
 Víctor prefirió las pestañas de Recetas al revés: «AppFit» a la izquierda y «Tuyas» a la derecha. `RecetasTab` cambia el orden de `VISTAS`; la pantalla sigue abriendo en Tuyas. Documento: `features/nutricion.md`.
+
+## 313. Nombre decidido: Cumbra (2026-11-04)
+
+Tras el informe de «Vetta» (§310), Víctor y Claude cribaron decenas de nombres más con el buscador web (las bases oficiales siguen bloqueadas por la red de la sesión): de montaña (Cota, Cumbra, Culmen, Gailur…), de carácter (Fervor, Nervus, Garra…), del estilo de Strava y Garmin (Nousu, Drang, anagramas de «Tinez» como Zenit y Zinet) y variantes de Zenit/Cénit (Cenix, Cenet, Cenio, Zemit…). Casi todo lo corto y con significado ya lo usaba alguien, a menudo una app de salud o fitness.
+
+- Elegido: **Cumbra**, visible como «Cumbra Fit», con `cumbrafit.app`, @cumbrafit y el paquete `app.cumbrafit` previstos. Víctor comprobó TMview (solo «CUMBRAE COVE» y «CUMBRAE CASTLE», clase 41) y el Localizador de la OEPM (nada); `cumbra.app` y `cumbra.es` ya tienen dueño.
+- Decisión, comprobaciones, pendientes y descartados con su motivo: [ADR 063](decisiones/063-nombre-cumbra.md). Actualizados `roadmap.md`, `despliegue.md` y una nota en `nombre-vetta.md`.
+
+Sin cambios de código: el manifest y el paquete se cambian cuando haya dominio. Nada comprado ni registrado.
