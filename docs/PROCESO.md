@@ -3431,3 +3431,6 @@ La imagen de «Guardar imagen» / «Compartir…» seguía con la rejilla de cif
 Víctor vio que había mucho que bajar hasta los botones: se suben a la portada, bajo el calendario («Compartir mi mes» y «Guardar imagen»), con una línea que dice qué lleva la imagen (lo esencial, no la página entera).
 
 Lógica: `imagenTuPeriodo.svgTuPeriodo` (nuevo dibujo), `tuPeriodoSecciones.cifrasImagen`, `momentosImagen` y `cifraRecord`, con tests; el color del acento se lee de `--c-meal-accent`. `validar-tu-mes.cjs` descarga la imagen desde la portada.
+
+De paso, `webkit-borrador` (`validar-correcciones-auditoria.cjs`) falló a ratos en el CI de esta PR (2 de 4): pulsaba Atrás en Añadir comida antes de que la app volviera a poner la entrada de historial de la capa tras «Seguir editando», y WebKit salía sin preguntar. El recorrido espera ahora a esa entrada (y a que se cierre la confirmación) antes de cada Atrás. Sin cambios en la app; si siguiera fallando, habría que mirarlo en un iPhone.
+
