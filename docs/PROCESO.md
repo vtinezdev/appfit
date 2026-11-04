@@ -3413,7 +3413,8 @@ Lógica en `vitrina/lib/tuPeriodoSecciones` (con tests); `useDatosPeriodo` lee a
 Víctor pidió dibujar la silueta de cada montaña para «Lo mejor del mes» (hasta ahora, todas con la genérica de Cumbres).
 
 - `cumbres/lib/siluetas.ts`: las 22, dibujadas a mano a partir de su forma conocida (no son perfiles topográficos): el cono del Fuji y del Cotopaxi, el cuerno del Cervino, las dos cimas del Elbrus, la meseta del Kilimanjaro con el Mawenzi, la antecima del Everest con el Lhotse… `formaDe` da la genérica a una montaña sin forma propia.
-- `cumbres/lib/perfil.ts`: `trazadoSilueta` y `puntoEnLadera` aceptan una forma (`FormaMontana`; por defecto la genérica, así la card de Cumbres no cambia).
+- `cumbres/lib/perfil.ts`: `trazadoSilueta` y `puntoEnLadera` aceptan una forma (`FormaMontana`; por defecto la genérica).
+- También en la card de Cumbres (`PerfilMontana`), con el relleno de lo subido, las líneas de cada 1.000 m y la marca por su ladera (lo pidió Víctor tras ver la galería).
 - `vitrina/components/MiniaturasPeriodo`: la miniatura de cada cumbre usa su silueta.
 - Tests de forma (`siluetas.test.ts`): una por montaña, la subida siempre hacia arriba hasta la cima y la bajada por debajo de ella hasta la base.
 
