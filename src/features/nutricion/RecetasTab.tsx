@@ -9,7 +9,7 @@ import ListaRecetas from './components/ListaRecetas'
 import RecetarioAppFit from './components/RecetarioAppFit'
 
 type Vista = 'tuyas' | 'appfit'
-const VISTAS: { valor: Vista; label: string }[] = [{ valor: 'tuyas', label: 'Tuyas' }, { valor: 'appfit', label: 'AppFit' }]
+const VISTAS: { valor: Vista; label: string }[] = [{ valor: 'appfit', label: 'AppFit' }, { valor: 'tuyas', label: 'Tuyas' }]
 
 /** Destino Recetas: en pestañas, tus recetas y el recetario AppFit (las del catálogo, de solo lectura). */
 export default function RecetasTab() {
