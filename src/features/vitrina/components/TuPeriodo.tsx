@@ -181,9 +181,9 @@ function LoMejor({ s }: { s: NonNullable<ReturnType<typeof useSecciones>> }) {
     <SectionHeader variant="section">Lo mejor del mes</SectionHeader>
     <Card padded={false} className="divide-y divide-line">
       {cumbres && <Desplegable icono="mountain" titulo="Cumbres" cuenta={cumbres.coronadas.length} resumen={`+${formatInt(cumbres.metros)} m subidos`} abierto={abiertos.cumbres} onCambiar={cambiar('cumbres')}>
-        {cumbres.coronadas.map((x) => <FilaMomento key={`${x.montana.id}-${x.vez}`} miniatura={<MiniaturaMontana />} titulo={x.montana.nombre}
+        {cumbres.coronadas.map((x) => <FilaMomento key={`${x.montana.id}-${x.vez}`} miniatura={<MiniaturaMontana montanaId={x.montana.id} />} titulo={x.montana.nombre}
           detalle={`${formatInt(x.montana.altitud)} m · ${x.montana.zona}${x.vez > 1 ? ` · ${formatInt(x.vez)}.ª vez` : ''}`} fecha={diaMes(x.cumbre!.fecha)} />)}
-        {cumbres.enCurso && <FilaMomento miniatura={<MiniaturaMontana enCurso />} titulo={`Subiendo: ${cumbres.enCurso.montana.nombre}`} detalle={progresoCumbre(cumbres.enCurso)} fecha="Ahora" />}
+        {cumbres.enCurso && <FilaMomento miniatura={<MiniaturaMontana montanaId={cumbres.enCurso.montana.id} enCurso />} titulo={`Subiendo: ${cumbres.enCurso.montana.nombre}`} detalle={progresoCumbre(cumbres.enCurso)} fecha="Ahora" />}
       </Desplegable>}
       {caminos && <Desplegable icono="route" titulo="Caminos" cuenta={caminos.completados.length} resumen={`${kmTexto(caminos.metros)} recorridos`} abierto={abiertos.caminos} onCambiar={cambiar('caminos')}>
         {[...caminos.completados, ...(caminos.enCurso ? [caminos.enCurso] : [])].map((x) => {

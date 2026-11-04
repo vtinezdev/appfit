@@ -86,7 +86,6 @@ Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de 
 - **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Hecho en Buscar («¿No está?» › «Propónselo a AppFit»), por la misma vía que «Comunicar un problema» ([ADR 061](decisiones/061-mensajes-al-creador.md)).
 
 Tu mes (B15), del rediseño del resumen (PROCESO §312):
-- **Siluetas propias de cada montaña** (23) en «Lo mejor del mes»: hoy todas usan la silueta genérica de Cumbres; hay que dibujar un perfil simplificado por montaña.
 - **Imagen para compartir** con la estructura nueva (calendario, cuatro cifras y los mejores momentos): sigue con las cifras de antes.
 
 ## Ideas sin empezar

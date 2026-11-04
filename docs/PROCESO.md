@@ -3407,3 +3407,15 @@ A Víctor no le gustaba el resumen mensual («una tarjeta negra con solo número
 Lógica en `vitrina/lib/tuPeriodoSecciones` (con tests); `useDatosPeriodo` lee además los objetivos de cada día y los cheat days; `IconoLogro` exporta `SimboloLogro` para los sellos. Pendientes en el roadmap: siluetas propias de las 23 montañas e imagen para compartir con la estructura nueva (sigue con las cifras de antes).
 
 **Verificación:** `npm run test` (268 archivos, 3.144 pruebas) y `npm run build` correctos; `scripts/ui/validar-tu-mes.cjs` (nuevo) correcto en 320/375/430 px y ambos temas.
+
+## 313. Siluetas de las montañas (2026-11-04)
+
+Víctor pidió dibujar la silueta de cada montaña para «Lo mejor del mes» (hasta ahora, todas con la genérica de Cumbres).
+
+- `cumbres/lib/siluetas.ts`: las 22, dibujadas a mano a partir de su forma conocida (no son perfiles topográficos): el cono del Fuji y del Cotopaxi, el cuerno del Cervino, las dos cimas del Elbrus, la meseta del Kilimanjaro con el Mawenzi, la antecima del Everest con el Lhotse… `formaDe` da la genérica a una montaña sin forma propia.
+- `cumbres/lib/perfil.ts`: `trazadoSilueta` y `puntoEnLadera` aceptan una forma (`FormaMontana`; por defecto la genérica, así la card de Cumbres no cambia).
+- `vitrina/components/MiniaturasPeriodo`: la miniatura de cada cumbre usa su silueta.
+- Tests de forma (`siluetas.test.ts`): una por montaña, la subida siempre hacia arriba hasta la cima y la bajada por debajo de ella hasta la base.
+
+**Verificación:** `npm run test` (269 archivos, 3.171 pruebas) y `npm run build` correctos; galería de las 22 revisada en el navegador.
+

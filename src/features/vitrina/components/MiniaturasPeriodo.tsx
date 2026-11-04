@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import TrazadoRecorrido from '../../actividades/components/TrazadoRecorrido'
 import type { ColeccionRuta } from '../../caminos/lib/rutas'
 import { puntoEnLadera, trazadoSilueta } from '../../cumbres/lib/perfil'
+import { formaDe } from '../../cumbres/lib/siluetas'
 import type { IdLogro } from '../lib/logros'
 import { SimboloLogro } from './IconoLogro'
 import type { PuntoRecorrido } from '../../../shared/db/types'
@@ -14,15 +15,16 @@ function Cuadro({ children }: { children: ReactNode }) {
 const LIENZO = { ancho: 48, alto: 48, margen: 14 }
 
 /**
- * La silueta de Cumbres (la misma para todas las montañas: no hay perfiles reales) con la bandera en la cima: rellena
- * si se coronó, solo el contorno si se está subiendo.
+ * La silueta propia de la montaña (`cumbres/lib/siluetas`) con la bandera en la cima: rellena si se coronó, solo el
+ * contorno si se está subiendo.
  */
-export function MiniaturaMontana({ enCurso = false }: { enCurso?: boolean }) {
-  const cima = puntoEnLadera(LIENZO, 1)
+export function MiniaturaMontana({ montanaId, enCurso = false }: { montanaId: string; enCurso?: boolean }) {
+  const forma = formaDe(montanaId)
+  const cima = puntoEnLadera(LIENZO, 1, forma)
   const bandera = `M${cima.x} ${cima.y}V${cima.y - 10}L${cima.x + 7} ${cima.y - 8}L${cima.x} ${cima.y - 6}`
   return <Cuadro>
     <svg viewBox={`0 0 ${LIENZO.ancho} ${LIENZO.alto}`} className="block h-full w-full">
-      <path d={trazadoSilueta(LIENZO)} strokeWidth={enCurso ? 1.5 : 0} strokeLinejoin="round" className={enCurso ? 'fill-surface stroke-fg' : 'fill-fg'} />
+      <path d={trazadoSilueta(LIENZO, forma)} strokeWidth={enCurso ? 1.5 : 0} strokeLinejoin="round" className={enCurso ? 'fill-surface stroke-fg' : 'fill-fg'} />
       <path d={bandera} strokeWidth={1.5} strokeLinejoin="round" className="fill-fg stroke-fg" />
     </svg>
   </Cuadro>
