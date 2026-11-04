@@ -3391,3 +3391,12 @@ Víctor señaló que en Social se podía responder a un comentario, pero no a la
 - Documentos: `features/social.md`, `seguridad.md`, `social-mejoras.md`.
 
 **Verificación:** `npm run test` (267 archivos, 3.137 pruebas) y `npm run build` correctos. Todas las migraciones (0001–0029) y suites SQL en PostgreSQL 17 local temporal (sin Docker en la sesión). Recorrido en Chromium con Supabase falso en `appfit-test.localhost:5174`, 320/375/430 px claro/oscuro: responder a una respuesta, dos respuestas en el mismo hilo, «Respuesta a @…», sin desbordes, botón de 44 px; y sin la capacidad, las respuestas no muestran «Responder». Víctor ejecuta 0029 en el SQL Editor del proyecto real el 2026-11-04 con «Success».
+
+## 312. Nombre decidido: Cumbra (2026-11-04)
+
+Tras el informe de «Vetta» (§310), Víctor y Claude cribaron decenas de nombres más con el buscador web (las bases oficiales siguen bloqueadas por la red de la sesión): de montaña (Cota, Cumbra, Culmen, Gailur…), de carácter (Fervor, Nervus, Garra…), del estilo de Strava y Garmin (Nousu, Drang, anagramas de «Tinez» como Zenit y Zinet) y variantes de Zenit/Cénit (Cenix, Cenet, Cenio, Zemit…). Casi todo lo corto y con significado ya lo usaba alguien, a menudo una app de salud o fitness.
+
+- Elegido: **Cumbra**, visible como «Cumbra Fit», con `cumbrafit.app`, @cumbrafit y el paquete `app.cumbrafit` previstos. Víctor comprobó TMview (solo «CUMBRAE COVE» y «CUMBRAE CASTLE», clase 41) y el Localizador de la OEPM (nada); `cumbra.app` y `cumbra.es` ya tienen dueño.
+- Decisión, comprobaciones, pendientes y descartados con su motivo: [ADR 063](decisiones/063-nombre-cumbra.md). Actualizados `roadmap.md`, `despliegue.md` y una nota en `nombre-vetta.md`.
+
+Sin cambios de código: el manifest y el paquete se cambian cuando haya dominio. Nada comprado ni registrado.

@@ -1,5 +1,7 @@
 # ¿Se puede llamar «Vetta»? Informe de nombre
 
+> **Decisión final (2026-11-04):** la app se llamará **Cumbra** («Cumbra Fit»). Ver [ADR 063](decisiones/063-nombre-cumbra.md). Este informe se conserva como la criba de Vetta.
+
 Fecha de la búsqueda: 2026-11-03. Pedido por Víctor para decidir el nombre con el que AppFit se publicará gratis en Google Play, primero en España. Candidato: **Vetta** (en italiano, «cumbre»); alternativa: **Vetta Fit**.
 
 > **Esto no es un informe jurídico** ni sustituye a una búsqueda de anterioridades hecha por un agente de la propiedad industrial. Es una criba previa para no enamorarse de un nombre que ya está cogido.
