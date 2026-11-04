@@ -1,7 +1,8 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0026 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0026, las respuestas a respuestas de 0029 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 // `simular_companias` crea un grupo de semana en compañía con Jon y una invitación de Lucía (0024);
 // `simular_aceptar_compania`, que quien invitaste acepte. `simular_denuncia_actuada`: se actuó sobre una denuncia tuya (0026).
+// `simular_respuestas_anidadas` con `{ p_disponibles: false }` imita un servidor sin 0029.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -14,6 +15,7 @@ import { readFileSync } from 'node:fs'
 
 const IDS_IMAGENES_COMUNIDAD = new Set(JSON.parse(readFileSync(new URL('../comunidades/fuentes.json', import.meta.url), 'utf8')).lotes.flatMap(l => l.elementos.map(e => e.id)))
 let IMAGENES_COMUNIDADES = true
+let RESPUESTAS_ANIDADAS = true
 const exigirImagenesComunidades = () => { if (!IMAGENES_COMUNIDADES) throw { status: 404, body: { code: 'PGRST202', message: 'Could not find community images RPC' } } }
 const validarImagenComunidad = imagen => { if (imagen !== null && !IDS_IMAGENES_COMUNIDAD.has(imagen)) throw err('imagen_comunidad_no_valida') }
 
@@ -131,6 +133,7 @@ const denunciasFalsas = [
 const rpc = {
   simular_reinicio: () => {
     IMAGENES_COMUNIDADES = true
+    RESPUESTAS_ANIDADAS = true
     EXCLUSIVO = false
     silencios.clear(); vistosComunidad.clear(); deportivos.clear(); deportivos.set('jon', deportivoJon()); avataresCatalogo.clear(); avataresCatalogo.set('lucia', 'paisaje.cumbre'); moderadores.clear(); idsAnimos.clear()
     for (const [mapa, filas] of [[perfiles,inicial.perfiles],[seg,inicial.seg],[publicaciones,inicial.publicaciones],[comunidades,inicial.comunidades]]) { mapa.clear(); for (const [k,v] of filas) mapa.set(k,structuredClone(v)) }
@@ -169,6 +172,7 @@ const rpc = {
     return null
   },
   simular_imagenes_comunidades: ({ p_disponibles }) => { IMAGENES_COMUNIDADES = p_disponibles === true; return null },
+  simular_respuestas_anidadas: ({ p_disponibles }) => { RESPUESTAS_ANIDADAS = p_disponibles === true; return null },
   unirse_comunidad: ({p_id}) => { exigir(); if(!comunidades.has(p_id)) throw err('no_encontrado'); miembros.add(`${p_id}|${YO}`); return null },
   salir_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador===YO) throw err('creador_no_puede_salir'); miembros.delete(`${p_id}|${YO}`); return null },
   editar_descripcion_comunidad: ({p_id,p_descripcion}) => { exigir(); const c=comunidades.get(p_id); if(c?.creador!==YO) throw err('no_encontrado'); if((p_descripcion??'').trim().length>300) throw err('comunidad_no_valida'); c.descripcion=(p_descripcion??'').trim(); return null },
@@ -289,7 +293,7 @@ const rpc = {
     return id
   },
   comentar_respuesta: ({p_id,p_texto,p_respuesta}) => {
-    if(p_respuesta) { const padre=comentarios.get(p_respuesta); if(!padre || padre.publicacion!==p_id || padre.respuesta_a || bloq(YO,padre.autor)) throw err('no_encontrado') }
+    if(p_respuesta) { const padre=comentarios.get(p_respuesta); if(!padre || padre.publicacion!==p_id || (padre.respuesta_a && !RESPUESTAS_ANIDADAS) || bloq(YO,padre.autor)) throw err('no_encontrado') }
     const id=rpc.comentar({p_id,p_texto}); comentarios.get(id).respuesta_a=p_respuesta; return id
   },
   animos_de: ({p_id,p_antes,p_antes_id,p_limite}) => {
@@ -305,7 +309,7 @@ const rpc = {
   simular_suspension: () => { perfiles.get(YO).suspendido=true;return null },
   gestion_comunidad: ({p_id})=>{exigir();const c=comunidades.get(p_id);if(!c||bloq(YO,c.creador))throw err('no_encontrado');const creador=c.creador===YO;return {modera:modera(p_id),creador,reglas:c.reglas??'',bienvenida:c.bienvenida??'',miembros:modera(p_id)?[...perfiles].filter(([id])=>miembros.has(`${p_id}|${id}`)).map(([id,p])=>({alias:p.alias,nombre:p.nombre,creador:c.creador===id,moderador:moderadores.has(`${p_id}|${id}`),yo:id===YO})):[]}},
   gestionar_comunidad: ({p_id,p_accion,p_alias,p_texto})=>{exigir();const c=comunidades.get(p_id);if(!c||!modera(p_id)||(p_accion!=='expulsar'&&c.creador!==YO))throw err('no_encontrado');if(p_accion==='reglas'||p_accion==='bienvenida')c[p_accion]=p_texto;else{const id=otro(p_alias);if(!miembros.has(`${p_id}|${id}`)||id===YO||id===c.creador)throw err('no_encontrado');if(p_accion==='transferir'){c.creador=id;moderadores.delete(`${p_id}|${id}`)}else if(p_accion==='expulsar')miembros.delete(`${p_id}|${id}`);else if(p_accion==='nombrar')moderadores.add(`${p_id}|${id}`);else if(p_accion==='revocar')moderadores.delete(`${p_id}|${id}`)}return null},
-  social_capacidades: () => { exigir(); return { camposOpcionales: true, imagenesPublicacion: true, detallesEjercicio: true, rutinaCompartida: true, semanaRitmo: true, semanaCompania: true, ...(IMAGENES_COMUNIDADES ? { imagenesComunidades: true } : {}) } },
+  social_capacidades: () => { exigir(); return { camposOpcionales: true, imagenesPublicacion: true, detallesEjercicio: true, rutinaCompartida: true, semanaRitmo: true, semanaCompania: true, ...(IMAGENES_COMUNIDADES ? { imagenesComunidades: true } : {}), ...(RESPUESTAS_ANIDADAS ? { respuestasAnidadas: true } : {}) } },
   perfil_deportivo: ({p_alias,p_comunidad})=>{exigir();const id=idDe(p_alias);if(!id||bloq(YO,id))throw err('no_encontrado');if(p_comunidad&&!miembros.has(`${p_comunidad}|${YO}`))throw err('no_miembro');const pe=perfiles.get(id),de=deportivos.get(id)??{bio:'',disciplinas:[],destacados:[],logros:[],avatarId:null};const visibles=[...publicaciones].filter(([,p])=>p.autor===id&&(p_comunidad?p.comunidad===p_comunidad:!p.comunidad&&puedeVer(id)));return {...de,alias:pe.alias,nombre:pe.nombre,publicadas:visibles.length,destacados:visibles.filter(([pid])=>de.destacados.includes(pid)).map(([id,p])=>({id,resumen:p.resumen})),avatar:visibles.find(([pid])=>pid===de.avatarId)?.[1].resumen??null}},
   editar_perfil_deportivo: ({p_bio,p_disciplinas,p_destacados,p_avatar})=>{exigir();if(p_bio.length>160||p_disciplinas.length>3||p_destacados.length>3)throw err('perfil_deportivo_no_valido');deportivos.set(YO,{bio:p_bio,disciplinas:p_disciplinas,destacados:p_destacados,avatarId:p_avatar});return null},
   // 0016: hasta tres medallas de logro distintas, sin publicar.

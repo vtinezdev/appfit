@@ -76,9 +76,10 @@ export interface Social {
    * `imagenesPublicacion`: el servidor admite imágenes e insignias en el resumen (0020); `detallesEjercicio`, la liga y
    * las series de cada ejercicio (0021). Sin ellas no se envían. `rutinaCompartida`: acepta publicaciones de rutina
    * (0022); sin ella no se ofrece compartir una rutina. `semanaRitmo`: acepta publicaciones de semana (0023).
-   * `semanaCompania`: existe la semana en compañía (0024); sin ella no aparece.
+   * `semanaCompania`: existe la semana en compañía (0024); sin ella no aparece. `respuestasAnidadas`: se puede
+   * responder a una respuesta (0029); sin ella solo se responde a los comentarios raíz.
    */
-  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean; detallesEjercicio?: boolean; rutinaCompartida?: boolean; semanaRitmo?: boolean; semanaCompania?: boolean; imagenesComunidades?: boolean }>
+  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean; detallesEjercicio?: boolean; rutinaCompartida?: boolean; semanaRitmo?: boolean; semanaCompania?: boolean; imagenesComunidades?: boolean; respuestasAnidadas?: boolean }>
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
   /**
