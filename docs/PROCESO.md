@@ -3396,7 +3396,16 @@ Víctor señaló que en Social se podía responder a un comentario, pero no a la
 
 Víctor prefirió las pestañas de Recetas al revés: «AppFit» a la izquierda y «Tuyas» a la derecha. `RecetasTab` cambia el orden de `VISTAS`; la pantalla sigue abriendo en Tuyas. Documento: `features/nutricion.md`.
 
-## 313. «Tu mes»: el resumen mensual, rediseñado (2026-11-04)
+## 313. Nombre decidido: Cumbra (2026-11-04)
+
+Tras el informe de «Vetta» (§310), Víctor y Claude cribaron decenas de nombres más con el buscador web (las bases oficiales siguen bloqueadas por la red de la sesión): de montaña (Cota, Cumbra, Culmen, Gailur…), de carácter (Fervor, Nervus, Garra…), del estilo de Strava y Garmin (Nousu, Drang, anagramas de «Tinez» como Zenit y Zinet) y variantes de Zenit/Cénit (Cenix, Cenet, Cenio, Zemit…). Casi todo lo corto y con significado ya lo usaba alguien, a menudo una app de salud o fitness.
+
+- Elegido: **Cumbra**, visible como «Cumbra Fit», con `cumbrafit.app`, @cumbrafit y el paquete `app.cumbrafit` previstos. Víctor comprobó TMview (solo «CUMBRAE COVE» y «CUMBRAE CASTLE», clase 41) y el Localizador de la OEPM (nada); `cumbra.app` y `cumbra.es` ya tienen dueño.
+- Decisión, comprobaciones, pendientes y descartados con su motivo: [ADR 063](decisiones/063-nombre-cumbra.md). Actualizados `roadmap.md`, `despliegue.md` y una nota en `nombre-vetta.md`.
+
+Sin cambios de código: el manifest y el paquete se cambian cuando haya dominio. Nada comprado ni registrado.
+
+## 314. «Tu mes»: el resumen mensual, rediseñado (2026-11-04)
 
 A Víctor no le gustaba el resumen mensual («una tarjeta negra con solo números»). Se diseñó con él sobre una preview (varias rondas) y se implementó lo acordado:
 
@@ -3412,7 +3421,7 @@ Lógica en `vitrina/lib/tuPeriodoSecciones` (con tests); `useDatosPeriodo` lee a
 
 **Verificación:** `npm run test` (268 archivos, 3.144 pruebas) y `npm run build` correctos; `scripts/ui/validar-tu-mes.cjs` (nuevo) correcto en 320/375/430 px y ambos temas.
 
-## 314. Siluetas de las montañas (2026-11-04)
+## 315. Siluetas de las montañas (2026-11-04)
 
 Víctor pidió dibujar la silueta de cada montaña para «Lo mejor del mes» (hasta ahora, todas con la genérica de Cumbres).
 
@@ -3424,7 +3433,7 @@ Víctor pidió dibujar la silueta de cada montaña para «Lo mejor del mes» (ha
 
 **Verificación:** `npm run test` (269 archivos, 3.171 pruebas) y `npm run build` correctos; galería de las 22 revisada en el navegador.
 
-## 315. «Tu mes»: la imagen para compartir, con la estructura nueva (2026-11-04)
+## 316. «Tu mes»: la imagen para compartir, con la estructura nueva (2026-11-04)
 
 La imagen de «Guardar imagen» / «Compartir…» seguía con la rejilla de cifras de antes. Ahora es una tarjeta de 1080 × 1350 con la misma estructura que la página: periodo, título, frase, calendario del mes, cuatro cifras (entrenos, volumen, km y días registrados según lo que se use; si falta alguna, los metros de Cumbres) y los mejores momentos que quepan (cada cumbre y camino terminados, el récord de más peso «y N récords más», los logros nuevos), con el icono en el acento. Sin calendario en «Tu año».
 
@@ -3433,4 +3442,3 @@ Víctor vio que había mucho que bajar hasta los botones: se suben a la portada,
 Lógica: `imagenTuPeriodo.svgTuPeriodo` (nuevo dibujo), `tuPeriodoSecciones.cifrasImagen`, `momentosImagen` y `cifraRecord`, con tests; el color del acento se lee de `--c-meal-accent`. `validar-tu-mes.cjs` descarga la imagen desde la portada.
 
 De paso, `webkit-borrador` (`validar-correcciones-auditoria.cjs`) falló a ratos en el CI de esta PR (2 de 4): pulsaba Atrás en Añadir comida antes de que la app volviera a poner la entrada de historial de la capa tras «Seguir editando», y WebKit salía sin preguntar. El recorrido espera ahora a esa entrada (y a que se cierre la confirmación) antes de cada Atrás. Sin cambios en la app; si siguiera fallando, habría que mirarlo en un iPhone.
-
