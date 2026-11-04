@@ -3442,3 +3442,12 @@ Víctor vio que había mucho que bajar hasta los botones: se suben a la portada,
 Lógica: `imagenTuPeriodo.svgTuPeriodo` (nuevo dibujo), `tuPeriodoSecciones.cifrasImagen`, `momentosImagen` y `cifraRecord`, con tests; el color del acento se lee de `--c-meal-accent`. `validar-tu-mes.cjs` descarga la imagen desde la portada.
 
 De paso, `webkit-borrador` (`validar-correcciones-auditoria.cjs`) falló a ratos en el CI de esta PR (2 de 4): pulsaba Atrás en Añadir comida antes de que la app volviera a poner la entrada de historial de la capa tras «Seguir editando», y WebKit salía sin preguntar. El recorrido espera ahora a esa entrada (y a que se cierre la confirmación) antes de cada Atrás. Sin cambios en la app; si siguiera fallando, habría que mirarlo en un iPhone.
+
+## 317. PWA de iOS: el botón de secciones, otra vez cortado por abajo (2026-11-04)
+
+Tras §306 la app ya llegaba al borde, pero Víctor seguía viendo el botón de secciones un poco cortado por abajo. Causa probable: cuando iOS deja la vista más corta que la pantalla y la app se estira hasta abajo, `env(safe-area-inset-bottom)` vale 0 (iOS cree que la vista no toca el borde), y el botón quedaba a 8 px del borde físico, bajo la barra de inicio y la esquina redondeada.
+
+- `design/viewport.margenInferiorMinimo` (con tests): en la PWA de un iPhone con barra de inicio y sin teclado, 34 pt en vertical y 21 en horizontal; `initViewport` lo publica en `--safe-bottom-min`.
+- Token `--safe-bottom` = `max(env(safe-area-inset-bottom), var(--safe-bottom-min))`; lo usan el botón y la rejilla de secciones, el hueco final de la vista, `--nav-dock` y `.safe-bottom` (pies de hojas y páginas modales). Fuera de la PWA de iOS no cambia nada.
+
+**Verificación:** `npm run test` (269 archivos, 3.175 pruebas) y `npm run build` correctos. Sin iPhone en la sesión: no probado en el dispositivo.
