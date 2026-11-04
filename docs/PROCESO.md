@@ -3391,3 +3391,7 @@ Víctor señaló que en Social se podía responder a un comentario, pero no a la
 - Documentos: `features/social.md`, `seguridad.md`, `social-mejoras.md`.
 
 **Verificación:** `npm run test` (267 archivos, 3.137 pruebas) y `npm run build` correctos. Todas las migraciones (0001–0029) y suites SQL en PostgreSQL 17 local temporal (sin Docker en la sesión). Recorrido en Chromium con Supabase falso en `appfit-test.localhost:5174`, 320/375/430 px claro/oscuro: responder a una respuesta, dos respuestas en el mismo hilo, «Respuesta a @…», sin desbordes, botón de 44 px; y sin la capacidad, las respuestas no muestran «Responder». Víctor ejecuta 0029 en el SQL Editor del proyecto real el 2026-11-04 con «Success».
+
+## 312. Recetas: «AppFit» a la izquierda (2026-11-04)
+
+Víctor prefirió las pestañas de Recetas al revés: «AppFit» a la izquierda y «Tuyas» a la derecha. `RecetasTab` cambia el orden de `VISTAS`; la pantalla sigue abriendo en Tuyas. Documento: `features/nutricion.md`.
