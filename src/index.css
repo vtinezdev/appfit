@@ -179,7 +179,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 
 .safe-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--safe-bottom);
 }
 .safe-inline {
   padding-left: env(safe-area-inset-left);
@@ -505,7 +505,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 /* Navegación (ADR 043): un botón redondo flotante abajo al centro, fuera del flujo, sobre el contenido, que pasa por debajo. */
 .app-nav {
   position: absolute; inset: auto 0 0; z-index: 40; pointer-events: none;
-  padding: 0 max(var(--space-page), env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton))) max(var(--space-page), env(safe-area-inset-left));
+  padding: 0 max(var(--space-page), env(safe-area-inset-right)) calc(var(--safe-bottom) + (var(--nav-height) - var(--nav-boton))) max(var(--space-page), env(safe-area-inset-left));
 }
 .nav-boton {
   pointer-events: auto; display: grid; place-items: center; width: var(--nav-boton); height: var(--nav-boton); margin-inline: auto;
@@ -516,10 +516,10 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 /* Rejilla de secciones (ADR 060): sube desde el botón, que en la capa pasa a cerrar. El fondo es el de la app casi opaco, para leer los nombres en los dos temas. */
 .secciones-fondo { background: rgb(var(--c-bg) / .9); }
 .secciones-panel {
-  position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton)));
+  position: absolute; left: 50%; bottom: calc(var(--safe-bottom) + (var(--nav-height) - var(--nav-boton)));
   display: flex; flex-direction: column; align-items: center; gap: var(--space-stack); outline: none; transform: translateX(-50%);
   width: min(calc(var(--secciones-columnas, 4) * var(--secciones-celda)), calc(100% - 2 * var(--space-page) - env(safe-area-inset-left) - env(safe-area-inset-right)));
-  max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - var(--space-stack));
+  max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - var(--safe-bottom) - var(--space-stack));
 }
 /* Con poco alto (horizontal, teclado), la rejilla se desplaza y el cierre sigue a la vista. */
 .secciones-panel nav { width: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
@@ -546,7 +546,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .secciones-destino[aria-current='page'] .secciones-circulo { border-color: transparent; color: rgb(var(--c-accent-strong)); box-shadow: inset 0 0 0 2px rgb(var(--c-accent-strong)), var(--shadow-float); }
 .secciones-panel .nav-boton { flex-shrink: 0; }
 /* La vista deja sitio al final para leer lo último por encima de la barra flotante. */
-.app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--space-section)); }
+.app-view { padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + var(--space-section)); }
 /* Entreno minimizado: barra de grafito sobre la cápsula. Los avisos suben por encima y la vista reserva también su altura. */
 .entreno-minimizado {
   pointer-events: auto; display: flex; width: 100%; min-height: var(--mini-entreno-height); flex-direction: column; justify-content: center; gap: .375rem;
@@ -555,7 +555,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 .entreno-minimizado:active { transform: scale(var(--motion-press)); }
 [data-mini-entreno] { --nav-toast: calc(var(--nav-dock) + var(--mini-entreno-height) + .5rem); }
-[data-mini-entreno] .app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--mini-entreno-height) + .5rem + var(--space-section)); }
+[data-mini-entreno] .app-view { padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + var(--mini-entreno-height) + .5rem + var(--space-section)); }
 /* Progreso en Inicio: teselas de Cumbres, Caminos, Ritmo y Vitrina con su dato, en 2 × 2 con el mismo hueco que el mosaico. */
 .progreso-teselas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-stack); }
 /* Con texto ampliado, una columna (a 320 px con texto normal, 18 rem justos, siguen en 2 × 2). Va después de la regla base
