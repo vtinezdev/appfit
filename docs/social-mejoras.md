@@ -301,7 +301,7 @@ Necesita migraciones y suites SQL.
 ### F2-2 · Responder a un comentario (Codex B07) · P1
 
 - **Qué hacer:**
-  - `comentarios.respuesta_a uuid null` (un solo nivel), «Responder a Lucía» en la hoja.
+  - `comentarios.respuesta_a uuid null` (un solo nivel; desde 0029 también a una respuesta, con un solo nivel visual), «Responder a Lucía» en la hoja.
   - Aviso a quien recibe la respuesta.
   - Sin @menciones libres en esta fase.
   - Opción «Dejar de seguir la conversación» si se añaden avisos de hilo.

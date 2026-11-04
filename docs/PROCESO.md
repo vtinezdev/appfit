@@ -3380,3 +3380,14 @@ Víctor pidió un informe para decidir si la app puede llamarse «Vetta» (en it
 - Riesgo: alto para «Vetta» y medio-alto para «Vetta Fit». Alternativas cribadas igual: Cota (la mejor), Cumbra y Collado; descartadas Cresta e Hito.
 
 Sin cambios de código.
+
+## 311. Social: responder a una respuesta (2026-11-04)
+
+Víctor señaló que en Social se podía responder a un comentario, pero no a la respuesta de un comentario.
+
+- `supabase/migrations/0029_social_respuestas_anidadas.sql`: `comentar_respuesta` acepta cualquier comentario visible de la publicación (antes exigía `respuesta_a is null`) y `social_capacidades` anuncia `respuestasAnidadas`. Los avisos ya iban a `padre.autor`, así que quien escribió la respuesta contestada recibe «Respondió a tu comentario». Suite `supabase/pruebas/social_respuestas_anidadas.sql`; `social_conversacion_control.sql` deja de exigir un solo nivel.
+- Cliente: `hilosComentarios` cuelga cada respuesta del comentario raíz de su cadena (un solo nivel visual) y `respondeAOtraRespuesta` decide cuándo poner «Respuesta a @…». `ComentariosSheet` muestra «Responder» en las respuestas solo si el servidor anuncia la capacidad.
+- Supabase falso: imita 0029 y `simular_respuestas_anidadas` lo desactiva.
+- Documentos: `features/social.md`, `seguridad.md`, `social-mejoras.md`.
+
+**Verificación:** `npm run test` (267 archivos, 3.137 pruebas) y `npm run build` correctos. Todas las migraciones (0001–0029) y suites SQL en PostgreSQL 17 local temporal (sin Docker en la sesión). Recorrido en Chromium con Supabase falso en `appfit-test.localhost:5174`, 320/375/430 px claro/oscuro: responder a una respuesta, dos respuestas en el mismo hilo, «Respuesta a @…», sin desbordes, botón de 44 px; y sin la capacidad, las respuestas no muestran «Responder». Víctor ejecuta 0029 en el SQL Editor del proyecto real el 2026-11-04 con «Success».

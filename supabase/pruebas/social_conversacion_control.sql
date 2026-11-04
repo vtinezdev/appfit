@@ -27,8 +27,7 @@ begin
  perform set_config('request.jwt.claims',jsonb_build_object('sub',a)::text,true);
  select count(*) into n from public.animos_de(p,null,null,20);assert n=1,'autor ve ánimo';
  respuesta:=public.comentar_respuesta(p,'Respuesta directa',padre);
- begin perform public.comentar_respuesta(p,'No hay niveles ilimitados',respuesta);e:=null;exception when others then e:=sqlerrm;end;
- assert e='no_encontrado','un nivel de respuestas';
+ -- Desde 0029 también se responde a una respuesta (ver social_respuestas_anidadas.sql).
  perform public.publicar_comunidad(gen_random_uuid(),'texto',now(),texto,anuncio);
  perform set_config('request.jwt.claims',jsonb_build_object('sub',b)::text,true);
  x:=public.avisos();assert exists(select 1 from jsonb_array_elements(x->'lista') z where z->>'tipo'='respuesta'),'respuesta dirigida';

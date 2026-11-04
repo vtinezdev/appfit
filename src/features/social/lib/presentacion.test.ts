@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import type { Comentario } from './feed'
-import { agruparPorPeriodo, etiquetaPublicacion, hilosComentarios, panelEjercicio, sugerenciaCompartir, textoMasTrabajado } from './presentacion'
+import { agruparPorPeriodo, etiquetaPublicacion, hilosComentarios, panelEjercicio, respondeAOtraRespuesta, sugerenciaCompartir, textoMasTrabajado } from './presentacion'
 import { resumenActividad, resumenTexto, type MapaCompartido, type ResumenEntreno, type ResumenLogro } from './publicacion'
 
 const entreno: ResumenEntreno = { v: 1, tipo: 'entreno', titulo: 'Pierna', series: 12, ejercicios: [], records: [], ligas: [], logros: [] }
@@ -55,6 +55,23 @@ describe('hilosComentarios', () => {
   })
   it('una respuesta sin su original cargado queda suelta en su sitio', () => {
     expect(hilosComentarios([c('r0', 'viejo'), c('a')]).map(h => [h.raiz.id, h.suelta])).toEqual([['r0', true], ['a', false]])
+  })
+  it('la respuesta a una respuesta va al hilo del comentario raíz, en orden', () => {
+    const hilos = hilosComentarios([c('a'), c('r1', 'a'), c('b'), c('r2', 'r1'), c('r3', 'r2'), c('r4', 'a')])
+    expect(hilos.map(h => [h.raiz.id, h.respuestas.map(r => r.id)])).toEqual([['a', ['r1', 'r2', 'r3', 'r4']], ['b', []]])
+  })
+  it('si falta la respuesta original, la cadena empieza suelta desde la primera que está cargada', () => {
+    const hilos = hilosComentarios([c('r2', 'r1'), c('r3', 'r2')])
+    expect(hilos.map(h => [h.raiz.id, h.respuestas.map(r => r.id), h.suelta])).toEqual([['r2', ['r3'], true]])
+  })
+})
+
+describe('respondeAOtraRespuesta', () => {
+  const c = (id: string, respuestaA?: string): Comentario => ({ id, alias: id, nombre: null, texto: id, creado: 0, mio: false, puedoBorrar: false, ...(respuestaA ? { respuestaA, respuestaAlias: respuestaA } : {}) })
+  it('solo cuando no contesta al comentario raíz del hilo', () => {
+    expect(respondeAOtraRespuesta(c('r1', 'a'), c('a'))).toBe(false)
+    expect(respondeAOtraRespuesta(c('r2', 'r1'), c('a'))).toBe(true)
+    expect(respondeAOtraRespuesta(c('a'), c('a'))).toBe(false)
   })
 })
 
