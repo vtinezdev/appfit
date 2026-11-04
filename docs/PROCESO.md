@@ -3404,3 +3404,41 @@ Tras el informe de «Vetta» (§310), Víctor y Claude cribaron decenas de nombr
 - Decisión, comprobaciones, pendientes y descartados con su motivo: [ADR 063](decisiones/063-nombre-cumbra.md). Actualizados `roadmap.md`, `despliegue.md` y una nota en `nombre-vetta.md`.
 
 Sin cambios de código: el manifest y el paquete se cambian cuando haya dominio. Nada comprado ni registrado.
+
+## 314. «Tu mes»: el resumen mensual, rediseñado (2026-11-04)
+
+A Víctor no le gustaba el resumen mensual («una tarjeta negra con solo números»). Se diseñó con él sobre una preview (varias rondas) y se implementó lo acordado:
+
+- **Portada** en grafito con una frase («13 entrenos, 1 cumbre y 1 camino terminado.») y el calendario del mes (entreno, actividad y comidas de cada día).
+- **Lo mejor del mes**: desplegables de Cumbres (silueta y bandera), Caminos (sello de su colección —concha, globo, libro, castillo— o la forma de la ruta propia; la banderita no le convencía) y Logros (su insignia de la Vitrina; los repetibles, una fila con cuántas veces).
+- **Entreno** con toneladas por semana, lo más trabajado y los **récords** dentro: uno por ejercicio con una sola cifra (peso máximo; lastre; sin peso, repeticiones), porque las dos cifras juntas no le convencían.
+- **Nutrición**: energía media frente al objetivo, «Tus días frente al objetivo» (por debajo, en el objetivo con ±10 % y por encima; la frase «19 de 26 días en tu objetivo» no le gustaba), macros al día, reparto en texto y días registrados. Sin plantas.
+- **Actividades**: distancia, reparto por tipo, salidas, tiempo, desnivel y la salida más larga.
+- **Sin comparaciones con el mes anterior** en ninguna parte (decisión de Víctor).
+- La tarjeta de Inicio lleva lo conseguido y una tira con los días del mes.
+
+Lógica en `vitrina/lib/tuPeriodoSecciones` (con tests); `useDatosPeriodo` lee además los objetivos de cada día y los cheat days; `IconoLogro` exporta `SimboloLogro` para los sellos. Pendientes en el roadmap: siluetas propias de las 23 montañas e imagen para compartir con la estructura nueva (sigue con las cifras de antes).
+
+**Verificación:** `npm run test` (268 archivos, 3.144 pruebas) y `npm run build` correctos; `scripts/ui/validar-tu-mes.cjs` (nuevo) correcto en 320/375/430 px y ambos temas.
+
+## 315. Siluetas de las montañas (2026-11-04)
+
+Víctor pidió dibujar la silueta de cada montaña para «Lo mejor del mes» (hasta ahora, todas con la genérica de Cumbres).
+
+- `cumbres/lib/siluetas.ts`: las 22, dibujadas a mano a partir de su forma conocida (no son perfiles topográficos): el cono del Fuji y del Cotopaxi, el cuerno del Cervino, las dos cimas del Elbrus, la meseta del Kilimanjaro con el Mawenzi, la antecima del Everest con el Lhotse… `formaDe` da la genérica a una montaña sin forma propia.
+- `cumbres/lib/perfil.ts`: `trazadoSilueta` y `puntoEnLadera` aceptan una forma (`FormaMontana`; por defecto la genérica).
+- También en la card de Cumbres (`PerfilMontana`), con el relleno de lo subido, las líneas de cada 1.000 m y la marca por su ladera (lo pidió Víctor tras ver la galería).
+- `vitrina/components/MiniaturasPeriodo`: la miniatura de cada cumbre usa su silueta.
+- Tests de forma (`siluetas.test.ts`): una por montaña, la subida siempre hacia arriba hasta la cima y la bajada por debajo de ella hasta la base.
+
+**Verificación:** `npm run test` (269 archivos, 3.171 pruebas) y `npm run build` correctos; galería de las 22 revisada en el navegador.
+
+## 316. «Tu mes»: la imagen para compartir, con la estructura nueva (2026-11-04)
+
+La imagen de «Guardar imagen» / «Compartir…» seguía con la rejilla de cifras de antes. Ahora es una tarjeta de 1080 × 1350 con la misma estructura que la página: periodo, título, frase, calendario del mes, cuatro cifras (entrenos, volumen, km y días registrados según lo que se use; si falta alguna, los metros de Cumbres) y los mejores momentos que quepan (cada cumbre y camino terminados, el récord de más peso «y N récords más», los logros nuevos), con el icono en el acento. Sin calendario en «Tu año».
+
+Víctor vio que había mucho que bajar hasta los botones: se suben a la portada, bajo el calendario («Compartir mi mes» y «Guardar imagen»), con una línea que dice qué lleva la imagen (lo esencial, no la página entera).
+
+Lógica: `imagenTuPeriodo.svgTuPeriodo` (nuevo dibujo), `tuPeriodoSecciones.cifrasImagen`, `momentosImagen` y `cifraRecord`, con tests; el color del acento se lee de `--c-meal-accent`. `validar-tu-mes.cjs` descarga la imagen desde la portada.
+
+De paso, `webkit-borrador` (`validar-correcciones-auditoria.cjs`) falló a ratos en el CI de esta PR (2 de 4): pulsaba Atrás en Añadir comida antes de que la app volviera a poner la entrada de historial de la capa tras «Seguir editando», y WebKit salía sin preguntar. El recorrido espera ahora a esa entrada (y a que se cierre la confirmación) antes de cada Atrás. Sin cambios en la app; si siguiera fallando, habría que mirarlo en un iPhone.

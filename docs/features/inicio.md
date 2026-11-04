@@ -52,7 +52,7 @@ Las medidas corporales (cintura, cadera…) viven en Perfil; «Medidas caseras»
 
 ## Tu mes y tu año (B15)
 
-Del día 1 al 7 de cada mes, debajo de la revisión semanal, una tarjeta en grafito «Tu octubre» (en enero, «Tu 2026») con sus cuatro primeras cifras y «Ver», que abre el resumen en una página modal (`vitrina/components/TuPeriodo`). La X la cierra hasta el mes siguiente (`settings.resumenMesCerrado`, con «Deshacer»). Ver [vitrina](vitrina.md#tu-mes-y-tu-año-b15).
+Del día 1 al 7 de cada mes, debajo de la revisión semanal, una tarjeta en grafito «Tu octubre» (en enero, «Tu 2026») con lo conseguido (cumbres, caminos, récords y logros; sin nada de eso, sus cuatro primeras cifras), una tira con los días del mes y «Ver el resumen», que abre el resumen en una página modal (`vitrina/components/TuPeriodo`). La X la cierra hasta el mes siguiente (`settings.resumenMesCerrado`, con «Deshacer»). Ver [vitrina](vitrina.md#tu-mes-y-tu-año-b15).
 
 ## Revisión semanal
 
