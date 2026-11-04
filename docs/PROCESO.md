@@ -3392,7 +3392,11 @@ Víctor señaló que en Social se podía responder a un comentario, pero no a la
 
 **Verificación:** `npm run test` (267 archivos, 3.137 pruebas) y `npm run build` correctos. Todas las migraciones (0001–0029) y suites SQL en PostgreSQL 17 local temporal (sin Docker en la sesión). Recorrido en Chromium con Supabase falso en `appfit-test.localhost:5174`, 320/375/430 px claro/oscuro: responder a una respuesta, dos respuestas en el mismo hilo, «Respuesta a @…», sin desbordes, botón de 44 px; y sin la capacidad, las respuestas no muestran «Responder». Víctor ejecuta 0029 en el SQL Editor del proyecto real el 2026-11-04 con «Success».
 
-## 312. «Tu mes»: el resumen mensual, rediseñado (2026-11-04)
+## 312. Recetas: «AppFit» a la izquierda (2026-11-04)
+
+Víctor prefirió las pestañas de Recetas al revés: «AppFit» a la izquierda y «Tuyas» a la derecha. `RecetasTab` cambia el orden de `VISTAS`; la pantalla sigue abriendo en Tuyas. Documento: `features/nutricion.md`.
+
+## 313. «Tu mes»: el resumen mensual, rediseñado (2026-11-04)
 
 A Víctor no le gustaba el resumen mensual («una tarjeta negra con solo números»). Se diseñó con él sobre una preview (varias rondas) y se implementó lo acordado:
 
@@ -3408,7 +3412,7 @@ Lógica en `vitrina/lib/tuPeriodoSecciones` (con tests); `useDatosPeriodo` lee a
 
 **Verificación:** `npm run test` (268 archivos, 3.144 pruebas) y `npm run build` correctos; `scripts/ui/validar-tu-mes.cjs` (nuevo) correcto en 320/375/430 px y ambos temas.
 
-## 313. Siluetas de las montañas (2026-11-04)
+## 314. Siluetas de las montañas (2026-11-04)
 
 Víctor pidió dibujar la silueta de cada montaña para «Lo mejor del mes» (hasta ahora, todas con la genérica de Cumbres).
 
@@ -3420,11 +3424,10 @@ Víctor pidió dibujar la silueta de cada montaña para «Lo mejor del mes» (ha
 
 **Verificación:** `npm run test` (269 archivos, 3.171 pruebas) y `npm run build` correctos; galería de las 22 revisada en el navegador.
 
-## 314. «Tu mes»: la imagen para compartir, con la estructura nueva (2026-11-04)
+## 315. «Tu mes»: la imagen para compartir, con la estructura nueva (2026-11-04)
 
 La imagen de «Guardar imagen» / «Compartir…» seguía con la rejilla de cifras de antes. Ahora es una tarjeta de 1080 × 1350 con la misma estructura que la página: periodo, título, frase, calendario del mes, cuatro cifras (entrenos, volumen, km y días registrados según lo que se use; si falta alguna, los metros de Cumbres) y los mejores momentos que quepan (cada cumbre y camino terminados, el récord de más peso «y N récords más», los logros nuevos), con el icono en el acento. Sin calendario en «Tu año».
 
 Víctor vio que había mucho que bajar hasta los botones: se suben a la portada, bajo el calendario («Compartir mi mes» y «Guardar imagen»), con una línea que dice qué lleva la imagen (lo esencial, no la página entera).
 
 Lógica: `imagenTuPeriodo.svgTuPeriodo` (nuevo dibujo), `tuPeriodoSecciones.cifrasImagen`, `momentosImagen` y `cifraRecord`, con tests; el color del acento se lee de `--c-meal-accent`. `validar-tu-mes.cjs` descarga la imagen desde la portada.
-
