@@ -3420,3 +3420,11 @@ Víctor pidió dibujar la silueta de cada montaña para «Lo mejor del mes» (ha
 
 **Verificación:** `npm run test` (269 archivos, 3.171 pruebas) y `npm run build` correctos; galería de las 22 revisada en el navegador.
 
+## 314. «Tu mes»: la imagen para compartir, con la estructura nueva (2026-11-04)
+
+La imagen de «Guardar imagen» / «Compartir…» seguía con la rejilla de cifras de antes. Ahora es una tarjeta de 1080 × 1350 con la misma estructura que la página: periodo, título, frase, calendario del mes, cuatro cifras (entrenos, volumen, km y días registrados según lo que se use; si falta alguna, los metros de Cumbres) y los mejores momentos que quepan (cada cumbre y camino terminados, el récord de más peso «y N récords más», los logros nuevos), con el icono en el acento. Sin calendario en «Tu año».
+
+Víctor vio que había mucho que bajar hasta los botones: se suben a la portada, bajo el calendario («Compartir mi mes» y «Guardar imagen»), con una línea que dice qué lleva la imagen (lo esencial, no la página entera).
+
+Lógica: `imagenTuPeriodo.svgTuPeriodo` (nuevo dibujo), `tuPeriodoSecciones.cifrasImagen`, `momentosImagen` y `cifraRecord`, con tests; el color del acento se lee de `--c-meal-accent`. `validar-tu-mes.cjs` descarga la imagen desde la portada.
+

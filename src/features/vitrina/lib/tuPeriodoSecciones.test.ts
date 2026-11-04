@@ -6,7 +6,7 @@ import type { Logro } from './logros'
 import { periodoAno, periodoMes } from './tuPeriodo'
 import {
   actividadesDelPeriodo, calendarioPeriodo, caminosDelPeriodo, cumbresDelPeriodo, entrenoDelPeriodo, frasePeriodo, lineaMomentos,
-  logrosDelPeriodo, nutricionDelPeriodo, recordsDelPeriodo,
+  logrosDelPeriodo, nutricionDelPeriodo, recordsDelPeriodo, cifraRecord, cifrasImagen, momentosImagen,
 } from './tuPeriodoSecciones'
 
 const octubre = periodoMes('2026-10')
@@ -159,5 +159,21 @@ describe('frases', () => {
     expect(frasePeriodo({ entrenos: 0, cumbres: null, caminos: null, km: null, diasRegistrados: null })).toBeNull()
     expect(lineaMomentos({ cumbres: 2, caminos: 1, records: 9, logros: 0 })).toBe('2 cumbres · 1 camino · 9 récords')
     expect(lineaMomentos({ cumbres: 0, caminos: 0, records: 0, logros: 0 })).toBeNull()
+  })
+})
+
+describe('imagen: cifras y momentos', () => {
+  it('cuatro cifras según lo que se usa y los momentos en orden', () => {
+    const entreno = { entrenos: 13, toneladas: 53.5, records: [{ exerciseId: 1, nombre: 'Sentadilla', tipo: 'peso', valor: 125, mejora: 5, fecha: '2026-10-29' }, { exerciseId: 2, nombre: 'Flexiones', tipo: 'reps', valor: 29, mejora: 3, fecha: '2026-10-29' }] } as never
+    const cumbres = { metros: 3669, coronadas: [{ montana: { nombre: 'Aneto' }, cumbre: { fecha: '2026-10-25' } }], enCurso: null } as never
+    expect(cifrasImagen({ entreno, nutricion: null, actividades: null, cumbres }).map((c) => c.rotulo)).toEqual(['Entrenos', 'Volumen', 'Subidos'])
+    const m = momentosImagen({ cumbres, caminos: null, entreno, logros: [{} as never, {} as never] }, (f) => f.slice(8))
+    expect(m).toEqual([
+      { icono: 'mountain', texto: 'Aneto', detalle: 'Cumbre · 25' },
+      { icono: 'trophy', texto: 'Sentadilla · 125 kg', detalle: 'y 1 récord más' },
+      { icono: 'sparkles', texto: '2 logros nuevos', detalle: 'Vitrina' },
+    ])
+    expect(cifraRecord({ tipo: 'lastre', valor: 15 })).toBe('+15 kg')
+    expect(cifraRecord({ tipo: 'reps', valor: 29 })).toBe('29 reps')
   })
 })

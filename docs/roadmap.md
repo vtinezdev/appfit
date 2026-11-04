@@ -85,9 +85,6 @@ Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de 
 - **Añadir comida**: mejorar la pantalla de añadir comida, sobre todo la ficha que se abre al añadir un alimento.
 - **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Hecho en Buscar («¿No está?» › «Propónselo a AppFit»), por la misma vía que «Comunicar un problema» ([ADR 061](decisiones/061-mensajes-al-creador.md)).
 
-Tu mes (B15), del rediseño del resumen (PROCESO §312):
-- **Imagen para compartir** con la estructura nueva (calendario, cuatro cifras y los mejores momentos): sigue con las cifras de antes.
-
 ## Ideas sin empezar
 
 Social:

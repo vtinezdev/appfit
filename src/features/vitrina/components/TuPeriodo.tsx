@@ -25,9 +25,9 @@ import { useDatosPeriodo } from '../hooks/useTuPeriodo'
 import { useVitrina } from '../hooks/useVitrina'
 import { ALTO_POSTER, ANCHO_POSTER, nombreArchivoTuPeriodo, svgTuPeriodo, type ColoresTuPeriodo } from '../lib/imagenTuPeriodo'
 import { GRUPOS_LOGRO, NUMERALES } from '../lib/logros'
-import { cifrasPeriodo, lineaTarjeta, resumirPeriodo, type Periodo } from '../lib/tuPeriodo'
+import { lineaTarjeta, type Periodo } from '../lib/tuPeriodo'
 import {
-  actividadesDelPeriodo, calendarioPeriodo, caminosDelPeriodo, cumbresDelPeriodo, entrenoDelPeriodo, frasePeriodo, lineaMomentos,
+  actividadesDelPeriodo, calendarioPeriodo, caminosDelPeriodo, cifrasImagen, cumbresDelPeriodo, entrenoDelPeriodo, frasePeriodo, lineaMomentos, momentosImagen,
   logrosDelPeriodo, nutricionDelPeriodo, type CalendarioPeriodo, type RecordDelPeriodo,
 } from '../lib/tuPeriodoSecciones'
 import IconoLogro from './IconoLogro'
@@ -53,9 +53,6 @@ function useSecciones(p: Periodo, hoy: string) {
   const calendario = calendarioPeriodo(p, {
     workouts: usa.gym ? datos.workouts : [], actividades: usa.actividades ? datos.actividades : [], entries: usa.nutricion ? datos.entries : [],
   })
-  // La imagen para compartir sigue con las cifras de siempre.
-  const tramos = juego?.cumbres ? juego.cumbres.tramos : null
-  const r = resumirPeriodo(p, { ...datos, tramos })
   return {
     usa, calendario, cumbres, caminos, logros, entreno, nutricion, actividades,
     propias: caminosEstado?.propias ?? [],
@@ -64,7 +61,7 @@ function useSecciones(p: Periodo, hoy: string) {
       km: actividades ? Math.round(actividades.metros / 1000) : null, diasRegistrados: nutricion?.diasRegistrados ?? null,
     }),
     momentos: lineaMomentos({ cumbres: cumbres?.coronadas.length ?? 0, caminos: caminos?.completados.length ?? 0, records: entreno?.records.length ?? 0, logros: logros.length }),
-    imagen: { cifras: cifrasPeriodo(r, usa), grupo: usa.gym ? r.grupo : null },
+    imagen: { cifras: cifrasImagen({ entreno, nutricion, actividades, cumbres }), momentos: momentosImagen({ cumbres, caminos, entreno, logros }, diaMes) },
   }
 }
 
@@ -72,7 +69,7 @@ function useSecciones(p: Periodo, hoy: string) {
 function coloresDelTema(): ColoresTuPeriodo {
   const estilo = getComputedStyle(document.documentElement)
   const token = (nombre: string) => estilo.getPropertyValue(`--c-${nombre}`).trim()
-  return { fondo: token('training'), texto: token('on-training'), tenue: token('training-muted'), filete: token('training-track') }
+  return { fondo: token('training'), texto: token('on-training'), tenue: token('training-muted'), filete: token('training-track'), acento: token('meal-accent') }
 }
 
 /** Los días del mes en una tira (la tarjeta de Inicio): entreno relleno, actividad con borde, el resto en el carril. */
@@ -375,7 +372,7 @@ function Actividades({ a }: { a: NonNullable<ReturnType<typeof actividadesDelPer
   </section>
 }
 
-/** El resumen del periodo: portada en grafito con su calendario, lo mejor del mes, Entreno, Nutrición, Actividades y la imagen. */
+/** El resumen del periodo: portada en grafito con su calendario y la imagen para compartir; lo mejor del mes, Entreno, Nutrición y Actividades. */
 export function ResumenTuPeriodo({ periodo, hoy, onClose }: { periodo: Periodo; hoy: string; onClose: () => void }) {
   const s = useSecciones(periodo, hoy)
   const [ocupado, setOcupado] = useState<'guardar' | 'compartir' | null>(null)
@@ -386,7 +383,7 @@ export function ResumenTuPeriodo({ periodo, hoy, onClose }: { periodo: Periodo; 
     if (ocupado || !s) return
     setOcupado(accion); setError(null)
     try {
-      const svg = svgTuPeriodo({ titulo: periodo.titulo, subtitulo: periodo.subtitulo, ...s.imagen }, coloresDelTema(), await cssFuentesIncrustadas())
+      const svg = svgTuPeriodo({ titulo: periodo.titulo, subtitulo: periodo.subtitulo, frase: s.frase, calendario: s.calendario, ...s.imagen }, coloresDelTema(), await cssFuentesIncrustadas())
       const png = await svgAPng(svg, ANCHO_POSTER, ALTO_POSTER)
       const nombre = nombreArchivoTuPeriodo(periodo.clave, periodo.titulo)
       if (accion === 'compartir') await compartirImagen(png, nombre)
@@ -408,19 +405,20 @@ export function ResumenTuPeriodo({ periodo, hoy, onClose }: { periodo: Periodo; 
             {s.frase && <p className="break-words pt-1 text-body">{s.frase}</p>}
           </div>
           {s.calendario && <CalendarioMes calendario={s.calendario} etiqueta={periodo.subtitulo} />}
+          {/* Arriba, para no tener que bajar hasta el final: la imagen es una tarjeta fija con lo esencial, no la página. */}
+          <div aria-label="Imagen del resumen" role="group" className="space-y-2 border-t border-line pt-4">
+            <div className="flex flex-wrap gap-2">
+              {compartible && <Button variant="ghost" className="training-secondary flex-1 basis-40" loading={ocupado === 'compartir'} disabled={ocupado !== null} onClick={() => void ejecutar('compartir')}><Icon name="compartir" size={18} />Compartir mi mes</Button>}
+              <Button variant="ghost" className="training-secondary flex-1 basis-40" loading={ocupado === 'guardar'} disabled={ocupado !== null} onClick={() => void ejecutar('guardar')}><Icon name="download" size={18} />Guardar imagen</Button>
+            </div>
+            <p className="training-muted text-caption">Una imagen con el calendario, cuatro cifras y lo mejor del mes. Se crea en el móvil y solo sale si tú la compartes.</p>
+            {error && <ErrorState>{error}</ErrorState>}
+          </div>
         </section>
         <LoMejor s={s} />
         {s.entreno && <Entreno e={s.entreno} />}
         {s.nutricion && <Nutricion n={s.nutricion} />}
         {s.actividades && <Actividades a={s.actividades} />}
-        <section aria-label="Imagen del resumen" className="space-y-2">
-          <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" className="flex-1 basis-40" loading={ocupado === 'guardar'} disabled={ocupado !== null} onClick={() => void ejecutar('guardar')}><Icon name="download" size={18} />Guardar imagen</Button>
-            {compartible && <Button variant="secondary" className="flex-1 basis-40" loading={ocupado === 'compartir'} disabled={ocupado !== null} onClick={() => void ejecutar('compartir')}><Icon name="compartir" size={18} />Compartir…</Button>}
-          </div>
-          <p className="text-caption text-fg-muted">Todo se calcula en el móvil; la imagen solo sale si tú la compartes.</p>
-          {error && <ErrorState>{error}</ErrorState>}
-        </section>
       </div>}
     </ModalPage>
   )

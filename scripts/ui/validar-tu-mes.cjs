@@ -1,7 +1,7 @@
 /* «Tu mes» (B15): tarjeta de Inicio y resumen de octubre con datos sintéticos (entrenos con récords de peso, lastre y sin
    peso, actividades, comidas, Cumbres y Caminos), con la fecha fija en el 4 de noviembre de 2026. Contextos efímeros del origen
-   de pruebas: 320/375/430 px en ambos temas. Comprueba sin scroll horizontal, controles de 44 px, sin errores, desplegables
-   y que consultar el resumen no escribe datos. Capturas en /tmp/appfit-tu-mes; APPFIT_UI_CASE, APPFIT_UI_OUTPUT y
+   de pruebas: 320/375/430 px en ambos temas. Comprueba sin scroll horizontal, controles de 44 px, sin errores, desplegables,
+   la imagen para compartir (desde la portada) y que consultar el resumen no escribe datos. Capturas en /tmp/appfit-tu-mes; APPFIT_UI_CASE, APPFIT_UI_OUTPUT y
    APPFIT_CHROMIUM como en el resto. */
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
@@ -81,6 +81,11 @@ async function backup(page) {
     await tarjeta.getByRole('button', { name: /Ver el resumen/ }).click()
     const dialog = page.getByRole('dialog')
     await dialog.getByRole('region', { name: 'Entreno' }).waitFor({ timeout: 15000 })
+    // La imagen: el botón está en la portada, sin bajar; se descarga como PNG de 1080 × 1350.
+    const portada = dialog.getByRole('region', { name: 'Resumen de octubre de 2026' })
+    const [descarga] = await Promise.all([page.waitForEvent('download'), portada.getByRole('button', { name: 'Guardar imagen' }).click()])
+    await descarga.saveAs(`${out}/${tag}-imagen.png`)
+    assert.equal(descarga.suggestedFilename(), 'appfit-tu-octubre-2026.png')
     // Abrir todos los desplegables
     for (const n of ['Caminos', 'Logros']) { const b = dialog.getByRole('button', { name: new RegExp('^' + n) }); if (await b.count()) await b.first().click() }
     await page.waitForTimeout(300)

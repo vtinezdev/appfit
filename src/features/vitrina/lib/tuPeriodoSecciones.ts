@@ -3,7 +3,7 @@
 // (decisión de Víctor: cada mes se cuenta por sí solo).
 import type { Actividad, Entry, Exercise, Objetivos, SetEntry, TipoActividad, Workout } from '../../../shared/db/types'
 import { addDays, parseISODate, toISODate } from '../../../shared/lib/dates'
-import { formatInt } from '../../../shared/lib/format'
+import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { metrosEntre as metrosCumbresEntre, type Expedicion as ExpedicionCumbre, type ResultadoCumbres } from '../../cumbres/lib/cumbres'
 import { metrosEntre as metrosCaminosEntre, type Expedicion as ExpedicionCamino, type ResultadoCaminos } from '../../caminos/lib/caminos'
 import { recordsDeEntreno } from '../../gym/lib/records'
@@ -353,4 +353,37 @@ export function lineaMomentos(m: { cumbres: number; caminos: number; records: nu
     m.logros ? plural(m.logros, 'logro', 'logros') : null,
   ].filter((x): x is string => !!x)
   return partes.length ? partes.join(' · ') : null
+}
+
+// ── Imagen para compartir ──
+
+/** Un récord en una sola cifra: «125 kg», «+15 kg» de lastre, «29 reps» sin peso. */
+export function cifraRecord(r: Pick<RecordDelPeriodo, 'tipo' | 'valor'>): string {
+  const kg = formatNumber(r.valor, 1)
+  return r.tipo === 'reps' ? `${formatInt(r.valor)} reps` : r.tipo === 'lastre' ? `+${kg} kg` : `${kg} kg`
+}
+
+/** Las cuatro cifras de la imagen, según lo que se usa: entrenos, toneladas, km y días registrados (si falta alguna, los metros de Cumbres). */
+export function cifrasImagen(s: { entreno: EntrenoPeriodo | null; nutricion: NutricionPeriodo | null; actividades: ActividadesPeriodo | null; cumbres: CumbresPeriodo | null }): { rotulo: string; valor: string; unidad?: string }[] {
+  return [
+    s.entreno && { rotulo: 'Entrenos', valor: formatInt(s.entreno.entrenos) },
+    s.entreno && { rotulo: 'Volumen', valor: formatNumber(s.entreno.toneladas, 1), unidad: 't' },
+    s.actividades && { rotulo: 'Distancia', valor: formatInt(Math.round(s.actividades.metros / 1000)), unidad: 'km' },
+    s.nutricion && { rotulo: 'Días registrados', valor: formatInt(s.nutricion.diasRegistrados) },
+    s.cumbres && s.cumbres.metros > 0 && { rotulo: 'Subidos', valor: formatInt(s.cumbres.metros), unidad: 'm' },
+  ].filter((c): c is { rotulo: string; valor: string; unidad?: string } => !!c).slice(0, 4)
+}
+
+/**
+ * Los mejores momentos de la imagen, en orden: cada cumbre y cada camino terminados, el récord de más peso (con cuántos
+ * más hubo) y los logros. La imagen pinta los que quepan.
+ */
+export function momentosImagen(s: { cumbres: CumbresPeriodo | null; caminos: CaminosPeriodo | null; entreno: EntrenoPeriodo | null; logros: readonly LogroDelPeriodo[] }, fecha: (iso: string) => string): { icono: 'mountain' | 'route' | 'trophy' | 'sparkles'; texto: string; detalle?: string }[] {
+  const records = s.entreno?.records ?? []
+  return [
+    ...(s.cumbres?.coronadas ?? []).map((x) => ({ icono: 'mountain' as const, texto: x.montana.nombre, detalle: x.cumbre ? `Cumbre · ${fecha(x.cumbre.fecha)}` : 'Cumbre' })),
+    ...(s.caminos?.completados ?? []).map((x) => ({ icono: 'route' as const, texto: x.ruta.nombre, detalle: x.llegada ? `Camino · ${fecha(x.llegada.fecha)}` : 'Camino' })),
+    ...(records.length ? [{ icono: 'trophy' as const, texto: `${records[0].nombre} · ${cifraRecord(records[0])}`, detalle: records.length > 1 ? `y ${plural(records.length - 1, 'récord más', 'récords más')}` : 'Récord' }] : []),
+    ...(s.logros.length ? [{ icono: 'sparkles' as const, texto: plural(s.logros.length, 'logro nuevo', 'logros nuevos'), detalle: 'Vitrina' }] : []),
+  ]
 }
