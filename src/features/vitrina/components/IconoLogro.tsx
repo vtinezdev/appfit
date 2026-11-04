@@ -73,6 +73,11 @@ const SIMBOLOS: Record<IdLogro, { tono?: TonoInsignia; dibujo: ReactNode }> = {
   descanso: { dibujo: <><path d="M38 5A14 14 0 1 0 51 24 14 14 0 0 1 38 5Z" /><path d="M9 56 29 29 50 56Z" /><path d="M23 56 29 38 37 56Z" fill="rgb(var(--c-expedicion-bosque))" /><path d="M52 36 59 53H45Z" fill="rgb(var(--c-expedicion-salvia))" /></> },
 }
 
+/** El pictograma de un logro (en coordenadas de 64 × 64), para reutilizarlo fuera de su insignia (los sellos de Caminos). */
+export function SimboloLogro({ id }: { id: IdLogro }) {
+  return <g strokeLinejoin="round" strokeLinecap="round">{SIMBOLOS[id].dibujo}</g>
+}
+
 export default function IconoLogro({ logro, tamano = 'md', alcanzado }: { logro: Logro; tamano?: TamanoInsignia; alcanzado?: boolean }) {
   const hecho = alcanzado ?? conseguido(logro)
   // No montar el símbolo ni un identificador específico de un oculto sin conseguir: tampoco filtra pistas en el DOM.

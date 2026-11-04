@@ -3380,3 +3380,19 @@ Víctor pidió un informe para decidir si la app puede llamarse «Vetta» (en it
 - Riesgo: alto para «Vetta» y medio-alto para «Vetta Fit». Alternativas cribadas igual: Cota (la mejor), Cumbra y Collado; descartadas Cresta e Hito.
 
 Sin cambios de código.
+
+## 311. «Tu mes»: el resumen mensual, rediseñado (2026-11-04)
+
+A Víctor no le gustaba el resumen mensual («una tarjeta negra con solo números»). Se diseñó con él sobre una preview (varias rondas) y se implementó lo acordado:
+
+- **Portada** en grafito con una frase («13 entrenos, 1 cumbre y 1 camino terminado.») y el calendario del mes (entreno, actividad y comidas de cada día).
+- **Lo mejor del mes**: desplegables de Cumbres (silueta y bandera), Caminos (sello de su colección —concha, globo, libro, castillo— o la forma de la ruta propia; la banderita no le convencía) y Logros (su insignia de la Vitrina; los repetibles, una fila con cuántas veces).
+- **Entreno** con toneladas por semana, lo más trabajado y los **récords** dentro: uno por ejercicio con una sola cifra (peso máximo; lastre; sin peso, repeticiones), porque las dos cifras juntas no le convencían.
+- **Nutrición**: energía media frente al objetivo, «Tus días frente al objetivo» (por debajo, en el objetivo con ±10 % y por encima; la frase «19 de 26 días en tu objetivo» no le gustaba), macros al día, reparto en texto y días registrados. Sin plantas.
+- **Actividades**: distancia, reparto por tipo, salidas, tiempo, desnivel y la salida más larga.
+- **Sin comparaciones con el mes anterior** en ninguna parte (decisión de Víctor).
+- La tarjeta de Inicio lleva lo conseguido y una tira con los días del mes.
+
+Lógica en `vitrina/lib/tuPeriodoSecciones` (con tests); `useDatosPeriodo` lee además los objetivos de cada día y los cheat days; `IconoLogro` exporta `SimboloLogro` para los sellos. Pendientes en el roadmap: siluetas propias de las 23 montañas e imagen para compartir con la estructura nueva (sigue con las cifras de antes).
+
+**Verificación:** `npm run test` (268 archivos, 3.144 pruebas) y `npm run build` correctos; `scripts/ui/validar-tu-mes.cjs` (nuevo) correcto en 320/375/430 px y ambos temas.
