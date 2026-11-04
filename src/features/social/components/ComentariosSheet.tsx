@@ -7,8 +7,9 @@ import { EmptyState, ErrorState, LoadingState } from '../../../shared/components
 import { haceCuanto } from '../../cuenta/lib/estado'
 import { useAvatares } from '../hooks/useAvatares'
 import { useAdmin } from '../hooks/useAdmin'
+import { useConsulta } from '../hooks/useConsulta'
 import { COMENTARIO_MAX, validarComentario, type Comentario, type CursorSocial } from '../lib/feed'
-import { hilosComentarios } from '../lib/presentacion'
+import { hilosComentarios, respondeAOtraRespuesta } from '../lib/presentacion'
 import type { Avatar } from '../lib/avatar'
 import { nombreVisible } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
@@ -60,6 +61,9 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
   const avatares = useAvatares((lista ?? []).map(c => c.alias), comunidad)
   // El administrador puede borrar cualquier comentario (0017), con confirmación, como los ajenos en lo propio.
   const admin = useAdmin()
+  // Con 0029 también se responde a una respuesta; sin ella, solo a los comentarios raíz.
+  const capacidades = useConsulta(async () => (await cargarSocial()).capacidades(), 0)
+  const anidadas = capacidades.datos?.respuestasAnidadas === true
   // Responder lleva al campo del pie, que ya dice a quién se responde.
   useEffect(() => { if (respuesta) document.getElementById(idCampo)?.focus() }, [respuesta, idCampo])
 
@@ -182,10 +186,12 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
           <ul className="space-y-4" aria-label="Comentarios">
             {hilosComentarios(lista).map(({ raiz, respuestas, suelta }) => (
               <li key={raiz.id} className="space-y-3">
-                <FilaComentario c={raiz} admin={admin} avatar={avatares[raiz.alias]} suelta={suelta} ocupado={ocupado} onResponder={setRespuesta}
+                <FilaComentario c={raiz} admin={admin} avatar={avatares[raiz.alias]} respondeA={suelta} ocupado={ocupado}
+                  onResponder={!raiz.respuestaA || anidadas ? setRespuesta : undefined}
                   onBorrar={pedirBorrar} onDenunciar={c => setModo({ modo: 'denunciar', tipo: 'comentario', id: c.id })} />
                 {respuestas.length > 0 && <ul className="space-y-3 border-l-2 border-line pl-3" aria-label={`Respuestas a ${nombreVisible(raiz)}`}>
                   {respuestas.map(c => <li key={c.id}><FilaComentario c={c} admin={admin} avatar={avatares[c.alias]} ocupado={ocupado}
+                    respondeA={respondeAOtraRespuesta(c, raiz)} onResponder={anidadas ? setRespuesta : undefined}
                     onBorrar={pedirBorrar} onDenunciar={v => setModo({ modo: 'denunciar', tipo: 'comentario', id: v.id })} /></li>)}
                 </ul>}
               </li>
@@ -241,10 +247,10 @@ interface FilaProps {
   /** Administrador: puede borrar cualquier comentario. */
   admin: boolean
   avatar?: Avatar | null
-  /** Respuesta cuyo original no está a la vista. */
-  suelta?: boolean
+  /** Muestra «Respuesta a @…»: respuesta cuyo original no está a la vista o que contesta a otra respuesta del hilo. */
+  respondeA?: boolean
   ocupado: boolean
-  /** Solo los comentarios raíz admiten respuesta (un nivel). */
+  /** Sin él no hay «Responder» (servidor sin 0029: las respuestas no admiten respuesta). */
   onResponder?: (c: Comentario) => void
   onBorrar: (c: Comentario) => void
   onDenunciar: (c: Comentario) => void
@@ -253,15 +259,15 @@ interface FilaProps {
 const ACCION = 'app-button min-h-touch rounded-md px-2 text-caption font-semibold text-fg-muted hover:text-fg disabled:opacity-40'
 
 /** Un comentario: cara, nombre y hora en una línea, el texto y sus acciones en texto (cada una de 44 px de alto). */
-function FilaComentario({ c, admin, avatar, suelta = false, ocupado, onResponder, onBorrar, onDenunciar }: FilaProps) {
+function FilaComentario({ c, admin, avatar, respondeA = false, ocupado, onResponder, onBorrar, onDenunciar }: FilaProps) {
   return <div className="flex items-start gap-3">
     <AvatarPersona persona={c} avatar={avatar} tamano="sm" />
     <div className="min-w-0 flex-1">
       <p className="break-words text-body-sm"><span className="font-semibold text-fg">{nombreVisible(c)}</span> <span className="text-caption text-fg-muted">· {haceCuanto(c.creado, Date.now())}</span></p>
-      {suelta && c.respuestaAlias && <p className="text-caption text-fg-muted">Respuesta a @{c.respuestaAlias}</p>}
+      {respondeA && c.respuestaAlias && <p className="text-caption text-fg-muted">Respuesta a @{c.respuestaAlias}</p>}
       <p className="whitespace-pre-wrap break-words text-body-sm text-fg">{c.texto}</p>
       <div className="-ml-2 flex flex-wrap">
-        {onResponder && !c.respuestaA && <button type="button" className={ACCION} aria-label={`Responder a @${c.alias}`} disabled={ocupado} onClick={() => onResponder(c)}>Responder</button>}
+        {onResponder && <button type="button" className={ACCION} aria-label={`Responder a @${c.alias}`} disabled={ocupado} onClick={() => onResponder(c)}>Responder</button>}
         {(c.puedoBorrar || admin) && <button type="button" className={ACCION} aria-label={`Borrar el comentario de @${c.alias}`} disabled={ocupado} onClick={() => onBorrar(c)}>Borrar</button>}
         {!c.mio && <button type="button" className={ACCION} aria-label={`Denunciar el comentario de @${c.alias}`} disabled={ocupado} onClick={() => onDenunciar(c)}>Denunciar</button>}
       </div>

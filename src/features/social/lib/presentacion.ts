@@ -62,21 +62,26 @@ export interface Hilo {
 }
 
 /**
- * Los comentarios (en orden cronológico) en hilos de un nivel: cada respuesta debajo de su comentario, en su orden.
- * Una respuesta a un comentario que no está en la lista queda como hilo propio, en su sitio.
+ * Los comentarios (en orden cronológico) en hilos de un nivel: cada respuesta debajo del comentario raíz de su cadena
+ * (también la respuesta a una respuesta, 0029), en su orden. Una respuesta a un comentario que no está en la lista
+ * queda como hilo propio, en su sitio.
  */
 export function hilosComentarios(lista: Comentario[]): Hilo[] {
-  const ids = new Set(lista.map(c => c.id))
   const hilos: Hilo[] = []
-  const porRaiz = new Map<string, Hilo>()
+  const hiloDe = new Map<string, Hilo>()
   for (const c of lista) {
-    const padre = c.respuestaA && ids.has(c.respuestaA) ? porRaiz.get(c.respuestaA) : undefined
-    if (padre) { padre.respuestas.push(c); continue }
+    const padre = c.respuestaA ? hiloDe.get(c.respuestaA) : undefined
+    if (padre) { padre.respuestas.push(c); hiloDe.set(c.id, padre); continue }
     const hilo = { raiz: c, respuestas: [], suelta: Boolean(c.respuestaA) }
     hilos.push(hilo)
-    porRaiz.set(c.id, hilo)
+    hiloDe.set(c.id, hilo)
   }
   return hilos
+}
+
+/** «Respuesta a @…» dentro de un hilo: solo si contesta a otra respuesta, no al comentario raíz que encabeza el hilo. */
+export function respondeAOtraRespuesta(c: Comentario, raiz: Comentario): boolean {
+  return Boolean(c.respuestaA && c.respuestaAlias && c.respuestaA !== raiz.id)
 }
 
 const SEMANA_MS = 7 * 24 * 60 * 60 * 1000
