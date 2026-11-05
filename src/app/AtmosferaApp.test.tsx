@@ -7,7 +7,7 @@ import { DESTINOS, type Tab } from './navegacion'
 const markup = (tab: Tab) => renderToStaticMarkup(<AtmosferaApp tab={tab} />)
 const imagePath = (tab: Tab) => markup(tab).match(/src="([^"]+)"/)![1]
 
-describe('atmósferas de AppFit', () => {
+describe('atmósferas de Cumbra Fit', () => {
   it('Inicio, Nutrición y Gym tienen escenas distintas sin rasterizar el contenido', () => {
     expect(new Set(['inicio', 'nutricion', 'gym'].map(tab => imagePath(tab as Tab))).size).toBe(3)
   })

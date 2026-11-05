@@ -145,7 +145,7 @@ function ComoSeCalcula({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => vo
       <p className="tabular text-title text-fg">{formatSigned(e.ritmo.kgSemana * 1000)} g <span className="text-body-sm font-normal text-fg-muted">por semana · {e.ritmo.pctPesoSemana > 0 ? '+' : '−'}{formatNumber(Math.abs(e.ritmo.pctPesoSemana), 1)} % del peso</span></p>
       <p className="text-caption text-fg-muted">Con {formatNumber(KCAL_POR_KG)} kcal por kg (Hall, 2008). Pierde validez con el tiempo: ajusta según tu peso real.</p>
     </div>}
-    <p className="text-caption">{AVISO_ORIENTATIVO}. Nunca baja de {formatNumber(SUELO_KCAL)} kcal ni de tu gasto en reposo (criterio de prudencia de AppFit).</p>
+    <p className="text-caption">{AVISO_ORIENTATIVO}. Nunca baja de {formatNumber(SUELO_KCAL)} kcal ni de tu gasto en reposo (criterio de prudencia de Cumbra Fit).</p>
     <Button variant="ghost" size="sm" onClick={onVerMetodo}>Ver método y fuentes<Icon name="chevron-right" size={16} /></Button>
   </Ayuda>
 }

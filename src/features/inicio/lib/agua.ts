@@ -9,8 +9,8 @@ export const AGUA_OBJETIVO_MAX_ML = 8000
 
 /**
  * Objetivo de bebida por defecto (ml) según el sexo de Perfil: la ingesta adecuada de agua total de EFSA (2010) para
- * adultos es 2,5 L (hombres) y 2,0 L (mujeres) e incluye la humedad de los alimentos; AppFit descuenta un 20 % para
- * quedarse solo con lo que se bebe (2,0 L y 1,6 L). Ese 20 % es un criterio de AppFit, no una cifra de EFSA.
+ * adultos es 2,5 L (hombres) y 2,0 L (mujeres) e incluye la humedad de los alimentos; Cumbra Fit descuenta un 20 % para
+ * quedarse solo con lo que se bebe (2,0 L y 1,6 L). Ese 20 % es un criterio de Cumbra Fit, no una cifra de EFSA.
  * Sin sexo en Perfil no hay objetivo.
  */
 export function objetivoAguaPorDefecto(sexo: SexoPerfil | undefined): number | null {

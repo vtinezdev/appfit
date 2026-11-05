@@ -386,6 +386,6 @@ describe('backup de pasos', () => {
 
 describe('nombreArchivoBackup', () => {
   it('lleva el día local, también pasada la medianoche (en UTC aún sería el día anterior)', () => {
-    expect(nombreArchivoBackup(new Date(2026, 10, 3, 0, 30))).toBe('appfit-backup-2026-11-03.json')
+    expect(nombreArchivoBackup(new Date(2026, 10, 3, 0, 30))).toBe('cumbra-fit-backup-2026-11-03.json')
   })
 })

@@ -1,6 +1,6 @@
-// Claves de AppFit de cada ejercicio del catálogo (ENT-09): tres claves de ejecución y dos errores comunes. Aparte del
+// Claves de Cumbra Fit de cada ejercicio del catálogo (ENT-09): tres claves de ejecución y dos errores comunes. Aparte del
 // catálogo para no engordar el arranque: solo se carga (con `import()`) al abrir una ficha. Clave = id del catálogo
-// sin «appfit:». Textos redactados por AppFit; orientativos, no sustituyen a quien te entrena.
+// sin «appfit:». Textos redactados por Cumbra Fit; orientativos, no sustituyen a quien te entrena.
 import { BRAZOS } from './fichas/brazos'
 import { CADERA_GEMELOS } from './fichas/caderaGemelos'
 import { CORE } from './fichas/core'

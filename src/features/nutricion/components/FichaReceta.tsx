@@ -26,7 +26,7 @@ import { textoRaciones, textoTiempo } from '../lib/recetas'
 import { gramosRacion, ingredientesPara, por100De, vistaDeRecetaPropia } from '../lib/variantes'
 import EditorReceta from './EditorReceta'
 
-/** Una receta tuya (editable) o un plato del recetario AppFit (solo lectura). */
+/** Una receta tuya (editable) o un plato del recetario Cumbra Fit (solo lectura). */
 type Props = ({ recetaId: number; catalogId?: undefined } | { catalogId: string; recetaId?: undefined }) & { onClose: () => void }
 
 type Accion = 'registrar' | 'planificar'
@@ -47,7 +47,7 @@ const gramosTexto = (g: number) => formatNumber(g, g < 10 ? 1 : 0)
 /**
  * Ficha de lectura de una receta: lo que aporta por ración (y por 100 g), los ingredientes para las raciones que se
  * quieran, los pasos y las notas. Desde aquí se registra o planifica (raciones o gramos) y, si es tuya, se edita.
- * Las del recetario AppFit no se editan: se cambian con variantes al añadir comida o con «Copiar a mis recetas», que
+ * Las del recetario Cumbra Fit no se editan: se cambian con variantes al añadir comida o con «Copiar a mis recetas», que
  * crea una receta tuya igual y pasa a enseñarla (ya editable).
  */
 export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
@@ -160,7 +160,7 @@ export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
       </div>}>
       <div className="space-y-section">
         <header className="space-y-1.5">
-          <Badge tone={propia ? 'accent' : 'neutral'}>{propia ? 'Tuya' : 'AppFit'}</Badge>
+          <Badge tone={propia ? 'accent' : 'neutral'}>{propia ? 'Tuya' : 'Cumbra Fit'}</Badge>
           <h2 className="break-words text-heading text-fg">{vista.nombre}</h2>
         </header>
 

@@ -64,7 +64,7 @@ function interiorInsignia(svg: SVGSVGElement, prefijo: string): string {
 
 /**
  * «Guardar imagen» y «Compartir…» bajo el póster (ENT-11): la misma sesión como PNG de 1080 × 1920 con título, fecha,
- * cifras, los récords, las medallas de la Vitrina, los ejercicios con sus series como pastillas, «Hoy» y el muñeco, y «Hecho con AppFit» al pie. Las series se leen
+ * cifras, los récords, las medallas de la Vitrina, los ejercicios con sus series como pastillas, «Hoy» y el muñeco, y «Hecho con Cumbra Fit» al pie. Las series se leen
  * al pulsar, no mientras se ve la pantalla. Sin cuenta ni red: «Compartir…» abre la hoja del móvil y solo
  * aparece donde se pueden compartir archivos; si no, se descarga.
  */

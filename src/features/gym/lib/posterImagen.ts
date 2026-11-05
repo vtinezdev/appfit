@@ -3,6 +3,7 @@
 // `exportarImagen` lo pasa a PNG. Solo lleva datos del entreno: título, fecha, cifras, récords, ejercicios, «Hoy» y el
 // muñeco. Nada del perfil. Cuenta con formas antes que con frases: la mejor serie como pastilla, trofeos, medallas y cifras.
 import { trazoIcono, type IconName } from '../../../shared/components/Icon'
+import { svgLogotipo } from '../../../shared/design/marca'
 import type { VistaCuerpo } from '../components/mapaMuscularGeometria'
 import { partesHito, type EjercicioPoster, type HitoSesion, type TipoHito } from './fichaEntreno'
 import type { ZonaMuscular } from './musculos'
@@ -258,7 +259,7 @@ function componer(d: DatosPosterImagen, c: ColoresPoster, modo: Modo): { partes:
  * El SVG del póster. `css` añade reglas dentro del SVG (las `@font-face` con la letra incrustada: una imagen no carga
  * recursos de fuera). Arriba, el hito si lo hay, título (hasta dos líneas), fecha y cifras con filetes; el trofeo con los
  * récords; las medallas de la Vitrina; los ejercicios y «Hoy»; el muñeco ocupa lo que queda (si no hay sitio, no va);
- * abajo, «Hecho con AppFit». Si no cabe todo sobre el pie, los ejercicios pasan a una línea y, si aún no, se muestran menos.
+ * abajo, «Hecho con» y el logotipo. Si no cabe todo sobre el pie, los ejercicios pasan a una línea y, si aún no, se muestran menos.
  */
 export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): string {
   const pie = ALTO_POSTER - MARGEN
@@ -277,16 +278,16 @@ export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): str
     const alto = pie - 72 - arriba
     if (alto > 200) partes.push(muneco(d.muneco, c, MARGEN, arriba, alto))
   }
-  partes.push(texto(MARGEN, pie, 'Hecho con AppFit', 30, c.tenue, LETRA.texto))
+  partes.push(texto(MARGEN, pie, 'Hecho con', 30, c.tenue, LETRA.texto), svgLogotipo(MARGEN + 150, pie + 2, 56, { texto: c.texto, acento: c.acento }).svg)
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${ANCHO_POSTER}" height="${ALTO_POSTER}" viewBox="0 0 ${ANCHO_POSTER} ${ALTO_POSTER}">`
     + (css ? `<style>${css}</style>` : '') + partes.join('') + '</svg>'
 }
 
-/** Nombre del archivo: «appfit-torso-a-2026-10-09.png», sin acentos ni signos. */
+/** Nombre del archivo: «cumbra-fit-torso-a-2026-10-09.png», sin acentos ni signos. */
 export function nombreArchivoPoster(titulo: string, inicio: number): string {
   const base = titulo.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'entreno'
   const f = new Date(inicio)
   const dia = `${f.getFullYear()}-${String(f.getMonth() + 1).padStart(2, '0')}-${String(f.getDate()).padStart(2, '0')}`
-  return `appfit-${base}-${dia}.png`
+  return `cumbra-fit-${base}-${dia}.png`
 }

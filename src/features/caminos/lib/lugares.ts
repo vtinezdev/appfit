@@ -16,7 +16,7 @@ export interface Lugar {
 
 /**
  * Margen sobre la línea recta: los caminos y carreteras entre pueblos de España suelen ser un 10–30 % más largos
- * (Tarragona–Valencia: 228 km en línea recta y unos 260 por carretera). Es una aproximación de AppFit; cada tramo se
+ * (Tarragona–Valencia: 228 km en línea recta y unos 260 por carretera). Es una aproximación de Cumbra Fit; cada tramo se
  * puede corregir a mano.
  */
 export const FACTOR_CAMINO = 1.15

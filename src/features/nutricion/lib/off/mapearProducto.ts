@@ -53,7 +53,7 @@ function texto(x: unknown): string | undefined {
 }
 
 /**
- * Categoría AppFit con las mismas reglas que la tubería del catálogo (`categories_tags`, `pnns_groups_2`, nombre).
+ * Categoría Cumbra Fit con las mismas reglas que la tubería del catálogo (`categories_tags`, `pnns_groups_2`, nombre).
  * `undefined` si nada encaja: un producto completo se guarda entonces como «Otros» y uno incompleto la pide.
  */
 function categoriaDe(p: Record<string, unknown>, nombre: string): CategoriaAlimento | undefined {

@@ -1,6 +1,6 @@
 import type { FichaTecnica } from './tipos'
 
-/** Claves de AppFit: pecho. */
+/** Claves de Cumbra Fit: pecho. */
 export const PECHO: Record<string, FichaTecnica> = {
   'press-banca': { claves: ['Junta y baja las escápulas y apoya bien los pies antes de sacar la barra.', 'Baja controlado hasta rozar la parte baja del pecho, con los codos algo por debajo de la línea de los hombros.', 'Empuja hacia arriba y un poco hacia la cara hasta tener la barra sobre los hombros.'],
     errores: ['Rebotar la barra en el pecho para subirla.', 'Abrir los codos a 90° del tronco: carga el hombro.'] },

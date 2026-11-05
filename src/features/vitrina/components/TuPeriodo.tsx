@@ -400,7 +400,7 @@ export function ResumenTuPeriodo({ periodo, hoy, onClose }: { periodo: Periodo; 
       {!s ? <LoadingState /> : <div className="space-y-section">
         <section aria-label={`Resumen de ${periodo.subtitulo}`} className="training-surface space-y-5 p-5">
           <div className="space-y-1">
-            <p className="training-muted text-rotulo">AppFit · {periodo.subtitulo}</p>
+            <p className="training-muted text-rotulo">Cumbra Fit · {periodo.subtitulo}</p>
             <h2 className="poster-title">{periodo.titulo}</h2>
             {s.frase && <p className="break-words pt-1 text-body">{s.frase}</p>}
           </div>

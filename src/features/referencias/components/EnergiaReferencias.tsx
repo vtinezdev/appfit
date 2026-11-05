@@ -107,7 +107,7 @@ export default function EnergiaReferencias() {
       <div className="grid grid-cols-2 gap-2">
         {METODO_TMB.ecuaciones.map((id) => <Casilla key={id} rotulo={ECUACIONES[id].nombre} valor={e ? kcal(e.tmb.parciales[id]) : '—'} unidad={e ? 'kcal' : undefined} />)}
       </div>
-      <Casilla rotulo={e ? 'Media: tu gasto en reposo' : 'AppFit usa la media de las dos'} valor={e ? kcal(e.tmb.valor) : '½ + ½'} unidad={e ? 'kcal' : undefined} destacada />
+      <Casilla rotulo={e ? 'Media: tu gasto en reposo' : 'Cumbra Fit usa la media de las dos'} valor={e ? kcal(e.tmb.valor) : '½ + ½'} unidad={e ? 'kcal' : undefined} destacada />
       <Disclosure title="Las fórmulas">
         <ul className="space-y-2">
           {(['mifflin', 'rozaShizgal'] as const).map((id) => <li key={id} className="space-y-1">
@@ -118,7 +118,7 @@ export default function EnergiaReferencias() {
         </ul>
       </Disclosure>
       <Apoyo>
-        <p>Mifflin-St Jeor (1990) se obtuvo con 498 adultos sanos de 19 a 78 años y la revisión de Frankenfield (2005) la señala como la más fiable. Harris-Benedict (1918–1919) sobreestima en población actual; la revisión de Roza y Shizgal (1984) mejora el ajuste. La media de las dos es un criterio de AppFit, no un método publicado.</p>
+        <p>Mifflin-St Jeor (1990) se obtuvo con 498 adultos sanos de 19 a 78 años y la revisión de Frankenfield (2005) la señala como la más fiable. Harris-Benedict (1918–1919) sobreestima en población actual; la revisión de Roza y Shizgal (1984) mejora el ajuste. La media de las dos es un criterio de Cumbra Fit, no un método publicado.</p>
         <p>No se usan Henry/Oxford (la de EFSA) ni Cunningham o Katch-McArdle, que piden masa magra: no se guarda composición corporal. Son ecuaciones binarias (hombre o mujer) y en deportistas muy musculados pueden quedarse cortas (ten Haaf y Weijs, 2014).</p>
       </Apoyo>
     </SeccionReferencia>
@@ -147,7 +147,7 @@ export default function EnergiaReferencias() {
       </div>
       <Apoyo>
         <p>Ritmo = kcal × 7 / {formatInt(KCAL_POR_KG)} kg por semana. En definición, por encima del 1 % del peso por semana avisa, sin bloquear.</p>
-        <p>El rango lo fija AppFit; la literatura es contexto. NICE: unas 600 kcal/día menos son unos 0,5 kg por semana. Helms et al. (2014) y Garthe et al. (2011): perder un 0,5–1 % del peso por semana conserva mejor el músculo. Slater et al. (2019) e Iraki et al. (2019): en volumen, unas 360–480 kcal más o un 10–20 %.</p>
+        <p>El rango lo fija Cumbra Fit; la literatura es contexto. NICE: unas 600 kcal/día menos son unos 0,5 kg por semana. Helms et al. (2014) y Garthe et al. (2011): perder un 0,5–1 % del peso por semana conserva mejor el músculo. Slater et al. (2019) e Iraki et al. (2019): en volumen, unas 360–480 kcal más o un 10–20 %.</p>
         <p>Hall (2008): {formatInt(KCAL_POR_KG)} kcal por kg es una aproximación que pierde validez con el tiempo.</p>
       </Apoyo>
     </SeccionReferencia>
@@ -160,7 +160,7 @@ export default function EnergiaReferencias() {
         </li>)}
       </ul>
       <Apoyo>
-        <p>Son criterios de prudencia de AppFit, no datos científicos. {formatInt(SUELO_KCAL)} kcal es el umbral de las dietas de muy bajo valor calórico, que NICE no recomienda sin supervisión; un IMC por debajo de 18,5 es bajo peso según la OMS. Por encima de {formatInt(EDAD_AVISO)} años se calcula con aviso, fuera de la muestra de las ecuaciones.</p>
+        <p>Son criterios de prudencia de Cumbra Fit, no datos científicos. {formatInt(SUELO_KCAL)} kcal es el umbral de las dietas de muy bajo valor calórico, que NICE no recomienda sin supervisión; un IMC por debajo de 18,5 es bajo peso según la OMS. Por encima de {formatInt(EDAD_AVISO)} años se calcula con aviso, fuera de la muestra de las ecuaciones.</p>
         <p>Altura de {formatInt(ALTURA_MIN)} a {formatInt(ALTURA_MAX)} cm y peso de 20 a 300 kg son controles de la entrada. El objetivo se redondea a 10 kcal.</p>
       </Apoyo>
     </SeccionReferencia>

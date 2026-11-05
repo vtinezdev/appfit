@@ -181,7 +181,7 @@ export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onEr
           ))}
         </ul>
       )}
-      {descartadas > 0 && <p role="status" className="text-body-sm text-fg-muted">Algunas publicaciones necesitan una versión más reciente de AppFit.</p>}
+      {descartadas > 0 && <p role="status" className="text-body-sm text-fg-muted">Algunas publicaciones necesitan una versión más reciente de Cumbra Fit.</p>}
       {error && (
         <div className="space-y-3">
           <ErrorState>{error}</ErrorState>

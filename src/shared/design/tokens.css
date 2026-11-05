@@ -1,4 +1,4 @@
-/* Valores visuales de APPFIT (grafito neutro, un único acento volt —verde lima— para actuar y para la energía del día; ADR 035).
+/* Valores visuales de Cumbra Fit (grafito neutro, un único acento volt —verde lima— para actuar y para la energía del día; ADR 035).
    El volt es claro: como relleno lleva texto casi negro en ambos temas; líneas, iconos y texto sobre claro usan accent-strong. Intención: DESIGN.md; implementación: docs/DESIGN-SYSTEM.md.
    Canales RGB para opacidad Tailwind. Ninguna pantalla define su propia paleta. */
 :root {

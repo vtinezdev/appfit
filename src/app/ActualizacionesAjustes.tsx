@@ -40,11 +40,11 @@ export default function ActualizacionesAjustes() {
         <Button variant="secondary" block loading={estado.fase === 'comprobando'} disabled={ocupado} onClick={() => void actualizaciones.comprobar()}>Comprobar actualizaciones</Button>
       </div>}
     </Card>
-    <ListGroup aria-label="Ayuda con las actualizaciones" pie="AppFit busca novedades al abrirse y al volver a ella con conexión.">
+    <ListGroup aria-label="Ayuda con las actualizaciones" pie="Cumbra Fit busca novedades al abrirse y al volver a ella con conexión.">
       <li><Disclosure title="Si sigue apareciendo una versión anterior">
         <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
           <li>Con conexión, pulsa «Comprobar actualizaciones» y después «Actualizar ahora» si aparece.</li>
-          <li>Si no termina, cierra AppFit por completo desde el selector de aplicaciones del móvil y vuelve a abrirla desde el mismo icono.</li>
+          <li>Si no termina, cierra Cumbra Fit por completo desde el selector de aplicaciones del móvil y vuelve a abrirla desde el mismo icono.</li>
           <li>Espera unos segundos y vuelve a comprobar el estado en esta pantalla.</li>
         </ol>
         <p className="mt-2 text-body-sm text-fg-muted">No hace falta borrar los datos ni reinstalar la app para actualizarla.</p>

@@ -1,5 +1,5 @@
 // Rutas de Caminos: reales (Caminos de Santiago y grandes rutas del mundo), literarias de dominio público y fantasías
-// propias de AppFit. Cada ruta es una lista de etapas con el lugar donde acaba y sus kilómetros; el orden de `RUTAS`
+// propias de Cumbra Fit. Cada ruta es una lista de etapas con el lugar donde acaba y sus kilómetros; el orden de `RUTAS`
 // es el de la ruta sugerida (de más corta a más larga dentro de cada bloque). Las nuevas van al final para no cambiar
 // la ruta de quien ya camina.
 //
@@ -14,8 +14,8 @@
 //   dos jornadas de cada tramo es aproximado.
 // - Camino Inca: las cuatro jornadas habituales de las agencias autorizadas (unos 45 km); varían según la fuente.
 // - La Odisea y La vuelta al mundo en 80 días (dominio público): los lugares del libro, con las identificaciones
-//   tradicionales de los de la Odisea; los km son la distancia en línea recta entre ellos, calculada por AppFit.
-// - La senda del dragón dormido y La piedra de fuego: fantasías de AppFit; lugares y km inventados.
+//   tradicionales de los de la Odisea; los km son la distancia en línea recta entre ellos, calculada por Cumbra Fit.
+// - La senda del dragón dormido y La piedra de fuego: fantasías de Cumbra Fit; lugares y km inventados.
 
 export type ColeccionRuta = 'santiago' | 'mundo' | 'literatura' | 'fantasia' | 'propia'
 
@@ -86,7 +86,7 @@ export const RUTAS: readonly Ruta[] = [
     ],
   },
   {
-    id: 'dragon', nombre: 'La senda del dragón dormido', zona: 'Fantasía de AppFit', desde: 'Aldea de Brezal', coleccion: 'fantasia',
+    id: 'dragon', nombre: 'La senda del dragón dormido', zona: 'Fantasía de Cumbra Fit', desde: 'Aldea de Brezal', coleccion: 'fantasia',
     etapas: [
       e('Molino del Arroyo Frío', 18), e('Encrucijada de los Tres Robles', 24), e('Posada del Gallo Tuerto', 21), e('Puente de las Lavanderas', 26),
       e('Bosque de los Susurros', 23), e('Claro de las Luciérnagas', 19), e('Ermita del Ermitaño Calvo', 27), e('Lago Espejo', 22),
@@ -132,7 +132,7 @@ export const RUTAS: readonly Ruta[] = [
     ],
   },
   {
-    id: 'piedra-fuego', nombre: 'La piedra de fuego', zona: 'Fantasía de AppFit', desde: 'Hondonada de Prados Verdes', coleccion: 'fantasia',
+    id: 'piedra-fuego', nombre: 'La piedra de fuego', zona: 'Fantasía de Cumbra Fit', desde: 'Hondonada de Prados Verdes', coleccion: 'fantasia',
     etapas: [
       e('Vado de los Juncos', 45), e('Posada del Jabalí Rojo', 60), e('Colinas de las Tumbas', 70), e('Atalaya del Rey Olvidado', 85),
       e('Río de las Piedras Cantoras', 110), e('Valle de las Mil Fuentes', 95), e('Paso de la Nieve Eterna', 120), e('Minas de Hierro Negro', 90),
@@ -173,7 +173,7 @@ export const NOTA_COLECCION: Record<ColeccionRuta, string> = {
   santiago: 'Etapas y kilómetros reales',
   mundo: 'Etapas y kilómetros reales',
   literatura: 'Los lugares del libro, en línea recta',
-  fantasia: 'Lugares y kilómetros inventados por AppFit',
+  fantasia: 'Lugares y kilómetros inventados por Cumbra Fit',
   propia: 'Creadas por ti: km en línea recta con un 15 % más por las curvas, o los que pongas',
 }
 
@@ -189,4 +189,4 @@ export function rutaDe(id: string): Ruta | undefined {
 }
 
 /** Fuente de las distancias, en una frase para la interfaz. */
-export const FUENTE_RUTAS = 'Caminos de Santiago: etapas de Gronze (Melide–Arzúa, de alberguescaminosantiago.com). West Highland Way: su web oficial. Milford Track: Department of Conservation de Nueva Zelanda. Kumano Kodo: Visit Wakayama, con el reparto de cada tramo en dos jornadas aproximado. Camino Inca: las cuatro jornadas habituales (las fuentes varían entre 40 y 45 km). La Odisea y La vuelta al mundo: los lugares del libro, en línea recta (los de la Odisea, con sus identificaciones tradicionales). Las fantasías son de AppFit.'
+export const FUENTE_RUTAS = 'Caminos de Santiago: etapas de Gronze (Melide–Arzúa, de alberguescaminosantiago.com). West Highland Way: su web oficial. Milford Track: Department of Conservation de Nueva Zelanda. Kumano Kodo: Visit Wakayama, con el reparto de cada tramo en dos jornadas aproximado. Camino Inca: las cuatro jornadas habituales (las fuentes varían entre 40 y 45 km). La Odisea y La vuelta al mundo: los lugares del libro, en línea recta (los de la Odisea, con sus identificaciones tradicionales). Las fantasías son de Cumbra Fit.'

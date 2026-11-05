@@ -1,6 +1,6 @@
 import type { FichaTecnica } from './tipos'
 
-/** Claves de AppFit: espalda. */
+/** Claves de Cumbra Fit: espalda. */
 export const ESPALDA: Record<string, FichaTecnica> = {
   'dominadas': { claves: ['Cuélgate con los brazos estirados y lleva los hombros hacia abajo antes de tirar.', 'Tira con los codos hacia las costillas hasta pasar la barbilla por encima de la barra.', 'Baja controlado hasta estirar los brazos del todo.'],
     errores: ['Balancear las piernas para subir.', 'Medias repeticiones sin estirar los brazos abajo.'] },

@@ -1,6 +1,6 @@
 import type { FichaTecnica } from './tipos'
 
-/** Claves de AppFit: core y ejercicios de cuerpo completo. */
+/** Claves de Cumbra Fit: core y ejercicios de cuerpo completo. */
 export const CORE: Record<string, FichaTecnica> = {
   'plancha': { claves: ['Antebrazos bajo los hombros y cuerpo recto de la cabeza a los talones.', 'Aprieta glúteos y abdomen como si fueras a recibir un golpe.', 'Respira con normalidad durante el tiempo marcado.'],
     errores: ['Cadera hundida o demasiado alta.', 'Aguantar con la respiración contenida.'] },

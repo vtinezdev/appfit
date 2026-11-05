@@ -64,7 +64,7 @@ Orden: primero el rediseño visual y los últimos retoques (sesión aparte); des
 
 ## Preparación para Google Play (noviembre 2026)
 
-Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguridad.md`). Nombre decidido el 2026-11-04: **Cumbra**, visible como «Cumbra Fit», con el dominio previsto `cumbrafit.app` ([ADR 063](decisiones/063-nombre-cumbra.md)); el logo y la compra del dominio, pendientes. Casi todo lo de Play depende de ellos, así que va en orden.
+Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguridad.md`). Nombre decidido el 2026-11-04: **Cumbra**, visible como «Cumbra Fit», con el dominio previsto `cumbrafit.app` ([ADR 063](decisiones/063-nombre-cumbra.md)); el logo, los iconos y el nombre en la app ya están ([ADR 064](decisiones/064-marca-cumbra-fit.md)); la compra del dominio, pendiente. Casi todo lo de Play depende de ellos, así que va en orden.
 
 ### 1. Ya hecho (en el código)
 

@@ -35,7 +35,7 @@ export function TituloResultados({ texto, n }: { texto: string; n?: number }) {
   return <h3 className="flex items-baseline gap-2 text-rotulo text-fg-muted">{texto}{n !== undefined && <span className="tabular">{formatInt(n)}</span>}</h3>
 }
 
-/** Si no está lo que buscas: crearlo tú o proponérselo al creador de AppFit (ADR 061). */
+/** Si no está lo que buscas: crearlo tú o proponérselo al creador de Cumbra Fit (ADR 061). */
 function NoEsta({ busqueda, onCrear, onProponer }: { busqueda: string; onCrear: (nombre: string) => void; onProponer: () => void }) {
   const fila = 'app-button flex min-h-touch w-full items-center gap-3 px-card py-3 text-left enabled:hover:bg-surface-muted'
   return <section aria-labelledby="no-esta" className="space-y-2">
@@ -48,7 +48,7 @@ function NoEsta({ busqueda, onCrear, onProponer }: { busqueda: string; onCrear: 
       </button></li>
       {envioDisponible && <li><button type="button" className={fila} onClick={onProponer}>
         <span aria-hidden className="icono-pastilla shrink-0 text-accent-strong"><Icon name="enviar" size={20} /></span>
-        <span className="min-w-0 flex-1"><span className="block text-body font-semibold text-fg">Propónselo a AppFit</span><span className="block text-caption text-fg-muted">Para añadirlo al catálogo de todos</span></span>
+        <span className="min-w-0 flex-1"><span className="block text-body font-semibold text-fg">Propónselo a Cumbra Fit</span><span className="block text-caption text-fg-muted">Para añadirlo al catálogo de todos</span></span>
         <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
       </button></li>}
     </ul>

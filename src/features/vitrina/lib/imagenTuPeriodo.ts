@@ -6,6 +6,7 @@ import { trazoIcono, type IconName } from '../../../shared/components/Icon'
 import { escaparXml, partirLineas } from '../../gym/lib/posterImagen'
 import type { CifraPeriodo } from './tuPeriodo'
 import type { CalendarioPeriodo } from './tuPeriodoSecciones'
+import { svgLogotipo } from '../../../shared/design/marca'
 
 /** 4:5, como la publicación de un feed (el póster del entreno, en cambio, es vertical de historia). */
 export const ANCHO_POSTER = 1080
@@ -72,7 +73,7 @@ function calendario(cal: CalendarioPeriodo, c: ColoresTuPeriodo, y: number, part
 export function svgTuPeriodo(d: DatosImagenTuPeriodo, c: ColoresTuPeriodo, css = ''): string {
   const partes = [`<rect width="${ANCHO_POSTER}" height="${ALTO_POSTER}" fill="${rgb(c.fondo)}"/>`]
   let y = MARGEN + 30
-  partes.push(texto(MARGEN, y, `APPFIT · ${d.subtitulo.toUpperCase()}`, 30, c.tenue, LETRA.rotulo))
+  partes.push(texto(MARGEN, y, `CUMBRA FIT · ${d.subtitulo.toUpperCase()}`, 30, c.tenue, LETRA.rotulo))
   for (const linea of partirLineas(d.titulo, 18, 2)) {
     y += 124
     partes.push(texto(MARGEN, y, linea, 134, c.texto, LETRA.titulo))
@@ -112,10 +113,10 @@ export function svgTuPeriodo(d: DatosImagenTuPeriodo, c: ColoresTuPeriodo, css =
     if (m.detalle) partes.push(texto(ANCHO_POSTER - MARGEN, y + 38, m.detalle, 28, c.tenue, LETRA.texto, ' text-anchor="end"'))
     y += FILA
   }
-  partes.push(texto(MARGEN, PIE, 'Hecho con AppFit', 28, c.tenue, LETRA.texto))
+  partes.push(texto(MARGEN, PIE, 'Hecho con', 28, c.tenue, LETRA.texto), svgLogotipo(MARGEN + 140, PIE + 2, 52, { texto: c.texto, acento: c.acento }).svg)
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${ANCHO_POSTER}" height="${ALTO_POSTER}" viewBox="0 0 ${ANCHO_POSTER} ${ALTO_POSTER}">${css ? `<style>${css}</style>` : ''}${partes.join('')}</svg>`
 }
 
-/** «appfit-tu-octubre-2026.png». */
+/** «cumbra-fit-tu-octubre-2026.png». */
 export const nombreArchivoTuPeriodo = (clave: string, titulo: string) =>
-  `appfit-${titulo.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}${clave.length === 7 ? `-${clave.slice(0, 4)}` : ''}.png`
+  `cumbra-fit-${titulo.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}${clave.length === 7 ? `-${clave.slice(0, 4)}` : ''}.png`

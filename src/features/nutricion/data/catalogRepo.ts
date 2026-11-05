@@ -49,7 +49,7 @@ export async function buscar(q: string, limite = 20): Promise<CatalogFood[]> {
     .toArray()
 }
 
-/** Los platos de típicos que son una receta (con `receta`): el recetario AppFit. Solo lectura. */
+/** Los platos de típicos que son una receta (con `receta`): el recetario Cumbra Fit. Solo lectura. */
 export function recetario(): Promise<CatalogFood[]> {
   return db.catalogFoods.where('fuente').equals('tipicos').filter((f) => f.receta !== undefined).toArray()
 }

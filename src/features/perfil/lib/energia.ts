@@ -1,5 +1,5 @@
 // Estimación energética del Perfil. Funciones puras, sin redondeos intermedios (kg, cm, años, kcal/día).
-// TMB = media de Mifflin-St Jeor (1990) y Harris-Benedict revisada por Roza-Shizgal (1984): criterio de AppFit
+// TMB = media de Mifflin-St Jeor (1990) y Harris-Benedict revisada por Roza-Shizgal (1984): criterio de Cumbra Fit
 // apoyado en dos ecuaciones citadas, no un método publicado. Ver ADR 019 y Referencias › Energía y objetivo.
 import type { ActividadPerfil, ObjetivoPerfil, Perfil, SexoPerfil } from '../../../shared/db/types'
 import { formatNumber } from '../../../shared/lib/format'
@@ -52,7 +52,7 @@ export const NIVELES_ACTIVIDAD: Record<ActividadPerfil, NivelActividad> = {
 
 export const ETIQUETAS_OBJETIVO: Record<ObjetivoPerfil, string> = { definicion: 'Definición', mantenimiento: 'Mantenimiento', volumen: 'Volumen' }
 
-/** Suelo de prudencia: nunca por debajo de 800 kcal ni de la TMB estimada (criterio de AppFit). */
+/** Suelo de prudencia: nunca por debajo de 800 kcal ni de la TMB estimada (criterio de Cumbra Fit). */
 export const SUELO_KCAL = 800
 export const IMC_BAJO_PESO = 18.5
 /** Aproximación clásica; Hall 2008 avisa de que pierde validez con el tiempo. */
@@ -135,7 +135,7 @@ export function calcularEnergia(perfil: Perfil, pesoKg: number | null | undefine
   const peso = validarPeso(pesoKg!)
   const altura = validarAltura(perfil.alturaCm!)
   if (edad === null || peso === null || altura === null) return { estado: 'no-calculable', motivo: NO_CALCULABLE_GENERICO }
-  if (edad < EDAD_MIN) return { estado: 'no-calculable', motivo: `Las ecuaciones de AppFit son para adultos de ${EDAD_MIN} años o más.` }
+  if (edad < EDAD_MIN) return { estado: 'no-calculable', motivo: `Las ecuaciones de Cumbra Fit son para adultos de ${EDAD_MIN} años o más.` }
   if (edad > EDAD_MAX) return { estado: 'no-calculable', motivo: `Revisa la fecha de nacimiento: la edad supera los ${EDAD_MAX} años.` }
 
   const datos: DatosEnergia = { sexo: perfil.sexo!, edad, alturaCm: altura, pesoKg: peso }
@@ -156,7 +156,7 @@ export function calcularEnergia(perfil: Perfil, pesoKg: number | null | undefine
   let aplicado: ObjetivoPerfil | null = elegido
   if (elegido === 'definicion' && imc < IMC_BAJO_PESO) {
     aplicado = 'mantenimiento'
-    avisos.push({ tipo: 'imc-bajo', texto: 'Tu IMC es inferior a 18,5 (bajo peso según la OMS): AppFit no calcula déficit y te muestra el mantenimiento.' })
+    avisos.push({ tipo: 'imc-bajo', texto: 'Tu IMC es inferior a 18,5 (bajo peso según la OMS): Cumbra Fit no calcula déficit y te muestra el mantenimiento.' })
   }
 
   let objetivoExacto: number | null = null
@@ -166,7 +166,7 @@ export function calcularEnergia(perfil: Perfil, pesoKg: number | null | undefine
     const suelo = Math.max(tmb.valor, SUELO_KCAL)
     objetivoExacto = Math.max(get + pedido, suelo)
     ajusteKcal = objetivoExacto - get
-    if (get + pedido < suelo) avisos.push({ tipo: 'suelo', texto: `Limitado por el suelo de prudencia de AppFit (${formatNumber(suelo)} kcal: el mayor entre tu gasto en reposo y ${formatNumber(SUELO_KCAL)}).` })
+    if (get + pedido < suelo) avisos.push({ tipo: 'suelo', texto: `Limitado por el suelo de prudencia de Cumbra Fit (${formatNumber(suelo)} kcal: el mayor entre tu gasto en reposo y ${formatNumber(SUELO_KCAL)}).` })
   }
 
   let ritmo: EnergiaOk['ritmo'] = null

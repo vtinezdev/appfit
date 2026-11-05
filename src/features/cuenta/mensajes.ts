@@ -1,7 +1,7 @@
 import { CLAVE_NUBE, cuentaDisponible, URL_NUBE } from './servicio'
 
 /**
- * Mensajes al creador de AppFit (ADR 061): «Comunicar un problema» y «Proponer un alimento» mandan lo que la persona ha
+ * Mensajes al creador de Cumbra Fit (ADR 061): «Comunicar un problema» y «Proponer un alimento» mandan lo que la persona ha
  * revisado en pantalla, con o sin cuenta, a la tabla privada `mensajes_creador` de Supabase (solo se lee desde su panel).
  * Sin Supabase configurado no hay envío y las pantallas ofrecen copiar.
  */

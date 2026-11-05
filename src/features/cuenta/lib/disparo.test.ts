@@ -4,7 +4,7 @@ import { afectaALaCopia } from './disparo'
 describe('afectaALaCopia', () => {
   const tablas = ['entries', 'settings']
 
-  it('cuenta las tablas de usuario de la base de AppFit', () => {
+  it('cuenta las tablas de usuario de la base de Cumbra Fit', () => {
     expect(afectaALaCopia(['idb://appfit/entries/', 'idb://appfit/entries/fecha'], 'appfit', tablas)).toBe(true)
     expect(afectaALaCopia(['idb://appfit/settings/:dels'], 'appfit', tablas)).toBe(true)
   })

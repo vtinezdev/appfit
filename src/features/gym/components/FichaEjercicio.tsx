@@ -32,7 +32,7 @@ interface Props {
 
 /**
  * Ficha de técnica de un ejercicio del catálogo (ENT-09): imagen, muñeco con sus músculos (principales en alto,
- * secundarios en medio), material, tres claves y dos errores comunes («claves de AppFit»), tu última vez y tus récords de cada variante
+ * secundarios en medio), material, tres claves y dos errores comunes («claves de Cumbra Fit»), tu última vez y tus récords de cada variante
  * si lo has hecho y alternativas del mismo músculo (las de «Sustituir»), que abren su propia ficha. Solo lectura.
  */
 export default function FichaEjercicio({ catalogId: inicial, onClose }: Props) {
@@ -90,7 +90,7 @@ export default function FichaEjercicio({ catalogId: inicial, onClose }: Props) {
               </li>)}
             </ul>
           </section>
-          <p className="text-caption text-fg-muted">Claves de AppFit: orientativas, no sustituyen a quien te entrena. Si algo duele, para.</p>
+          <p className="text-caption text-fg-muted">Claves de Cumbra Fit: orientativas, no sustituyen a quien te entrena. Si algo duele, para.</p>
         </> : <p className="text-body-sm text-fg-muted">Este ejercicio aún no tiene claves escritas.</p>}
 
         {variantes.length > 0 && <section aria-label="Tu historial" className="space-y-stack">
