@@ -58,7 +58,7 @@ export const desnivelTexto = (m: number) => `${formatInt(m)} m`
 
 // ── Validación ──
 
-/** Límites para no guardar erratas: más que una ultra de montaña de un día ya no es una actividad de AppFit. */
+/** Límites para no guardar erratas: más que una ultra de montaña de un día ya no es una actividad de Cumbra Fit. */
 export const MAX_KM = 300
 export const MAX_HORAS = 48
 export const MAX_DESNIVEL_M = 10_000

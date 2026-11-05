@@ -1,6 +1,6 @@
 # 063 — Nombre de la app: Cumbra (Cumbra Fit)
 
-Fecha: 2026-11-04. Estado: decidido por Víctor. Dominio, redes y solicitud de marca, pendientes (sin comprar ni registrar nada). El código sigue llamándose AppFit hasta que haya dominio.
+Fecha: 2026-11-04. Estado: decidido por Víctor. Dominio, redes y solicitud de marca, pendientes (sin comprar ni registrar nada). Desde el 2026-11-04 la interfaz, el manifest, los iconos y el logo ya dicen Cumbra Fit ([ADR 064](064-marca-cumbra-fit.md)); los identificadores internos siguen siendo `appfit`.
 
 ## Contexto
 
@@ -31,7 +31,7 @@ Idea, sin decidir: llamar **Zénit** a la cumbre final de Cumbres, para conserva
 
 1. Comprobar y comprar `cumbrafit.app` (y `cumbrafit.es`); reservar @cumbrafit en las redes el mismo día.
 2. Solicitar «CUMBRA» en la OEPM: clase 9 (unos 128 €) y, si se quiere, la 41 limitada (unos 83 € más). Mejor con una consulta previa a un agente de la propiedad industrial.
-3. Con el dominio: manifest, iconos y paquete (`despliegue.md` § Preparación para Google Play, puntos 3 y 4) y logo.
+3. Con el dominio: el paquete (`despliegue.md` § Preparación para Google Play, puntos 3 y 4). El manifest, los iconos y el logo ya están ([ADR 064](064-marca-cumbra-fit.md)).
 
 ## Descartados (principales)
 

@@ -1,6 +1,6 @@
 import type { FichaTecnica } from './tipos'
 
-/** Claves de AppFit: hombros. */
+/** Claves de Cumbra Fit: hombros. */
 export const HOMBROS: Record<string, FichaTecnica> = {
   'press-militar': { claves: ['De pie, barra sobre la parte alta del pecho y agarre algo más abierto que los hombros.', 'Aprieta glúteos y abdomen y empuja en línea recta, apartando la cabeza al pasar la barra.', 'Termina con la barra sobre la cabeza y los brazos estirados.'],
     errores: ['Arquear la zona lumbar para empujar.', 'Empujar la barra hacia delante en lugar de hacia arriba.'] },

@@ -75,7 +75,7 @@ export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, on
                   <li key={`${a.tipo}-${a.publicacion}-${a.alias}-${a.creado}-${i}`}>
                     <button type="button" className="app-button flex min-h-touch w-full items-start gap-3 rounded-md py-3 text-left hover:bg-surface-muted" onClick={() => onAbrir(a)}>
                       <span className="relative mt-0.5 shrink-0">
-                        {/* La revisión de una denuncia no tiene persona: la firma la moderación de AppFit. */}
+                        {/* La revisión de una denuncia no tiene persona: la firma la moderación de Cumbra Fit. */}
                         {a.tipo === 'denuncia'
                           ? <span aria-hidden className="app-avatar app-avatar-sm inline-flex shrink-0 items-center justify-center rounded-pill bg-surface-muted text-fg-muted"><Icon name="escudo" size={16} /></span>
                           : <AvatarPersona persona={a} avatar={a.tipo !== 'comunidad' ? avatares[a.alias] : undefined} tamano="sm" />}

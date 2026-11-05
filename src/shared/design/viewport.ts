@@ -67,7 +67,7 @@ export function initViewport() {
     const standaloneIOS = (window.navigator as (Navigator & { standalone?: boolean }) | undefined)?.standalone === true
     const teclado = abreTeclado(document.activeElement as HTMLElement | null)
     // El alto es el que da iOS, aunque sea menos que la pantalla: en la PWA, iOS a veces solo pinta hasta unos 64 pt antes
-    // del borde (§318). Estirar la app hasta la pantalla entera la metía en esa zona sin pintar y cortaba el botón.
+    // del borde (§319). Estirar la app hasta la pantalla entera la metía en esa zona sin pintar y cortaba el botón.
     const height = viewport?.height ?? window.innerHeight
     // Sin teclado en la PWA de iOS, pegada arriba: un desplazamiento que iOS no devuelve subiría la app y la cortaría.
     const top = standaloneIOS && !teclado ? 0 : viewport?.offsetTop ?? 0

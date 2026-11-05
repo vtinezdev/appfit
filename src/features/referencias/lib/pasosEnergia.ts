@@ -4,7 +4,7 @@ import { ETIQUETAS_OBJETIVO, formatSigned, METODO_TMB, NIVELES_ACTIVIDAD, SUELO_
 export interface PasoEnergia {
   /** Qué hace el paso: «En reposo», «Con tu deporte»… */
   titulo: string
-  /** La regla de AppFit, igual para todos. */
+  /** La regla de Cumbra Fit, igual para todos. */
   regla: string
   /** Tu cifra en ese paso; `null` sin perfil completo. */
   tuyo: string | null

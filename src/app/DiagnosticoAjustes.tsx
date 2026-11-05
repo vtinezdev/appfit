@@ -49,7 +49,7 @@ export default function DiagnosticoAjustes() {
     <Card tone="muted" className="flex items-start gap-3">
       <Icon name="info" size={20} className="mt-0.5 shrink-0 text-fg-muted" />
       <p className="min-w-0 text-body-sm text-fg">{envioDisponible
-        ? 'Cuéntanos qué ha pasado y llegará al creador de AppFit con unos datos técnicos (versión, navegador, pantalla y último error). Solo se envía lo que ves en el informe, al pulsar Enviar.'
+        ? 'Cuéntanos qué ha pasado y llegará al creador de Cumbra Fit con unos datos técnicos (versión, navegador, pantalla y último error). Solo se envía lo que ves en el informe, al pulsar Enviar.'
         : 'Prepara un informe con lo que te ha pasado y unos datos técnicos (versión, navegador, pantalla y último error) para que lo envíes tú. No se envía nada solo.'}</p>
     </Card>
     <section className="space-y-2">
@@ -72,7 +72,7 @@ export default function DiagnosticoAjustes() {
       {enviado
         ? <Card tone="muted" className="flex items-start gap-3" role="status">
             <Icon name="check" size={20} className="mt-0.5 shrink-0 text-success" />
-            <p className="min-w-0 text-body-sm text-fg">Enviado. Gracias: lo leerá el creador de AppFit.</p>
+            <p className="min-w-0 text-body-sm text-fg">Enviado. Gracias: lo leerá el creador de Cumbra Fit.</p>
           </Card>
         : envioDisponible
           ? <>

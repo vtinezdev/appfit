@@ -16,7 +16,7 @@ interface Props {
   consulta?: string
 }
 
-const fuente = (a: AlimentoElegible) => (a.receta ? (a.receta.origen === 'tuya' ? 'Tuya' : 'AppFit') : a.ref.tipo === 'user' ? 'Tuyo' : etiquetaFuente(a.ref.id.split(':')[0]))
+const fuente = (a: AlimentoElegible) => (a.receta ? (a.receta.origen === 'tuya' ? 'Tuya' : 'Cumbra Fit') : a.ref.tipo === 'user' ? 'Tuyo' : etiquetaFuente(a.ref.id.split(':')[0]))
 
 /** «Receta · 6 raciones · por ración» (de qué son las pastillas), o «Receta» si aún no tiene raciones. */
 const lineaReceta = (a: AlimentoElegible) => ['Receta', ...(a.receta?.raciones !== undefined ? [textoRaciones(a.receta.raciones)] : []), ...(kcalPorRacion(a) !== null ? ['por ración'] : [])].join(' · ')

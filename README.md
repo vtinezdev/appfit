@@ -1,4 +1,4 @@
-# AppFit
+# Cumbra Fit
 
 App personal de nutrición y gimnasio para Android, iPhone, tablet y ordenador, instalable como PWA. Registra comidas escribiéndolas o dictándolas (interpretadas en el propio móvil, sin IA), lleva el control de tus entrenos y de tu peso, y guarda todo **en tu propio móvil**. Si quieres, una cuenta guarda además una copia **cifrada** en la nube para recuperarla en otro móvil: nadie más puede leerla.
 
@@ -59,7 +59,7 @@ App personal de nutrición y gimnasio para Android, iPhone, tablet y ordenador, 
 - Perfil calcula la proteína diaria por kg de peso (1,8 g/kg por defecto, rango 1,6 a 2,2), muestra un gasto observado a partir de lo que comes y tu tendencia de peso (si hay datos suficientes) y guarda tus medidas corporales. Perfil estima tu gasto energético diario y un objetivo de calorías (mantenimiento, definición o volumen) a partir de sexo, fecha de nacimiento, altura, peso y actividad, con ecuaciones citadas. Todo se calcula y se guarda solo en tu dispositivo; es una estimación orientativa, no una prescripción médica.
 - Referencias reúne procedencia del catálogo, objetivos nutricionales, la metodología de la estimación energética, el origen de la proteína por kg y el objetivo de agua (con qué se verificó de cada fuente) y limitaciones de datos; recomendaciones por grupos tienen su lugar preparado, sin inventar valores todavía.
 - Diseño adaptable a móvil, tablet y ordenador, también en horizontal y con texto ampliado.
-- Instalable en Android (botón «Instalar AppFit» cuando Chrome lo permite o menú del navegador) y en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
+- Instalable en Android (botón «Instalar Cumbra Fit» cuando Chrome lo permite o menú del navegador) y en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
 - Gráfica del peso con media de 7 días y borrado de pesajes con «Deshacer».
 - Evolución del agua y de las medidas corporales con periodos, gráficas y tablas de los registros reales.
 - Exportación a CSV (comidas, pesos, series, agua y medidas) para abrir en Excel en español.

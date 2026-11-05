@@ -1,6 +1,6 @@
 import type { FichaTecnica } from './tipos'
 
-/** Claves de AppFit: glúteos, aductores y gemelos. */
+/** Claves de Cumbra Fit: glúteos, aductores y gemelos. */
 export const CADERA_GEMELOS: Record<string, FichaTecnica> = {
   // Glúteos
   'hip-thrust': { claves: ['Espalda alta apoyada en el banco, barra sobre la cadera con una almohadilla.', 'Pies a una distancia en la que, arriba, las rodillas formen 90°.', 'Sube empujando con los talones hasta alinear tronco y muslos, barbilla hacia el pecho.'],

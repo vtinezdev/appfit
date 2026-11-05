@@ -25,8 +25,8 @@ export const FUENTES_REFERENCIAS = {
   ue: 'https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32011R1169',
 }
 const FUENTES = {
-  personal: { nombre: 'Objetivos configurados en Ajustes de APPFIT' },
-  perfil: { nombre: 'Estimación energética de tu Perfil en APPFIT' },
+  personal: { nombre: 'Objetivos configurados en Ajustes de Cumbra Fit' },
+  perfil: { nombre: 'Estimación energética de tu Perfil en Cumbra Fit' },
   oms: { nombre: 'OMS · Alimentación saludable', url: FUENTES_REFERENCIAS.oms },
   sal: { nombre: 'OMS · Reducción de sal', url: FUENTES_REFERENCIAS.sal },
   ue: { nombre: 'Reglamento (UE) 1169/2011 · Anexo XIII', url: FUENTES_REFERENCIAS.ue },
@@ -62,7 +62,7 @@ export function referenciaNutricional(id: NutrienteId, objetivos: Objetivos, ori
     return { ...base, valor: objetivos[id], unidad: id === 'kcal' ? 'kcal' : 'g', tipo: 'objetivo', fuente: delPerfil ? FUENTES.perfil : FUENTES.personal,
       descripcion: delPerfil
         ? `Es tu objetivo diario actual. Las calorías se calculan en Perfil con tus datos y el objetivo elegido${id === 'kcal' ? '' : '; los macros conservan el reparto en % de Ajustes'}. Los macros se editan en Ajustes.`
-        : 'Es tu objetivo diario actual, editable en Ajustes. APPFIT mantiene el reparto de los macronutrientes al cambiar las calorías; al cambiar un macro, ajusta los otros para conservar la misma energía.',
+        : 'Es tu objetivo diario actual, editable en Ajustes. Cumbra Fit mantiene el reparto de los macronutrientes al cambiar las calorías; al cambiar un macro, ajusta los otros para conservar la misma energía.',
       particularidades: [delPerfil
         ? 'Es una estimación orientativa con ecuaciones poblacionales (error típico de ±10 %), no una prescripción individual. El método y las fuentes están en Referencias, Energía y objetivo.'
         : 'Los valores iniciales son un punto de partida editable. El proyecto no documenta una fuente clínica para ellos; no constituyen una recomendación individual.', 'La energía de los macros se calcula con 4 kcal/g de proteína e hidratos y 9 kcal/g de grasa.'] }
@@ -71,16 +71,16 @@ export function referenciaNutricional(id: NutrienteId, objetivos: Objetivos, ori
   const comun = { ...base, valor: referencia.gramos, unidad: 'g' as const, tipo: referencia.tipo }
   if (id === 'fibra') return { ...comun, comparador: '≥', minimo: referencia.gramos, fuente: FUENTES.oms,
     descripcion: 'Referencia general para adultos: consumir al menos esta cantidad de fibra al día.',
-    particularidades: ['Es un mínimo, no un techo de consumo. APPFIT no define un máximo general para la fibra.'] }
+    particularidades: ['Es un mínimo, no un techo de consumo. Cumbra Fit no define un máximo general para la fibra.'] }
   if (id === 'azucares') return { ...comun, fuente: FUENTES.ue,
     descripcion: 'Valor de referencia europeo de etiquetado para azúcares totales en una dieta de 2.000 kcal. No es un máximo recomendado de salud y no se escala con tu objetivo de calorías.',
-    particularidades: ['APPFIT registra azúcares totales, incluidos los propios de fruta y leche. Los datos disponibles no permiten separar los azúcares libres.', 'El límite de la OMS para azúcares libres no se aplica a este total. Superar la marca no permite concluir que se haya superado ese límite.'] }
+    particularidades: ['Cumbra Fit registra azúcares totales, incluidos los propios de fruta y leche. Los datos disponibles no permiten separar los azúcares libres.', 'El límite de la OMS para azúcares libres no se aplica a este total. Superar la marca no permite concluir que se haya superado ese límite.'] }
   if (id === 'sal') return { ...comun, comparador: '<', maximo: referencia.gramos, fuente: FUENTES.sal,
     descripcion: 'Referencia general para adultos: consumir menos de esta cantidad de sal al día.',
-    particularidades: ['APPFIT no define un mínimo recomendado de sal. La barra muestra únicamente el consumo conocido.'] }
+    particularidades: ['Cumbra Fit no define un mínimo recomendado de sal. La barra muestra únicamente el consumo conocido.'] }
   return { ...comun, comparador: '≤', maximo: referencia.gramos, fuente: FUENTES.oms,
     descripcion: `Como máximo el 10% de la energía diaria en grasas saturadas. Aquí se utiliza ${formatInt(energiaDeReferencia(objetivos.kcal))} kcal y 9 kcal por gramo.`,
-    particularidades: ['Si el objetivo energético no es válido, la referencia usa 2.000 kcal. APPFIT no define un mínimo recomendado de grasas saturadas.'] }
+    particularidades: ['Si el objetivo energético no es válido, la referencia usa 2.000 kcal. Cumbra Fit no define un mínimo recomendado de grasas saturadas.'] }
 }
 
 export function textoReferencia(referencia: ReferenciaNutricional): string {

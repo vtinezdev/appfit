@@ -27,7 +27,7 @@ export default function HojaGrabar({ open, onClose, onEmpezar }: Props) {
         <SegmentedControl<TipoActividad> label="Tipo de actividad" valor={tipo} onChange={setTipo}
           opciones={TIPOS_ACTIVIDAD.map((t) => ({ valor: t, label: ETIQUETA_TIPO[t] }))} />
         <ul className="list-disc space-y-2 pl-5 text-body-sm text-fg">
-          <li>Deja la pantalla encendida y AppFit abierta: con la pantalla bloqueada o en otra app, el iPhone no le da la ubicación. AppFit intenta que la pantalla no se apague sola.</li>
+          <li>Deja la pantalla encendida y Cumbra Fit abierta: con la pantalla bloqueada o en otra app, el iPhone no le da la ubicación. Cumbra Fit intenta que la pantalla no se apague sola.</li>
           <li>Si se corta, al volver une el hueco en línea recta: la distancia puede quedarse algo corta.</li>
           <li>Para rutas largas, graba con tu reloj, Strava o Wikiloc e importa después el GPX.</li>
           <li>La ubicación no sale del móvil: el recorrido se guarda solo aquí y se dibuja sin mapa.</li>

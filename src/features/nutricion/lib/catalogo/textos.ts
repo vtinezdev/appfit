@@ -5,7 +5,7 @@ import type { ResultadoSincronizacion } from './sincronizar'
 
 const NOMBRES_FUENTE: Record<string, string> = {
   ciqual: 'CIQUAL (ANSES)',
-  tipicos: 'Alimentos y platos (AppFit)',
+  tipicos: 'Alimentos y platos (Cumbra Fit)',
   offes: 'Open Food Facts España (selección)',
   off: 'Open Food Facts',
 }
@@ -17,7 +17,7 @@ export function nombreFuente(id: string): string {
 
 const ETIQUETAS_FUENTE: Record<string, string> = {
   ciqual: 'CIQUAL',
-  tipicos: 'AppFit',
+  tipicos: 'Cumbra Fit',
   offes: 'OFF',
   off: 'Open Food Facts',
 }

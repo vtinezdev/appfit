@@ -67,7 +67,7 @@ describe('variantes', () => {
   })
 })
 
-describe('recetario AppFit', () => {
+describe('recetario Cumbra Fit', () => {
   const plato = (nombre: string, pasos?: string[]) => ({ nombre, receta: { pesoFinalG: 1000, ingredientes: [], ...(pasos ? { pasos } : {}) } })
   const platos = [plato('Tortilla de patatas, cuajada'), plato('Lentejas con chorizo, estofadas', ['Lava.']), plato('Lentejas con calabaza, cocidas'), plato('Ñoquis con tomate', ['Cuece.'])]
   it('sin consulta: primero los que tienen pasos y después por nombre', () => {
@@ -80,7 +80,7 @@ describe('recetario AppFit', () => {
   })
 })
 
-describe('recetario AppFit: ración, orden y categorías', () => {
+describe('recetario Cumbra Fit: ración, orden y categorías', () => {
   const plato = (nombre: string, kcal100: number, prot100: number, raciones: number | undefined, categoria: string) =>
     ({ nombre, kcal100, prot100, carb100: 10, grasa100: 5, categoria, receta: { pesoFinalG: 800, ingredientes: [], ...(raciones ? { raciones } : {}) } })
   const tortilla = plato('Tortilla', 200, 8, 4, 'Platos preparados')

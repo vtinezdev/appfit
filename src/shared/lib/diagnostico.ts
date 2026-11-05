@@ -21,7 +21,7 @@ export interface EntornoDiagnostico {
 export function crearDiagnostico(e: EntornoDiagnostico, pasos: string): string {
   const tipos = { operacion: 'Error de operación', ejecucion: 'Error de ejecución', promesa: 'Operación no controlada' }
   return [
-    'Diagnóstico de AppFit', `Versión: ${e.version}`, `Compilación: ${e.compilacion}`,
+    'Diagnóstico de Cumbra Fit', `Versión: ${e.version}`, `Compilación: ${e.compilacion}`,
     `Navegador: ${e.navegador}`, `Idioma: ${e.idioma}`, `Pantalla de la app: ${e.ancho} × ${e.alto} px`,
     `Conexión declarada por el navegador: ${e.enLinea ? 'con conexión' : 'sin conexión'}`,
     `Modo: ${e.instalada ? 'pantalla de inicio' : 'navegador'}`,

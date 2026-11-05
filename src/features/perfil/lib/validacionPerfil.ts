@@ -1,5 +1,5 @@
 // Validación y saneado de los datos del perfil. Funciones puras; los rangos son controles de plausibilidad
-// de entrada (criterio de AppFit), no afirmaciones clínicas.
+// de entrada (criterio de Cumbra Fit), no afirmaciones clínicas.
 import type { ActividadPerfil, IntensidadKcal, ObjetivoPerfil, Perfil, SexoPerfil } from '../../../shared/db/types'
 import { parseISODate, toISODate } from '../../../shared/lib/dates'
 import { round1 } from '../../../shared/lib/format'
@@ -45,7 +45,7 @@ export function validarFechaNacimiento(fecha: string, hoy: string): ResultadoFec
   if (!esFechaISO(fecha)) return { ok: false, error: 'Introduce una fecha válida.' }
   if (fecha > hoy) return { ok: false, error: 'La fecha de nacimiento no puede ser futura.' }
   const edad = edadEn(fecha, hoy)!
-  if (edad < EDAD_MIN) return { ok: false, error: 'Las ecuaciones de AppFit son para adultos de 18 años o más.' }
+  if (edad < EDAD_MIN) return { ok: false, error: 'Las ecuaciones de Cumbra Fit son para adultos de 18 años o más.' }
   if (edad > EDAD_MAX) return { ok: false, error: `Introduce una edad de ${EDAD_MAX} años o menos.` }
   if (edad > EDAD_AVISO) return { ok: true, edad, aviso: `A partir de ${EDAD_AVISO} años la estimación queda fuera de la muestra de las ecuaciones.` }
   return { ok: true, edad }

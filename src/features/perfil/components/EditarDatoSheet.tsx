@@ -130,7 +130,7 @@ export default function EditarDatoSheet({ campo, open, perfil, pesoKg, hoy, onCl
         {previa?.estado === 'ok' && previa.objetivoKcal !== null && <p className="tabular text-body-sm text-fg">Objetivo resultante: <span className="font-semibold">{formatNumber(previa.objetivoKcal)} kcal/día</span></p>}
         {previa && previa.estado !== 'ok' && <p className="text-body-sm text-fg-muted">Completa tus datos para ver el objetivo resultante.</p>}
         {previa?.estado === 'ok' && previa.avisos.map((a) => <p key={a.tipo} className="text-body-sm text-warning">{a.texto}</p>)}
-        <p className="text-caption text-fg-muted">El rango (200 a 600 kcal) lo fija AppFit con la literatura como contexto; en Referencias tienes el detalle.</p>
+        <p className="text-caption text-fg-muted">El rango (200 a 600 kcal) lo fija Cumbra Fit con la literatura como contexto; en Referencias tienes el detalle.</p>
       </>}
       {campo === 'proteina' && <>
         <SegmentedControl label="Proteína por kg" valor={perfil.proteinaPorKgActiva === false ? 'no' : 'si'}

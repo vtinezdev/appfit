@@ -57,7 +57,7 @@ export default function ListaCompra({ hoy, lunes, onClose }: { hoy: string; lune
   function copiar() {
     if (!pendientes.length) return
     setError(null)
-    const texto = `Lista de la compra (AppFit)\n${textoListaCompra(pendientes)}`
+    const texto = `Lista de la compra (Cumbra Fit)\n${textoListaCompra(pendientes)}`
     if (!navigator.clipboard) { setError('No se ha podido copiar. Apúntala a mano.'); return }
     navigator.clipboard.writeText(texto).then(() => setCopiada(true), () => setError('No se ha podido copiar. Apúntala a mano.'))
   }

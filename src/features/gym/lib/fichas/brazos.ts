@@ -1,6 +1,6 @@
 import type { FichaTecnica } from './tipos'
 
-/** Claves de AppFit: bíceps, tríceps y antebrazo. */
+/** Claves de Cumbra Fit: bíceps, tríceps y antebrazo. */
 export const BRAZOS: Record<string, FichaTecnica> = {
   // Bíceps
   'curl-barra': { claves: ['De pie, agarre a la anchura de los hombros y codos pegados al cuerpo.', 'Sube la barra doblando solo los codos, sin moverlos hacia delante.', 'Baja despacio hasta estirar los brazos.'],

@@ -62,7 +62,7 @@ src/features/vitrina/     → features/vitrina.md (logros, muro de récords, Her
 src/features/liga/        → features/liga.md (liga de cada ejercicio; se ve en Entreno › Progreso)
 src/features/cuenta/      → features/cuenta.md (cuenta opcional y copia cifrada en Supabase; se ve en Ajustes)
 src/test/                setup-db.ts (fake-indexeddb, cargado como setupFiles de Vitest) y fixtures/
-public/                  iconos de la PWA, favicon.svg, fonts/ (Saira recta y cursiva, OFL) y catalogo/ (paquetes que la app descarga)
+public/                  iconos de la PWA (generados con `scripts/marca/generar-iconos.mjs`), favicon.svg, fonts/ (Saira recta y cursiva, OFL) y catalogo/ (paquetes que la app descarga)
                          images/atmosferas/ (seis fondos WebP locales por sección/tema y procedencia) e images/fondos/ (curvas.svg)
 scripts/fondos/          curvas.cjs: genera public/images/fondos/curvas.svg (fondo «Curvas»)
 scripts/lugares/         tubería offline de los pueblos de España (GeoNames) → public/lugares/espana.json; ver su README

@@ -1,5 +1,5 @@
 ---
-name: APPFIT
+name: Cumbra Fit
 description: "Enfocada y respirada: grafito neutro, un único acento volt (verde lima) para actuar y medir la energía, superficies limpias y redondeadas en un registro móvil preciso."
 colors:
   bg: "rgb(244 245 240)"
@@ -256,7 +256,7 @@ components:
     rounded: "{rounded.md}"
 ---
 
-# Design System: APPFIT
+# Design System: Cumbra Fit
 
 ## Overview
 
@@ -271,6 +271,10 @@ El 2026-10-12, tras comparar la app con WHOOP, Oura, Strava, Hevy, Strong, Macro
 La preview de tres pantallas aprobada incorpora atmósferas fotográficas: bienestar/fitness/nutrición en Inicio, meal prep en Nutrición y pesas/esfuerzo en Gym. Son imágenes generadas con acabado fotográfico, específicas de esta dirección. Texto, controles y datos siguen siendo interfaz real. Los degradados se permiten como integración de la foto, sin convertirse en decoración de componentes.
 
 PRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valores; tailwind.config.js sus clases; docs/DESIGN-SYSTEM.md los patrones. Este frontmatter y .impeccable/design.json documentan el código. La superficie appfit mantiene el encargo.
+
+## Marca
+
+Desde el 2026-11-04 la app se llama **Cumbra Fit** ([ADR 064](docs/decisiones/064-marca-cumbra-fit.md)). El logotipo son letras propias talladas a cortes en diagonal que suben como una ladera: «CUMBRA» con la A sin travesaño como cumbre y dos montañas pequeñas dentro, y «FIT» aparte en la letra de los rótulos. La cumbre y «FIT» van en el acento de texto; el resto, en el color del texto. El icono de la pantalla de inicio es esa A en marfil sobre grafito con una mancuerna en volt de travesaño y las montañas debajo de la barra; dentro de la app se usa en blanco y negro, en un círculo. La cumbre es una meta, no una montaña: la marca no dibuja paisajes ni sendas, y no se le añaden símbolos de comida (se probaron hoja y tenedor y se descartaron). La marca firma la app (pie de Ajustes, pantalla de error, imágenes que se comparten); no sustituye a los títulos de las pantallas.
 
 ## Colors
 

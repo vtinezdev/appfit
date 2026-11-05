@@ -15,9 +15,9 @@ export const FUENTES_CATALOGO = [
   { id: 'ciqual', nombre: 'ANSES · CIQUAL 2025', url: 'https://ciqual.anses.fr',
     descripcion: 'Composición de alimentos genéricos por 100 g. Los nombres del catálogo se han traducido al español.',
     licencia: 'Licence Ouverte Etalab 2.0' },
-  { id: 'tipicos', nombre: 'Alimentos y platos · AppFit', url: 'https://ciqual.anses.fr',
-    descripcion: 'Alimentos complementarios con valores de USDA FoodData Central (SR Legacy 2018) y UK CoFID 2021, y platos calculados desde CIQUAL 2025. Las formulaciones y los pesos finales de las recetas son criterios de AppFit, no mediciones de cada plato casero. Algunos productos españoles (embutidos, quesos, panes) llevan un valor típico estimado por AppFit a partir de etiquetas de productos: es orientativo y cada marca puede variar.',
-    licencia: 'Licence Ouverte Etalab 2.0 (CIQUAL), CC0 (USDA), Open Government Licence v3.0 (CoFID) y MIT (formulaciones y valores de referencia AppFit)' },
+  { id: 'tipicos', nombre: 'Alimentos y platos · Cumbra Fit', url: 'https://ciqual.anses.fr',
+    descripcion: 'Alimentos complementarios con valores de USDA FoodData Central (SR Legacy 2018) y UK CoFID 2021, y platos calculados desde CIQUAL 2025. Las formulaciones y los pesos finales de las recetas son criterios de Cumbra Fit, no mediciones de cada plato casero. Algunos productos españoles (embutidos, quesos, panes) llevan un valor típico estimado por Cumbra Fit a partir de etiquetas de productos: es orientativo y cada marca puede variar.',
+    licencia: 'Licence Ouverte Etalab 2.0 (CIQUAL), CC0 (USDA), Open Government Licence v3.0 (CoFID) y MIT (formulaciones y valores de referencia Cumbra Fit)' },
   { id: 'offes', nombre: 'Open Food Facts', url: 'https://world.openfoodfacts.org',
     descripcion: 'Selección de productos de marca de España y datos consultados al escanear códigos de barras. Los valores pueden estar expresados por 100 g o 100 ml; proceden de un catálogo colaborativo y pueden contener errores.',
     licencia: 'Open Database License (ODbL); contenidos individuales DbCL' },
@@ -44,7 +44,7 @@ export const RECOMENDACIONES_ALIMENTARIAS: readonly RecomendacionAlimentaria[] =
 
 export const SOBRE_LOS_DATOS = [
   { titulo: 'La cobertura importa', texto: 'No todos los alimentos tienen datos de fibra, azúcares, sal o grasas saturadas. «Información disponible en 7 de 9 alimentos» significa que el total de ese nutriente solo incluye los 7 registros con un valor conocido.' },
-  { titulo: 'Sin datos no significa cero', texto: 'APPFIT suma únicamente valores conocidos. Un cero registrado sí cuenta; un dato ausente no se completa con cero. Si ningún alimento tiene información, se muestra «Sin datos». Un día sin alimentos comienza en cero.' },
+  { titulo: 'Sin datos no significa cero', texto: 'Cumbra Fit suma únicamente valores conocidos. Un cero registrado sí cuenta; un dato ausente no se completa con cero. Si ningún alimento tiene información, se muestra «Sin datos». Un día sin alimentos comienza en cero.' },
   { titulo: 'Datos guardados con cada registro', texto: 'Los nutrientes se ajustan a la cantidad que registras y se conservan con esa entrada. Actualizar el catálogo no reescribe el historial. Los alimentos propios también pueden contener valores que hayas introducido manualmente.' },
-  { titulo: 'Totales, no azúcares libres', texto: 'El catálogo y los registros incluyen azúcares totales. APPFIT no estima cuántos son libres ni interpreta el consumo incompleto como una evaluación de salud.' },
+  { titulo: 'Totales, no azúcares libres', texto: 'El catálogo y los registros incluyen azúcares totales. Cumbra Fit no estima cuántos son libres ni interpreta el consumo incompleto como una evaluación de salud.' },
 ] as const

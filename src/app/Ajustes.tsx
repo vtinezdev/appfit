@@ -28,6 +28,7 @@ import SegmentedControl from '../shared/components/SegmentedControl'
 import { getFondoPref, getThemePref, setFondoPref, setThemePref, type FondoPref, type ThemePref } from '../shared/design/theme'
 import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
 import PageHeader from '../shared/components/PageHeader'
+import { IconoApp, MarcaFirma } from '../shared/components/Marca'
 import { UMBRAL_BACKUP_POR_DEFECTO } from '../shared/lib/recordatorioBackup'
 import { descargarCsv, TABLAS_CSV, type TablaCsv } from '../shared/lib/exportarCsv'
 import AlmacenamientoAjustes from './AlmacenamientoAjustes'
@@ -220,7 +221,10 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
         </section>}
         <ListGroup aria-label="Borrar">{fila('borrar', true)}</ListGroup>
         {mensaje && <p role="status" className="text-body-sm text-accent-strong">{mensaje}</p>}
-        <p className="border-t border-line pt-4 text-caption text-fg-muted">APPFIT · Privada: tus registros viven en este móvil y la copia de la nube, si tienes cuenta, va cifrada.<br />Nutrición y entrenos disponibles sin conexión.</p>
+        <footer className="space-y-3 border-t border-line pt-4">
+          <MarcaFirma alto={36} />
+          <p className="text-caption text-fg-muted">Privada: tus registros viven en este móvil y la copia de la nube, si tienes cuenta, va cifrada.<br />Nutrición y entrenos disponibles sin conexión.</p>
+        </footer>
       </div>
     )
   }
@@ -261,14 +265,14 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
     instalacion: () => <div className="space-y-section">
       <Card className="space-y-4">
         <div className="flex items-start gap-3">
-          <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="download" size={20} /></span>
-          <div className="min-w-0"><h3 className="text-title text-fg">Añade AppFit a tu pantalla de inicio</h3><p className="text-body-sm text-fg-muted">Se abre como una app y funciona sin conexión.</p></div>
+          <IconoApp tam={48} />
+          <div className="min-w-0"><h3 className="text-title text-fg">Añade Cumbra Fit a tu pantalla de inicio</h3><p className="text-body-sm text-fg-muted">Se abre como una app y funciona sin conexión.</p></div>
         </div>
         <InstalarApp />
         <SegmentedControl label="Tu móvil" valor={plataforma} onChange={setPlataforma} opciones={[{ valor: 'iphone', label: 'iPhone y iPad' }, { valor: 'android', label: 'Android' }]} />
         <PasosNumerados pasos={plataforma === 'iphone'
-          ? ['Abre el enlace de AppFit en Safari.', 'Pulsa «Compartir» y elige «Añadir a pantalla de inicio».', 'Abre AppFit desde el nuevo icono.']
-          : ['Abre el enlace de AppFit en Chrome.', 'Pulsa «Instalar AppFit» o, en el menú, «Instalar aplicación».', 'Abre AppFit desde su icono.']} />
+          ? ['Abre el enlace de Cumbra Fit en Safari.', 'Pulsa «Compartir» y elige «Añadir a pantalla de inicio».', 'Abre Cumbra Fit desde el nuevo icono.']
+          : ['Abre el enlace de Cumbra Fit en Chrome.', 'Pulsa «Instalar Cumbra Fit» o, en el menú, «Instalar aplicación».', 'Abre Cumbra Fit desde su icono.']} />
         <p className="border-t border-line pt-3 text-caption text-fg-muted">{plataforma === 'iphone'
           ? 'Si ya registraste comidas en Safari, lleva antes una copia (abajo).'
           : 'Instala desde el navegador donde guardaste tus registros; para cambiar de navegador o de móvil, lleva una copia.'}</p>
@@ -280,10 +284,10 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
             <PasosNumerados pasos={[
               'En Safari, abre el enlace y entra en Ajustes › Copias de seguridad.',
               'Pulsa «Exportar» y guarda el archivo.',
-              'Abre AppFit desde la pantalla de inicio y entra en Ajustes › Copias de seguridad.',
+              'Abre Cumbra Fit desde la pantalla de inicio y entra en Ajustes › Copias de seguridad.',
               'Pulsa «Importar», elige el archivo y confirma «Importar copia».',
             ]} />
-            <p className="text-caption text-fg-muted">Después, abre siempre AppFit desde el mismo icono.</p>
+            <p className="text-caption text-fg-muted">Después, abre siempre Cumbra Fit desde el mismo icono.</p>
             <Button variant="secondary" block onClick={() => abrir('copias')}>Ir a Copias de seguridad</Button>
           </div>
         </Disclosure></li>

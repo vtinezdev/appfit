@@ -57,7 +57,7 @@ function SelectorMedida({ medida, onElegir }: { medida: MedidaAmbigua; onElegir:
 /**
  * Un alimento de la revisión: icono, nombre en dos partes con su fuente, kcal y gramos, y sus macros en pastillas. Nada
  * se abre solo: lo que le falta sale en rojo (`pendienteRevision`). Abierto, solo la cantidad y Cambiar, Detalles y
- * Quitar (sin encontrar: buscar otro, escribir sus valores, proponérselo a AppFit con lo escrito o quitarlo); los detalles van en una hoja. Una receta no se
+ * Quitar (sin encontrar: buscar otro, escribir sus valores, proponérselo a Cumbra Fit con lo escrito o quitarlo); los detalles van en una hoja. Una receta no se
  * despliega: tocarla abre su hoja (`onAbrirReceta`).
  */
 export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado, pedirCategoria, editarInicial = false, onAbrirReceta }: Props) {
@@ -79,7 +79,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
     if (abierto && item.gramosEstimados) onChange({ gramosEstimados: false })
     setAbierto(!abierto)
   }
-  const lineaReceta = onAbrirReceta && `Receta · ${item.origen.receta?.info.origen === 'tuya' ? 'Tuya' : 'AppFit'} · toca para ver`
+  const lineaReceta = onAbrirReceta && `Receta · ${item.origen.receta?.info.origen === 'tuya' ? 'Tuya' : 'Cumbra Fit'} · toca para ver`
   const cerrarDetalles = () => { setVerDetalles(false); onCambioNombreCorto?.(false) }
 
   return <div className="relative min-w-0 px-card py-3">
@@ -106,7 +106,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
         <div className="grid gap-2">
           {onCambiar && <Button variant="secondary" block onClick={onCambiar}><Icon name="search" size={18} />Buscar otro alimento</Button>}
           <Button variant="secondary" block onClick={() => setVerDetalles(true)}><Icon name="pencil" size={18} />Escribir sus valores</Button>
-          {envioDisponible && <Button variant="secondary" block aria-haspopup="dialog" onClick={() => setProponiendo(item.nombre)}><Icon name="enviar" size={18} />Propónselo a AppFit</Button>}
+          {envioDisponible && <Button variant="secondary" block aria-haspopup="dialog" onClick={() => setProponiendo(item.nombre)}><Icon name="enviar" size={18} />Propónselo a Cumbra Fit</Button>}
           {onQuitar && <Button variant="ghost" block onClick={onQuitar} aria-label={`Quitar ${nombre}`}><Icon name="trash" size={18} />Quitar</Button>}
         </div>
       </> : <>

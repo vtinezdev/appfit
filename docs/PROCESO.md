@@ -3452,7 +3452,20 @@ Tras §306 la app ya llegaba al borde, pero Víctor seguía viendo el botón de 
 
 **Verificación:** `npm run test` (269 archivos, 3.175 pruebas) y `npm run build` correctos. Sin iPhone en la sesión: no probado en el dispositivo.
 
-## 318. PWA de iOS: la app, al alto que pinta iOS, y medidas de pantalla (2026-11-05)
+## 318. Marca: logotipo, icono y nombre en la app (2026-11-05)
+
+Con el nombre decidido (§313), Víctor diseña con Claude el logotipo y el icono en un lienzo de varias rondas (letras talladas propias, la A como cumbre; descartadas las versiones con hoja, tenedor o demasiado de montaña). [ADR 064](decisiones/064-marca-cumbra-fit.md).
+
+- Dibujo único en `shared/design/marca.ts`; componentes `MarcaLogotipo`, `MarcaIcono`, `MarcaFirma` e `IconoApp` en `shared/components/Marca.tsx`.
+- Icono de la pantalla de inicio: la A en marfil sobre grafito, mancuerna en volt de travesaño y montañas debajo. `scripts/marca/generar-iconos.mjs` regenera `favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` y el nuevo `icon-maskable-512.png` (dibujo dentro del círculo seguro, ya no el mismo PNG). Manifest y `<title>`: «Cumbra Fit».
+- Logotipo en el pie de Ajustes y la pantalla de error (firma), icono instalado en Primeros pasos y en el aviso de traslado de Inicio, y «Hecho con» + logotipo en los pósteres de entreno y de «Tu mes» (que recibe el color `meal-accent`). Víctor revisa las capturas y los aprueba todos.
+- Textos: «AppFit»/«APPFIT» pasan a «Cumbra Fit» en toda la interfaz (también la pestaña de Recetas); los archivos descargados empiezan por `cumbra-fit-`. No cambian la base IndexedDB, las claves de `localStorage`, los ids `appfit:` ni `APPFIT_BUILD_ID`.
+- Los recorridos de `scripts/ui` buscan los textos nuevos («Instalar Cumbra Fit», «Recargar Cumbra Fit», la pestaña de Recetas…).
+- Documentos: ADR 063 (estado), `roadmap.md`, `despliegue.md`, `DESIGN.md` (sección Marca), `DESIGN-SYSTEM.md`, `PRODUCT.md`, `README.md`, `arquitectura.md`.
+
+**Verificación:** tras traer `master` (§313–317), `npm run test` (269 archivos, 3.175 pruebas) y `npm run build` correctos. Capturas en Chromium en `appfit-test.localhost:5173`, 320 y 375 px, claro y oscuro: pie de Ajustes, Primeros pasos, aviso de traslado (iPhone emulado) y pantalla de error (IndexedDB bloqueada), sin desbordes; pósteres renderizados desde su SVG real. Sin dispositivo físico: el icono en la pantalla de inicio de un iPhone o Android se comprueba tras desplegar.
+
+## 319. PWA de iOS: la app, al alto que pinta iOS, y medidas de pantalla (2026-11-05)
 
 Tras §317 Víctor seguía viendo el botón de secciones cortado y mandó una captura (iPhone de 430 pt): la app se corta en línea recta unos 64 pt antes del borde y debajo queda una franja lisa. iOS no pinta esa zona; §306 y §317 estiraban la app a la pantalla entera y la metían en ella, con el botón partido.
 

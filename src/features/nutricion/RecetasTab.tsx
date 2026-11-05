@@ -9,9 +9,9 @@ import ListaRecetas from './components/ListaRecetas'
 import RecetarioAppFit from './components/RecetarioAppFit'
 
 type Vista = 'tuyas' | 'appfit'
-const VISTAS: { valor: Vista; label: string }[] = [{ valor: 'appfit', label: 'AppFit' }, { valor: 'tuyas', label: 'Tuyas' }]
+const VISTAS: { valor: Vista; label: string }[] = [{ valor: 'appfit', label: 'Cumbra Fit' }, { valor: 'tuyas', label: 'Tuyas' }]
 
-/** Destino Recetas: en pestañas, tus recetas y el recetario AppFit (las del catálogo, de solo lectura). */
+/** Destino Recetas: en pestañas, tus recetas y el recetario Cumbra Fit (las del catálogo, de solo lectura). */
 export default function RecetasTab() {
   const [vista, setVista] = useState<Vista>('tuyas')
   const [creando, setCreando] = useState(false)
@@ -26,7 +26,7 @@ export default function RecetasTab() {
                 <EmptyState icon="recetario" title="Aún no tienes recetas" action={
                   <div className="flex flex-wrap gap-2">
                     <Button onClick={() => setCreando(true)}><Icon name="plus" size={18} />Nueva receta</Button>
-                    <Button variant="secondary" onClick={() => setVista('appfit')}>Ver las de AppFit</Button>
+                    <Button variant="secondary" onClick={() => setVista('appfit')}>Ver las de Cumbra Fit</Button>
                   </div>
                 } />
               } />

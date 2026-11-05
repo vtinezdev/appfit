@@ -132,7 +132,7 @@ async function motor(nombre) {
       // En el mismo paso, sin dejar a Inicio repetir una consulta entre medias.
       await destino.evaluate((boton) => { window.__falloLectura = true; boton.click() })
       await page.getByRole('heading', { name: 'No se ha podido mostrar la pantalla', exact: true }).waitFor()
-      await page.getByRole('button', { name: 'Recargar AppFit', exact: true }).waitFor()
+      await page.getByRole('button', { name: 'Recargar Cumbra Fit', exact: true }).waitFor()
     })
 
     for (const c of [{ width: 320, theme: 'light' }, { width: 375, theme: 'dark', grande: true }, { width: 430, theme: 'light' }]) {

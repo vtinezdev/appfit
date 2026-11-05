@@ -85,7 +85,7 @@ export default function HojaReceta({ alimento, accion, ocupado, error, onAnadir,
   }
 
   const detalles = vista
-    ? ['Receta', vista.origen === 'tuya' ? 'Tuya' : 'AppFit', ...(vista.raciones ? [textoRaciones(vista.raciones)] : []), ...(vista.tiempoMin ? [textoTiempo(vista.tiempoMin)] : [])].join(' · ')
+    ? ['Receta', vista.origen === 'tuya' ? 'Tuya' : 'Cumbra Fit', ...(vista.raciones ? [textoRaciones(vista.raciones)] : []), ...(vista.tiempoMin ? [textoTiempo(vista.tiempoMin)] : [])].join(' · ')
     : ''
 
   return (

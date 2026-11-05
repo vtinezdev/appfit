@@ -28,7 +28,7 @@ export default function Anadir({ codigo, onAbrir, onCambio }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [copiado, setCopiado] = useState(false)
   const compartir = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
-  const invitacion = `Sígueme en AppFit: en Amigos › Añadir, escribe mi código ${codigo}.`
+  const invitacion = `Sígueme en Cumbra Fit: en Amigos › Añadir, escribe mi código ${codigo}.`
 
   async function ejecutar(fn: () => Promise<void>) {
     if (ocupado) return

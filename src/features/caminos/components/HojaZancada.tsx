@@ -50,7 +50,7 @@ export default function HojaZancada({ open, onClose, zancada, estimada, onGuarda
         <p className="break-words text-body-sm text-fg-muted">
           {estimada.origen === 'altura'
             ? `Por tu altura, unos ${formatInt(estimada.cm)} cm (0,415 × la altura; 0,413 en mujeres). Es una estimación, como la de los podómetros.`
-            : `Sin tu altura en Perfil se usan ${formatInt(estimada.cm)} cm. Con ella, AppFit la estima.`}
+            : `Sin tu altura en Perfil se usan ${formatInt(estimada.cm)} cm. Con ella, Cumbra Fit la estima.`}
         </p>
         <p className="break-words text-body-sm text-fg-muted">Para medirla: cuenta los pasos que das en 10 metros caminando normal; tu zancada son 1.000 cm entre esos pasos.</p>
       </div>

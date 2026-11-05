@@ -52,15 +52,15 @@ describe('imagen de «Tu mes»', async () => {
   it('portada, calendario, cifras y momentos, escapados, y nombre de archivo', () => {
     const svg = svgTuPeriodo(datos, colores)
     expect(svg).toContain('Tu octubre')
-    expect(svg).toContain('APPFIT · OCTUBRE DE 2026')
+    expect(svg).toContain('CUMBRA FIT · OCTUBRE DE 2026')
     expect(svg).toContain('13 entrenos &amp; 1 cumbre.')
     expect(svg).toContain('>31</text>') // el último día del calendario
     expect(svg).toContain('fill="rgb(198 244 50)"') // el punto de las comidas
     expect(svg).toContain('>61</tspan>')
     expect(svg).toContain('Sentadilla · 125 kg')
     expect(svg).toContain('y 3 récords más')
-    expect(nombreArchivoTuPeriodo('2026-10', 'Tu octubre')).toBe('appfit-tu-octubre-2026.png')
-    expect(nombreArchivoTuPeriodo('2026', 'Tu 2026')).toBe('appfit-tu-2026.png')
+    expect(nombreArchivoTuPeriodo('2026-10', 'Tu octubre')).toBe('cumbra-fit-tu-octubre-2026.png')
+    expect(nombreArchivoTuPeriodo('2026', 'Tu 2026')).toBe('cumbra-fit-tu-2026.png')
   })
 
   it('sin calendario (un año) y con muchos momentos, solo pinta los que caben sobre el pie', () => {

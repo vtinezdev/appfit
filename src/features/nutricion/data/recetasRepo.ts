@@ -75,7 +75,7 @@ export async function itemsDeIngredientes(ingredientes: MealItem[]): Promise<Ite
 }
 
 /**
- * Las recetas que hay entre unas planificadas (tuyas o del recetario AppFit), por clave de referencia, para que la lista
+ * Las recetas que hay entre unas planificadas (tuyas o del recetario Cumbra Fit), por clave de referencia, para que la lista
  * de la compra salga por sus ingredientes (`lib/planificadas.expandirRecetas`). Solo lectura.
  */
 export async function paraCompra(filas: readonly Pick<Planificada, 'foodId' | 'catalogId' | 'rapida'>[]): Promise<Map<string, RecetaCompra>> {
@@ -135,7 +135,7 @@ export async function crear(datos: RecetaInput): Promise<number> {
 }
 
 /**
- * Copia un plato del recetario AppFit en tus recetas: sus ingredientes (snapshot con `catalogId`), peso final,
+ * Copia un plato del recetario Cumbra Fit en tus recetas: sus ingredientes (snapshot con `catalogId`), peso final,
  * raciones, tiempo, pasos y notas, con la categoría del plato. Si ya tienes un alimento con ese nombre, la copia se
  * llama «… (copia)». Devuelve el id de la receta nueva; el plato del catálogo no cambia.
  */

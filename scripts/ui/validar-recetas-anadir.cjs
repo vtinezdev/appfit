@@ -65,7 +65,7 @@ async function main() {
       // Hoja de una receta del catálogo con preparación: una ración de 417 g.
       await page.getByText('Lentejas con chorizo, estofadas', { exact: true }).click()
       const hoja = page.getByRole('dialog', { name: 'Receta', exact: true })
-      await hoja.getByText('Receta · AppFit · 6 raciones · 1 h 10 min', { exact: true }).waitFor()
+      await hoja.getByText('Receta · Cumbra Fit · 6 raciones · 1 h 10 min', { exact: true }).waitFor()
       await hoja.getByText(/417 g cocinados/).waitFor()
       await captura(page, `${colorScheme}-2-hoja`)
       await hoja.getByRole('button', { name: /^Ingredientes para/ }).click()
@@ -144,16 +144,16 @@ async function main() {
       const descartar = page.getByRole('button', { name: 'Descartar', exact: true })
       if (await descartar.count()) await descartar.click()
 
-      // Pantalla Recetas: tus recetas y el recetario AppFit (pestañas) con buscador y ficha de solo lectura.
+      // Pantalla Recetas: tus recetas y el recetario Cumbra Fit (pestañas) con buscador y ficha de solo lectura.
       await navegar(page, 'Recetas')
-      await page.getByRole('tab', { name: 'AppFit', exact: true }).click()
+      await page.getByRole('tab', { name: 'Cumbra Fit', exact: true }).click()
       const recetario = page.getByRole('main')
-      await recetario.getByRole('searchbox', { name: 'Buscar en el recetario AppFit' }).fill('arroz al horno')
+      await recetario.getByRole('searchbox', { name: 'Buscar en el recetario Cumbra Fit' }).fill('arroz al horno')
       await recetario.getByText('Arroz al horno, horneado', { exact: true }).waitFor()
       await captura(page, `${colorScheme}-7-recetario`)
       await recetario.getByText('Arroz al horno, horneado', { exact: true }).click()
       const ficha = page.getByRole('dialog', { name: 'Receta', exact: true })
-      await ficha.getByText('AppFit', { exact: true }).waitFor()
+      await ficha.getByText('Cumbra Fit', { exact: true }).waitFor()
       assert.equal(await ficha.getByRole('button', { name: 'Editar', exact: true }).count(), 0)
       await ficha.getByRole('region', { name: 'Preparación' }).evaluate(e => e.scrollIntoView({ block: 'start' }))
       await captura(page, `${colorScheme}-8-ficha-recetario`)
