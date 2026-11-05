@@ -100,7 +100,7 @@ describe('estado de la versión abierta', () => {
 describe('metadatos remotos', () => {
   it('acepta la versión publicada y rechaza respuestas incompletas o de otra forma', () => {
     expect(leerVersion(version)).toEqual(version)
-    for (const valor of [null, '<html>AppFit</html>', {}, { ...version, id: '' }, { ...version, fecha: 'ayer' }]) {
+    for (const valor of [null, '<html>Cumbra Fit</html>', {}, { ...version, id: '' }, { ...version, fecha: 'ayer' }]) {
       expect(() => leerVersion(valor)).toThrow()
     }
   })

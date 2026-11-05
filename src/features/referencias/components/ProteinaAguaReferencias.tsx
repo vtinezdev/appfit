@@ -10,19 +10,19 @@ function autoresCortos(autores: string): string {
   return lista.length > 3 ? `${lista.slice(0, 3).join(',')} et al.` : autores
 }
 
-/** Proteína por kg (Perfil) y objetivo de agua (Inicio): qué hace AppFit, de dónde sale cada cifra y qué se ha comprobado. */
+/** Proteína por kg (Perfil) y objetivo de agua (Inicio): qué hace Cumbra Fit, de dónde sale cada cifra y qué se ha comprobado. */
 export default function ProteinaAguaReferencias() {
   return <div className="space-y-stack text-body-sm text-fg-muted">
     <AvisoReferencia><p>Orientación general para adultos, no una prescripción médica. Si tienes una enfermedad renal o hepática, estás embarazada o en lactancia, o sigues un tratamiento, consulta a un profesional sanitario antes de basarte en estas cifras.</p></AvisoReferencia>
 
     <SeccionReferencia titulo="Proteína por kg de peso" resumen={`${formatNumber(PROTEINA_KG_DEFECTO, 1)} g por kg por defecto (de ${formatNumber(PROTEINA_KG_MIN, 1)} a ${formatNumber(PROTEINA_KG_MAX, 1)}), con tu último pesaje.`}>
       <p>Con peso registrado, la proteína diaria es gramos por kg × tu último pesaje; por defecto {formatNumber(PROTEINA_KG_DEFECTO, 1)} g/kg, ajustable entre {formatNumber(PROTEINA_KG_MIN, 1)} y {formatNumber(PROTEINA_KG_MAX, 1)} g/kg en Perfil, donde también se puede desactivar. Las calorías restantes se reparten entre hidratos y grasa con el reparto que tengas en Ajustes. Sin peso o con la opción desactivada, mandan las proteínas de Ajustes.</p>
-      <p>El rango sale de dos fuentes: el meta-análisis de Morton et al. (2018) situó el punto a partir del cual más proteína no aportó más masa libre de grasa en 1,62 g/kg/día (IC 95 % 1,03–2,20), y la postura de la ISSN (Jäger et al., 2017) considera suficiente 1,4–2,0 g/kg/día para la mayoría de las personas que hacen ejercicio. El valor por defecto ({formatNumber(PROTEINA_KG_DEFECTO, 1)} g/kg) es una elección de AppFit dentro de ese rango. Son estudios sobre entrenamiento de fuerza: no hay un valor «correcto» para todo el mundo.</p>
+      <p>El rango sale de dos fuentes: el meta-análisis de Morton et al. (2018) situó el punto a partir del cual más proteína no aportó más masa libre de grasa en 1,62 g/kg/día (IC 95 % 1,03–2,20), y la postura de la ISSN (Jäger et al., 2017) considera suficiente 1,4–2,0 g/kg/día para la mayoría de las personas que hacen ejercicio. El valor por defecto ({formatNumber(PROTEINA_KG_DEFECTO, 1)} g/kg) es una elección de Cumbra Fit dentro de ese rango. Son estudios sobre entrenamiento de fuerza: no hay un valor «correcto» para todo el mundo.</p>
     </SeccionReferencia>
 
     <SeccionReferencia titulo="Objetivo de agua" resumen={`${formatNumber((objetivoAguaPorDefecto('hombre') ?? 0) / 1000, 1)} L de bebida (hombre) y ${formatNumber((objetivoAguaPorDefecto('mujer') ?? 0) / 1000, 1)} L (mujer), a partir de EFSA.`}>
       <p>EFSA (2010) fija una ingesta adecuada de agua total de {formatNumber(2.5, 1)} L/día para hombres y {formatNumber(2.0, 1)} L/día para mujeres adultos. Esa cifra incluye el agua de los alimentos y solo vale para temperatura moderada y actividad física moderada: el calor y el ejercicio aumentan la necesidad.</p>
-      <p>AppFit propone como objetivo de bebida {formatNumber((objetivoAguaPorDefecto('hombre') ?? 0) / 1000, 1)} L (hombre) y {formatNumber((objetivoAguaPorDefecto('mujer') ?? 0) / 1000, 1)} L (mujer) según el sexo de Perfil: descuenta un 20 % por la humedad de los alimentos. Ese 20 % es un criterio de AppFit, no una cifra de EFSA. Sin sexo en Perfil no hay objetivo, y el que fijes en Inicio (toca la tarjeta de Agua) manda sobre el recomendado.</p>
+      <p>Cumbra Fit propone como objetivo de bebida {formatNumber((objetivoAguaPorDefecto('hombre') ?? 0) / 1000, 1)} L (hombre) y {formatNumber((objetivoAguaPorDefecto('mujer') ?? 0) / 1000, 1)} L (mujer) según el sexo de Perfil: descuenta un 20 % por la humedad de los alimentos. Ese 20 % es un criterio de Cumbra Fit, no una cifra de EFSA. Sin sexo en Perfil no hay objetivo, y el que fijes en Inicio (toca la tarjeta de Agua) manda sobre el recomendado.</p>
     </SeccionReferencia>
 
     <SeccionReferencia titulo="Fuentes y qué se ha comprobado" resumen={`${formatNumber(FUENTES_PROTEINA_AGUA.length)} publicaciones, con lo que se ha comprobado de cada una.`}>

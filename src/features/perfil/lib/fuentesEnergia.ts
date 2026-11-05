@@ -11,7 +11,7 @@ export interface FuenteEnergia {
   /** DOI sin prefijo URL. */
   doi?: string
   url?: string
-  /** Qué toma AppFit de esta fuente. */
+  /** Qué toma Cumbra Fit de esta fuente. */
   uso: string
   /** Limitación o verificación pendiente. */
   nota?: string
@@ -20,19 +20,19 @@ export interface FuenteEnergia {
 export const FUENTES_ENERGIA = [
   { id: 'harrisBenedict1918', autores: 'Harris JA, Benedict FG', anio: 1918, titulo: 'A Biometric Study of Human Basal Metabolism',
     publicacion: 'Proc Natl Acad Sci USA 4(12):370–373', doi: '10.1073/pnas.4.12.370',
-    uso: 'Origen histórico de la ecuación (239 personas, Boston 1909–1914; ampliada en Carnegie Inst. Publ. 279, 1919). AppFit no la implementa: sobreestima en población actual.' },
+    uso: 'Origen histórico de la ecuación (239 personas, Boston 1909–1914; ampliada en Carnegie Inst. Publ. 279, 1919). Cumbra Fit no la implementa: sobreestima en población actual.' },
   { id: 'rozaShizgal1984', autores: 'Roza AM, Shizgal HM', anio: 1984, titulo: 'The Harris Benedict equation reevaluated: resting energy requirements and the body cell mass',
     publicacion: 'Am J Clin Nutr 40(1):168–182', doi: '10.1093/ajcn/40.1.168',
-    uso: 'Coeficientes de la ecuación de Harris-Benedict revisada que AppFit promedia con Mifflin-St Jeor.' },
+    uso: 'Coeficientes de la ecuación de Harris-Benedict revisada que Cumbra Fit promedia con Mifflin-St Jeor.' },
   { id: 'mifflin1990', autores: 'Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO', anio: 1990, titulo: 'A new predictive equation for resting energy expenditure in healthy individuals',
     publicacion: 'Am J Clin Nutr 51(2):241–247', doi: '10.1093/ajcn/51.2.241',
-    uso: 'Ecuación de gasto en reposo (498 adultos sanos de 19–78 años, calorimetría indirecta) que AppFit promedia con la de Roza-Shizgal.' },
+    uso: 'Ecuación de gasto en reposo (498 adultos sanos de 19–78 años, calorimetría indirecta) que Cumbra Fit promedia con la de Roza-Shizgal.' },
   { id: 'frankenfield2005', autores: 'Frankenfield D, Roth-Yousey L, Compher C', anio: 2005, titulo: 'Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review',
     publicacion: 'J Am Diet Assoc 105(5):775–789', doi: '10.1016/j.jada.2005.02.005',
     uso: 'Contexto: señala a Mifflin-St Jeor como la ecuación más fiable de las comparadas (cerca del 80 % dentro del ±10 % de lo medido en no obesos).' },
   { id: 'henry2005', autores: 'Henry CJK', anio: 2005, titulo: 'Basal metabolic rate studies in humans: measurement and development of new equations',
     publicacion: 'Public Health Nutr 8(7A):1133–1152', doi: '10.1079/PHN2005801',
-    uso: 'Contexto: ecuación que usa EFSA para valores poblacionales; menos validada para estimar a una persona. AppFit no la usa.' },
+    uso: 'Contexto: ecuación que usa EFSA para valores poblacionales; menos validada para estimar a una persona. Cumbra Fit no la usa.' },
   { id: 'tenHaaf2014', autores: 'ten Haaf T, Weijs PJM', anio: 2014, titulo: 'Resting energy expenditure prediction in recreational athletes of 18–35 years: confirmation of Cunningham equation and an improved weight-based alternative',
     publicacion: 'PLoS One 9(10):e108460', doi: '10.1371/journal.pone.0108460',
     uso: 'Limitación: en deportistas con mucha masa magra las ecuaciones por peso y talla pueden quedarse cortas.' },
@@ -67,7 +67,7 @@ export const FUENTES_ENERGIA = [
     nota: 'La cifra de 600 kcal/día procede de la guía CG189 (anterior); no se ha podido cotejar en el texto de NG246.' },
   { id: 'oms894', autores: 'OMS', anio: 2000, titulo: 'Obesity: preventing and managing the global epidemic (TRS 894)',
     publicacion: 'WHO Technical Report Series 894', url: 'https://iris.who.int/handle/10665/42330',
-    uso: 'Clasificación del IMC: por debajo de 18,5 es bajo peso (AppFit no calcula déficit).' },
+    uso: 'Clasificación del IMC: por debajo de 18,5 es bajo peso (Cumbra Fit no calcula déficit).' },
 ] as const satisfies readonly FuenteEnergia[]
 
 export type IdFuenteEnergia = (typeof FUENTES_ENERGIA)[number]['id']

@@ -11,7 +11,7 @@ export const ZANCADA_MIN_CM = 30
 export const ZANCADA_MAX_CM = 150
 /**
  * Zancada al caminar ≈ 0,415 × la altura (0,413 en mujeres): la regla con la que estiman los podómetros. Es una
- * aproximación de AppFit, no una medida: quien la conozca puede poner la suya.
+ * aproximación de Cumbra Fit, no una medida: quien la conozca puede poner la suya.
  */
 export const FACTOR_ZANCADA = { hombre: 0.415, mujer: 0.413 } as const
 /** Sin altura en el perfil: la de una persona de unos 1,70 m. */

@@ -9,7 +9,7 @@ export interface FuenteProteinaAgua {
   titulo: string
   publicacion: string
   doi: string
-  /** Qué toma AppFit de esta fuente. */
+  /** Qué toma Cumbra Fit de esta fuente. */
   uso: string
   /** Cómo se comprobó. */
   verificado: string
@@ -34,5 +34,5 @@ export const FUENTES_PROTEINA_AGUA = [
     publicacion: 'EFSA Journal 8(3):1459', doi: '10.2903/j.efsa.2010.1459',
     uso: 'Ingesta adecuada de agua total para adultos: 2,0 L/día (mujeres) y 2,5 L/día (hombres), incluida el agua de los alimentos, para temperatura ambiente moderada y actividad física moderada (PAL 1,6).',
     verificado: 'DOI, título, revista y año con Crossref; 2,0 y 2,5 L/día y las condiciones de aplicación con el resumen de la página de EFSA (copia archivada: efsa.europa.eu rechazó la consulta directa desde el entorno de desarrollo).',
-    noVerificado: 'Qué parte del agua total aportan los alimentos: el resumen no da un porcentaje. El 20 % que AppFit descuenta para llegar a 1,6 L y 2,0 L de bebida es un criterio propio, no una cifra de EFSA.' },
+    noVerificado: 'Qué parte del agua total aportan los alimentos: el resumen no da un porcentaje. El 20 % que Cumbra Fit descuenta para llegar a 1,6 L y 2,0 L de bebida es un criterio propio, no una cifra de EFSA.' },
 ] as const satisfies readonly FuenteProteinaAgua[]

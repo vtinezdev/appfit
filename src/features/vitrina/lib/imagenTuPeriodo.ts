@@ -3,12 +3,13 @@
 // las cifras del periodo: nada del perfil.
 import { escaparXml, partirLineas } from '../../gym/lib/posterImagen'
 import type { CifraPeriodo } from './tuPeriodo'
+import { svgLogotipo } from '../../../shared/design/marca'
 
 /** 4:5, como la publicación de un feed (el póster del entreno, en cambio, es vertical de historia). */
 export const ANCHO_POSTER = 1080
 export const ALTO_POSTER = 1350
 
-export interface ColoresTuPeriodo { fondo: string; texto: string; tenue: string; filete: string }
+export interface ColoresTuPeriodo { fondo: string; texto: string; tenue: string; filete: string; acento: string }
 
 const MARGEN = 80
 const rgb = (c: string) => `rgb(${c})`
@@ -24,7 +25,7 @@ const texto = (x: number, y: number, t: string, tam: number, color: string, letr
 export function svgTuPeriodo(d: { titulo: string; subtitulo: string; cifras: readonly CifraPeriodo[]; grupo: string | null }, c: ColoresTuPeriodo, css = ''): string {
   const partes = [`<rect width="${ANCHO_POSTER}" height="${ALTO_POSTER}" fill="${rgb(c.fondo)}"/>`]
   let y = MARGEN + 40
-  partes.push(texto(MARGEN, y, `APPFIT · ${d.subtitulo.toUpperCase()}`, 30, c.tenue, LETRA.rotulo))
+  partes.push(texto(MARGEN, y, `CUMBRA FIT · ${d.subtitulo.toUpperCase()}`, 30, c.tenue, LETRA.rotulo))
   for (const linea of partirLineas(d.titulo, 18, 2)) {
     y += 130
     partes.push(texto(MARGEN, y, linea, 140, c.texto, LETRA.titulo))
@@ -40,10 +41,10 @@ export function svgTuPeriodo(d: { titulo: string; subtitulo: string; cifras: rea
       + (cifra.unidad ? `<tspan style="${LETRA.texto};font-size:32px" fill="${rgb(c.tenue)}"> ${escaparXml(cifra.unidad)}</tspan>` : '') + '</text>')
   })
   if (d.grupo) partes.push(texto(MARGEN, ALTO_POSTER - MARGEN - 60, `Lo más trabajado: ${d.grupo}`, 36, c.texto, LETRA.texto))
-  partes.push(texto(MARGEN, ALTO_POSTER - MARGEN, 'Hecho con AppFit', 28, c.tenue, LETRA.texto))
+  partes.push(texto(MARGEN, ALTO_POSTER - MARGEN, 'Hecho con', 28, c.tenue, LETRA.texto), svgLogotipo(MARGEN + 140, ALTO_POSTER - MARGEN + 6, 52, { texto: c.texto, acento: c.acento }).svg)
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${ANCHO_POSTER}" height="${ALTO_POSTER}" viewBox="0 0 ${ANCHO_POSTER} ${ALTO_POSTER}">${css ? `<style>${css}</style>` : ''}${partes.join('')}</svg>`
 }
 
-/** «appfit-tu-octubre-2026.png». */
+/** «cumbra-fit-tu-octubre-2026.png». */
 export const nombreArchivoTuPeriodo = (clave: string, titulo: string) =>
-  `appfit-${titulo.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}${clave.length === 7 ? `-${clave.slice(0, 4)}` : ''}.png`
+  `cumbra-fit-${titulo.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}${clave.length === 7 ? `-${clave.slice(0, 4)}` : ''}.png`

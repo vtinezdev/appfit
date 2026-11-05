@@ -1,6 +1,6 @@
 import type { FichaTecnica } from './tipos'
 
-/** Claves de AppFit: cuádriceps e isquiotibiales. */
+/** Claves de Cumbra Fit: cuádriceps e isquiotibiales. */
 export const PIERNAS: Record<string, FichaTecnica> = {
   // Cuádriceps
   'sentadilla': { claves: ['Barra sobre la parte alta de la espalda, pies a la anchura de los hombros y puntas algo abiertas.', 'Baja llevando la cadera atrás y abajo, rodillas en la dirección de los pies.', 'Sube empujando el suelo con todo el pie, con el pecho alto y la espalda recta.'],

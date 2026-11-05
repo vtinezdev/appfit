@@ -226,7 +226,7 @@ describe('paquete publicado en public/catalogo', () => {
       expect(foods.filter((x) => x.tok.length === 0)).toHaveLength(ocultos)
     }
   })
-  it('CIQUAL, OFF España y los alimentos AppFit están publicados, con sus licencias', () => {
+  it('CIQUAL, OFF España y los alimentos Cumbra Fit están publicados, con sus licencias', () => {
     const manifest = validarManifest(leer('manifest.json'))
     expect(manifest.fuentes.map((f) => f.id).sort()).toEqual(['ciqual', 'offes', 'tipicos'])
     expect(manifest.fuentes.find((f) => f.id === 'offes')?.licencia).toBe('ODbL 1.0')

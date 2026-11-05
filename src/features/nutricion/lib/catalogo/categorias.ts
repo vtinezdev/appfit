@@ -1,4 +1,4 @@
-// Categorías de alimento de AppFit y reglas para clasificar un producto de Open Food Facts. Lógica pura.
+// Categorías de alimento de Cumbra Fit y reglas para clasificar un producto de Open Food Facts. Lógica pura.
 // Una sola lista para el catálogo (CIQUAL y OFF), los alimentos propios y los productos escaneados.
 // SIN IMPORTS a propósito: también la importa la tubería del catálogo (`scripts/catalogo`, Node), que no
 // resuelve los imports sin extensión de la app.
@@ -148,7 +148,7 @@ const PALABRAS_A_CATEGORIA: [CategoriaAlimento, string[]][] = [
   ['Bebidas', ['zumo', 'agua', 'refresco', 'cola', 'te', 'cafe', 'bebida', 'isotonica']],
 ]
 
-/** Categoría AppFit por las etiquetas de OFF (reglas ordenadas), luego `pnns_groups_2`, luego el nombre, si no «Otros». */
+/** Categoría Cumbra Fit por las etiquetas de OFF (reglas ordenadas), luego `pnns_groups_2`, luego el nombre, si no «Otros». */
 export function categoriaDeOff(etiquetas: string[], pnns2: string, nombre = ''): CategoriaAlimento {
   const set = new Set(etiquetas)
   for (const [categoria, tags] of REGLAS_CATEGORIA) {

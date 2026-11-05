@@ -3395,3 +3395,15 @@ Víctor señaló que en Social se podía responder a un comentario, pero no a la
 ## 312. Recetas: «AppFit» a la izquierda (2026-11-04)
 
 Víctor prefirió las pestañas de Recetas al revés: «AppFit» a la izquierda y «Tuyas» a la derecha. `RecetasTab` cambia el orden de `VISTAS`; la pantalla sigue abriendo en Tuyas. Documento: `features/nutricion.md`.
+
+## 313. Nombre y marca: Cumbra Fit (2026-11-04)
+
+Víctor decide el nombre, **Cumbra Fit**, y diseña con Claude el logotipo y el icono en un lienzo de varias rondas (letras talladas propias, la A como cumbre; descartadas las versiones con hoja, tenedor o demasiado de montaña). [ADR 063](decisiones/063-nombre-y-marca-cumbra-fit.md).
+
+- Dibujo único en `shared/design/marca.ts`; componentes `MarcaLogotipo`, `MarcaIcono`, `MarcaFirma` e `IconoApp` en `shared/components/Marca.tsx`.
+- Icono de la pantalla de inicio: la A en marfil sobre grafito, mancuerna en volt de travesaño y montañas debajo. `scripts/marca/generar-iconos.mjs` regenera `favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` y el nuevo `icon-maskable-512.png` (dibujo dentro del círculo seguro, ya no el mismo PNG). Manifest y `<title>`: «Cumbra Fit».
+- Logotipo en el pie de Ajustes y la pantalla de error (firma), icono instalado en Primeros pasos y en el aviso de traslado de Inicio, y «Hecho con» + logotipo en los pósteres de entreno y de «Tu mes» (que recibe el color `meal-accent`). Víctor revisa las capturas y los aprueba todos.
+- Textos: «AppFit»/«APPFIT» pasan a «Cumbra Fit» en toda la interfaz (también la pestaña de Recetas); los archivos descargados empiezan por `cumbra-fit-`. No cambian la base IndexedDB, las claves de `localStorage`, los ids `appfit:` ni `APPFIT_BUILD_ID`.
+- Documentos: `DESIGN.md` (sección Marca), `DESIGN-SYSTEM.md`, `PRODUCT.md`, `README.md`, `arquitectura.md`.
+
+**Verificación:** `npm run test` (267 archivos, 3.137 pruebas) y `npm run build` correctos. Capturas en Chromium en `appfit-test.localhost:5173`, 320 y 375 px, claro y oscuro: pie de Ajustes, Primeros pasos, aviso de traslado (iPhone emulado) y pantalla de error (IndexedDB bloqueada), sin desbordes; pósteres renderizados desde su SVG real. Sin dispositivo físico: el icono en la pantalla de inicio de un iPhone o Android se comprueba tras desplegar.

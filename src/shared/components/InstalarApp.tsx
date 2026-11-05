@@ -12,7 +12,7 @@ export default function InstalarApp() {
     {disponible && <Button block onClick={() => {
       setError(false)
       void instalarApp().catch(() => setError(true))
-    }}>Instalar AppFit</Button>}
+    }}>Instalar Cumbra Fit</Button>}
     {error && <ErrorState>No se pudo abrir la instalación. Usa el menú del navegador.</ErrorState>}
   </div>
 }

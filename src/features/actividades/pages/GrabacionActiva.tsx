@@ -158,7 +158,7 @@ export default function GrabacionActiva({ actividad, onTerminada }: Props) {
       </section>
 
       {sinGps && <ErrorState>{gps.estado === 'denegado'
-        ? 'AppFit no tiene permiso para usar tu ubicación. Actívalo en Ajustes del iPhone › Privacidad › Localización y vuelve a abrir la app.'
+        ? 'Cumbra Fit no tiene permiso para usar tu ubicación. Actívalo en Ajustes del iPhone › Privacidad › Localización y vuelve a abrir la app.'
         : 'Este navegador no da acceso a la ubicación. Puedes registrar la actividad a mano.'}</ErrorState>}
       {!pausada && pantalla !== 'encendida' && <p className="break-words text-body-sm text-fg-muted">
         No hemos podido mantener la pantalla encendida: toca la pantalla de vez en cuando para que no se bloquee, o el GPS se parará.

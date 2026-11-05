@@ -14,7 +14,7 @@ describe('svgPoster', () => {
   it('un SVG de 1080 × 1920 con título, fecha, cifras, «Hoy» y el pie, con los colores del tema', () => {
     const svg = svgPoster(datos, claro)
     expect(svg).toMatch(new RegExp(`^<svg xmlns="http://www.w3.org/2000/svg" width="${ANCHO_POSTER}" height="${ALTO_POSTER}"`))
-    for (const t of ['Torso A', 'vie 9 oct · 18:05 – 18:57', 'Duración', '52 min', '8.450', ' kg', 'HOY', 'Peso máximo: 82,5 kg (+5 kg)', 'Press banca', 'Hecho con AppFit']) expect(svg).toContain(`>${t}<`)
+    for (const t of ['Torso A', 'vie 9 oct · 18:05 – 18:57', 'Duración', '52 min', '8.450', ' kg', 'HOY', 'Peso máximo: 82,5 kg (+5 kg)', 'Press banca', 'Hecho con', 'FIT']) expect(svg).toContain(`>${t}<`)
     expect(svg).toContain('<rect width="1080" height="1920" fill="rgb(24 26 20)"/>')
     // «Hoy»: el icono del sistema en un cuadro de acento, sin la etiqueta en letras.
     expect(svg).toContain('width="72" height="72" rx="18" fill="rgb(198 244 50)"')
@@ -79,7 +79,7 @@ describe('ejercicios y medallas en el póster', () => {
     const lleno = { ...datos, hito: { cifra: '25', texto: 'entrenos terminados', desde: 'Desde el 3 mar' }, records: 12,
       medallas: [1, 2, 3, 4, 5].map((n) => ({ interior: `<path d="M${n} 0"/>`, nombre: `Logro ${n}` })),
       hoy: [{ tipo: 'cumbre' as const, etiqueta: 'Cumbres', texto: 'Cumbre del Aneto' }] }
-    const ultimaY = (svg: string) => Math.max(...[...svg.replace(/<text[^>]*>Hecho con AppFit<\/text>/, '').matchAll(/<text x="\d+" y="(\d+)"/g)].map((m) => Number(m[1])))
+    const ultimaY = (svg: string) => Math.max(...[...svg.replace(/<text[^>]*>(Hecho con|FIT)<\/text>/g, '').matchAll(/<text x="\d+" y="(\d+)"/g)].map((m) => Number(m[1])))
     // Seis caben a lo ancho; ocho pasan a una línea (sin «3 series» debajo) y siguen sin pisar el pie.
     const seis = svgPoster({ ...lleno, ejercicios: Array.from({ length: 6 }, (_, i) => ejercicio(i + 1, '+2,5 kg', 'Sube a Plata')) }, claro)
     expect(seis).toContain('>3 series<')
@@ -126,7 +126,7 @@ describe('textos del póster', () => {
   })
 
   it('el archivo se llama por la rutina y el día, sin acentos', () => {
-    expect(nombreArchivoPoster('Pierna & Glúteo (2)', new Date(2026, 9, 9, 18).getTime())).toBe('appfit-pierna-gluteo-2-2026-10-09.png')
-    expect(nombreArchivoPoster('¡¡!!', new Date(2026, 0, 1).getTime())).toBe('appfit-entreno-2026-01-01.png')
+    expect(nombreArchivoPoster('Pierna & Glúteo (2)', new Date(2026, 9, 9, 18).getTime())).toBe('cumbra-fit-pierna-gluteo-2-2026-10-09.png')
+    expect(nombreArchivoPoster('¡¡!!', new Date(2026, 0, 1).getTime())).toBe('cumbra-fit-entreno-2026-01-01.png')
   })
 })

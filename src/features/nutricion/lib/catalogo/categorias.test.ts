@@ -34,7 +34,7 @@ describe('categoriaDeOff', () => {
     expect(categoriaDeOff([], 'unknown', 'Mayonesa light')).toBe('Salsas y condimentos')
     expect(categoriaDeOff([], 'unknown', 'Choco duo')).toBe('Otros')
   })
-  it('siempre devuelve una categoría de la lista AppFit', () => {
+  it('siempre devuelve una categoría de la lista Cumbra Fit', () => {
     for (const t of ['yogurts', 'breads', 'olive-oils', 'pastas', 'ice-creams', 'legumes', 'eggs', 'sauces', 'unknown']) {
       expect(CATEGORIAS_ALIMENTO).toContain(categoriaDeOff([t], ''))
     }

@@ -28,7 +28,7 @@ function useResumen(p: Periodo, hoy: string): { cifras: CifraPeriodo[]; grupo: s
 function coloresDelTema(): ColoresTuPeriodo {
   const estilo = getComputedStyle(document.documentElement)
   const token = (nombre: string) => estilo.getPropertyValue(`--c-${nombre}`).trim()
-  return { fondo: token('training'), texto: token('on-training'), tenue: token('training-muted'), filete: token('training-track') }
+  return { fondo: token('training'), texto: token('on-training'), tenue: token('training-muted'), filete: token('training-track'), acento: token('meal-accent') }
 }
 
 /**
@@ -78,7 +78,7 @@ export function ResumenTuPeriodo({ periodo, hoy, onClose }: { periodo: Periodo; 
       {!resumen ? <LoadingState /> : <div className="space-y-section">
         <section aria-label={`Resumen de ${periodo.subtitulo}`} className="training-surface space-y-4 p-5">
           <div>
-            <p className="training-muted text-rotulo">AppFit · {periodo.subtitulo}</p>
+            <p className="training-muted text-rotulo">Cumbra Fit · {periodo.subtitulo}</p>
             <h2 className="poster-title">{periodo.titulo}</h2>
           </div>
           <dl className="grid grid-cols-2 gap-x-4 gap-y-3">

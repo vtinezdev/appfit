@@ -152,7 +152,7 @@ export default function EditorRuta({ ruta, enUso = false, onClose, onHecho }: Pr
         : !lugares ? <LoadingState>Cargando pueblos…</LoadingState>
           : <div className="space-y-section">
             <section aria-label="Salida y llegada" className="space-y-stack">
-              <p className="break-words text-body-sm text-fg-muted">Elige de dónde sales y adónde llegas. AppFit propone paradas por el camino; los km son la línea recta con un {formatInt((FACTOR_CAMINO - 1) * 100)} % más por las curvas, y puedes corregirlos.</p>
+              <p className="break-words text-body-sm text-fg-muted">Elige de dónde sales y adónde llegas. Cumbra Fit propone paradas por el camino; los km son la línea recta con un {formatInt((FACTOR_CAMINO - 1) * 100)} % más por las curvas, y puedes corregirlos.</p>
               <div className="space-y-2">
                 <p className="text-label text-fg-muted">Salida</p>
                 {eligiendo === 'salida' || !salida

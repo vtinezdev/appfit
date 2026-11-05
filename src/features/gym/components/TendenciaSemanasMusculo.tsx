@@ -5,7 +5,7 @@ import type { SemanaMusculo } from '../lib/progresoMuscular'
 const ANCHO = 320, ALTO = 96, ARRIBA = 4
 
 /**
- * Series de las últimas semanas de un músculo (PRO-03): una barra por semana con la línea de la dosis de AppFit y la
+ * Series de las últimas semanas de un músculo (PRO-03): una barra por semana con la línea de la dosis de Cumbra Fit y la
  * semana en curso resaltada. El SVG solo dibuja barras y dosis; cifras y fechas van debajo en texto, en una rejilla con
  * una columna por barra, para que crezcan con el tamaño de letra; bajo cada barra, solo el día del lunes (el mes, en el
  * pie), para que quepa también con letra grande. «P» marca las semanas en pausa de Ritmo. Sin series en ninguna, nada.

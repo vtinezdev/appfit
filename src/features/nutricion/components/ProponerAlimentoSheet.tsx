@@ -10,7 +10,7 @@ import { errorPropuesta, LIMITES_PROPUESTA, mensajePropuesta, type PropuestaAlim
 
 /**
  * «Proponer un alimento» (ADR 061): nombre, y si se quiere marca, código de barras y una nota. Al enviar llega al
- * creador de AppFit (tabla `mensajes_creador`, tipo `alimento`) para añadirlo al catálogo; no se guarda nada en el móvil.
+ * creador de Cumbra Fit (tabla `mensajes_creador`, tipo `alimento`) para añadirlo al catálogo; no se guarda nada en el móvil.
  */
 export default function ProponerAlimentoSheet({ nombre, onClose }: { nombre: string | null; onClose: () => void }) {
   const [p, setP] = useState<PropuestaAlimento>({ nombre: nombre ?? '', marca: '', codigo: '', nota: '' })
@@ -40,7 +40,7 @@ export default function ProponerAlimentoSheet({ nombre, onClose }: { nombre: str
     {enviado
       ? <Card tone="muted" className="flex items-start gap-3" role="status">
           <Icon name="check" size={20} className="mt-0.5 shrink-0 text-success" />
-          <p className="min-w-0 text-body-sm text-fg">Enviado. Gracias: el creador de AppFit lo revisará para añadirlo al catálogo.</p>
+          <p className="min-w-0 text-body-sm text-fg">Enviado. Gracias: el creador de Cumbra Fit lo revisará para añadirlo al catálogo.</p>
         </Card>
       : <div className="space-y-stack">
           <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre</span>
@@ -51,7 +51,7 @@ export default function ProponerAlimentoSheet({ nombre, onClose }: { nombre: str
             <Input value={p.codigo} inputMode="numeric" maxLength={14} onChange={campo('codigo')} placeholder="8410000000000" /></label>
           <label className="block space-y-1"><span className="text-label text-fg-muted">Nota (opcional)</span>
             <Textarea rows={3} value={p.nota} maxLength={LIMITES_PROPUESTA.nota} onChange={campo('nota')} placeholder="Dónde se compra, de qué tamaño es…" /></label>
-          <p className="text-caption text-fg-muted">Llega al creador de AppFit. Si has entrado en tu cuenta, va asociado a ella.</p>
+          <p className="text-caption text-fg-muted">Llega al creador de Cumbra Fit. Si has entrado en tu cuenta, va asociado a ella.</p>
         </div>}
   </Sheet>
 }

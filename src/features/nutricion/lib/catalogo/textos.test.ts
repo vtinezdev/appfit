@@ -6,7 +6,7 @@ describe('nombreFuente', () => {
     expect(nombreFuente('ciqual')).toBe('CIQUAL (ANSES)')
     expect(nombreFuente('off')).toBe('Open Food Facts')
     expect(nombreFuente('usda')).toBe('USDA')
-    expect(nombreFuente('tipicos')).toBe('Alimentos y platos (AppFit)')
+    expect(nombreFuente('tipicos')).toBe('Alimentos y platos (Cumbra Fit)')
   })
 })
 
@@ -34,7 +34,7 @@ describe('etiquetaFuente y detalleFuente', () => {
     expect(etiquetaFuente('ciqual')).toBe('CIQUAL')
     expect(etiquetaFuente('off')).toBe('Open Food Facts')
     expect(etiquetaFuente('usda')).toBe('USDA')
-    expect(etiquetaFuente('tipicos')).toBe('AppFit')
+    expect(etiquetaFuente('tipicos')).toBe('Cumbra Fit')
   })
 
   it('un paquete muestra versión y alimentos; los productos escaneados, solo cuántos', () => {

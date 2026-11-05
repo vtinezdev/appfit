@@ -67,7 +67,7 @@ const usuarioTablas = () => TABLAS_USUARIO.map((t) => db.table(t))
 
 export class BackupError extends Error {}
 
-const ERROR_FORMATO = 'El archivo no tiene el formato de backup de AppFit.'
+const ERROR_FORMATO = 'El archivo no tiene el formato de backup de Cumbra Fit.'
 
 /** Exporta todas las tablas en una lectura coherente. */
 export async function exportarBackup(): Promise<BackupV3> {
@@ -130,9 +130,9 @@ export async function exportarBackup(): Promise<BackupV3> {
   })
 }
 
-/** «appfit-backup-2026-11-03.json» con el día local: en UTC, de medianoche a la 1 o las 2 (España) llevaría el de ayer. */
+/** «cumbra-fit-backup-2026-11-03.json» con el día local: en UTC, de medianoche a la 1 o las 2 (España) llevaría el de ayer. */
 export function nombreArchivoBackup(ahora: Date = new Date()): string {
-  return `appfit-backup-${toISODate(ahora)}.json`
+  return `cumbra-fit-backup-${toISODate(ahora)}.json`
 }
 
 export function descargarBackup(data: BackupV3): void {
@@ -154,7 +154,7 @@ export function migrarBackup(raw: unknown): BackupV3 {
   const d = raw as Record<string, unknown>
   if (typeof d.version !== 'number') throw new BackupError(ERROR_FORMATO)
   if (d.version > BACKUP_VERSION) {
-    throw new BackupError('Este backup es de una versión más nueva de AppFit. Actualiza la app antes de importarlo.')
+    throw new BackupError('Este backup es de una versión más nueva de Cumbra Fit. Actualiza la app antes de importarlo.')
   }
   if (d.version !== 1 && d.version !== 2 && d.version !== 3) throw new BackupError(ERROR_FORMATO)
   if (TABLAS_OBLIGATORIAS.some((t) => !Array.isArray(d[t]))) throw new BackupError(ERROR_FORMATO)

@@ -1,7 +1,7 @@
 import Dexie, { type EntityTable } from 'dexie'
 
 /**
- * Estado de la cuenta en este dispositivo, en una base IndexedDB aparte de la de AppFit: no entra en el backup ni se
+ * Estado de la cuenta en este dispositivo, en una base IndexedDB aparte de la de Cumbra Fit: no entra en el backup ni se
  * borra con «Borrar todos los datos». Tiene que quedar fuera de la copia porque restaurarla no debe traer el estado de
  * otro dispositivo. La sesión de Supabase vive en localStorage (la gestiona supabase-js).
  */

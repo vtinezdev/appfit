@@ -166,7 +166,7 @@ export function nombrePlatoDe(vista: Pick<RecetaVista, 'nombre'>, variante?: Pic
 export const NOMBRE_VARIANTE_MAX = 60
 
 /**
- * El recetario AppFit para la pantalla Recetas: los que coinciden con la consulta (todas sus palabras, al principio
+ * El recetario Cumbra Fit para la pantalla Recetas: los que coinciden con la consulta (todas sus palabras, al principio
  * de alguna del nombre), primero los que ya tienen pasos y después por nombre.
  */
 export function filtrarRecetario<T extends Pick<CatalogFood, 'nombre' | 'receta'>>(platos: readonly T[], consulta: string): T[] {

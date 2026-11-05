@@ -43,12 +43,12 @@ describe('imagen de «Tu mes»', async () => {
   const { svgTuPeriodo, nombreArchivoTuPeriodo } = await import('./imagenTuPeriodo')
   it('título, periodo y cifras, escapados, y nombre de archivo', () => {
     const svg = svgTuPeriodo({ titulo: 'Tu octubre', subtitulo: 'octubre de 2026', cifras: [{ rotulo: 'Entrenos', valor: '14' }, { rotulo: 'Km', valor: '61', unidad: 'km' }], grupo: 'Pecho & hombro' },
-      { fondo: '0 0 0', texto: '255 255 255', tenue: '200 200 200', filete: '80 80 80' })
+      { fondo: '0 0 0', texto: '255 255 255', tenue: '200 200 200', filete: '80 80 80', acento: '198 244 50' })
     expect(svg).toContain('Tu octubre')
-    expect(svg).toContain('APPFIT · OCTUBRE DE 2026')
+    expect(svg).toContain('CUMBRA FIT · OCTUBRE DE 2026')
     expect(svg).toContain('Lo más trabajado: Pecho &amp; hombro')
     expect(svg).toContain('>61</tspan>')
-    expect(nombreArchivoTuPeriodo('2026-10', 'Tu octubre')).toBe('appfit-tu-octubre-2026.png')
-    expect(nombreArchivoTuPeriodo('2026', 'Tu 2026')).toBe('appfit-tu-2026.png')
+    expect(nombreArchivoTuPeriodo('2026-10', 'Tu octubre')).toBe('cumbra-fit-tu-octubre-2026.png')
+    expect(nombreArchivoTuPeriodo('2026', 'Tu 2026')).toBe('cumbra-fit-tu-2026.png')
   })
 })

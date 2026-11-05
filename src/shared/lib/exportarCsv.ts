@@ -36,7 +36,7 @@ export function descargarTexto(nombre: string, contenido: string, tipo: string):
   URL.revokeObjectURL(url)
 }
 
-/** Genera y descarga el CSV de una tabla: `appfit-comidas-2026-10-07.csv`. */
+/** Genera y descarga el CSV de una tabla: `cumbra-fit-comidas-2026-10-07.csv`. */
 export async function descargarCsv(tabla: TablaCsv, hoy: string): Promise<void> {
-  descargarTexto(`appfit-${tabla}-${hoy}.csv`, await generarCsv(tabla), 'text/csv;charset=utf-8')
+  descargarTexto(`cumbra-fit-${tabla}-${hoy}.csv`, await generarCsv(tabla), 'text/csv;charset=utf-8')
 }

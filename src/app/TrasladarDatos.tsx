@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import ListRow from '../shared/components/ListRow'
 import Icon from '../shared/components/Icon'
+import { IconoApp } from '../shared/components/Marca'
 import { hayDatosGuardados } from '../shared/db/estadoDatos'
 import { entornoDeApp } from '../shared/lib/almacenamiento'
 
@@ -13,8 +14,9 @@ export default function TrasladarDatos({ onVerInstrucciones }: { onVerInstruccio
   return (
     <section aria-label="Trasladar registros" className="border-y border-line">
       <ListRow tone="flat" aria-label="Ver instrucciones" onClick={onVerInstrucciones}>
+      <IconoApp tam={40} />
       <span className="min-w-0 flex-1 space-y-1">
-        <span className="block text-body-sm font-semibold">{instalada ? '¿Primera vez abriendo AppFit?' : 'Añade AppFit a tu pantalla de inicio'}</span>
+        <span className="block text-body-sm font-semibold">{instalada ? '¿Primera vez abriendo Cumbra Fit?' : 'Añade Cumbra Fit a tu pantalla de inicio'}</span>
         <span className="block text-caption text-fg-muted">
           {instalada
             ? 'Si ya registraste comidas en Safari, puedes recuperarlas aquí. Te explicamos cómo hacerlo.'

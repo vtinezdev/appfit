@@ -41,7 +41,7 @@ export default function RecetarioAppFit() {
   return (
     <div className="space-y-stack">
       <div className="flex items-center gap-2">
-        <SearchInput tone="surface" aria-label="Buscar en el recetario AppFit" placeholder="Buscar receta…" value={busqueda}
+        <SearchInput tone="surface" aria-label="Buscar en el recetario Cumbra Fit" placeholder="Buscar receta…" value={busqueda}
           onChange={(e) => { setBusqueda(e.target.value); setVisibles(TANDA) }} className="flex-1" />
         <BotonFiltrar activos={filtrosActivos(orden, categoria)} onClick={() => setFiltros(true)} />
       </div>
@@ -51,7 +51,7 @@ export default function RecetarioAppFit() {
         : <>
           {/* Cuántas hay con lo buscado y lo filtrado, como «Tus alimentos 3» en Buscar. */}
           <TituloResultados texto="Recetas" n={encontradas.length} />
-          <ListGroup aria-label="Recetario AppFit">
+          <ListGroup aria-label="Recetario Cumbra Fit">
             {encontradas.slice(0, visibles).map((p) => {
               const r = p.receta!
               const { porRacion, ...aporte } = racionRecetario(p)
