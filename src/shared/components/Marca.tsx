@@ -1,7 +1,7 @@
 import { ICONO, LOGOTIPO, NOMBRE_APP } from '../design/marca'
 
 /**
- * Icono de la marca dentro de la app (ADR 063): en blanco y negro según el tema, en un círculo. El icono de la pantalla
+ * Icono de la marca dentro de la app (ADR 064): en blanco y negro según el tema, en un círculo. El icono de la pantalla
  * de inicio (grafito y volt) es `public/favicon.svg`. Decorativo: el nombre lo lleva siempre el logotipo o el texto de al lado.
  */
 export function MarcaIcono({ tam = 40, className = '' }: { tam?: number; className?: string }) {

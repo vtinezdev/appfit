@@ -68,17 +68,22 @@ async function motor(nombre) {
       let editor = page.getByRole('dialog', { name: 'Añadir comida', exact: true })
       const antes = await datos(page)
       await editor.getByRole('textbox', { name: 'Describe lo que has comido', exact: true }).fill('100 g de arroz blanco cocido')
+      // Atrás solo cierra la capa si su entrada de historial ya está puesta: tras «Seguir editando» la app la vuelve a
+      // poner al recibir popstate y WebKit puede tardar en hacerlo; pulsar Atrás antes saldría de la PWA sin preguntar.
+      const conEntrada = () => page.waitForFunction(() => !!history.state?.appfitOverlay)
       for (const salida of ['atras', 'escape', 'boton', 'atras']) {
-        if (salida === 'atras') await page.goBack()
+        if (salida === 'atras') { await conEntrada(); await page.goBack() }
         else if (salida === 'escape') await page.keyboard.press('Escape')
         else await editor.getByRole('button', { name: 'Cancelar', exact: true }).click()
         const confirmar = page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true })
         await confirmar.getByRole('button', { name: 'Seguir editando', exact: true }).click()
+        await confirmar.waitFor({ state: 'detached' })
         editor = page.getByRole('dialog', { name: 'Añadir comida', exact: true })
         assert.equal(await editor.getByRole('textbox', { name: 'Describe lo que has comido', exact: true }).inputValue(), '100 g de arroz blanco cocido')
       }
       await editor.getByRole('button', { name: 'Revisar 1 alimento', exact: true }).click()
       await editor.getByRole('button', { name: /^Añadir a / }).waitFor()
+      await conEntrada()
       await page.goBack()
       const confirmacion = page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true })
       await captura(page, `${nombre}-descartar`)
@@ -127,7 +132,7 @@ async function motor(nombre) {
       // En el mismo paso, sin dejar a Inicio repetir una consulta entre medias.
       await destino.evaluate((boton) => { window.__falloLectura = true; boton.click() })
       await page.getByRole('heading', { name: 'No se ha podido mostrar la pantalla', exact: true }).waitFor()
-      await page.getByRole('button', { name: 'Recargar AppFit', exact: true }).waitFor()
+      await page.getByRole('button', { name: 'Recargar Cumbra Fit', exact: true }).waitFor()
     })
 
     for (const c of [{ width: 320, theme: 'light' }, { width: 375, theme: 'dark', grande: true }, { width: 430, theme: 'light' }]) {

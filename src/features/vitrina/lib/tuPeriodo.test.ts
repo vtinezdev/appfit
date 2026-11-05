@@ -41,14 +41,35 @@ describe('«Tu mes» y «Tu año» (B15)', () => {
 
 describe('imagen de «Tu mes»', async () => {
   const { svgTuPeriodo, nombreArchivoTuPeriodo } = await import('./imagenTuPeriodo')
-  it('título, periodo y cifras, escapados, y nombre de archivo', () => {
-    const svg = svgTuPeriodo({ titulo: 'Tu octubre', subtitulo: 'octubre de 2026', cifras: [{ rotulo: 'Entrenos', valor: '14' }, { rotulo: 'Km', valor: '61', unidad: 'km' }], grupo: 'Pecho & hombro' },
-      { fondo: '0 0 0', texto: '255 255 255', tenue: '200 200 200', filete: '80 80 80', acento: '198 244 50' })
+  const { calendarioPeriodo } = await import('./tuPeriodoSecciones')
+  const colores = { fondo: '0 0 0', texto: '255 255 255', tenue: '200 200 200', filete: '80 80 80', acento: '198 244 50' }
+  const datos = {
+    titulo: 'Tu octubre', subtitulo: 'octubre de 2026', frase: '13 entrenos & 1 cumbre.',
+    calendario: calendarioPeriodo(periodoMes('2026-10'), { workouts: [], actividades: [{ fecha: '2026-10-04' }], entries: [e('2026-10-01', 400)] }),
+    cifras: [{ rotulo: 'Entrenos', valor: '14' }, { rotulo: 'Distancia', valor: '61', unidad: 'km' }],
+    momentos: [{ icono: 'mountain' as const, texto: 'Aneto', detalle: 'Cumbre · 25 oct' }, { icono: 'trophy' as const, texto: 'Sentadilla · 125 kg', detalle: 'y 3 récords más' }],
+  }
+  it('portada, calendario, cifras y momentos, escapados, y nombre de archivo', () => {
+    const svg = svgTuPeriodo(datos, colores)
     expect(svg).toContain('Tu octubre')
     expect(svg).toContain('CUMBRA FIT · OCTUBRE DE 2026')
-    expect(svg).toContain('Lo más trabajado: Pecho &amp; hombro')
+    expect(svg).toContain('13 entrenos &amp; 1 cumbre.')
+    expect(svg).toContain('>31</text>') // el último día del calendario
+    expect(svg).toContain('fill="rgb(198 244 50)"') // el punto de las comidas
     expect(svg).toContain('>61</tspan>')
+    expect(svg).toContain('Sentadilla · 125 kg')
+    expect(svg).toContain('y 3 récords más')
     expect(nombreArchivoTuPeriodo('2026-10', 'Tu octubre')).toBe('cumbra-fit-tu-octubre-2026.png')
     expect(nombreArchivoTuPeriodo('2026', 'Tu 2026')).toBe('cumbra-fit-tu-2026.png')
+  })
+
+  it('sin calendario (un año) y con muchos momentos, solo pinta los que caben sobre el pie', () => {
+    const muchos = Array.from({ length: 30 }, (_, i) => ({ icono: 'sparkles' as const, texto: `Momento ${i}` }))
+    const svg = svgTuPeriodo({ ...datos, titulo: 'Tu 2026', calendario: null, momentos: muchos }, colores)
+    expect(svg).not.toContain('>31</text>')
+    expect(svg).toContain('Momento 0')
+    expect(svg).not.toContain('Momento 29')
+    const ys = [...svg.matchAll(/<text x="\d+" y="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]))
+    expect(Math.max(...ys)).toBeLessThanOrEqual(1350 - 80)
   })
 })

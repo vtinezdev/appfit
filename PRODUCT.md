@@ -30,7 +30,7 @@ Uso repetido durante entrenamientos y a lo largo del día. La conexión puede fa
 
 ## Brand Commitments
 
-Nombre Cumbra Fit desde el 2026-11-04 (antes AppFit; [ADR 063](docs/decisiones/063-nombre-y-marca-cumbra-fit.md)): logotipo de letras talladas con la A como cumbre e icono con una mancuerna de travesaño. Identidad deportiva, moderna, premium, limpia, energética y rápida. El usuario delega las decisiones visuales y pide un menú cuyas opciones nazcan espacialmente del botón inferior. Evitar ornamentación que compita con el entrenamiento.
+Nombre Cumbra Fit desde el 2026-11-04 (antes AppFit; [ADR 064](docs/decisiones/064-marca-cumbra-fit.md)): logotipo de letras talladas con la A como cumbre e icono con una mancuerna de travesaño. Identidad deportiva, moderna, premium, limpia, energética y rápida. El usuario delega las decisiones visuales y pide un menú cuyas opciones nazcan espacialmente del botón inferior. Evitar ornamentación que compita con el entrenamiento.
 
 La referencia elegida el 2026-10-05 es «Enfocada y Enérgica»: títulos deportivos y métricas claras. El 2026-10-06 la paleta pasa a Cobalto (grafito frío, cobalto para actuar, ámbar para la energía) con una composición más respirada. El 2026-10-07, a partir de una referencia visual, evoluciona sin rediseño: grafito neutro, un único acento naranja usado con mesura, radios más amplios, más aire y una elevación mínima de las cards (ADR 020). Disciplina/rendimiento/progreso, sin ornamento de videojuego ni imágenes que no ayuden a usar el producto.
 

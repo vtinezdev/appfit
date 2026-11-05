@@ -5,7 +5,7 @@ Los comandos de todos los días están en `CLAUDE.md` § Comandos. Los scripts, 
 ## Requisitos
 
 - Node.js compatible con Vite 8 (`^20.19` o `>= 22.12`) y npm. Los scripts del catálogo (`scripts/catalogo/*.ts`) se ejecutan con el *type stripping* nativo de Node, sin compilar: se usan con Node 24.
-- Iconos de la PWA: `node scripts/marca/generar-iconos.mjs` (Node 22.18+, Playwright y Chromium fuera del proyecto, como en `scripts/ui`) regenera `public/favicon.svg` y los PNG desde `src/shared/design/marca.ts` ([ADR 063](decisiones/063-nombre-y-marca-cumbra-fit.md)). Se ejecuta a mano al cambiar el dibujo.
+- Iconos de la PWA: `node scripts/marca/generar-iconos.mjs` (Node 22.18+, Playwright y Chromium fuera del proyecto, como en `scripts/ui`) regenera `public/favicon.svg` y los PNG desde `src/shared/design/marca.ts` ([ADR 064](decisiones/064-marca-cumbra-fit.md)). Se ejecuta a mano al cambiar el dibujo.
 - `npm install` para empezar; `npm run preview` sirve el build de `dist/`.
 - Sin variables de entorno ni backend: la configuración se hace dentro de la app (Ajustes).
 
@@ -178,6 +178,8 @@ Con Vite en 5173, `node scripts/ui/validar-creador-rutinas.cjs` recorre siete co
 ### Validación de insignias
 
 Con Vite en 5173, `node scripts/ui/validar-insignias.cjs` prueba la Vitrina y las seis ligas de Progreso con historial sintético, el detalle de Élite y una galería de los componentes reales con todos los logros conseguidos/pendientes, nuevos logros y ascensos. Ocho contextos aislados en el origen de pruebas: 320/375/430 px en ambos temas y 375 con texto al 200 %/Reduce Motion. Comprueba ausencia de desbordamiento, SVG decorativos sin encoger, ids de recorte únicos, candados idénticos sin pistas en los ocultos y backup intacto al consultar. Capturas/informe en `/tmp/appfit-insignias`; filtros `APPFIT_UI_CASE`, `APPFIT_UI_OUTPUT`, `APPFIT_CHROMIUM`. Los colores se verifican en `shared/design/contrast.test.ts`. Emulación Chromium, sin iPhone físico.
+
+Con Vite en 5173, `node scripts/ui/validar-tu-mes.cjs` prueba «Tu mes» (B15) con la fecha fija en el 4 de noviembre de 2026 y un octubre sintético (récords de peso, lastre y sin peso, actividades con trazado, comidas, Cumbres y Caminos): la tarjeta de Inicio, la imagen para compartir (descargada desde la portada) y el resumen con sus desplegables abiertos, sin comparaciones con el mes anterior. Seis contextos aislados en el origen de pruebas (320/375/430 px en ambos temas): sin scroll horizontal, controles de 44 px, sin errores en consola y backup intacto al consultar. Capturas en `/tmp/appfit-tu-mes`; filtros `APPFIT_UI_CASE`, `APPFIT_UI_OUTPUT`, `APPFIT_CHROMIUM`. Emulación Chromium, sin iPhone físico.
 
 
 

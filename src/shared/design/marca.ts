@@ -1,5 +1,5 @@
 /**
- * Dibujo de la marca Cumbra Fit (ADR 063), en un solo sitio: lo usan los componentes de `shared/components/Marca`, los
+ * Dibujo de la marca Cumbra Fit (ADR 064), en un solo sitio: lo usan los componentes de `shared/components/Marca`, los
  * pósteres que se comparten (SVG con los colores ya resueltos) y la generación de los PNG del icono (`scripts/marca`).
  *
  * - Icono (viewBox 0 0 100 100): la A de la cumbre, con una mancuerna de travesaño y dos montañas pequeñas debajo.

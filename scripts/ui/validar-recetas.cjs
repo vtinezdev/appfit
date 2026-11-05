@@ -99,7 +99,7 @@ async function main() {
         // Sin recetas tuyas: estado vacío con sus dos salidas.
         await navegar(page, 'Recetas')
         await page.getByText('Aún no tienes recetas', { exact: true }).waitFor()
-        await page.getByRole('button', { name: 'Ver las de AppFit', exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Ver las de Cumbra Fit', exact: true }).waitFor()
         await captura(page, `${etiqueta}-vacio`)
         await sembrar(page)
 
@@ -121,9 +121,9 @@ async function main() {
         await page.getByRole('heading', { name: 'Recetas', level: 1 }).waitFor()
         await page.getByRole('list', { name: 'Tus recetas' }).getByRole('button').nth(3).waitFor()
         await captura(page, `${etiqueta}-lista`)
-        // Pestaña AppFit: buscador con «Filtrar» y el total encima de la lista; se vuelve a Tuyas.
-        await page.getByRole('tab', { name: 'AppFit', exact: true }).click()
-        await page.getByRole('searchbox', { name: 'Buscar en el recetario AppFit' }).or(page.getByText('El recetario aún no está descargado')).waitFor()
+        // Pestaña Cumbra Fit: buscador con «Filtrar» y el total encima de la lista; se vuelve a Tuyas.
+        await page.getByRole('tab', { name: 'Cumbra Fit', exact: true }).click()
+        await page.getByRole('searchbox', { name: 'Buscar en el recetario Cumbra Fit' }).or(page.getByText('El recetario aún no está descargado')).waitFor()
         await captura(page, `${etiqueta}-appfit`)
         await page.getByRole('tab', { name: 'Tuyas', exact: true }).click()
         await page.getByRole('list', { name: 'Tus recetas' }).waitFor()

@@ -1,4 +1,4 @@
-// Genera los iconos de la PWA desde el dibujo de `src/shared/design/marca.ts` (ADR 063): `public/favicon.svg` y los PNG
+// Genera los iconos de la PWA desde el dibujo de `src/shared/design/marca.ts` (ADR 064): `public/favicon.svg` y los PNG
 // de 180 (apple-touch), 192, 512 y 512 maskable. Grafito, con la A en marfil y la mancuerna en volt.
 //
 // Uso (Node 22.18+ entiende el TypeScript de marca.ts; Playwright y Chromium fuera del proyecto, como en scripts/ui):

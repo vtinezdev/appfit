@@ -106,7 +106,7 @@ async function main() {
         await estado(page, 'Actualización disponible')
         await page.getByRole('button', { name: 'Actualizar ahora', exact: true }).waitFor()
         await page.getByRole('button', { name: 'Si sigue apareciendo una versión anterior', exact: true }).click()
-        await page.getByText(/cierra AppFit por completo/).waitFor()
+        await page.getByText(/cierra Cumbra Fit por completo/).waitFor()
         await captura(page, `${caso}-disponible`)
         await navegar(page, 'Inicio')
         await page.getByRole('button', { name: 'Actualizaciones. Actualización disponible', exact: true }).waitFor()

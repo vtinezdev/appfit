@@ -133,9 +133,9 @@ async function main() {
         await page.getByRole('button', { name: /^Primeros pasos/ }).click()
         await page.getByRole('heading', { name: 'Android', exact: true }).waitFor()
         await geometria(page)
-        await page.getByRole('button', { name: 'Instalar AppFit', exact: true }).click()
+        await page.getByRole('button', { name: 'Instalar Cumbra Fit', exact: true }).click()
         assert.equal(await page.evaluate(() => window.__instalacionesPrueba), 1)
-        assert.equal(await page.getByRole('button', { name: 'Instalar AppFit', exact: true }).count(), 0)
+        assert.equal(await page.getByRole('button', { name: 'Instalar Cumbra Fit', exact: true }).count(), 0)
         assert.deepEqual(await backup(page), antes, 'lectura, capas e instalación conservan el backup')
         assert.deepEqual(errores, [])
         resultado.correcto = true

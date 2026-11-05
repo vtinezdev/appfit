@@ -487,7 +487,7 @@ async function main() {
           // Una página entera desconocida no oculta el resto del feed.
           await page.request.post(`${API}simular_paginas_desconocidas`,{data:{}})
           await navegar(page,'Entreno');await social(page)
-          await principal.getByText('Algunas publicaciones necesitan una versión más reciente de AppFit.',{exact:true}).waitFor()
+          await principal.getByText('Algunas publicaciones necesitan una versión más reciente de Cumbra Fit.',{exact:true}).waitFor()
           await principal.getByText('Publicación accesible 24',{exact:true}).waitFor()
           await principal.getByRole('button',{name:'Cargar más',exact:true}).click()
           await principal.getByText('Publicación accesible 0',{exact:true}).waitFor()

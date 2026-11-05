@@ -2,6 +2,7 @@ import { useId } from 'react'
 import { formatInt } from '../../../shared/lib/format'
 import { METROS_POR_HITO, type Expedicion } from '../lib/cumbres'
 import { puntoEnLadera, trazadoSilueta, yDeFraccion, type Lienzo } from '../lib/perfil'
+import { formaDe } from '../lib/siluetas'
 
 const LIENZOS = {
   tarjeta: { ancho: 320, alto: 72, margen: 8 },
@@ -16,7 +17,7 @@ interface Props {
 }
 
 /**
- * Perfil de la montaña: silueta genérica cuya altura es la altitud de la cima, lo subido relleno desde abajo como la
+ * Perfil de la montaña: su silueta propia (`lib/siluetas`), cuya altura es la altitud de la cima, lo subido relleno desde abajo como la
  * barra (`fg` sobre `fg` al 20 %) y una marca en la ladera. En la página, una línea cada 1.000 m. Sin animación.
  */
 export default function PerfilMontana({ expedicion, variante = 'pagina', decorativo = false }: Props) {
@@ -25,8 +26,9 @@ export default function PerfilMontana({ expedicion, variante = 'pagina', decorat
   const { altitud } = expedicion.montana
   const fraccion = altitud > 0 ? expedicion.metros / altitud : 0
   const yRelleno = yDeFraccion(l, fraccion)
-  const marca = puntoEnLadera(l, fraccion)
-  const silueta = trazadoSilueta(l)
+  const forma = formaDe(expedicion.montana.id)
+  const marca = puntoEnLadera(l, fraccion, forma)
+  const silueta = trazadoSilueta(l, forma)
   const hitos: number[] = []
   if (variante === 'pagina') for (let h = METROS_POR_HITO; h < altitud; h += METROS_POR_HITO) hitos.push(h)
   const accesible = decorativo

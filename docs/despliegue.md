@@ -64,7 +64,7 @@ Orden: primero el rediseño visual y los últimos retoques (sesión aparte); des
 
 ## Preparación para Google Play (noviembre 2026)
 
-Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguridad.md`). El nombre, el logo y el dominio aún no están decididos, y casi todo lo de Play depende de ellos, así que va en orden.
+Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguridad.md`). Nombre decidido el 2026-11-04: **Cumbra**, visible como «Cumbra Fit», con el dominio previsto `cumbrafit.app` ([ADR 063](decisiones/063-nombre-cumbra.md)); el logo, los iconos y el nombre en la app ya están ([ADR 064](decisiones/064-marca-cumbra-fit.md)); la compra del dominio, pendiente. Casi todo lo de Play depende de ellos, así que va en orden.
 
 ### 1. Ya hecho (en el código)
 
@@ -88,7 +88,7 @@ Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguri
 
 ### 4. Empaquetar para Android (TWA)
 
-1. **Nombre del paquete** (definitivo, no se cambia nunca): p. ej. `es.<dominio>.app`.
+1. **Nombre del paquete** (definitivo, no se cambia nunca): previsto `app.cumbrafit`, el dominio al revés (ADR 063).
 2. Generar el proyecto Android con **Bubblewrap** (o PWABuilder) a partir del manifest del dominio definitivo. Lo preparo yo cuando haya dominio.
 3. **Firma:** activar *Play App Signing* (Google guarda la clave con la que se firma la app). Nosotros solo guardamos la *clave de subida* (upload key): el archivo `.jks` y su contraseña van a un gestor de contraseñas, con una copia fuera del ordenador. **Nunca** al repositorio.
 4. Servir `/.well-known/assetlinks.json` con la huella SHA-256 de la clave de firma de Play (Play Console › Configuración › Integridad de la app). Sin él, la app se abre con la barra de direcciones de Chrome. Lo añado yo con la huella.

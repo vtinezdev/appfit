@@ -278,7 +278,7 @@ export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): str
     const alto = pie - 72 - arriba
     if (alto > 200) partes.push(muneco(d.muneco, c, MARGEN, arriba, alto))
   }
-  partes.push(texto(MARGEN, pie, 'Hecho con', 30, c.tenue, LETRA.texto), svgLogotipo(MARGEN + 150, pie + 6, 56, { texto: c.texto, acento: c.acento }).svg)
+  partes.push(texto(MARGEN, pie, 'Hecho con', 30, c.tenue, LETRA.texto), svgLogotipo(MARGEN + 150, pie + 2, 56, { texto: c.texto, acento: c.acento }).svg)
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${ANCHO_POSTER}" height="${ALTO_POSTER}" viewBox="0 0 ${ANCHO_POSTER} ${ALTO_POSTER}">`
     + (css ? `<style>${css}</style>` : '') + partes.join('') + '</svg>'
