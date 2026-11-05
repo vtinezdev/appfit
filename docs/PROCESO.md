@@ -3464,3 +3464,12 @@ Con el nombre decidido (§313), Víctor diseña con Claude el logotipo y el icon
 - Documentos: ADR 063 (estado), `roadmap.md`, `despliegue.md`, `DESIGN.md` (sección Marca), `DESIGN-SYSTEM.md`, `PRODUCT.md`, `README.md`, `arquitectura.md`.
 
 **Verificación:** tras traer `master` (§313–317), `npm run test` (269 archivos, 3.175 pruebas) y `npm run build` correctos. Capturas en Chromium en `appfit-test.localhost:5173`, 320 y 375 px, claro y oscuro: pie de Ajustes, Primeros pasos, aviso de traslado (iPhone emulado) y pantalla de error (IndexedDB bloqueada), sin desbordes; pósteres renderizados desde su SVG real. Sin dispositivo físico: el icono en la pantalla de inicio de un iPhone o Android se comprueba tras desplegar.
+
+## 319. PWA de iOS: la app, al alto que pinta iOS, y medidas de pantalla (2026-11-05)
+
+Tras §317 Víctor seguía viendo el botón de secciones cortado y mandó una captura (iPhone de 430 pt): la app se corta en línea recta unos 64 pt antes del borde y debajo queda una franja lisa. iOS no pinta esa zona; §306 y §317 estiraban la app a la pantalla entera y la metían en ella, con el botón partido.
+
+- `design/viewport`: el alto del shell y las capas vuelve a ser el que da iOS (`visualViewport` o `innerHeight`), también en la PWA; sigue pegada arriba sin teclado. Se quitan `altoVisible`, `margenInferiorMinimo` y `--safe-bottom-min` (`--safe-bottom` queda como `env(safe-area-inset-bottom)`). Con la franja, el botón queda entero por encima.
+- Ajustes › Actualizaciones › «Medidas de pantalla»: pantalla, ventana, zona visible, documento, rectángulo de la app y márgenes del sistema (`leerMedidas`, `lineasMedidas` con test), para que una captura diga qué da iOS si vuelve a fallar.
+
+**Verificación:** `npm run test` y `npm run build` correctos; las medidas en Chromium a 320 (oscuro) y 430 (claro) sin scroll horizontal. Sin iPhone: falta comprobar en el dispositivo que el botón sale entero.
