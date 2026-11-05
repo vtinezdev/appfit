@@ -90,9 +90,8 @@
   --thumb-filter: none;
   --sheet-max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - 1rem);
   --app-height: 100dvh;
-  /* Margen inferior del sistema. En la PWA de iOS, `viewport.ts` pone un mínimo (--safe-bottom-min) porque iOS
-     informa de 0 cuando deja la vista corta y la app se estira hasta el borde. Úsalo en vez de env(safe-area-inset-bottom). */
-  --safe-bottom: max(env(safe-area-inset-bottom), var(--safe-bottom-min, 0px));
+  /* Margen inferior del sistema (barra de inicio). Úsalo en vez de env(safe-area-inset-bottom). */
+  --safe-bottom: env(safe-area-inset-bottom);
   /* Botón de secciones flotante, abajo al centro, con un margen inferior; --nav-height es lo que reserva. */
   --nav-height: 4.25rem;
   --nav-boton: 3.75rem;

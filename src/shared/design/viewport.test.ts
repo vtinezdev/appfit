@@ -1,39 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { abreTeclado, altoVisible, initViewport, margenInferiorMinimo } from './viewport'
+import { abreTeclado, initViewport, lineasMedidas } from './viewport'
 
 afterEach(() => vi.unstubAllGlobals())
 
-describe('altoVisible', () => {
-  const iphone = { ancho: 393, alto: 852 }
-  it('en la PWA de iOS sin teclado ocupa la pantalla entera aunque iOS informe de menos', () => {
-    expect(altoVisible({ alto: 793, standaloneIOS: true, pantalla: iphone, horizontal: false, teclado: false })).toBe(852)
-    expect(altoVisible({ alto: 340, standaloneIOS: true, pantalla: iphone, horizontal: true, teclado: false })).toBe(393)
-  })
-  it('con el teclado abierto conserva el alto visible', () => {
-    expect(altoVisible({ alto: 500, standaloneIOS: true, pantalla: iphone, horizontal: false, teclado: true })).toBe(500)
-  })
-  it('sin campo enfocado no hay teclado: ocupa la pantalla entera aunque falte mucho alto', () => {
-    expect(altoVisible({ alto: 500, standaloneIOS: true, pantalla: iphone, horizontal: false, teclado: false })).toBe(852)
-  })
-  it('fuera de la PWA de iOS no toca el alto', () => {
-    expect(altoVisible({ alto: 793, standaloneIOS: false, pantalla: iphone, horizontal: false, teclado: false })).toBe(793)
-  })
-  it('nunca encoge un alto mayor que la pantalla', () => {
-    expect(altoVisible({ alto: 900, standaloneIOS: true, pantalla: iphone, horizontal: false, teclado: false })).toBe(900)
-  })
-})
-
-describe('margenInferiorMinimo', () => {
-  const base = { standaloneIOS: true, pantalla: { ancho: 430, alto: 932 }, horizontal: false, teclado: false }
-  it('en la PWA de un iPhone con barra de inicio garantiza su margen, también si iOS informa de 0', () => {
-    expect(margenInferiorMinimo(base)).toBe(34)
-    expect(margenInferiorMinimo({ ...base, horizontal: true })).toBe(21)
-  })
-  it('nada con teclado, fuera de la PWA de iOS, en iPhone con botón de inicio ni en iPad', () => {
-    expect(margenInferiorMinimo({ ...base, teclado: true })).toBe(0)
-    expect(margenInferiorMinimo({ ...base, standaloneIOS: false })).toBe(0)
-    expect(margenInferiorMinimo({ ...base, pantalla: { ancho: 375, alto: 667 } })).toBe(0)
-    expect(margenInferiorMinimo({ ...base, pantalla: { ancho: 820, alto: 1180 } })).toBe(0)
+describe('lineasMedidas', () => {
+  it('redondea y marca lo que falta', () => {
+    const lineas = lineasMedidas({ pantalla: { ancho: 430, alto: 932 }, ventana: { ancho: 430, alto: 868.4 }, visible: null, documento: 868, app: { arriba: 0, alto: 868 }, margenes: { arriba: 59, abajo: 0 }, instalada: true })
+    expect(Object.fromEntries(lineas)).toMatchObject({ Ventana: '430 × 868', 'Zona visible': 'Sin datos', App: '868 desde 0', 'Margen arriba': '59', 'Margen abajo': '0', 'Instalada (iOS)': 'Sí' })
   })
 })
 
@@ -95,22 +68,20 @@ describe('zona visible de la app', () => {
     limpiar()
   })
 
-  it('en la PWA de iOS sin teclado ocupa la pantalla y queda arriba aunque iOS informe de menos alto o de desplazamiento', () => {
+  it('en la PWA de iOS sin teclado usa el alto que da iOS (aunque sea menos que la pantalla) y queda arriba', () => {
     const { viewport, ventana, valores, doc } = entorno()
     Object.assign(ventana, { innerWidth: 430, navigator: { standalone: true }, screen: { width: 430, height: 932 } })
     viewport.height = 868
     viewport.offsetTop = -64
     const limpiar = initViewport()
-    expect(valores.get('--app-height')).toBe('932px')
+    expect(valores.get('--app-height')).toBe('868px')
     expect(valores.get('--viewport-top')).toBe('0px')
-    expect(valores.get('--safe-bottom-min')).toBe('34px')
     doc.activeElement = { tagName: 'INPUT' }
     viewport.height = 500
     viewport.offsetTop = 30
     ventana.dispatchEvent(new Event('focusin'))
     expect(valores.get('--app-height')).toBe('500px')
     expect(valores.get('--viewport-top')).toBe('30px')
-    expect(valores.get('--safe-bottom-min')).toBe('0px')
     limpiar()
   })
 })

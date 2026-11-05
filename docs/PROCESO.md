@@ -3451,3 +3451,12 @@ Tras §306 la app ya llegaba al borde, pero Víctor seguía viendo el botón de 
 - Token `--safe-bottom` = `max(env(safe-area-inset-bottom), var(--safe-bottom-min))`; lo usan el botón y la rejilla de secciones, el hueco final de la vista, `--nav-dock` y `.safe-bottom` (pies de hojas y páginas modales). Fuera de la PWA de iOS no cambia nada.
 
 **Verificación:** `npm run test` (269 archivos, 3.175 pruebas) y `npm run build` correctos. Sin iPhone en la sesión: no probado en el dispositivo.
+
+## 318. PWA de iOS: la app, al alto que pinta iOS, y medidas de pantalla (2026-11-05)
+
+Tras §317 Víctor seguía viendo el botón de secciones cortado y mandó una captura (iPhone de 430 pt): la app se corta en línea recta unos 64 pt antes del borde y debajo queda una franja lisa. iOS no pinta esa zona; §306 y §317 estiraban la app a la pantalla entera y la metían en ella, con el botón partido.
+
+- `design/viewport`: el alto del shell y las capas vuelve a ser el que da iOS (`visualViewport` o `innerHeight`), también en la PWA; sigue pegada arriba sin teclado. Se quitan `altoVisible`, `margenInferiorMinimo` y `--safe-bottom-min` (`--safe-bottom` queda como `env(safe-area-inset-bottom)`). Con la franja, el botón queda entero por encima.
+- Ajustes › Actualizaciones › «Medidas de pantalla»: pantalla, ventana, zona visible, documento, rectángulo de la app y márgenes del sistema (`leerMedidas`, `lineasMedidas` con test), para que una captura diga qué da iOS si vuelve a fallar.
+
+**Verificación:** `npm run test` y `npm run build` correctos; las medidas en Chromium a 320 (oscuro) y 430 (claro) sin scroll horizontal. Sin iPhone: falta comprobar en el dispositivo que el botón sale entero.
