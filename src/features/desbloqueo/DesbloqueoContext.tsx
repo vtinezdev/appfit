@@ -1,9 +1,13 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { getSettings } from '../../shared/db/settings'
 import { useHoy } from '../../shared/hooks/useHoy'
 import { calcularAcceso, dePagoBloqueado, type Acceso } from '../../shared/lib/acceso'
-import { entornoAcceso } from '../../shared/pwa/cobro'
+import { desbloqueadoAqui, entornoAcceso, observarDesbloqueo, recordarDesbloqueo } from '../../shared/pwa/cobro'
+import { cuentaDisponible } from '../cuenta/servicio'
+import { useCuenta } from '../cuenta/useCuenta'
+import { consultarMiDesbloqueo } from './data/desbloqueoNube'
+import { accionDesbloqueo } from './lib/consulta'
 import DesbloquearSheet from './components/DesbloquearSheet'
 
 interface ValorDesbloqueo {
@@ -23,7 +27,21 @@ export function DesbloqueoProvider({ children }: { children: ReactNode }) {
   const hoy = useHoy()
   const settings = useLiveQuery(() => getSettings(), [])
   const [abierta, setAbierta] = useState(false)
-  const acceso = useMemo(() => (settings ? calcularAcceso(settings, entornoAcceso(), hoy) : undefined), [settings, hoy])
+  const desbloqueado = useSyncExternalStore(observarDesbloqueo, desbloqueadoAqui)
+  const { fase } = useCuenta()
+  // Con la cuenta abierta, pregunta a la nube si está desbloqueada (parte 2 del ADR 068) y lo recuerda en el móvil; sin red,
+  // vale lo último que se supo. Al cerrar la sesión se olvida.
+  useEffect(() => {
+    if (!cuentaDisponible) return
+    const accion = accionDesbloqueo(fase)
+    if (accion === 'olvidar') recordarDesbloqueo(false)
+    if (accion !== 'preguntar') return
+    let vivo = true
+    void consultarMiDesbloqueo().then((r) => { if (vivo && r !== null) recordarDesbloqueo(r) })
+    return () => { vivo = false }
+  }, [fase])
+  // `desbloqueado` lo lee `entornoAcceso`; va en las dependencias para recalcular al cambiar.
+  const acceso = useMemo(() => (settings ? calcularAcceso(settings, entornoAcceso(), hoy) : undefined), [settings, hoy, desbloqueado])
   const pedir = useCallback(() => setAbierta(true), [])
   const valor = useMemo(() => ({ acceso, bloqueado: acceso ? dePagoBloqueado(acceso) : false, pedir }), [acceso, pedir])
   return (

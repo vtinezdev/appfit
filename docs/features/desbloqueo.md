@@ -2,7 +2,7 @@
 
 `src/features/desbloqueo/` y la lógica en `shared/lib/acceso.ts` y `shared/pwa/cobro.ts`. Decisión: [ADR 068](../decisiones/068-gratis-y-de-pago.md). Entreno, Actividades, Liga, Social y la cuenta son gratis siempre; Nutrición, Perfil y la copia en la nube, durante un mes de prueba desde la primera apertura y después con un pago único.
 
-**Estado:** parte 1 de 3 (bloqueo y prueba). **El cobro está apagado** (`COBRO_ACTIVO = false`): nadie ve nada distinto hasta que se pueda pagar con Play Billing (parte 3). El desbloqueo manual desde la administración de Social es la parte 2.
+**Estado:** partes 1 (bloqueo y prueba) y 2 (desbloqueo manual) de 3. **El cobro está apagado** (`COBRO_ACTIVO = false`): nadie ve nada distinto hasta que se pueda pagar con Play Billing (parte 3). La parte 2 necesita `supabase/migrations/0031_desbloqueos.sql` en el proyecto real (la ejecuta Víctor en el SQL Editor; sin ella, la app sigue igual y Moderación no enseña la pestaña).
 
 ## Dónde está cada cosa
 
@@ -13,6 +13,9 @@
 | Primera apertura | `settings.primeraApertura`, que apunta `ensureSettings` al arrancar si falta | viaja en el backup y en la copia; importar se queda con la más antigua (`importarBackup`); borrar los datos reinicia la prueba (aceptado) |
 | Contexto y hoja | `DesbloqueoContext`: `DesbloqueoProvider` (en `App`) y `useDePago()` → `{ acceso, bloqueado, pedir, proteger }`; `components/DesbloquearSheet` («Cumbra Fit completa») | sin proveedor (tests sueltos), todo abierto |
 | Aviso en las secciones de pago | `components/AvisoPruebaTerminada` en Nutrición, Recetas y Perfil | solo con la prueba terminada |
+| Desbloqueo de la cuenta | `data/desbloqueoNube.consultarMiDesbloqueo` (`mi_desbloqueo`, 0031) y `lib/consulta.accionDesbloqueo` | con sesión, `DesbloqueoProvider` pregunta al abrir y cuando cambia la cuenta; sin sesión, lo olvida |
+| Desbloqueo recordado | `shared/pwa/cobro`: `desbloqueadoAqui`, `recordarDesbloqueo`, `observarDesbloqueo` (localStorage `appfit-desbloqueo`) | fuera de IndexedDB: no viaja en el backup ni en la copia; sin red vale lo último que se supo |
+| Desbloquear a mano | Social › Moderación › Desbloqueos (`social/components/Moderacion`, `admin_desbloquear`, `admin_desbloqueados`) | solo administradores (0017), por el alias del perfil social |
 
 ## Con la prueba terminada
 
@@ -27,3 +30,9 @@ Lo apuntado se ve y se exporta; lo que **añade o cambia** pide desbloquear (`pr
 - **Ajustes** enseña la fila «Cumbra Fit completa» con el estado («Prueba: quedan 12 días», «Prueba terminada»…) solo donde el cobro se aplica.
 
 La hoja de desbloqueo muestra el precio con el botón deshabilitado («Muy pronto podrás desbloquearla desde aquí»): el pago llega en la parte 3.
+
+## Desbloqueo manual (parte 2)
+
+Para quien ya usa la app: Víctor, como administrador, abre Social › Moderación › Desbloqueos, escribe el alias del perfil social y pulsa «Desbloquear». Queda en `public.desbloqueos` (0031: `user_id`, `origen` `manual` o `play`, quién lo hizo y cuándo; RLS cerrada, todo por funciones) y vale en cualquier móvil donde esa persona entre con su cuenta. «Quitar» lo deshace (solo los manuales; una compra no se quita desde aquí). Un alias sin perfil avisa «No hay ningún perfil con el alias @…». Requiere que la persona tenga cuenta y perfil en Social.
+
+La app de esa persona pregunta `mi_desbloqueo` al abrir con sesión y lo recuerda en el móvil. Al quitarlo en la nube, la próxima vez que abra con sesión vuelve a la prueba (o al bloqueo). Al cerrar la sesión se olvida. Pruebas: `supabase/pruebas/desbloqueos.sql` y `scripts/ui/validar-desbloqueos.cjs` (Supabase falso: `mi_desbloqueo`, `admin_desbloquear`, `admin_desbloqueados` y `simular_desbloqueo`).

@@ -3625,3 +3625,14 @@ Víctor decide el modelo con Claude ([ADR 068](decisiones/068-gratis-y-de-pago.m
 - `importarBackup` conserva la primera apertura más antigua entre la del móvil y la del backup: un backup de antes no la borra (lo detectó `validar-correcciones-auditoria`, «reintentar conserva el backup completo», al volver a apuntarla `ensureSettings` tras recargar).
 
 **Verificación:** `npm run test` (276 archivos, 3.222 pruebas) y `npm run build` correctos. En Chromium con `?preview=cobro` en `appfit-cobro.localhost`, 375 claro, 320 oscuro y 430 oscuro: Ajustes con 20 días de prueba y la hoja; con la prueba terminada, los avisos de Nutrición, Recetas y Perfil, Inicio con «Desbloquear», Añadir comida, Plan › Planificar y Nueva receta abren la hoja; Entreno sin aviso; sin la vista previa, nada cambia. Sin scroll horizontal, controles ≥44 px y sin errores. Sin Android real.
+
+## 334. Gratis y de pago, parte 2: el desbloqueo manual (2026-11-06)
+
+Víctor quiere poder desbloquear a quien ya usa la app ([ADR 068](decisiones/068-gratis-y-de-pago.md)); pide seguir con la parte 2.
+
+- `supabase/migrations/0031_desbloqueos.sql`: tabla `desbloqueos` (`origen` `manual` o `play`), `mi_desbloqueo`, `admin_desbloquear` y `admin_desbloqueados`. Prueba `supabase/pruebas/desbloqueos.sql`.
+- Social › Moderación › Desbloqueos (solo con 0031): desbloquear por alias, la lista con «Quitar» y un aviso claro si el alias no tiene perfil. `desbloquearApp` y `desbloqueadosApp` en `social/data` (`desbloquear` ya era quitar un bloqueo entre personas).
+- `DesbloqueoProvider` pregunta `mi_desbloqueo` con sesión (`desbloqueo/data/desbloqueoNube`, `lib/consulta`) y lo recuerda en localStorage (`shared/pwa/cobro`), fuera del backup; sin sesión lo olvida. `entornoAcceso` ya lo usa.
+- Supabase falso: las tres funciones y `simular_desbloqueo`; recorrido `scripts/ui/validar-desbloqueos.cjs`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las migraciones 0001–0031 y todas las suites de `supabase/pruebas/`, incluida `desbloqueos.sql`, en un PostgreSQL 16 local efímero (Docker Hub limitó la imagen; PGlite no aguanta las excepciones de los bloques `do`). `validar-desbloqueos.cjs` (320 claro, 375 oscuro, 430 claro) y `validar-administracion.cjs` (ocho contextos) correctos con el Supabase falso. Pendiente: ejecutar 0031 en el proyecto real.

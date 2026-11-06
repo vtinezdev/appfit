@@ -13,9 +13,10 @@ import { useConsulta } from '../hooks/useConsulta'
 import { normalizarAlias, validarAlias } from '../lib/alias'
 import { accionesDenuncia, describirDenuncia, textoMotivos, type AccionDenuncia, type Denuncia } from '../lib/moderacion'
 import { nombreVisible } from '../lib/relacion'
+import { SocialError } from '../data/social'
 import { cargarSocial } from '../servicio'
 
-type Vista = 'denuncias' | 'suspendidos'
+type Vista = 'denuncias' | 'suspendidos' | 'desbloqueos'
 
 /** Lo que hay que confirmar antes de hacerlo: borrar o suspender desde una denuncia, o suspender por alias. */
 type Confirmacion = { denuncia: Denuncia; accion: Exclude<AccionDenuncia, 'descartar'> } | { alias: string }
@@ -52,6 +53,9 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
   const denuncias = useConsulta(async () => (await cargarSocial()).denuncias(), `d-${version}`)
   const suspendidos = useConsulta(async () => (await cargarSocial()).suspendidos(), `s-${version}`)
   const comunidades = useConsulta(async () => (await cargarSocial()).comunidadesSuspendidas(), `c-${version}`)
+  // Desbloqueos a mano de Cumbra Fit (0031, ADR 068); sin la migración, `null` y la pestaña no sale.
+  const desbloqueados = useConsulta(async () => (await cargarSocial()).desbloqueadosApp(), `b-${version}`)
+  const [aliasDesbloqueo, setAliasDesbloqueo] = useState('')
 
   async function ejecutar(fn: () => Promise<void>, mensaje: string) {
     if (ocupado) return
@@ -68,7 +72,21 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
   const reactivar = (id: string, nombre: string) => ejecutar(async () => { await (await cargarSocial()).reactivarComunidad(id) }, `${nombre} vuelve a verse.`)
   const suspender = (a: string, si: boolean) => ejecutar(async () => { await (await cargarSocial()).suspender(a, si) },
     si ? `@${a} queda suspendido.` : `@${a} vuelve a tener acceso.`)
+  const desbloquear = (a: string, si: boolean) => ejecutar(async () => {
+    try { await (await cargarSocial()).desbloquearApp(a, si) } catch (e) {
+      // Al desbloquear, `no_encontrado` es un alias sin perfil: el texto general («Ya no está disponible») confundiría.
+      throw si && e instanceof SocialError && e.clave === 'no_encontrado' ? new Error(`No hay ningún perfil con el alias @${a}.`) : e
+    }
+  },
+    si ? `@${a} tiene Cumbra Fit desbloqueada.` : `@${a} ya no la tiene desbloqueada.`)
   const confirmar = (datos: Confirmacion) => { setError(null); setConfirmacion({ open: true, datos }) }
+
+  function pedirDesbloqueo(e: FormEvent) {
+    e.preventDefault()
+    const invalido = validarAlias(aliasDesbloqueo)
+    if (invalido) { setError(invalido); return }
+    void desbloquear(normalizarAlias(aliasDesbloqueo), true).then(() => setAliasDesbloqueo(''))
+  }
 
   function pedirSuspension(e: FormEvent) {
     e.preventDefault()
@@ -86,7 +104,7 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
     <div className="space-y-stack">
       {hecho && <p role="status" className="text-body-sm text-fg">{hecho}</p>}
       {error && !confirmacion.open && <ErrorState>{error}</ErrorState>}
-      <ViewTabs label="Moderación" valor={vista} onChange={setVista} opciones={[{ valor: 'denuncias', label: 'Denuncias' }, { valor: 'suspendidos', label: 'Suspendidos' }]}>
+      <ViewTabs label="Moderación" valor={vista} onChange={setVista} opciones={[{ valor: 'denuncias', label: 'Denuncias' }, { valor: 'suspendidos', label: 'Suspendidos' }, ...(desbloqueados.datos ? [{ valor: 'desbloqueos' as const, label: 'Desbloqueos' }] : [])]}>
         {vista === 'denuncias' ? (
           denuncias.estado === 'error' && !denuncias.datos ? <div className="space-y-2"><ErrorState>{denuncias.error}</ErrorState><Button variant="secondary" size="sm" onClick={denuncias.recargar}>Reintentar</Button></div>
             : !denuncias.datos ? <LoadingState />
@@ -95,7 +113,25 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
                   {denuncias.datos.map(d => <FilaDenuncia key={d.id} d={d} ocupado={ocupado}
                     onAccion={accion => accion === 'descartar' ? void resolver(d, accion) : confirmar({ denuncia: d, accion })} />)}
                 </ul>
-        ) : <div className="space-y-section">
+        ) : vista === 'desbloqueos' ? <div className="space-y-section">
+          <p className="text-body-sm text-fg-muted">Quien tenga Cumbra Fit desbloqueada sigue usando Nutrición, Perfil y la copia en la nube después del mes de prueba, en cualquier móvil donde entre con su cuenta.</p>
+          <form className="flex flex-wrap items-end gap-2" onSubmit={pedirDesbloqueo} noValidate>
+            <div className="min-w-0 flex-1 basis-48"><Campo etiqueta="Desbloquear por alias"><Input autoCapitalize="none" autoCorrect="off" spellCheck={false} maxLength={21} value={aliasDesbloqueo} onChange={e => setAliasDesbloqueo(e.target.value)} /></Campo></div>
+            <Button type="submit" variant="secondary" disabled={ocupado}>Desbloquear</Button>
+          </form>
+          {desbloqueados.estado === 'error' && !desbloqueados.datos ? <div className="space-y-2"><ErrorState>{desbloqueados.error}</ErrorState><Button variant="secondary" size="sm" onClick={desbloqueados.recargar}>Reintentar</Button></div>
+            : !desbloqueados.datos ? <LoadingState />
+              : desbloqueados.datos.length === 0 ? <EmptyState title="Nadie desbloqueado a mano" />
+                : <ul className="divide-y divide-line" aria-label="Desbloqueados a mano">
+                  {desbloqueados.datos.map(d => <li key={d.alias} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-3">
+                    <span className="min-w-0 flex-1 basis-40">
+                      <span className="block break-words text-body font-semibold text-fg">{nombreVisible(d)}</span>
+                      <span className="block break-words text-caption text-fg-muted">@{d.alias}{d.desde !== null ? ` · desde ${haceCuanto(d.desde, Date.now())}` : ''}</span>
+                    </span>
+                    <Button variant="secondary" size="sm" disabled={ocupado} aria-label={`Quitar el desbloqueo a @${d.alias}`} onClick={() => void desbloquear(d.alias, false)}>Quitar</Button>
+                  </li>)}
+                </ul>}
+        </div> : <div className="space-y-section">
           <form className="flex flex-wrap items-end gap-2" onSubmit={pedirSuspension} noValidate>
             <div className="min-w-0 flex-1 basis-48"><Campo etiqueta="Suspender por alias"><Input autoCapitalize="none" autoCorrect="off" spellCheck={false} maxLength={21} value={alias} onChange={e => setAlias(e.target.value)} /></Campo></div>
             <Button type="submit" variant="secondary" disabled={ocupado}>Suspender</Button>
