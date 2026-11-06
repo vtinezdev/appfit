@@ -10,7 +10,7 @@
 |---|---|---|
 | Estado del acceso | `shared/lib/acceso.ts`: `calcularAcceso` (`abierto` · `prueba` · `terminada` · `desbloqueado`), `dePagoBloqueado`, `resumenAcceso`, `DIAS_PRUEBA` (30, contando el primer día), `PRECIO_DESBLOQUEO` | puro, con tests |
 | Dónde se aplica | `shared/pwa/cobro.ts`: `aplicaCobro` (solo la app de Google Play con `COBRO_ACTIVO`; la web y el iPhone, abiertos), `entornoAcceso` | `?preview=cobro` lo enciende en esa sesión para probarlo |
-| Primera apertura | `settings.primeraApertura`, que apunta `ensureSettings` al arrancar si falta | viaja en el backup y en la copia; borrar los datos reinicia la prueba (aceptado) |
+| Primera apertura | `settings.primeraApertura`, que apunta `ensureSettings` al arrancar si falta | viaja en el backup y en la copia; importar se queda con la más antigua (`importarBackup`); borrar los datos reinicia la prueba (aceptado) |
 | Contexto y hoja | `DesbloqueoContext`: `DesbloqueoProvider` (en `App`) y `useDePago()` → `{ acceso, bloqueado, pedir, proteger }`; `components/DesbloquearSheet` («Cumbra Fit completa») | sin proveedor (tests sueltos), todo abierto |
 | Aviso en las secciones de pago | `components/AvisoPruebaTerminada` en Nutrición, Recetas y Perfil | solo con la prueba terminada |
 
