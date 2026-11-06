@@ -89,7 +89,7 @@ Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de 
 ## Ideas sin empezar
 
 Monetización y app nativa:
-- Gratis y de pago ([ADR 068](decisiones/068-gratis-y-de-pago.md)): Entreno, Actividades, Liga, Social y la cuenta gratis; el resto con un pago único de 9,99 € tras un mes de prueba, Play Billing en Android y desbloqueo manual desde la administración. Falta decidir qué hace la web/iPhone mientras no haya app de iPhone y cómo se cuenta la prueba.
+- Gratis y de pago ([ADR 068](decisiones/068-gratis-y-de-pago.md)): Entreno, Actividades, Liga, Social y la cuenta gratis; el resto con un pago único de 9,99 € tras un mes de prueba, Play Billing en Android y desbloqueo manual desde la administración. Solo bloquea en la app de Play (la web y el iPhone, sin bloqueo); la prueba cuenta desde la primera apertura.
 - Después: app de Play con Capacitor en lugar de TWA, para grabar actividades con la pantalla bloqueada (servicio en primer plano de ubicación, sin ubicación en segundo plano).
 
 Social:

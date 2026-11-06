@@ -1,6 +1,6 @@
 # 068 — Gratis y de pago: Entreno gratis, el resto con un pago único
 
-Fecha: 2026-11-06. Estado: aceptada, **sin implementar**. Cambia la app de Google Play, que hoy no cobra (`android/README.md`).
+Fecha: 2026-11-06. Estado: aceptada, **sin implementar**; decidido todo lo necesario para empezar. Cambia la app de Google Play, que hoy no cobra (`android/README.md`).
 
 ## Contexto
 
@@ -25,15 +25,17 @@ Víctor quiere monetizar la app sin convertirla en una suscripción: una parte g
 - **Desbloqueo manual**: quien ya usa la app no paga. Víctor lo desbloquea desde la administración de Social ([ADR 049](049-administracion-de-social.md)) buscando a la persona por su alias. Queda guardado en su cuenta de Supabase y vale en cualquier móvil. Requiere que esa persona tenga cuenta.
 - **iPhone**: en espera hasta que exista la app de iPhone. Se deja preparado: el estado «desbloqueado» no depende de cómo se pagó (Play, desbloqueo manual o, en el futuro, App Store).
 
-## Pendiente de decidir antes de implementar
+## Dónde se aplica y cómo se cuenta la prueba
 
-- **La web y la PWA de iPhone.** Hoy no hay forma de pagar fuera de Google Play. Si la web aplica el bloqueo, quien use el iPhone no puede desbloquear nada (salvo con el desbloqueo manual). Si no lo aplica, cualquiera con Android puede usar la web gratis. Hay que elegir una de las dos hasta que llegue la app de iPhone.
-- **Cómo se cuenta la prueba**: por la primera vez que se abre la app en el móvil (se reinicia al borrar los datos) o por la fecha de alta de la cuenta (no se reinicia, pero obliga a tener cuenta).
+Víctor lo decide el 2026-11-06:
+
+- **Solo en la app de Google Play.** La web y la PWA de iPhone siguen sin bloqueo mientras no haya forma de pagar fuera de Play; se acepta que alguien con Android pueda usar la web gratis. La app de Play se reconoce como ya hace `shared/pwa/entorno` ([ADR 067](067-app-de-tienda-sin-instalar-desde-la-web.md)). Cuando salga la app de iPhone se revisa.
+- **La prueba cuenta desde la primera apertura** de la app en ese móvil (una fecha guardada en el dispositivo). Se reinicia si alguien borra los datos de la app; se acepta, con un pago de 9,99 € no compensa atarla a la cuenta.
 
 ## Consecuencias
 
 - Nueva tabla en Supabase para los desbloqueos (manuales y comprados), con RLS: cada persona lee la suya y solo la administración escribe. Migración SQL nueva, a ejecutar a mano.
 - Verificar las compras de Play en el servidor exige una función de Supabase que consulte la API de Google Play: es un servicio nuevo y va en `docs/seguridad.md`. Sin cuenta, la compra se comprueba en el móvil con la Digital Goods API de la TWA.
 - Hay que cambiar las condiciones de uso, la política de privacidad ([ADR 065](065-textos-legales-y-edad-minima.md)), la ficha de Play y `/conoce`, que hoy dicen que la app es gratis.
-- El bloqueo de lo local se puede saltar con conocimientos técnicos; se acepta.
+- El bloqueo de lo local se puede saltar con conocimientos técnicos, o usando la web; se acepta.
 - Siguiente paso, aparte: pasar la app de Play de TWA a Capacitor para grabar actividades con la pantalla bloqueada (servicio en primer plano de ubicación). Play Billing funciona igual allí. Ver `docs/roadmap.md`.
