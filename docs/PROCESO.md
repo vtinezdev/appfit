@@ -3586,3 +3586,15 @@ Víctor pide preparar el aviso para cuando la app pase de `appfit.vtinez-dev.wor
 
 **Verificación:** `npm run test` (274 archivos, 3.209 pruebas) y `npm run build` correctos. En Chromium, con `VITE_DIRECCION_NUEVA=http://appfit-nueva.localhost:5173`: en `appfit-test.localhost` (la dirección vieja) a 320/375/430 px en claro y oscuro, el aviso sin cuenta, sin scroll horizontal y con controles de 44 px; «Exportar copia» abre Copias de seguridad. En `appfit-nueva.localhost`, sin aviso. Los caminos con cuenta, solo en los tests (sin Supabase en la prueba).
 
+## 330. Plazos de borrado de las denuncias y los mensajes al creador (2026-11-06)
+
+Hasta ahora ni las denuncias (con la copia de lo denunciado) ni los mensajes de «Comunicar un problema» y «Proponer un alimento» se borraban nunca, y los textos legales decían «el tiempo necesario». Víctor fija los plazos: denuncias, 6 meses después de revisarlas (las pendientes esperan); mensajes, 12 meses después de llegar, leídos o no.
+
+- `supabase/migrations/0030_plazos_de_borrado.sql`: `borrar_caducados()` (`security definer`, `search_path` vacío, sin permiso para la app; devuelve cuántas borró de cada) y la tarea `appfit-plazos-borrado` de pg_cron, domingos a las 03:45 UTC. Ninguna tabla apunta a esas dos; con la denuncia se va su aviso «hemos actuado» (0026). **Víctor tiene que ejecutarla en el SQL Editor del proyecto.**
+- `supabase/pruebas/plazos_de_borrado.sql`: borra la denuncia revisada hace 7 meses y deja la de hace 2 y la que sigue sin revisar; borra los mensajes de hace 13 meses, leídos o no, y deja el de hace 11; repetirla no borra más; ni `anon` ni `authenticated` pueden ejecutarla.
+- `scripts/sql/validar-social.mjs`: quita la parte de `pg_cron` de cualquier migración (antes solo de 0002).
+- Textos: `public/privacidad.html` § 6 y `public/borrar-cuenta.html` con los plazos; las tres páginas legales y `VERSION_TEXTOS_LEGALES` pasan al 2026-11-06.
+- Documentos: ADR 065, `seguridad.md`, `features/social.md`, `features/cuenta.md`, `roadmap.md`.
+
+**Verificación:** Docker Hub respondía 429 y el proxy de la sesión bloquea el espejo de AWS, así que las migraciones y las pruebas se pasaron en PGlite (PostgreSQL 17 en WASM, como la suite de 0014): las 30 migraciones (sin pg_cron) y las 23 suites, la nueva incluida, correctas. `npm run test` y `npm run build` correctos. La tarea de pg_cron no se puede probar fuera de Supabase.
+

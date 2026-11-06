@@ -3,7 +3,7 @@
 // no las sustituya por la app al navegar. ADR 065.
 
 /** Versión de los textos legales (su «Última actualización»): la que se acepta en la bienvenida. */
-export const VERSION_TEXTOS_LEGALES = '2026-11-05'
+export const VERSION_TEXTOS_LEGALES = '2026-11-06'
 
 /** Edad mínima para usar Cumbra Fit, en toda la app (condiciones § 2). */
 export const EDAD_MINIMA = 16
