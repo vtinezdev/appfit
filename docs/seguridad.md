@@ -30,11 +30,11 @@ Para que la CSP no tenga que permitir scripts en línea, el tema inicial va en `
 
 ## Supabase
 
-Revisado el 2026-11-03 sobre `supabase/migrations/` (0001–0028); 0029 (2026-11-04) solo amplía `comentar_respuesta` y `social_capacidades`, con las mismas comprobaciones de sesión, publicación visible y bloqueo; 0030 (2026-11-06) añade `borrar_caducados` (sin permiso para `public`, `anon` ni `authenticated`; la ejecuta solo la tarea programada). Repasado entero en la auditoría de 2026-11 (`auditoria-seguridad-2026-11/ESTADO.md` § 1), que añadió 0031:
+Revisado el 2026-11-03 sobre `supabase/migrations/` (0001–0028); 0029 (2026-11-04) solo amplía `comentar_respuesta` y `social_capacidades`, con las mismas comprobaciones de sesión, publicación visible y bloqueo; 0030 (2026-11-06) añade `borrar_caducados` (sin permiso para `public`, `anon` ni `authenticated`; la ejecuta solo la tarea programada); 0031 (2026-11-06) añade la tabla `desbloqueos` con RLS y sin permisos directos, `mi_desbloqueo` (solo la fila propia, con sesión) y `admin_desbloquear`/`admin_desbloqueados` (comprueban `social_admin_yo`). Repasado entero en la auditoría de 2026-11 (`auditoria-seguridad-2026-11/ESTADO.md` § 1), que añadió 0032:
 
 - Las 21 tablas tienen RLS activada (seguridad por fila: cada persona solo ve lo suyo o lo que le corresponde ver) y se les quitan los permisos directos a `anon` y `authenticated`: todo pasa por funciones.
 - Las funciones `security definer` fijan `search_path` (evita que alguien las engañe con una tabla falsa del mismo nombre) y comprueban la sesión; las que solo usa la cuenta revocan la ejecución a `public` y `anon`.
-- Textos y JSON que llegan de la app tienen tope en la tabla; las claves de la copia, 2 KB (0031), y la copia, 30 MB contados en bytes.
+- Textos y JSON que llegan de la app tienen tope en la tabla; las claves de la copia, 2 KB (0032), y la copia, 30 MB contados en bytes.
 - Sin sesión solo se puede enviar un mensaje al creador, con freno por cuenta (5 por hora) y global (300 por hora).
 - En la app solo viajan la URL y la clave **publicable** (`VITE_SUPABASE_*`); la *secret key* nunca está en el repositorio ni en el build.
 

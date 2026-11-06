@@ -19,6 +19,7 @@ import { COMIDAS, nombreComida } from '../lib/comidas'
 import { resumenMacros, sumMacros } from '../lib/nutrition'
 import { diaInicialPlan, nombreDia, nombreSemana, rangoSemana, semanaPlan } from '../lib/planificadas'
 import { fraccionAnillo } from '../lib/semanaKcal'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 const fechaLarga = (iso: string) => parseISODate(iso).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
 
@@ -34,6 +35,7 @@ interface Props {
  */
 export default function Plan({ hoy, onAnadir }: Props) {
   const lunesHoy = startOfWeek(hoy)
+  const { proteger } = useDePago()
   const [lunesElegido, setLunes] = useState(lunesHoy)
   const [elegido, setElegido] = useState(hoy)
   const [lista, setLista] = useState(false)
@@ -148,7 +150,7 @@ export default function Plan({ hoy, onAnadir }: Props) {
               </ul>}
               <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-line px-3 py-2">
                 <Button variant="subtle" size="sm" aria-label={`Planificar ${nombre}`} onClick={() => onAnadir(fecha, c.valor)}><Icon name="plus" size={18} />Añadir</Button>
-                {fecha === hoy && filas.length > 0 && <Button variant="secondary" size="sm" loading={ocupado === c.valor} disabled={ocupado !== null} onClick={() => void comido(c.valor)}><Icon name="check" size={16} />Lo he comido</Button>}
+                {fecha === hoy && filas.length > 0 && <Button variant="secondary" size="sm" loading={ocupado === c.valor} disabled={ocupado !== null} onClick={proteger(() => comido(c.valor))}><Icon name="check" size={16} />Lo he comido</Button>}
               </div>
             </Card>
           </section>

@@ -3,7 +3,7 @@
 -- 30 MB, que solo mide `datos`. Las claves reales (dos envolturas de la clave de datos, features/cuenta/lib/cifrado.ts)
 -- ocupan unos 400 bytes; el tope de 2 KB deja margen de sobra. Además, `tamano` pasa a contar bytes y no caracteres:
 -- la copia cifrada es base64 (un byte por carácter), así que para la app no cambia nada.
--- Aditiva para la app. Ejecutar en el SQL Editor del proyecto, después de 0030. Si falla al añadir el tope, alguna fila
+-- Aditiva para la app. Ejecutar en el SQL Editor del proyecto, después de 0031 (desbloqueos). Si falla al añadir el tope, alguna fila
 -- tiene unas claves que no son las de la app: no se cambia nada y hay que mirarlo antes.
 
 alter table public.copias

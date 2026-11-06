@@ -65,7 +65,10 @@ describe('TWA de Google Play', () => {
   it('delega la ubicación (GPS de Actividades) y no pide notificaciones, que la app no usa', () => {
     expect(twa.features.locationDelegation.enabled).toBe(true)
     expect(twa.enableNotifications).toBe(false)
-    expect(twa.features.playBilling).toBeUndefined()
+  })
+
+  it('lleva Play Billing para cobrar el desbloqueo (ADR 068, parte 3)', () => {
+    expect(twa.features.playBilling.enabled).toBe(true)
   })
 
   it('la clave de subida no puede acabar en el repositorio', () => {

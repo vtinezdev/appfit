@@ -122,6 +122,25 @@ describe('ultimaExportacion al importar', () => {
   })
 })
 
+describe('primeraApertura al importar (ADR 068)', () => {
+  it('un backup sin ella conserva la del móvil; con las dos, vale la más antigua', async () => {
+    const base = JSON.parse(backupV1)
+    await db.settings.put({ id: 1, objetivos: base.settings[0].objetivos, primeraApertura: '2026-10-01' })
+    await importarBackup(JSON.stringify(base))
+    expect((await db.settings.get(1))?.primeraApertura).toBe('2026-10-01')
+    await importarBackup(JSON.stringify({ ...base, settings: [{ ...base.settings[0], primeraApertura: '2026-11-01' }] }))
+    expect((await db.settings.get(1))?.primeraApertura).toBe('2026-10-01')
+    await importarBackup(JSON.stringify({ ...base, settings: [{ ...base.settings[0], primeraApertura: '2026-09-01' }] }))
+    expect((await db.settings.get(1))?.primeraApertura).toBe('2026-09-01')
+  })
+
+  it('en un móvil sin ella, la del backup se queda', async () => {
+    const base = JSON.parse(backupV1)
+    await importarBackup(JSON.stringify({ ...base, settings: [{ ...base.settings[0], primeraApertura: '2026-09-01' }] }))
+    expect((await db.settings.get(1))?.primeraApertura).toBe('2026-09-01')
+  })
+})
+
 describe('backup v3', () => {
   it('ida y vuelta con las tablas nuevas', async () => {
     await importarBackup(backupV1)

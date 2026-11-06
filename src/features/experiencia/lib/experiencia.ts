@@ -85,6 +85,11 @@ export interface DatosExperiencia {
   planes?: readonly TramoPlanSemanal[]
   pausas?: readonly Pausa[]
   conNutricion: boolean
+  /**
+   * Último día en que cuenta la nutrición (fin del mes de prueba sin desbloquear, ADR 068): lo registrado hasta ese día
+   * se conserva; después solo cuenta el entreno.
+   */
+  nutricionHasta?: string
   /** Caminatas, carreras y senderismo terminados. */
   actividades?: readonly Pick<Actividad, 'id' | 'fecha' | 'distanciaM'>[]
 }
@@ -238,7 +243,8 @@ export function calcularExperiencia(d: DatosExperiencia): ResultadoExperiencia {
 
   const diasRegistro = new Set<string>()
   if (d.conNutricion) {
-    for (const [fecha, delDia] of agrupar(d.entries.filter((e) => e.fecha <= d.hoy), (e) => e.fecha)) {
+    const hasta = d.nutricionHasta !== undefined && d.nutricionHasta < d.hoy ? d.nutricionHasta : d.hoy
+    for (const [fecha, delDia] of agrupar(d.entries.filter((e) => e.fecha <= hasta), (e) => e.fecha)) {
       diasRegistro.add(fecha)
       const comidas = new Set(delDia.map((e) => e.comida)).size
       eventos.push({ tipo: 'registro', fecha, xp: comidas >= 2 ? XP.diaRegistrado : XP.diaUnaComida, comidas })
@@ -250,7 +256,7 @@ export function calcularExperiencia(d: DatosExperiencia): ResultadoExperiencia {
     }
   }
 
-  const ritmo = calcularRitmo({ hoy: d.hoy, diasEntreno, diasRegistro: d.conNutricion ? diasRegistro : null, planes: d.planes, pausas: d.pausas })
+  const ritmo = calcularRitmo({ hoy: d.hoy, diasEntreno, diasRegistro: d.conNutricion ? diasRegistro : null, registroHasta: d.nutricionHasta, planes: d.planes, pausas: d.pausas })
   for (const semana of ritmo.semanas) {
     if (semana.cumplidaEl !== null) eventos.push({ tipo: 'semana', fecha: semana.cumplidaEl, xp: XP.semanaCumplida, lunes: semana.lunes, estado: semana })
   }

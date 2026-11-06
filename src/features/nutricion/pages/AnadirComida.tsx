@@ -91,6 +91,7 @@ function itemDesdeEntrada(e: Entry): ItemRevision {
 export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaInicial, soloTipica = false, planificar = false, onClose, onGuardado }: Props) {
   const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? platoDestino?.entries[0].comida ?? comidaInicial ?? comidaPorHora())
   const [metodo, setMetodo] = useState<'describir' | 'buscar'>('describir')
+  const [metodoAnadido, setMetodoAnadido] = useState<'describir' | 'buscar'>('describir')
   const [guardandoRapido, setGuardandoRapido] = useState(false)
   const [errorRapido, setErrorRapido] = useState<string | null>(null)
   const [texto, setTexto] = useState('')
@@ -527,42 +528,28 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   ))}
                 </div>
               </section>
-              <div className="space-y-2">
-                <p className="flex flex-wrap items-baseline justify-between gap-3"><span className="text-rotulo text-fg-muted">Total de la comida</span><span className="tabular"><span className="font-numeric text-heading text-fg">{formatInt(kcalTotales)}</span><span className="text-caption text-fg-muted"> kcal</span></span></p>
-                <PastillasMacros macros={totales} />
-              </div>
-              {!entryEditar && <ComoQuedaTuDia aporte={totales} fecha={fecha} planificar={planificar} plegable />}
-              {entryEditar && alimentoDeLaEntrada && (
-                <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg-muted">
-                  <input type="checkbox" checked={aplicarAlAlimento} onChange={(e) => setAplicarAlAlimento(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
-                  <span className="min-w-0">Aplicar también a «{alimentoDeLaEntrada.nombre}» en Alimentos</span>
-                </label>
-              )}
-              {!entryEditar && !platoDestino && !soloTipica && !planificar && <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg">
-                <input type="checkbox" checked={guardarComoTipica} onChange={e => setGuardarComoTipica(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
-                <span className="min-w-0">Guardar como comida típica</span>
-              </label>}
-              {!entryEditar && !platoDestino && !soloTipica && items.length > 1 && (
-                <Disclosure title={nombrePlato.trim() ? `Plato: ${nombrePlato.trim()}` : 'Poner nombre al plato'}>
-                  <label htmlFor="nombre-plato" className="block text-caption text-fg-muted">Nombre del plato (opcional)</label>
-                  <Input id="nombre-plato" tone="surface" value={nombrePlato} onChange={(e) => setNombrePlato(e.target.value)} placeholder="Por ejemplo, huevos con longaniza" aria-describedby="ayuda-plato" />
-                  <p id="ayuda-plato" className="mt-2 text-caption text-fg-muted">Agrupa estos alimentos en el diario.</p>
-                </Disclosure>
-              )}
               {!entryEditar && (
                 <div className="space-y-3">
                   {anadiendo ? (
                     <>
-                      <DescribirComida
-                        texto={texto}
-                        onTextoChange={setTexto}
-                        onInterpretar={interpretar}
-                        cargando={local.cargando}
-                        error={local.error}
-                        onVerMedidas={() => setVerMedidas(true)}
-                        onEscanear={() => setEscaneando(true)}
-                        accion="Añadir a la revisión"
-                      />
+                      <ViewTabs label="Cómo añadir otro alimento" opciones={[
+                        { valor: 'describir', label: 'Escribir', icon: 'pencil' },
+                        { valor: 'buscar', label: 'Buscar', icon: 'search' },
+                      ]} valor={metodoAnadido} onChange={setMetodoAnadido}>
+                        {metodoAnadido === 'describir'
+                          ? <DescribirComida
+                              texto={texto}
+                              onTextoChange={setTexto}
+                              onInterpretar={interpretar}
+                              cargando={local.cargando}
+                              error={local.error}
+                              onVerMedidas={() => setVerMedidas(true)}
+                              onEscanear={() => setEscaneando(true)}
+                              accion="Añadir a la revisión"
+                            />
+                          : <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)}
+                              onCrear={(nombre) => { abrirRevision([itemSinCoincidencia(nombre.charAt(0).toLocaleUpperCase('es') + nombre.slice(1), 100)], true); setAnadiendo(false) }} />}
+                      </ViewTabs>
                       <Button variant="ghost" block disabled={local.cargando} onClick={() => setAnadiendo(false)}>
                         Cancelar añadido
                       </Button>
@@ -602,6 +589,28 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                     </Button>
                   </div>
                 </div>
+              )}
+              <div className="space-y-2">
+                <p className="flex flex-wrap items-baseline justify-between gap-3"><span className="text-rotulo text-fg-muted">Total de la comida</span><span className="tabular"><span className="font-numeric text-heading text-fg">{formatInt(kcalTotales)}</span><span className="text-caption text-fg-muted"> kcal</span></span></p>
+                <PastillasMacros macros={totales} />
+              </div>
+              {!entryEditar && <ComoQuedaTuDia aporte={totales} fecha={fecha} planificar={planificar} plegable />}
+              {entryEditar && alimentoDeLaEntrada && (
+                <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg-muted">
+                  <input type="checkbox" checked={aplicarAlAlimento} onChange={(e) => setAplicarAlAlimento(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
+                  <span className="min-w-0">Aplicar también a «{alimentoDeLaEntrada.nombre}» en Alimentos</span>
+                </label>
+              )}
+              {!entryEditar && !platoDestino && !soloTipica && !planificar && <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg">
+                <input type="checkbox" checked={guardarComoTipica} onChange={e => setGuardarComoTipica(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
+                <span className="min-w-0">Guardar como comida típica</span>
+              </label>}
+              {!entryEditar && !platoDestino && !soloTipica && items.length > 1 && (
+                <Disclosure title={nombrePlato.trim() ? `Plato: ${nombrePlato.trim()}` : 'Poner nombre al plato'}>
+                  <label htmlFor="nombre-plato" className="block text-caption text-fg-muted">Nombre del plato (opcional)</label>
+                  <Input id="nombre-plato" tone="surface" value={nombrePlato} onChange={(e) => setNombrePlato(e.target.value)} placeholder="Por ejemplo, huevos con longaniza" aria-describedby="ayuda-plato" />
+                  <p id="ayuda-plato" className="mt-2 text-caption text-fg-muted">Agrupa estos alimentos en el diario.</p>
+                </Disclosure>
               )}
             </div>
           )}

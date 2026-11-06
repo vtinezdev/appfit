@@ -88,6 +88,10 @@ Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de 
 
 ## Ideas sin empezar
 
+Monetización y app nativa:
+- Gratis y de pago ([ADR 068](decisiones/068-gratis-y-de-pago.md)): Entreno, Actividades, Liga, Social y la cuenta gratis; el resto con un pago único de 9,99 € tras un mes de prueba, Play Billing en Android y desbloqueo manual desde la administración. Solo bloquea en la app de Play (la web y el iPhone, sin bloqueo); la prueba cuenta desde la primera apertura. Parte 1 (bloqueo y prueba) hecha con el cobro apagado ([desbloqueo](features/desbloqueo.md)); parte 2 (desbloqueo manual desde Moderación) hecha, con `0031_desbloqueos.sql` ejecutada en el proyecto real el 2026-11-06; falta Play Billing (parte 3), que además debe pausar una copia en la nube ya activa y añadir los desbloqueos a la política de privacidad.
+- Después: app de Play con Capacitor en lugar de TWA, para grabar actividades con la pantalla bloqueada (servicio en primer plano de ubicación, sin ubicación en segundo plano).
+
 Social:
 - [Plan consolidado de mejoras](social-mejoras.md): fases 0–1 y mejoras autorizadas de fase 2 implementadas. Víctor confirma SQL 0009–0013 en el proyecto real (2026-10-18), con campos opcionales desactivados. [Social](features/social.md) documenta los flujos; tareas con 6–8 personas, dos cuentas e iPhone/Android pendientes antes de abrir el siguiente piloto.
 - Rediseño visual ([ADR 045](decisiones/045-rediseno-visual-de-social.md)) implementado. Víctor confirma `0014_social_rediseno.sql` en el proyecto real (2026-10-18). La lista de primeros pasos con progreso (P15 de la propuesta) se implementa compacta y plegada con UI-09 (2026-10-22).

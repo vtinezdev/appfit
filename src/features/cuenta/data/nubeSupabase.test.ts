@@ -28,7 +28,7 @@ describe('traducir', () => {
   })
 
   it('una copia por encima del tope del servidor dice qué pasa, no «inténtalo de nuevo»', () => {
-    // Lo que devuelve PostgREST si `subir_copia` choca con el tope de `tamano` (0001) o de `claves` (0031).
+    // Lo que devuelve PostgREST si `subir_copia` choca con el tope de `tamano` (0001) o de `claves` (0032).
     const error = traducir({ code: '23514', message: 'new row for relation "copias" violates check constraint "copias_tamano_check"' })
     expect(error.message).toMatch(/demasiado grande/)
     expect(error.message).toMatch(/Copias de seguridad/)

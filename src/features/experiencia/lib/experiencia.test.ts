@@ -163,6 +163,12 @@ describe('nutrición', () => {
     expect(r.diasRegistro.has('2026-10-05')).toBe(true)
   })
 
+  it('con la prueba terminada (ADR 068), lo registrado hasta su último día se conserva y lo de después no suma', () => {
+    const r = calcularExperiencia(datos([], { entries: [comida('2026-10-05', 'desayuno', 200), comida('2026-10-20', 'cena', 200)], protObjetivo: objetivos, nutricionHasta: '2026-10-10' }))
+    expect(deTipo(r, 'registro').map((e) => e.fecha)).toEqual(['2026-10-05'])
+    expect(r.diasRegistro.has('2026-10-20')).toBe(false)
+  })
+
   it('excluida, no suma nada', () => {
     const r = calcularExperiencia(datos([], { entries: [comida('2026-10-05', 'desayuno', 200)], protObjetivo: objetivos, conNutricion: false }))
     expect(r.total).toBe(0)

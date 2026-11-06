@@ -377,6 +377,11 @@ export interface Settings {
   bienvenidaPendiente?: boolean
   /** Versión de las condiciones y la privacidad aceptadas en la bienvenida (`shared/lib/legal.VERSION_TEXTOS_LEGALES`). */
   textosLegalesAceptados?: string
+  /**
+   * Primer día en que se abrió la app en este móvil (ADR 068): el mes de prueba de lo de pago cuenta desde aquí. Lo pone
+   * `ensureSettings` al arrancar si falta (también en instalaciones de antes del ADR); viaja en el backup y en la copia.
+   */
+  primeraApertura?: string
 }
 
 /**

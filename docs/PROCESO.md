@@ -3598,20 +3598,67 @@ Hasta ahora ni las denuncias (con la copia de lo denunciado) ni los mensajes de 
 
 **Verificación:** Docker Hub respondía 429 y el proxy de la sesión bloquea el espejo de AWS, así que las migraciones y las pruebas se pasaron en PGlite (PostgreSQL 17 en WASM, como la suite de 0014): las 30 migraciones (sin pg_cron) y las 23 suites, la nueva incluida, correctas. `npm run test` y `npm run build` correctos. La tarea de pg_cron no se puede probar fuera de Supabase.
 
+## 331. Revisión: «Añadir otro alimento» debajo de la lista (2026-11-06)
 
-## 331. Auditoría de seguridad, área 1: Supabase (2026-11-06)
+Víctor no encontraba cómo añadir ingredientes al tocar «Cambiar ingredientes» en una receta al añadir comida: solo veía «Quitar». El botón existía, pero al final de la revisión (tras el total, «Cómo queda tu día», «Guardar como comida típica» y el plato), fuera de la vista con una receta de varios ingredientes.
+
+- `AnadirComida`: el bloque de añadido («Añadir otro alimento», «Editar descripción», «Medidas») pasa a ir justo debajo de la lista de alimentos, como en el editor de recetas. Vale para toda revisión, no solo la de una receta.
+
+**Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 375 px en `appfit-test.localhost`: receta → «Cambiar ingredientes» muestra el botón sin desplazar y añadir «100 g de pollo asado» lo incorpora. `validar-recetas-anadir.cjs` no llega a este paso aquí (falta el recetario descargado; falla igual sin el cambio). Sin iPhone.
+
+## 332. Revisión: Buscar también al añadir otro alimento (2026-11-06)
+
+Tras §331 Víctor pide poder buscar, no solo escribir, al añadir ingredientes en la revisión.
+
+- `AnadirComida`: «Añadir otro alimento» abre `ViewTabs` Escribir/Buscar (`metodoAnadido`, independiente de la pestaña inicial). Buscar reutiliza `AlimentosRapidos` y `elegirRapido`: con `anadiendo`, la hoja de cantidad suma el alimento a la revisión y una receta entra como alimento; «Crear» añade una fila sin coincidencia.
+
+**Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 320 (oscuro), 375 y 430 px en `appfit-buscar.localhost`: receta → «Cambiar ingredientes» → «Añadir otro alimento» → Buscar → elegir → «Revisar alimento» lo suma; la pestaña se recuerda en el siguiente añadido; sin scroll horizontal ni errores. Sin iPhone.
+
+## 333. Gratis y de pago, parte 1: la prueba y el bloqueo, con el cobro apagado (2026-11-06)
+
+Víctor decide el modelo con Claude ([ADR 068](decisiones/068-gratis-y-de-pago.md)): Entreno, Actividades, Liga, Social y la cuenta, gratis; Nutrición, Perfil y la copia en la nube, un mes de prueba desde la primera apertura y luego 9,99 € en un pago único; solo en la app de Google Play (la web y el iPhone, abiertos). Pide empezar por la primera de tres partes.
+
+- `shared/lib/acceso` (puro): `calcularAcceso`, `dePagoBloqueado`, `resumenAcceso`. `shared/pwa/cobro`: `COBRO_ACTIVO = false`, `aplicaCobro` (app de Android con el cobro encendido) y `?preview=cobro` para probarlo.
+- `settings.primeraApertura`, que apunta `ensureSettings` (también en instalaciones de antes).
+- `features/desbloqueo`: `DesbloqueoProvider` en `App`, `useDePago().proteger`, la hoja «Cumbra Fit completa» (precio con el botón deshabilitado) y el aviso de prueba terminada en Nutrición, Recetas y Perfil. Bloqueos en lo que añade o cambia (lista en [desbloqueo](features/desbloqueo.md)); borrar y deshacer, libres. Inicio cambia «Añadir comida» por «Desbloquear»; Ajustes enseña el estado de la prueba; activar la copia pide desbloquear.
+- Con la prueba terminada se conserva lo ganado con las comidas hasta su último día (lo decide Víctor): `nutricionHasta` en `calcularExperiencia` y `registroHasta` en `calcularRitmo`, que mide solo con el entreno las semanas que empiezan después.
+- `importarBackup` conserva la primera apertura más antigua entre la del móvil y la del backup: un backup de antes no la borra (lo detectó `validar-correcciones-auditoria`, «reintentar conserva el backup completo», al volver a apuntarla `ensureSettings` tras recargar).
+
+**Verificación:** `npm run test` (276 archivos, 3.222 pruebas) y `npm run build` correctos. En Chromium con `?preview=cobro` en `appfit-cobro.localhost`, 375 claro, 320 oscuro y 430 oscuro: Ajustes con 20 días de prueba y la hoja; con la prueba terminada, los avisos de Nutrición, Recetas y Perfil, Inicio con «Desbloquear», Añadir comida, Plan › Planificar y Nueva receta abren la hoja; Entreno sin aviso; sin la vista previa, nada cambia. Sin scroll horizontal, controles ≥44 px y sin errores. Sin Android real.
+
+## 334. Gratis y de pago, parte 2: el desbloqueo manual (2026-11-06)
+
+Víctor quiere poder desbloquear a quien ya usa la app ([ADR 068](decisiones/068-gratis-y-de-pago.md)); pide seguir con la parte 2.
+
+- `supabase/migrations/0031_desbloqueos.sql`: tabla `desbloqueos` (`origen` `manual` o `play`), `mi_desbloqueo`, `admin_desbloquear` y `admin_desbloqueados`. Prueba `supabase/pruebas/desbloqueos.sql`.
+- Social › Moderación › Desbloqueos (solo con 0031): desbloquear por alias, la lista con «Quitar» y un aviso claro si el alias no tiene perfil. `desbloquearApp` y `desbloqueadosApp` en `social/data` (`desbloquear` ya era quitar un bloqueo entre personas).
+- `DesbloqueoProvider` pregunta `mi_desbloqueo` con sesión (`desbloqueo/data/desbloqueoNube`, `lib/consulta`) y lo recuerda en localStorage (`shared/pwa/cobro`), fuera del backup; sin sesión lo olvida. `entornoAcceso` ya lo usa.
+- Supabase falso: las tres funciones y `simular_desbloqueo`; recorrido `scripts/ui/validar-desbloqueos.cjs`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las migraciones 0001–0031 y todas las suites de `supabase/pruebas/`, incluida `desbloqueos.sql`, en un PostgreSQL 16 local efímero (Docker Hub limitó la imagen; PGlite no aguanta las excepciones de los bloques `do`). `validar-desbloqueos.cjs` (320 claro, 375 oscuro, 430 claro) y `validar-administracion.cjs` (ocho contextos) correctos con el Supabase falso. Víctor ejecuta 0031 en el proyecto real el mismo día; falta probarlo con cuentas reales.
+
+## 335. Gratis y de pago, parte 3: Play Billing en el envoltorio de Android (2026-11-06)
+
+Víctor aprueba cobrar con Play Billing y que el servidor compruebe las compras con la API de Google Play, y pide empezar por el primer paso.
+
+- `android/twa-manifest.json`: `features.playBilling.enabled` (comprobado en el código de Bubblewrap, `PlayBillingFeature`: añade `androidbrowserhelper:billing`, la actividad de pago y la Digital Goods API). `manifest.test.ts` lo vigila; `android/README.md` lo explica.
+- `docs/features/desbloqueo.md` § Cobro con Play Billing: los cinco pasos que quedan, de quién es cada uno.
+
+**Verificación:** `npm run test` (277 archivos, 3.229 pruebas) y `npm run build` correctos. Sin generar el envoltorio: el dominio `cumbrafit.app` aún no sirve la app, y sin él Bubblewrap no puede generarlo. La documentación de Chrome sobre pagos en TWA no se pudo leer desde el contenedor; el lado web se comprobará al implementarlo.
+
+## 336. Auditoría de seguridad, área 1: Supabase (2026-11-06)
 
 Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Play, por áreas y en una sola PR. El estado vive en `docs/auditoria-seguridad-2026-11/ESTADO.md`.
 
 - Revisión del servidor sobre las 30 migraciones en PGlite: RLS en todas las tablas, `search_path` fijo en todas las `security definer`, solo `enviar_mensaje_creador` sin sesión, todas las funciones de la app miran la sesión, topes de texto y JSON y frenos por día.
-- Encontrado y confirmado: `claves` de `copias` no tenía tope, así que una cuenta podía guardar ahí decenas de MB y saltarse el tope de 30 MB de la copia. `supabase/migrations/0031_copias_tope_de_claves.sql` lo limita a un objeto de 2 KB y hace que `tamano` cuente bytes. Pendiente de que Víctor la ejecute.
+- Encontrado y confirmado: `claves` de `copias` no tenía tope, así que una cuenta podía guardar ahí decenas de MB y saltarse el tope de 30 MB de la copia. `supabase/migrations/0032_copias_tope_de_claves.sql` lo limita a un objeto de 2 KB y hace que `tamano` cuente bytes. Pendiente de que Víctor la ejecute.
 - `supabase/pruebas/copias.sql`, la primera suite de la copia: sesión, conflictos de revisión, la copia anterior, el tope de las claves al subir y al cambiar la contraseña, el tamaño en bytes y que una cuenta no toque la copia de otra.
-- Para Víctor (en `ESTADO.md`): ejecutar 0031 y decidir sobre el espacio por cuenta (hasta 60 MB con cuentas de cualquier email).
+- Para Víctor (en `ESTADO.md`): ejecutar 0032 y decidir sobre el espacio por cuenta (hasta 60 MB con cuentas de cualquier email).
 - Documentos: `seguridad.md`, `features/cuenta.md`.
 
-**Verificación:** en PGlite, las 31 migraciones y las 24 suites correctas; la suite nueva falla sin 0031 («claves enormes al subir»).
+**Verificación:** en PGlite, las migraciones y las suites correctas; la suite nueva falla sin 0032 («claves enormes al subir»).
 
-## 332. Auditoría de seguridad, área 2: cuenta (2026-11-06)
+## 337. Auditoría de seguridad, área 2: cuenta (2026-11-06)
 
 - Revisados el cifrado (`cuenta/lib/cifrado.ts`), la copia (`copiaNube.ts`), la sesión y el borrado de la cuenta en el servidor (cascadas desde `auth.users`). Detalle en `auditoria-seguridad-2026-11/ESTADO.md` § 2.
 - Arreglado: si otro dispositivo empezaba de cero, este se quedaba en un error que no se iba («no se puede leer con esta clave») y, en un conflicto, podía subir lo suyo con la clave vieja y dejar la copia sin abrir con la contraseña nueva. `conClaveVigente` lo pasa a «perdida» (volver a entrar) al traer, al leer los resúmenes del conflicto y antes de subir en él.
@@ -3620,7 +3667,7 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 
 **Verificación:** tres tests nuevos en `copiaNube.test.ts` (los dos primeros fallaban antes del arreglo).
 
-## 333. Auditoría de seguridad, área 3: validación de entradas (2026-11-06)
+## 338. Auditoría de seguridad, área 3: validación de entradas (2026-11-06)
 
 - Social: `social/lib/publicacion.hostil.test.ts` pasa 40 000 resúmenes hostiles por la lectura y la presentación, y ninguno las hace fallar.
 - Arreglado: GPX, TCX y FIT de más de unos 120 000 puntos fallaban por `Math.max(...lista)` (desborde de pila), y el dibujo del recorrido también, con una grabación de más de 35 horas. Ahora usan `actividades/lib/geo.extremos`, con un bucle. Tests de 150 000 puntos en `gpx`, `tcx`, `fit` y `geo`, que fallaban antes del arreglo.
@@ -3628,7 +3675,7 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Para Víctor: «Exportar una copia» en la pantalla de fallo.
 - Documentos: `features/nutricion.md`, `features/actividades.md`, `auditoria-seguridad-2026-11/ESTADO.md` § 3.
 
-## 334. Auditoría de seguridad, áreas 4 y 5: XSS, cabeceras y CSP (2026-11-06)
+## 339. Auditoría de seguridad, áreas 4 y 5: XSS, cabeceras y CSP (2026-11-06)
 
 - XSS: no hay HTML inyectado, los textos de los pósteres se escapan y de Social no llega ninguna URL. Sin cambios.
 - CSP: `connect-src` pasa de `*.supabase.co` al proyecto de `VITE_SUPABASE_URL` en la build y en `npm run preview` (`shared/seguridad/cspSupabase.ts`, con test, y el plugin `appfit-csp-supabase` de `vite.config.ts`). Sin la variable, o con un Supabase falso, queda el comodín.
@@ -3636,7 +3683,7 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 
 **Verificación:** `vite build` sin la variable deja el comodín en `dist/_headers` y con `VITE_SUPABASE_URL=https://abcdefghijklmnop.supabase.co`, ese proyecto.
 
-## 335. Auditoría de seguridad, área 6: dependencias (2026-11-06)
+## 340. Auditoría de seguridad, área 6: dependencias (2026-11-06)
 
 - `npm audit --omit=dev`: 0. En desarrollo había 2 altas (vite: `launch-editor` en Windows; source-map-js), entre 13. Ahora vite 8.3.5, vitest 5.0.5, source-map-js 1.2.2, fast-uri 3.1.9, postcss-selector-parser 6.1.5 y serialize-javascript 7.1.4, todas publicadas hace más de dos semanas. Quedan 6 moderadas o bajas de `workbox-build`.
 - `vite` y `vitest` quedan fijados a una versión exacta: el `npm install` de npm 10.9 falla al subirlos (`Cannot read properties of null (reading 'edgesOut')`), y con npm 11 sí se puede. El lockfile vale para el `npm ci` de npm 10.
@@ -3644,12 +3691,12 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 
 **Verificación:** `npm ci` con npm 10 desde cero, `npm run test` (276 archivos, 3.223 pruebas) y `npm run build` correctos.
 
-## 336. Auditoría de seguridad, áreas 7 a 9: service worker, almacenamiento y lógica de negocio (2026-11-06)
+## 341. Auditoría de seguridad, áreas 7 a 9: service worker, almacenamiento y lógica de negocio (2026-11-06)
 
 - Service worker y almacenamiento: sin hallazgos (detalle en `auditoria-seguridad-2026-11/ESTADO.md` §§ 7-8).
 - Lógica de negocio: la batería completa pasa en seis zonas horarias, de UTC−11 a UTC+14. Una prueba de propiedades de `shared/lib/dates` sobre 13 años pasa en Madrid, São Paulo y UTC+14 (no se queda en el repositorio: repite lo que ya cubre `dates.test.ts`). Arreglado `social/lib/feed.test.ts`, que dependía de la zona horaria.
 
-## 337. Auditoría de seguridad, área 10: recorridos de error, y cierre (2026-11-06)
+## 342. Auditoría de seguridad, área 10: recorridos de error, y cierre (2026-11-06)
 
 - Arreglado: `cuenta/data/nubeSupabase.traducir` convierte una violación de tope de `copias` (`23514`) en «Tu copia es demasiado grande para la nube…». Antes decía «Inténtalo de nuevo», y reintentar no servía. Test en `nubeSupabase.test.ts`.
 - Sin hallazgos en el arranque, el catálogo, los permisos ni Open Food Facts.

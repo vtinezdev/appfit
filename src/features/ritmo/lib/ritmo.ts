@@ -66,6 +66,11 @@ export interface DatosRitmo {
   diasEntreno: ReadonlySet<string>
   /** Días con alguna comida registrada; `null` si la nutrición no cuenta. */
   diasRegistro: ReadonlySet<string> | null
+  /**
+   * Último día en que cuenta la nutrición (fin del mes de prueba sin desbloquear, ADR 068): las semanas que empiezan
+   * después se evalúan solo con el entreno, como si no contara; las anteriores conservan lo que ya tenían.
+   */
+  registroHasta?: string
   planes?: readonly TramoPlanSemanal[]
   pausas?: readonly Pausa[]
 }
@@ -86,12 +91,12 @@ export function estadoDeSemana(e: EstadoSemanaPlan, pausa: Pausa | null): Estado
 const semanaDe = (lunes: string) => Array.from({ length: 7 }, (_, i) => addDays(lunes, i))
 
 /** El día en que la semana pasó a tener presencia (o se cumplió el plan, si fue antes). */
-function primerDiaPresente(lunes: string, d: DatosRitmo, pausa: Pausa | null): string | null {
-  const soloNutricion = pausa?.tipo === 'entreno' && d.diasRegistro !== null
+function primerDiaPresente(lunes: string, d: DatosRitmo, diasRegistro: ReadonlySet<string> | null, pausa: Pausa | null): string | null {
+  const soloNutricion = pausa?.tipo === 'entreno' && diasRegistro !== null
   let dias = 0
   for (const f of semanaDe(lunes)) {
     if (f > d.hoy) break
-    if (d.diasRegistro?.has(f)) dias += 1
+    if (diasRegistro?.has(f)) dias += 1
     if ((!soloNutricion && d.diasEntreno.has(f)) || dias >= DIAS_PRESENCIA) return f
   }
   return null
@@ -118,7 +123,8 @@ export function calcularRitmo(d: DatosRitmo): ResultadoRitmo {
 
   for (; lunes <= lunesActual; lunes = addDays(lunes, 7)) {
     const pausa = pausaDeSemana(d.pausas, lunes)
-    const evaluada = evaluarSemana(semanaDe(lunes), d.diasEntreno, d.diasRegistro, planDeSemana(d.planes, lunes), d.hoy, pausa?.tipo ?? null)
+    const diasRegistro = d.registroHasta !== undefined && lunes > d.registroHasta ? null : d.diasRegistro
+    const evaluada = evaluarSemana(semanaDe(lunes), d.diasEntreno, diasRegistro, planDeSemana(d.planes, lunes), d.hoy, pausa?.tipo ?? null)
     const estado = estadoDeSemana(evaluada, pausa)
     const cerrada = lunes < lunesActual
     let comodin = false
@@ -147,7 +153,7 @@ export function calcularRitmo(d: DatosRitmo): ResultadoRitmo {
       else if (comodines > 0) { comodines -= 1; comodin = true }
       else hilo = 0
     }
-    semanas.push({ ...evaluada, lunes, estado, pausa, cerrada, comodin, congelada, vuelta, hilo, presenteEl: estado === 'vacia' ? null : primerDiaPresente(lunes, d, pausa) })
+    semanas.push({ ...evaluada, lunes, estado, pausa, cerrada, comodin, congelada, vuelta, hilo, presenteEl: estado === 'vacia' ? null : primerDiaPresente(lunes, d, diasRegistro, pausa) })
   }
 
   const actual = semanas[semanas.length - 1]

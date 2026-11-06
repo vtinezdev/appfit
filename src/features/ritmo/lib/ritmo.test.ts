@@ -84,6 +84,15 @@ describe('calcularRitmo', () => {
     expect(r.cumplidas).toBe(5)
   })
 
+  it('con la prueba terminada (ADR 068), las semanas de después se miden solo con el entreno y las de antes no cambian', () => {
+    const semanas = [semana(0), semana(1, { registro: 0 }), semana(2, { registro: 0 })]
+    expect(calcularRitmo(datos(semanas)).semanas.slice(0, 3).map((s) => s.estado)).toEqual(['cumplida', 'parcial', 'parcial'])
+    const r = calcularRitmo(datos(semanas, { registroHasta: addDays(lunes(0), 6) }))
+    expect(r.semanas.slice(0, 3).map((s) => s.estado)).toEqual(['cumplida', 'cumplida', 'cumplida'])
+    expect(r.semanas[0].diasRegistrados).toBe(5)
+    expect(r.semanas[1].diasRegistrados).toBeNull()
+  })
+
   it('sin registros solo está la semana actual, vacía', () => {
     const r = calcularRitmo({ hoy: '2026-10-10', diasEntreno: new Set(), diasRegistro: new Set() })
     expect(r.semanas).toHaveLength(1)

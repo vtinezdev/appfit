@@ -1,4 +1,4 @@
--- Tras 0031. Solo datos sintéticos: PRUEBAS_OK deshace todo.
+-- Tras 0032. Solo datos sintéticos: PRUEBAS_OK deshace todo.
 do $$
 declare
   a uuid := gen_random_uuid();
@@ -26,7 +26,7 @@ begin
   assert public.subir_copia(1, '1.iv.nueva', null) = 2, 'segunda copia';
   assert (select datos_anterior = '1.iv.datos' and claves = v_claves from public.copias where user_id = a), 'guarda la anterior y conserva las claves';
 
-  -- Las claves tienen tope (0031): ni un objeto enorme ni algo que no sea un objeto.
+  -- Las claves tienen tope (0032): ni un objeto enorme ni algo que no sea un objeto.
   begin perform public.subir_copia(2, '1.iv.x', jsonb_build_object('v', 1, 'relleno', repeat('x', 5000))); fallo := false;
   exception when check_violation then fallo := true; end;
   assert fallo, 'claves enormes al subir';

@@ -25,6 +25,7 @@ import { macrosPorGramos } from '../lib/nutrition'
 import { textoRaciones, textoTiempo } from '../lib/recetas'
 import { gramosRacion, ingredientesPara, por100De, vistaDeRecetaPropia } from '../lib/variantes'
 import EditorReceta from './EditorReceta'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 /** Una receta tuya (editable) o un plato del recetario Cumbra Fit (solo lectura). */
 type Props = ({ recetaId: number; catalogId?: undefined } | { catalogId: string; recetaId?: undefined }) & { onClose: () => void }
@@ -53,6 +54,8 @@ const gramosTexto = (g: number) => formatNumber(g, g < 10 ? 1 : 0)
 export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
   // Tras «Copiar a mis recetas», la ficha enseña la copia.
   const [copiaId, setCopiaId] = useState<number | null>(null)
+  // Prueba terminada (ADR 068): la receta se lee; registrar, planificar, editar o copiar pide desbloquear.
+  const { proteger } = useDePago()
   const idPropia = copiaId ?? recetaId
   const datos = useLiveQuery(async () => {
     if (idPropia !== undefined) {
@@ -150,12 +153,12 @@ export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
         <div role="status">
           {hecho && <p className="flex min-h-touch-lg items-center justify-center gap-2 rounded-md bg-accent-subtle px-4 py-2 text-center text-body font-semibold text-accent-strong"><Icon name="check" size={18} className="shrink-0" /><span className="min-w-0 break-words">{hecho}</span></p>}
         </div>
-        {!hecho && <Button size="lg" block onClick={() => abrir('registrar')}>{gRacion !== null ? 'Registrar una ración' : 'Registrar'}</Button>}
+        {!hecho && <Button size="lg" block onClick={proteger(() => abrir('registrar'))}>{gRacion !== null ? 'Registrar una ración' : 'Registrar'}</Button>}
         <div className="flex flex-wrap gap-2">
-          <Button variant="secondary" className="flex-auto whitespace-nowrap" onClick={() => abrir('planificar')}><Icon name="calendar" size={18} />Planificar</Button>
+          <Button variant="secondary" className="flex-auto whitespace-nowrap" onClick={proteger(() => abrir('planificar'))}><Icon name="calendar" size={18} />Planificar</Button>
           {propia
-            ? <Button variant="secondary" className="flex-auto whitespace-nowrap" onClick={() => setEditando('todo')}><Icon name="pencil" size={18} />Editar</Button>
-            : <Button variant="secondary" className="flex-auto whitespace-nowrap" loading={copiando} onClick={copiar}><Icon name="copy" size={18} />Copiar a mis recetas</Button>}
+            ? <Button variant="secondary" className="flex-auto whitespace-nowrap" onClick={proteger(() => setEditando('todo'))}><Icon name="pencil" size={18} />Editar</Button>
+            : <Button variant="secondary" className="flex-auto whitespace-nowrap" loading={copiando} onClick={proteger(copiar)}><Icon name="copy" size={18} />Copiar a mis recetas</Button>}
         </div>
       </div>}>
       <div className="space-y-section">
@@ -203,7 +206,7 @@ export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
           <SectionHeader variant="section" action={vista.raciones && pasos.length > 0 ? <span className="tabular text-caption text-fg-muted">para {textoRaciones(raciones)}</span> : undefined}>Preparación</SectionHeader>
           {pasos.length === 0
             ? propia
-              ? <EmptyState action={<Button variant="secondary" onClick={() => setEditando('preparacion')}><Icon name="plus" size={18} />Añadir preparación</Button>}>Apunta los pasos para tenerlos a mano mientras cocinas.</EmptyState>
+              ? <EmptyState action={<Button variant="secondary" onClick={proteger(() => setEditando('preparacion'))}><Icon name="plus" size={18} />Añadir preparación</Button>}>Apunta los pasos para tenerlos a mano mientras cocinas.</EmptyState>
               : <EmptyState>Esta receta aún no tiene los pasos escritos. Sus ingredientes y lo que aporta ya están completos.</EmptyState>
             : (
               <ol className="space-y-4">

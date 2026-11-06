@@ -16,6 +16,7 @@ import EntrenoMinimizado from '../features/gym/components/EntrenoMinimizado'
 import { socialDisponible } from '../features/social/servicio'
 import { useHoy } from '../shared/hooks/useHoy'
 import { getSettings } from '../shared/db/settings'
+import { DesbloqueoProvider } from '../features/desbloqueo/DesbloqueoContext'
 import { destinosOcultos } from './navegacion'
 import { vistaDeTesela, type VistaProgreso } from '../features/progreso/lib/vistas'
 
@@ -124,6 +125,7 @@ export default function App() {
   }
 
   return (
+    <DesbloqueoProvider>
     <div data-app-shell data-mini-entreno={entrenoMinimizado ? '' : undefined} className="app-shell fixed inset-x-0 flex h-app flex-col bg-bg">
       {/* El fondo vive fuera del contenedor con scroll: queda quieto mientras el contenido se desplaza. */}
       <div className="relative isolate min-h-0 flex-1">
@@ -150,5 +152,6 @@ export default function App() {
       <BottomNav tab={tab} onChange={navegar} ocultos={ocultos}
         encima={entrenoMinimizado && <EntrenoMinimizado key={entrenoMinimizado.id} workout={entrenoMinimizado} onAbrir={abrirEntreno} />} />
     </div>
+    </DesbloqueoProvider>
   )
 }

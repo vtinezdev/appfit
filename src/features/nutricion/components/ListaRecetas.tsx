@@ -9,6 +9,7 @@ import { por100DeReceta, valoresPorRacion } from '../lib/recetas'
 import EditorReceta from './EditorReceta'
 import FichaReceta from './FichaReceta'
 import FilaReceta from './FilaReceta'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 interface Props {
   /** Quien crea la receta está fuera (el «+» de la cabecera de Recetas): la lista no pone su botón «Nueva receta». */
@@ -25,10 +26,11 @@ export default function ListaRecetas({ sinBotonNueva = false, vacio }: Props) {
   const recetas = useLiveQuery(() => recetasRepo.listarConCategoria(), [])
   const [abierta, setAbierta] = useState<number | null>(null)
   const [creando, setCreando] = useState(false)
+  const { proteger } = useDePago()
 
   return (
     <div className="space-y-stack">
-      {!sinBotonNueva && <Button variant="secondary" block onClick={() => setCreando(true)}><Icon name="plus" size={18} />Nueva receta</Button>}
+      {!sinBotonNueva && <Button variant="secondary" block onClick={proteger(() => setCreando(true))}><Icon name="plus" size={18} />Nueva receta</Button>}
       {recetas?.length === 0 && (vacio ?? <EmptyState icon="recetario" title="Aún no tienes recetas" />)}
       {recetas && recetas.length > 0 && (
         <ListGroup aria-label="Tus recetas">

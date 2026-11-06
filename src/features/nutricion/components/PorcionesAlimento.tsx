@@ -6,6 +6,7 @@ import { ErrorState } from '../../../shared/components/StateMessage'
 import type { Porcion } from '../../../shared/db/types'
 import { formatNumber } from '../../../shared/lib/format'
 import * as porcionesRepo from '../data/porcionesRepo'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 interface Props {
   /** Clave estable del alimento (`user:<id>` o `catalog:<id>`). */
@@ -22,6 +23,7 @@ interface Props {
  */
 export default function PorcionesAlimento({ refAlimento, gramosIniciales = 30, onCreada }: Props) {
   const porciones = useLiveQuery(() => porcionesRepo.delAlimento(refAlimento), [refAlimento])
+  const { proteger } = useDePago()
   const [nombre, setNombre] = useState('')
   const [gramos, setGramos] = useState(String(Math.round(gramosIniciales)))
   const [error, setError] = useState<string | null>(null)
@@ -86,7 +88,7 @@ export default function PorcionesAlimento({ refAlimento, gramosIniciales = 30, o
           <Input type="number" inputMode="decimal" min={0} value={gramos} onChange={(e) => setGramos(e.target.value)} className="tabular no-spin" /></label>
       </div>
       {error && <ErrorState>{error}</ErrorState>}
-      <Button variant="secondary" block disabled={!nombre.trim()} onClick={anadir}>Añadir ración</Button>
+      <Button variant="secondary" block disabled={!nombre.trim()} onClick={proteger(anadir)}>Añadir ración</Button>
     </div>
   )
 }

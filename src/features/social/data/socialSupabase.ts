@@ -7,7 +7,7 @@ import type { EstadoSeguimiento, Persona } from '../lib/relacion'
 import { SocialError, type MiPerfil, type PerfilDeportivo, type Social } from './social'
 import { leerLogrosDestacados } from '../lib/destacados'
 import { leerComunidad, type Comunidad } from '../lib/comunidad'
-import { leerComunidadesSuspendidas, leerDenuncias, leerSuspendidos } from '../lib/moderacion'
+import { leerComunidadesSuspendidas, leerDenuncias, leerDesbloqueados, leerSuspendidos } from '../lib/moderacion'
 import { leerAvataresExclusivos } from '../lib/avatar'
 import { leerCompanias } from '../lib/compania'
 import { leerImagenComunidad } from '../lib/imagenComunidad'
@@ -157,6 +157,8 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     anadirAComunidad: (comunidad, alias) => rpc('anadir_a_comunidad', { p_id: comunidad, p_alias: alias }),
     comunidadesSuspendidas: async () => leerComunidadesSuspendidas(await opcional('admin_comunidades_suspendidas', {})),
     reactivarComunidad: (id) => rpc('admin_reactivar_comunidad', { p_id: id }),
+    desbloquearApp: (alias, desbloquear) => rpc('admin_desbloquear', { p_alias: alias, p_desbloquear: desbloquear }),
+    desbloqueadosApp: async () => { const r = await opcional('admin_desbloqueados', {}); return r === null ? null : leerDesbloqueados(r) },
     companias: async () => leerCompanias(await rpc<unknown>('companias')),
     invitarCompania: (compania, alias) => rpc('invitar_compania', { p_compania: compania, p_alias: alias }),
     responderCompania: (compania, aceptar) => rpc('responder_compania', { p_compania: compania, p_aceptar: aceptar }),

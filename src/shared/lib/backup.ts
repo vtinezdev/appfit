@@ -218,6 +218,7 @@ export async function importarBackup(json: string, esperado?: BackupV3): Promise
     // La comprobación y el reemplazo comparten el bloqueo de escritura de todas las tablas, también entre pestañas.
     // Solo se espera a Dexie: ni la red ni el cifrado se ejecutan dentro de esta transacción.
     if (esperado && contenidoBackup(await exportarBackup()) !== contenidoBackup(esperado)) throw new BackupCambiadoError()
+    const aperturaPrevia = (await db.settings.get(1))?.primeraApertura
     await Promise.all(usuarioTablas().map((t) => t.clear()))
     for (const t of TABLAS_OBLIGATORIAS) {
       if (t !== 'settings') await db.table(t).bulkAdd(backup[t])
@@ -230,6 +231,9 @@ export async function importarBackup(json: string, esperado?: BackupV3): Promise
     // Importar una copia equivale a haberla exportado en su fecha: así el aviso de copia no dice «aún no has hecho una».
     const fechaCopia = Date.parse(backup.exportedAt)
     if (Number.isFinite(fechaCopia)) ajustes.ultimaExportacion = fechaCopia
+    // La prueba de lo de pago (ADR 068) cuenta desde la apertura más antigua: importar no la borra ni la alarga.
+    const apertura = [aperturaPrevia, ajustes.primeraApertura].filter((f): f is string => !!f).sort()[0]
+    if (apertura) ajustes.primeraApertura = apertura
     await db.settings.put(ajustes)
     // Foto de lo que se ha importado: una escritura posterior no puede colarse en su huella de sincronización.
     return exportarBackup()
