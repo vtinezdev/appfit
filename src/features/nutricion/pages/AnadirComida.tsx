@@ -91,6 +91,7 @@ function itemDesdeEntrada(e: Entry): ItemRevision {
 export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaInicial, soloTipica = false, planificar = false, onClose, onGuardado }: Props) {
   const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? platoDestino?.entries[0].comida ?? comidaInicial ?? comidaPorHora())
   const [metodo, setMetodo] = useState<'describir' | 'buscar'>('describir')
+  const [metodoAnadido, setMetodoAnadido] = useState<'describir' | 'buscar'>('describir')
   const [guardandoRapido, setGuardandoRapido] = useState(false)
   const [errorRapido, setErrorRapido] = useState<string | null>(null)
   const [texto, setTexto] = useState('')
@@ -531,16 +532,24 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                 <div className="space-y-3">
                   {anadiendo ? (
                     <>
-                      <DescribirComida
-                        texto={texto}
-                        onTextoChange={setTexto}
-                        onInterpretar={interpretar}
-                        cargando={local.cargando}
-                        error={local.error}
-                        onVerMedidas={() => setVerMedidas(true)}
-                        onEscanear={() => setEscaneando(true)}
-                        accion="Añadir a la revisión"
-                      />
+                      <ViewTabs label="Cómo añadir otro alimento" opciones={[
+                        { valor: 'describir', label: 'Escribir', icon: 'pencil' },
+                        { valor: 'buscar', label: 'Buscar', icon: 'search' },
+                      ]} valor={metodoAnadido} onChange={setMetodoAnadido}>
+                        {metodoAnadido === 'describir'
+                          ? <DescribirComida
+                              texto={texto}
+                              onTextoChange={setTexto}
+                              onInterpretar={interpretar}
+                              cargando={local.cargando}
+                              error={local.error}
+                              onVerMedidas={() => setVerMedidas(true)}
+                              onEscanear={() => setEscaneando(true)}
+                              accion="Añadir a la revisión"
+                            />
+                          : <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)}
+                              onCrear={(nombre) => { abrirRevision([itemSinCoincidencia(nombre.charAt(0).toLocaleUpperCase('es') + nombre.slice(1), 100)], true); setAnadiendo(false) }} />}
+                      </ViewTabs>
                       <Button variant="ghost" block disabled={local.cargando} onClick={() => setAnadiendo(false)}>
                         Cancelar añadido
                       </Button>

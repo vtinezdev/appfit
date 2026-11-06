@@ -3481,3 +3481,11 @@ Víctor no encontraba cómo añadir ingredientes al tocar «Cambiar ingredientes
 - `AnadirComida`: el bloque de añadido («Añadir otro alimento», «Editar descripción», «Medidas») pasa a ir justo debajo de la lista de alimentos, como en el editor de recetas. Vale para toda revisión, no solo la de una receta.
 
 **Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 375 px en `appfit-test.localhost`: receta → «Cambiar ingredientes» muestra el botón sin desplazar y añadir «100 g de pollo asado» lo incorpora. `validar-recetas-anadir.cjs` no llega a este paso aquí (falta el recetario descargado; falla igual sin el cambio). Sin iPhone.
+
+## 321. Revisión: Buscar también al añadir otro alimento (2026-11-06)
+
+Tras §320 Víctor pide poder buscar, no solo escribir, al añadir ingredientes en la revisión.
+
+- `AnadirComida`: «Añadir otro alimento» abre `ViewTabs` Escribir/Buscar (`metodoAnadido`, independiente de la pestaña inicial). Buscar reutiliza `AlimentosRapidos` y `elegirRapido`: con `anadiendo`, la hoja de cantidad suma el alimento a la revisión y una receta entra como alimento; «Crear» añade una fila sin coincidencia.
+
+**Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 320 (oscuro), 375 y 430 px en `appfit-buscar.localhost`: receta → «Cambiar ingredientes» → «Añadir otro alimento» → Buscar → elegir → «Revisar alimento» lo suma; la pestaña se recuerda en el siguiente añadido; sin scroll horizontal ni errores. Sin iPhone.
