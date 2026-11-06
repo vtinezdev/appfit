@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import backupV1 from '../../test/fixtures/backup-v1.json?raw'
+import { todayISO } from '../lib/dates'
 import { db, TABLAS_USUARIO } from './db'
 import { hayDatosGuardados } from './estadoDatos'
 import { ensureSettings, updateSettings } from './settings'
@@ -58,7 +59,9 @@ describe('detección de registros al abrir otro acceso', () => {
     const antes = await db.settings.get(1)
     expect(await hayDatosGuardados()).toBe(true)
     await ensureSettings()
-    expect(await db.settings.get(1)).toEqual(antes)
+    // ensureSettings solo añade la primera apertura (ADR 068); los objetivos no se tocan.
+    expect(await db.settings.get(1)).toEqual({ ...antes, primeraApertura: todayISO() })
+    expect(await hayDatosGuardados()).toBe(true)
   })
 
   it('un perfil con algún campo cuenta como dato introducido; uno vacío no', async () => {

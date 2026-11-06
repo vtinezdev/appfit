@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
+import { todayISO } from '../lib/dates'
 import { db } from './db'
 import { DEFAULT_OBJETIVOS, ensureSettings, getSettings, updateSettings } from './settings'
 import type { Settings } from './types'
@@ -38,8 +39,8 @@ describe('ensureSettings / updateSettings', () => {
 
   it('en una instalación nueva marca la bienvenida y la falta de objetivos; en una existente, nada', async () => {
     await ensureSettings()
-    expect(await db.settings.get(1)).toEqual({ id: 1, objetivos: DEFAULT_OBJETIVOS, sinObjetivos: true, bienvenidaPendiente: true })
-    const existente = { id: 1, objetivos: { kcal: 1800, prot: 140, carb: 180, grasa: 60 } }
+    expect(await db.settings.get(1)).toEqual({ id: 1, objetivos: DEFAULT_OBJETIVOS, sinObjetivos: true, bienvenidaPendiente: true, primeraApertura: todayISO() })
+    const existente = { id: 1, objetivos: { kcal: 1800, prot: 140, carb: 180, grasa: 60 }, primeraApertura: '2026-01-05' }
     await db.settings.put(existente)
     await ensureSettings()
     expect(await db.settings.get(1)).toEqual(existente)
@@ -49,7 +50,17 @@ describe('ensureSettings / updateSettings', () => {
     const objetivos = { kcal: 1800, prot: 140, carb: 180, grasa: 60 }
     await db.settings.put({ id: 1, apiKey: 'secreta', modelo: 'm', objetivos } as unknown as Settings)
     await ensureSettings()
-    expect(await db.settings.get(1)).toEqual({ id: 1, objetivos })
+    expect(await db.settings.get(1)).toEqual({ id: 1, objetivos, primeraApertura: todayISO() })
+  })
+
+  it('una instalación de antes del ADR 068 apunta hoy como primera apertura, una sola vez, sin tocar lo demás', async () => {
+    const objetivos = { kcal: 1800, prot: 140, carb: 180, grasa: 60 }
+    await db.settings.put({ id: 1, objetivos, barraKg: 15 })
+    await ensureSettings()
+    expect(await db.settings.get(1)).toEqual({ id: 1, objetivos, barraKg: 15, primeraApertura: todayISO() })
+    await db.settings.update(1, { primeraApertura: '2026-02-01' })
+    await ensureSettings()
+    expect((await db.settings.get(1))?.primeraApertura).toBe('2026-02-01')
   })
 
   it('updateSettings es transaccional: dos parches concurrentes no se pisan', async () => {

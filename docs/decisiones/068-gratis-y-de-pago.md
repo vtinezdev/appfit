@@ -1,6 +1,6 @@
 # 068 — Gratis y de pago: Entreno gratis, el resto con un pago único
 
-Fecha: 2026-11-06. Estado: aceptada, **sin implementar**; decidido todo lo necesario para empezar. Cambia la app de Google Play, que hoy no cobra (`android/README.md`).
+Fecha: 2026-11-06. Estado: aceptada; **parte 1 (bloqueo y prueba) implementada con el cobro apagado**, partes 2 (desbloqueo manual) y 3 (Play Billing) pendientes. Detalle: [desbloqueo](../features/desbloqueo.md). Cambia la app de Google Play, que hoy no cobra (`android/README.md`).
 
 ## Contexto
 
@@ -20,7 +20,7 @@ Víctor quiere monetizar la app sin convertirla en una suscripción: una parte g
 | Ajustes, Referencias, exportar e importar los datos | |
 
 - **Prueba**: un mes con todo abierto desde la primera vez que se abre la app.
-- **Al terminar la prueba sin pagar**: lo de pago se ve en solo lectura (lo apuntado no se pierde ni se esconde), pero no se puede añadir ni editar. Inicio muestra sus tarjetas bloqueadas con «Desbloquear». Exportar sigue siendo gratis: los datos son de cada persona.
+- **Al terminar la prueba sin pagar**: lo de pago se ve en solo lectura (lo apuntado no se pierde ni se esconde), pero no se puede añadir ni editar. En Cumbres, Ritmo y Vitrina se conserva lo ganado con las comidas durante la prueba; después solo cuenta el entreno. Inicio muestra sus tarjetas bloqueadas con «Desbloquear». Exportar sigue siendo gratis: los datos son de cada persona.
 - **Precio**: 9,99 € en un solo pago, que no caduca. En Android se cobra con Play Billing (obligatorio en Google Play para contenido digital), como producto de compra única.
 - **Desbloqueo manual**: quien ya usa la app no paga. Víctor lo desbloquea desde la administración de Social ([ADR 049](049-administracion-de-social.md)) buscando a la persona por su alias. Queda guardado en su cuenta de Supabase y vale en cualquier móvil. Requiere que esa persona tenga cuenta.
 - **iPhone**: en espera hasta que exista la app de iPhone. Se deja preparado: el estado «desbloqueado» no depende de cómo se pagó (Play, desbloqueo manual o, en el futuro, App Store).

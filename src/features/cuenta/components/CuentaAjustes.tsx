@@ -8,6 +8,7 @@ import { useCuenta } from '../useCuenta'
 import ElegirCopia from './ElegirCopia'
 import EntrarSheet from './EntrarSheet'
 import GestionarCuenta from './GestionarCuenta'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 const TONO = { normal: 'text-fg-muted', aviso: 'text-warning', error: 'text-destructive' } as const
 
@@ -28,6 +29,7 @@ export function ResumenCuenta() {
 
 function Cuenta() {
   const estado = useCuenta()
+  const { proteger } = useDePago()
   // `n` vuelve a montar la hoja en cada apertura (empieza en el primer paso); cerrada sigue montada para animar la salida.
   const [entrar, setEntrar] = useState({ open: false, reanudar: false, n: 0 })
   const [conflicto, setConflicto] = useState(false)
@@ -93,7 +95,8 @@ function Cuenta() {
               <p className="break-words text-body-sm font-semibold text-fg">{estado.email}</p>
               <p className="text-body-sm text-fg-muted">La copia en la nube está desactivada en este móvil. Actívala para que tus registros se guarden solos, cifrados, y recuperarlos en otro móvil.</p>
             </div>
-            <Button variant="primary" block onClick={() => abrirEntrar(true)}>Activar la copia</Button>
+            {/* La copia en la nube es de pago (ADR 068): con la prueba terminada, activarla pide desbloquear. */}
+            <Button variant="primary" block onClick={proteger(() => abrirEntrar(true))}>Activar la copia</Button>
             <GestionarCuenta conCopia={false} onMensaje={setMensaje} />
           </>
         )}

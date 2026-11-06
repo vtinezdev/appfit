@@ -11,6 +11,7 @@ import { congelarObjetivoDia } from '../../perfil/data/objetivosDiaRepo'
 import * as planificadasRepo from '../data/planificadasRepo'
 import { nombreComida } from '../lib/comidas'
 import { agruparPlanificadas, nombreDia, type GrupoPlanificado } from '../lib/planificadas'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 /**
  * «Lo he comido»: pasa esa comida planificada al diario y congela el objetivo del día, como al registrar.
@@ -29,6 +30,7 @@ export async function marcarComido(fecha: string, comida: Comida, hoy: string): 
  */
 export default function Planificadas({ hoy, avisar, avisarError, onVerPlan }: { hoy: string; avisar: (aviso: Aviso) => void; avisarError: (mensaje: string) => void; onVerPlan: () => void }) {
   const filas = useLiveQuery(() => planificadasRepo.hastaFecha(hoy), [hoy])
+  const { proteger } = useDePago()
   const [ocupado, setOcupado] = useState<string | null>(null)
   if (!filas?.length) return null
   const grupos = agruparPlanificadas(filas)
@@ -67,7 +69,7 @@ export default function Planificadas({ hoy, avisar, avisarError, onVerPlan }: { 
             <span className="tabular block break-words text-caption text-fg-subtle">{g.filas.map((f) => f.nombre).join(', ')} · {formatInt(g.kcal)} kcal</span>
           </span>
           <span className="flex items-center gap-1">
-            <Button variant="secondary" size="sm" loading={ocupado === claveGrupo(g)} disabled={ocupado !== null} onClick={() => void comido(g)}><Icon name="check" size={16} />Lo he comido</Button>
+            <Button variant="secondary" size="sm" loading={ocupado === claveGrupo(g)} disabled={ocupado !== null} onClick={proteger(() => comido(g))}><Icon name="check" size={16} />Lo he comido</Button>
             <IconButton icon="close" label={`Quitar la planificada de ${tituloGrupo(g).toLowerCase()}`} variant="ghost" onClick={() => void quitar(g)} />
           </span>
         </li>)}

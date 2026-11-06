@@ -8,6 +8,7 @@ import { ErrorState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import * as notasMedidaRepo from '../data/notasMedidaRepo'
 import { catalogoMedidas, textoValoresMedida, type MedidaCatalogo } from '../lib/interprete/medidas'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 interface Props {
   onClose: () => void
@@ -41,6 +42,7 @@ function FilaMedida({ medida }: { medida: MedidaCatalogo }) {
 /** Notas sobre medidas que el intérprete no entiende todavía, para añadirlas después a la tabla. */
 function NotasMedida() {
   const notas = useLiveQuery(() => notasMedidaRepo.listar(), [])
+  const { bloqueado, pedir } = useDePago()
   const [texto, setTexto] = useState('')
   const [guardando, setGuardando] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -74,7 +76,7 @@ function NotasMedida() {
     <section aria-label="Medidas que faltan" className="space-y-stack">
       <SectionHeader variant="section">Medidas que faltan</SectionHeader>
       <p className="px-1 text-body-sm text-fg-muted">¿Has usado una medida que no está en la lista? Apúntala para añadirla más adelante.</p>
-      <form onSubmit={apuntar} className="flex items-center gap-2">
+      <form onSubmit={(e) => { if (bloqueado) { e.preventDefault(); pedir() } else void apuntar(e) }} className="flex items-center gap-2">
         <Input tone="surface" aria-label="Medida que falta" placeholder="Ej.: tarrina de hummus ≈ 200 g" value={texto} onChange={(e) => setTexto(e.target.value)} />
         <Button type="submit" loading={guardando} disabled={!texto.trim()}>
           Apuntar

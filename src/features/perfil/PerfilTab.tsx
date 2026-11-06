@@ -14,6 +14,8 @@ import EditarDatoSheet from './components/EditarDatoSheet'
 import ResultadoEnergia from './components/ResultadoEnergia'
 import GastoObservadoCard from './components/GastoObservadoCard'
 import MedidasCorporales from './components/MedidasCorporales'
+import { useDePago } from '../desbloqueo/DesbloqueoContext'
+import AvisoPruebaTerminada from '../desbloqueo/components/AvisoPruebaTerminada'
 
 const PESO_POR_DEFECTO = 70
 
@@ -39,7 +41,10 @@ export default function PerfilTab({ onVerMetodo, enBienvenida = false }: { onVer
     if (kcal !== null && kcal !== e.antes) avisar({ mensaje: `Objetivo actualizado: ${formatNumber(kcal)} kcal` })
   }, [kcal, estado, avisar])
 
+  // Prueba terminada (ADR 068): el perfil se ve; cambiarlo pide desbloquear. El peso es de todos (Inicio) y sigue libre.
+  const { bloqueado, pedir } = useDePago()
   function editar(c: CampoEditable) {
+    if (bloqueado && c !== 'peso') { pedir(); return }
     setAperturas((n) => n + 1)
     if (c === 'peso') setPesoAbierto(true)
     else { setCampo(c); setAbierto(true) }
@@ -65,6 +70,7 @@ export default function PerfilTab({ onVerMetodo, enBienvenida = false }: { onVer
 
   return <div className={enBienvenida ? 'space-y-section' : 'space-y-section px-page pt-5'}>
     {!enBienvenida && <PageHeader title="Perfil" />}
+    {!enBienvenida && <AvisoPruebaTerminada seccion="tu perfil y tu objetivo de calorías" />}
     {!estado ? <LoadingState /> : <>
       <ResultadoEnergia energia={estado.energia} macros={vigentes?.origen === 'perfil' ? vigentes : undefined} onElegirObjetivo={() => editar('objetivo')} onVerMetodo={onVerMetodo} onCompletar={editar} />
       {!enBienvenida && <GastoObservadoCard perfil={estado.perfil} energia={estado.energia} observado={estado.observado} hoy={hoy} plegado={estado.energia.estado === 'incompleto'} />}

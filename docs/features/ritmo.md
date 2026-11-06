@@ -25,7 +25,7 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 - **Entreno** = entreno terminado con al menos 5 series efectivas (`SERIES_MINIMAS` de la experiencia). Un día con varios cuenta una vez.
 - **Estado de cada semana** (lunes a domingo):
   - **cumplida**: entrenos ≥ plan y días registrados ≥ plan;
-  - **parcial**: solo una de las dos partes (no existe sin nutrición);
+  - **parcial**: solo una de las dos partes (no existe sin nutrición; con el mes de prueba terminado sin desbloquear, las semanas que empiezan después se miden sin ella: `registroHasta`, [desbloqueo](desbloqueo.md));
   - **presente**: al menos un entreno o 3 días registrados;
   - **vacía**: nada de lo anterior.
 

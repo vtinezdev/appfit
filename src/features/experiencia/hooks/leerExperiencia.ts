@@ -1,6 +1,8 @@
 // Lecturas de la experiencia (solo lectura: se usan dentro del lector compartido, `experiencia/hooks/useProgreso`). La XP se recalcula a partir del historial completo.
 import { getSettings } from '../../../shared/db/settings'
+import { calcularAcceso, dePagoBloqueado } from '../../../shared/lib/acceso'
 import { conNutricionEfectiva } from '../../../shared/lib/modulos'
+import { entornoAcceso } from '../../../shared/pwa/cobro'
 import type { Actividad, Entry, Exercise, Pausa, PlanSemanal, SetEntry, Workout } from '../../../shared/db/types'
 import { startOfWeek } from '../../../shared/lib/dates'
 import * as actividadesRepo from '../../actividades/data/actividadesRepo'
@@ -40,12 +42,17 @@ export async function leerExperiencia(hoy: string): Promise<EstadoExperiencia> {
   if (settings.gamificacionVisible === false) return { visible: false }
   // Con Nutrición apagada en «Lo que usas» (B9), solo el entreno: se deriva al leer, sin escribir el ajuste.
   const conNutricion = conNutricionEfectiva(settings)
+  // Con la prueba terminada sin desbloquear (ADR 068), lo ganado con las comidas hasta su último día se conserva; después
+  // solo cuenta el entreno.
+  const acceso = calcularAcceso(settings, entornoAcceso(), hoy)
+  const nutricionHasta = dePagoBloqueado(acceso) && acceso.tipo === 'terminada' ? acceso.ultimoDia : undefined
+  const hastaNutricion = nutricionHasta ?? hoy
   const [workouts, sets, exercises, entries, cheatDays, actividades] = await Promise.all([
     workoutsRepo.terminados(),
     setsRepo.todas(),
     exercisesRepo.listar(),
-    conNutricion ? entriesRepo.entreFechas(DESDE_SIEMPRE, hoy) : [],
-    conNutricion ? cheatDaysRepo.entreFechas(DESDE_SIEMPRE, hoy) : [],
+    conNutricion ? entriesRepo.entreFechas(DESDE_SIEMPRE, hastaNutricion) : [],
+    conNutricion ? cheatDaysRepo.entreFechas(DESDE_SIEMPRE, hastaNutricion) : [],
     actividadesRepo.terminadas(),
   ])
   const objetivos = conNutricion ? await objetivosPorFecha([...new Set(entries.map((e) => e.fecha))], hoy) : new Map()
@@ -54,7 +61,7 @@ export async function leerExperiencia(hoy: string): Promise<EstadoExperiencia> {
     visible: true,
     conNutricion,
     plan: planDeSemana(settings.planSemanal, startOfWeek(hoy)),
-    resultado: calcularExperiencia({ hoy, workouts, sets, entries, protObjetivo, cheatDays: new Set(cheatDays), planes: settings.planSemanal, pausas: settings.pausas, conNutricion, actividades }),
+    resultado: calcularExperiencia({ hoy, workouts, sets, entries, protObjetivo, cheatDays: new Set(cheatDays), planes: settings.planSemanal, pausas: settings.pausas, conNutricion, nutricionHasta, actividades }),
     nombres: Object.fromEntries(exercises.map((e) => [e.id, e.nombre])),
     pausas: settings.pausas ?? [],
     datos: { workouts, sets, exercises, entries, actividades },

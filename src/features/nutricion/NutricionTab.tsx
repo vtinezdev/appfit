@@ -14,6 +14,8 @@ import { LoadingState } from '../../shared/components/StateMessage'
 import type { Plato } from './lib/platos'
 import type { NutrienteId } from '../../shared/lib/referenciasNutricionales'
 import { useHoy } from '../../shared/hooks/useHoy'
+import { useDePago } from '../desbloqueo/DesbloqueoContext'
+import AvisoPruebaTerminada from '../desbloqueo/components/AvisoPruebaTerminada'
 
 const RAPIDA_VACIA: KcalRapidasDraft = { nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }
 
@@ -36,13 +38,15 @@ export default function NutricionTab({ onVerReferencia, onIrARecetas, anadirInic
   /** Prototipo: acceso al destino Recetas desde la cabecera. */ onIrARecetas?: () => void; /** Abre Añadir comida en esa comida al montar (desde Inicio). */ anadirInicial?: Comida
   /** Abre el diario en ese día (el «Ver en Nutrición» del calendario de Progreso, B14). */ fechaInicial?: string }) {
   const [vista, setVista] = useState<Vista>('hoy')
+  // Con la prueba terminada (ADR 068), el diario se ve pero no se añade ni se edita: cada entrada a Añadir comida pide desbloquear.
+  const { proteger, bloqueado } = useDePago()
   const hoy = useHoy()
   const [fechaElegida, setFechaElegida] = useState<string | null>(fechaInicial ?? null)
   const fecha = fechaElegida ?? hoy
   const setFecha = (nueva: string) => setFechaElegida(nueva === hoy ? null : nueva)
   // El destino de una tarea ya abierta queda fijado aunque se cruce medianoche.
   const [fechaAnadir, setFechaAnadir] = useState(todayISO())
-  const [mostrarAnadir, setMostrarAnadir] = useState(anadirInicial !== undefined)
+  const [mostrarAnadir, setMostrarAnadir] = useState(anadirInicial !== undefined && !bloqueado)
   const [creandoTipica, setCreandoTipica] = useState(false)
   // Añadir comida abierto desde el Plan: guarda en `planificadas`, no en el diario.
   const [planificando, setPlanificando] = useState(false)
@@ -54,20 +58,20 @@ export default function NutricionTab({ onVerReferencia, onIrARecetas, anadirInic
   const [guardandoRapida, setGuardandoRapida] = useState(false)
   const [errorRapida, setErrorRapida] = useState<string | null>(null)
 
-  function abrirAnadir(comida?: Comida, tipica = false) {
+  const abrirAnadir = proteger((comida?: Comida, tipica: boolean = false) => {
     setFechaAnadir(fecha)
     setComidaAnadir(comida)
     setCreandoTipica(tipica)
     setMostrarAnadir(true)
-  }
+  })
 
-  function abrirPlanificar(dia: string, comida: Comida) {
+  const abrirPlanificar = proteger((dia: string, comida: Comida) => {
     setFechaAnadir(dia)
     setComidaAnadir(comida)
     setCreandoTipica(false)
     setPlanificando(true)
     setMostrarAnadir(true)
-  }
+  })
 
   function cerrarAnadir() {
     setMostrarAnadir(false)
@@ -84,7 +88,7 @@ export default function NutricionTab({ onVerReferencia, onIrARecetas, anadirInic
   }
 
   // Las entradas «rápidas» (A5) no pasan por la revisión: sus gramos son 0 y dividirían entre 0.
-  function editarEntry(e: Entry) {
+  const editarEntry = proteger((e: Entry) => {
     if (e.rapida) {
       setRapidaEditar(e)
       setRapidaDraft({ nombre: e.nombre, kcal: e.kcal, prot: e.prot, carb: e.carb, grasa: e.grasa })
@@ -93,7 +97,8 @@ export default function NutricionTab({ onVerReferencia, onIrARecetas, anadirInic
       setEntryEditar(e)
       setMostrarAnadir(true)
     }
-  }
+  })
+  const editarPlato = proteger((plato: Plato) => { setPlatoEditar(plato); setMostrarAnadir(true) })
 
   async function guardarRapidaEditada() {
     const validado = validarKcalRapidas(rapidaDraft)
@@ -116,8 +121,9 @@ export default function NutricionTab({ onVerReferencia, onIrARecetas, anadirInic
         {onIrARecetas && <IconButton icon="recetario" label="Recetas" variant="ghost" onClick={onIrARecetas} />}
         <IconButton icon="plus" label="Añadir comida" variant="secondary" onClick={() => abrirAnadir()} />
       </div>} />
+      <AvisoPruebaTerminada seccion="tu diario y lo que apuntaste" />
       <ViewTabs label="Vistas de nutrición" nivel="principal" opciones={VISTAS} valor={vista} onChange={setVista}>
-      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={abrirAnadir} onCrearTipica={comida => abrirAnadir(comida, true)} onVerReferencia={onVerReferencia} onVerPlan={() => setVista('plan')} /></Suspense>}
+      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={editarPlato} onAnadir={abrirAnadir} onCrearTipica={(comida: Comida) => abrirAnadir(comida, true)} onVerReferencia={onVerReferencia} onVerPlan={() => setVista('plan')} /></Suspense>}
       {vista === 'plan' && <Suspense fallback={<LoadingState />}><Plan hoy={hoy} onAnadir={abrirPlanificar} /></Suspense>}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>

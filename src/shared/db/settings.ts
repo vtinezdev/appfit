@@ -1,4 +1,5 @@
 import { db } from './db'
+import { todayISO } from '../lib/dates'
 import type { Objetivos, Settings } from './types'
 
 /** Cuadran: 150·4 + 238·4 + 72·9 = 2200 kcal. */
@@ -28,16 +29,17 @@ export async function getSettings(): Promise<Settings> {
 }
 
 /**
- * Crea el registro de settings por defecto si todavía no existe, y borra del dispositivo los campos antiguos
- * (la API key de Gemini). Llamar una vez al arrancar la app.
+ * Crea el registro de settings por defecto si todavía no existe, apunta la primera apertura si falta y borra del
+ * dispositivo los campos antiguos (la API key de Gemini). Llamar una vez al arrancar la app.
  */
 export function ensureSettings(): Promise<void> {
   return db.transaction('rw', db.settings, async () => {
     const s: SettingsGuardados | undefined = await db.settings.get(1)
     // Instalación nueva (sin ajustes): bienvenida y sin objetivos hasta elegirlos (ADR 066). Un backup importado o una
     // copia de la nube traen sus propios ajustes, sin estas marcas.
-    if (!s) await db.settings.put({ ...conDefaults(), sinObjetivos: true, bienvenidaPendiente: true })
-    else if (s.apiKey !== undefined || s.modelo !== undefined) await db.settings.put(conDefaults(s))
+    // La primera apertura (ADR 068) se apunta una vez: en la instalación nueva o, en una de antes, al primer arranque.
+    if (!s) await db.settings.put({ ...conDefaults(), sinObjetivos: true, bienvenidaPendiente: true, primeraApertura: todayISO() })
+    else if (s.apiKey !== undefined || s.modelo !== undefined || !s.primeraApertura) await db.settings.put(conDefaults({ ...s, primeraApertura: s.primeraApertura || todayISO() }))
   })
 }
 

@@ -3613,3 +3613,15 @@ Tras §331 Víctor pide poder buscar, no solo escribir, al añadir ingredientes 
 - `AnadirComida`: «Añadir otro alimento» abre `ViewTabs` Escribir/Buscar (`metodoAnadido`, independiente de la pestaña inicial). Buscar reutiliza `AlimentosRapidos` y `elegirRapido`: con `anadiendo`, la hoja de cantidad suma el alimento a la revisión y una receta entra como alimento; «Crear» añade una fila sin coincidencia.
 
 **Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 320 (oscuro), 375 y 430 px en `appfit-buscar.localhost`: receta → «Cambiar ingredientes» → «Añadir otro alimento» → Buscar → elegir → «Revisar alimento» lo suma; la pestaña se recuerda en el siguiente añadido; sin scroll horizontal ni errores. Sin iPhone.
+
+## 333. Gratis y de pago, parte 1: la prueba y el bloqueo, con el cobro apagado (2026-11-06)
+
+Víctor decide el modelo con Claude ([ADR 068](decisiones/068-gratis-y-de-pago.md)): Entreno, Actividades, Liga, Social y la cuenta, gratis; Nutrición, Perfil y la copia en la nube, un mes de prueba desde la primera apertura y luego 9,99 € en un pago único; solo en la app de Google Play (la web y el iPhone, abiertos). Pide empezar por la primera de tres partes.
+
+- `shared/lib/acceso` (puro): `calcularAcceso`, `dePagoBloqueado`, `resumenAcceso`. `shared/pwa/cobro`: `COBRO_ACTIVO = false`, `aplicaCobro` (app de Android con el cobro encendido) y `?preview=cobro` para probarlo.
+- `settings.primeraApertura`, que apunta `ensureSettings` (también en instalaciones de antes).
+- `features/desbloqueo`: `DesbloqueoProvider` en `App`, `useDePago().proteger`, la hoja «Cumbra Fit completa» (precio con el botón deshabilitado) y el aviso de prueba terminada en Nutrición, Recetas y Perfil. Bloqueos en lo que añade o cambia (lista en [desbloqueo](features/desbloqueo.md)); borrar y deshacer, libres. Inicio cambia «Añadir comida» por «Desbloquear»; Ajustes enseña el estado de la prueba; activar la copia pide desbloquear.
+- Con la prueba terminada se conserva lo ganado con las comidas hasta su último día (lo decide Víctor): `nutricionHasta` en `calcularExperiencia` y `registroHasta` en `calcularRitmo`, que mide solo con el entreno las semanas que empiezan después.
+- `importarBackup` conserva la primera apertura más antigua entre la del móvil y la del backup: un backup de antes no la borra (lo detectó `validar-correcciones-auditoria`, «reintentar conserva el backup completo», al volver a apuntarla `ensureSettings` tras recargar).
+
+**Verificación:** `npm run test` (276 archivos, 3.222 pruebas) y `npm run build` correctos. En Chromium con `?preview=cobro` en `appfit-cobro.localhost`, 375 claro, 320 oscuro y 430 oscuro: Ajustes con 20 días de prueba y la hoja; con la prueba terminada, los avisos de Nutrición, Recetas y Perfil, Inicio con «Desbloquear», Añadir comida, Plan › Planificar y Nueva receta abren la hoja; Entreno sin aviso; sin la vista previa, nada cambia. Sin scroll horizontal, controles ≥44 px y sin errores. Sin Android real.

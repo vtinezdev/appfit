@@ -21,7 +21,7 @@ Catálogo (`npm run catalogo:*`): `scripts/catalogo/README.md`. Despliegue y res
 src/app/            shell: App (router casero con useState, sin URLs), BottomNav, Ajustes
 src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato, texto, backup) · design/ (tokens, guard) · seguridad/ (guardián de cabeceras)
                     · pwa/ (estado y aplicación de actualizaciones) · components/ (primitives) · hooks/ (useAviso, useModalLayer)
-src/features/       inicio/ · nutricion/ · gym/ · actividades/ · perfil/ · referencias/ · experiencia/ · cumbres/ · caminos/ · ritmo/ · vitrina/ · progreso/ · liga/ · cuenta/ · social/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
+src/features/       inicio/ · nutricion/ · gym/ · actividades/ · perfil/ · referencias/ · experiencia/ · cumbres/ · caminos/ · ritmo/ · vitrina/ · progreso/ · liga/ · cuenta/ · social/ · desbloqueo/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
 src/test/           setup-db.ts (fake-indexeddb) y fixtures/
 scripts/catalogo/   tubería offline (Node, manual) que genera los paquetes de public/catalogo/
 android/            configuración de la TWA de Google Play (Bubblewrap): `android/README.md`
@@ -68,7 +68,7 @@ Los documentos vivos describen el estado actual y cada tema vive en uno solo. Si
 |---|---|---|
 | `docs/arquitectura.md` | capas y dependencias, mapa de carpetas, navegación, arranque, PWA/offline, red | cambian carpetas, capas, arranque o caché |
 | `docs/datos.md` | tablas, invariantes, repositorios, ajustes, backup, trampas de Dexie | cambian tablas, invariantes, repos o el backup |
-| `docs/features/nutricion.md`, `gym.md`, `actividades.md`, `inicio.md`, `perfil.md`, `referencias.md`, `experiencia.md`, `cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md`, `progreso.md`, `liga.md`, `cuenta.md`, `social.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
+| `docs/features/nutricion.md`, `gym.md`, `actividades.md`, `inicio.md`, `perfil.md`, `referencias.md`, `experiencia.md`, `cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md`, `progreso.md`, `liga.md`, `cuenta.md`, `social.md`, `desbloqueo.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
 | `DESIGN.md` | identidad, intención y criterios de producto | cambia la dirección visual |
 | `docs/DESIGN-SYSTEM.md` | implementación: tokens, primitives y patrones | cambian tokens, primitives o patrones |
 | `docs/seguridad.md` | cabeceras de seguridad y CSP, revisión de Supabase, dependencias, pendientes de endurecimiento | cambian la red permitida, los permisos del navegador, las cabeceras o el servidor |
