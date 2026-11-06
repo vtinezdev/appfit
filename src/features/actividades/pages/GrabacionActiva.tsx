@@ -22,7 +22,7 @@ function textoGps(estado: EstadoGps, precision: number | null): string {
   if (estado === 'ok') return precision === null ? 'Con señal' : `Señal ±${formatInt(precision)} m`
   if (estado === 'buscando') return 'Buscando señal…'
   if (estado === 'denegado') return 'Sin permiso de ubicación'
-  if (estado === 'no-disponible') return 'Este navegador no da la ubicación'
+  if (estado === 'no-disponible') return 'Este móvil no da la ubicación'
   return 'Sin señal'
 }
 
@@ -158,8 +158,8 @@ export default function GrabacionActiva({ actividad, onTerminada }: Props) {
       </section>
 
       {sinGps && <ErrorState>{gps.estado === 'denegado'
-        ? 'Cumbra Fit no tiene permiso para usar tu ubicación. Actívalo en Ajustes del iPhone › Privacidad › Localización y vuelve a abrir la app.'
-        : 'Este navegador no da acceso a la ubicación. Puedes registrar la actividad a mano.'}</ErrorState>}
+        ? 'Cumbra Fit no tiene permiso para usar tu ubicación. Dáselo en los ajustes del móvil y vuelve a abrir la app.'
+        : 'Este móvil no da acceso a la ubicación. Puedes registrar la actividad a mano.'}</ErrorState>}
       {!pausada && pantalla !== 'encendida' && <p className="break-words text-body-sm text-fg-muted">
         No hemos podido mantener la pantalla encendida: toca la pantalla de vez en cuando para que no se bloquee, o el GPS se parará.
       </p>}

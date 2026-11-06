@@ -81,5 +81,5 @@ export async function calcularVigentes(fecha: string): Promise<ObjetivosVigentes
   // Solo se lee el historial de comidas si la persona ha activado el gasto observado.
   const observado = perfil.usarGastoObservado === true ? await leerGastoObservado(fecha) : null
   const energia = calcularEnergia(perfil, peso?.kg, fecha, observado?.estado === 'ok' ? observado.gastoExacto : null)
-  return derivarObjetivos(settings.objetivos, energia, ajusteProteina(settings.perfil, peso?.kg))
+  return derivarObjetivos(settings.objetivos, energia, ajusteProteina(settings.perfil, peso?.kg), settings.sinObjetivos === true)
 }

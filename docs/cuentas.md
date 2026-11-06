@@ -56,7 +56,7 @@ Una base Dexie aparte, `appfit-dispositivo`, que no es `db`: no entra en el back
 ### Lo que cambia en lo existente
 
 - **Aviso de copia de Inicio** (`recordatorioBackup.ts`): con cuenta y una subida reciente no avisa. Si la subida lleva días fallando, avisa de eso.
-- **`TrasladarDatos`** (traslado de Safari a la PWA en iPhone): con cuenta, el camino pasa a ser «Entra con tu cuenta» en lugar de exportar e importar.
+- **`TrasladarDatos`** (traslado de Safari a la PWA en iPhone): retirado en el [ADR 067](decisiones/067-app-de-tienda-sin-instalar-desde-la-web.md); con cuenta, entrar trae la copia.
 - **Red:** se añade `*.supabase.co`. El service worker no la cachea: Workbox solo cachea lo que encaja en `runtimeCaching`.
 
 ## Código

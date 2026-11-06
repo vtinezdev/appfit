@@ -188,7 +188,9 @@ Para todos: `npm run test` y `npm run build` en verde, pruebas en `http://appfit
 
 ---
 
-## 6 · Uso por otras personas (por afinar)
+## 6 · Uso por otras personas
+
+Hecho el 2026-11-05: bienvenida por pasos y sin objetivos por defecto en las instalaciones nuevas ([ADR 066](decisiones/066-bienvenida-y-sin-objetivos-por-defecto.md)).
 
 Víctor confirma que la app la usarán **otras personas**, no solo él. Antes de tocar nada hay que afinar el alcance:
 - `CLAUDE.md` y `README.md` dicen «único usuario» o están escritos para Víctor: hay que actualizarlos.

@@ -1,9 +1,11 @@
 import { useState, type FormEvent } from 'react'
 import Button from '../../../shared/components/Button'
 import Campo from '../../../shared/components/Campo'
+import EnlacesLegales from '../../../shared/components/EnlacesLegales'
 import { Input } from '../../../shared/components/Input'
 import PageHeader from '../../../shared/components/PageHeader'
 import { ErrorState } from '../../../shared/components/StateMessage'
+import { EDAD_MINIMA } from '../../../shared/lib/legal'
 import { limpiarNombre, NOMBRE_MAX, normalizarAlias, validarAlias, validarNombre } from '../lib/alias'
 import { cargarSocial } from '../servicio'
 
@@ -17,7 +19,7 @@ export default function CrearPerfil({ onCreado, titulo = 'Amigos' }: { onCreado:
 
   async function crear(e: FormEvent) {
     e.preventDefault()
-    const invalido = validarAlias(alias) ?? validarNombre(nombre) ?? (acepto ? null : 'Confirma que tienes 16 años o más.')
+    const invalido = validarAlias(alias) ?? validarNombre(nombre) ?? (acepto ? null : `Confirma que tienes ${EDAD_MINIMA} años o más y aceptas las normas de Social.`)
     if (invalido) {
       setError(invalido)
       return
@@ -49,8 +51,9 @@ export default function CrearPerfil({ onCreado, titulo = 'Amigos' }: { onCreado:
         </Campo>
         <label className="flex min-h-touch items-center gap-3 text-body-sm text-fg">
           <input type="checkbox" checked={acepto} onChange={(e) => setAcepto(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
-          Tengo 16 años o más
+          Tengo {EDAD_MINIMA} años o más y acepto las normas de Social de las condiciones de uso
         </label>
+        <EnlacesLegales paginas={['condiciones', 'privacidad']} className="-mt-2" />
         {error && <ErrorState>{error}</ErrorState>}
         <Button type="submit" variant="primary" block loading={ocupado}>Crear mi perfil</Button>
       </form>

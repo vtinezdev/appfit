@@ -6,7 +6,7 @@ import { formatInt } from '../shared/lib/format'
 import { conNutricionEfectiva, MODULOS, moduloActivo, NOMBRE_MODULO } from '../shared/lib/modulos'
 
 /** Ajustes es un índice: cada sección abre su propia vista. */
-export type SeccionAjustes = 'modulos' | 'objetivos' | 'entreno' | 'gamificacion' | 'apariencia' | 'actualizaciones' | 'instalacion' | 'cuenta' | 'copias' | 'catalogo' | 'diagnostico' | 'borrar'
+export type SeccionAjustes = 'modulos' | 'objetivos' | 'entreno' | 'gamificacion' | 'apariencia' | 'actualizaciones' | 'ayuda' | 'cuenta' | 'copias' | 'catalogo' | 'diagnostico' | 'borrar'
 
 export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: IconName }> = {
   modulos: { nombre: 'Lo que usas', icon: 'secciones' },
@@ -15,7 +15,7 @@ export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: I
   gamificacion: { nombre: 'Cumbres, Caminos, Ritmo y Vitrina', icon: 'mountain' },
   apariencia: { nombre: 'Apariencia', icon: 'moon' },
   actualizaciones: { nombre: 'Actualizaciones', icon: 'download' },
-  instalacion: { nombre: 'Primeros pasos', icon: 'sparkles' },
+  ayuda: { nombre: 'Ayuda y pistas', icon: 'sparkles' },
   cuenta: { nombre: 'Cuenta', icon: 'user' },
   copias: { nombre: 'Copias de seguridad', icon: 'download' },
   catalogo: { nombre: 'Catálogo de alimentos', icon: 'utensils' },
@@ -27,7 +27,7 @@ export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: I
 export const GRUPOS_AJUSTES: { nombre: string; secciones: SeccionAjustes[] }[] = [
   { nombre: 'Tú', secciones: ['modulos', 'objetivos'] },
   { nombre: 'Entreno', secciones: ['entreno', 'gamificacion'] },
-  { nombre: 'App', secciones: ['apariencia', 'actualizaciones', 'instalacion', 'diagnostico'] },
+  { nombre: 'App', secciones: ['apariencia', 'actualizaciones', 'ayuda', 'diagnostico'] },
   { nombre: 'Tus datos', secciones: ['cuenta', 'copias', 'catalogo'] },
 ]
 
@@ -56,14 +56,14 @@ export function resumenAjustes(seccion: SeccionAjustes, d: DatosResumen): string
       const apagados = MODULOS.filter((m) => !moduloActivo(s, m))
       return apagados.length === 0 ? 'Todo activo' : `Sin ${apagados.map((m) => NOMBRE_MODULO[m].toLowerCase()).join(', ')}`
     }
-    case 'objetivos': return `${formatInt(d.objetivos.kcal)} kcal · ${formatInt(d.objetivos.prot)} g de proteína`
+    case 'objetivos': return d.objetivos.kcal > 0 ? `${formatInt(d.objetivos.kcal)} kcal · ${formatInt(d.objetivos.prot)} g de proteína` : 'Sin objetivo'
     case 'entreno': return `${s.sonidoDescanso === false ? 'Sin sonido' : 'Con sonido'} · ${s.rirAlCompletar === false ? 'Sin preguntar el RIR' : 'Pregunta el RIR'}`
     case 'gamificacion':
       if (s.gamificacionVisible === false) return 'Ocultos'
       return `${conNutricionEfectiva(s) ? 'Con nutrición' : 'Solo entreno'} · ${formatInt(d.entrenosPlan)} ${d.entrenosPlan === 1 ? 'entreno' : 'entrenos'} por semana`
     case 'apariencia': return `${etiqueta(OPCIONES_TEMA, d.tema)} · Fondo ${etiqueta(OPCIONES_FONDO, d.fondo).toLowerCase()}`
     case 'actualizaciones': return '' // Estado vivo en ResumenActualizacion.
-    case 'instalacion': return 'Instalar la app, trasladar registros y pistas'
+    case 'ayuda': return 'Cómo registrar un entreno y las pistas de la primera vez'
     case 'cuenta': return ''
     case 'copias': return s.ultimaExportacion === undefined ? 'Aún sin copia exportada' : `Última: ${formatDiaMes(s.ultimaExportacion)}`
     case 'catalogo': return 'Fuentes, licencias y actualización'

@@ -6,7 +6,7 @@ afterEach(() => vi.unstubAllGlobals())
 describe('lineasMedidas', () => {
   it('redondea y marca lo que falta', () => {
     const lineas = lineasMedidas({ pantalla: { ancho: 430, alto: 932 }, ventana: { ancho: 430, alto: 868.4 }, visible: null, documento: 868, app: { arriba: 0, alto: 868 }, margenes: { arriba: 59, abajo: 0 }, instalada: true })
-    expect(Object.fromEntries(lineas)).toMatchObject({ Ventana: '430 × 868', 'Zona visible': 'Sin datos', App: '868 desde 0', 'Margen arriba': '59', 'Margen abajo': '0', 'Instalada (iOS)': 'Sí' })
+    expect(Object.fromEntries(lineas)).toMatchObject({ Ventana: '430 × 868', 'Zona visible': 'Sin datos', App: '868 desde 0', 'Margen arriba': '59', 'Margen abajo': '0', 'Pantalla completa en iPhone': 'Sí' })
   })
 })
 

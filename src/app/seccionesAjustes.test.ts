@@ -19,6 +19,7 @@ describe('índice de Ajustes', () => {
 
   it('resume el valor actual con cifras formateadas', () => {
     expect(resumenAjustes('objetivos', base)).toBe('2.400 kcal · 150 g de proteína')
+    expect(resumenAjustes('objetivos', { ...base, objetivos: { kcal: 0, prot: 0, carb: 0, grasa: 0 } })).toBe('Sin objetivo')
     expect(resumenAjustes('apariencia', base)).toBe('Sistema · Fondo curvas')
     expect(resumenAjustes('entreno', base)).toBe('Con sonido · Pregunta el RIR')
     expect(resumenAjustes('gamificacion', base)).toBe('Con nutrición · 3 entrenos por semana')

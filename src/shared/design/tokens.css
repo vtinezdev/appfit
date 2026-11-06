@@ -98,6 +98,8 @@
   /* Rejilla de secciones (ADR 060): ancho de cada celda (cuatro caben a 320 px) y círculo de cada sección. */
   --secciones-celda: 5.5rem;
   --secciones-circulo: 3rem;
+  /* Lo mínimo que ocupa una sección (círculo y nombre): con el texto ampliado caben menos por fila y no se solapan. */
+  --secciones-celda-min: calc(var(--secciones-circulo) + 0.75rem);
   /* Lo que flota sobre la barra inferior (avisos, descanso) empieza aquí. */
   --nav-dock: calc(var(--nav-height) + var(--safe-bottom) + 0.75rem);
   --nav-toast: var(--nav-dock);

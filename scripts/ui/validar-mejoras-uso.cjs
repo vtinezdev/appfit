@@ -173,7 +173,7 @@ async function caso(motor, ampliado) {
       await page.getByLabel(/^RIR, serie 1/).click(); sheet=page.getByRole('dialog',{name:/^RIR ·/})
       assert.equal(await sheet.getByRole('complementary',{name:'Pista'}).count(),0)
       await sheet.getByRole('button',{name:'Cerrar',exact:true}).click();await sheet.waitFor({state:'detached'})
-      await navegar(page,'Ajustes'); await page.getByRole('button',{name:/^Primeros pasos/}).click()
+      await navegar(page,'Ajustes'); await page.getByRole('button',{name:/^Ayuda y pistas/}).click()
       await page.getByRole('button',{name:'Ayuda para registrar un entreno',exact:true}).click()
       await page.getByText(/RIR significa repeticiones en reserva/).waitFor()
       await page.getByRole('button',{name:'Volver a Ajustes',exact:true}).click()

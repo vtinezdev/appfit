@@ -18,11 +18,6 @@ export function MarcaIcono({ tam = 40, className = '' }: { tam?: number; classNa
   )
 }
 
-/** El icono de la pantalla de inicio, tal cual se instala (grafito y volt en los dos temas). */
-export function IconoApp({ tam = 40, className = '' }: { tam?: number; className?: string }) {
-  return <img src="/favicon.svg" alt="" width={tam} height={tam} className={`shrink-0 ${className}`} />
-}
-
 /**
  * «CUMBRA FIT»: letras talladas que suben y la A como cumbre, con las montañas dentro. La cumbre y «FIT» van en el acento
  * de texto (volt claro en oscuro, oliva en claro, por contraste); el resto, en el color del texto.

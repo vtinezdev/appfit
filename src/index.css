@@ -524,10 +524,11 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 /* Con poco alto (horizontal, teclado), la rejilla se desplaza y el cierre sigue a la vista. */
 .secciones-panel nav { width: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
-/* Filas completas de --secciones-columnas; la última, si queda corta, centrada. */
+/* Filas completas de --secciones-columnas; la última, si queda corta, centrada. Si no caben (texto ampliado), cada sección
+   conserva su ancho mínimo y la fila lleva menos: nunca se solapan los círculos ni se parten los nombres. */
 .secciones-rejilla { display: flex; flex-wrap: wrap; justify-content: center; row-gap: var(--space-stack); padding-block: var(--space-stack); }
 .secciones-item {
-  width: calc(100% / var(--secciones-columnas, 4)); min-width: 0;
+  width: max(calc(100% / var(--secciones-columnas, 4)), var(--secciones-celda-min)); min-width: 0;
   transition: transform var(--dur-overlay) var(--ease-standard), opacity var(--dur-short);
   transition-delay: calc(var(--dur-stagger) * var(--secciones-i));
 }

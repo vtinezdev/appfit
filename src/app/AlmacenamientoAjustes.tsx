@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react'
 import Button from '../shared/components/Button'
 import Disclosure from '../shared/components/Disclosure'
-import { consultarPersistencia, entornoDeApp, solicitarPersistencia, type Persistencia } from '../shared/lib/almacenamiento'
+import { consultarPersistencia, solicitarPersistencia, type Persistencia } from '../shared/lib/almacenamiento'
 
 const MENSAJES: Record<Persistencia, string> = {
-  concedida: 'El navegador ha concedido protección frente al borrado automático por falta de espacio.',
-  'no-concedida': 'Los datos se guardan en este dispositivo, pero el navegador aún no ha concedido protección frente al borrado automático.',
-  'no-disponible': 'Este navegador no permite consultar o solicitar la protección frente al borrado automático.',
+  concedida: 'Están protegidos: el móvil no los borrará aunque se quede sin espacio.',
+  'no-concedida': 'Aún no están protegidos: si el móvil se queda sin espacio, podría borrarlos. Protégelos y haz copias de vez en cuando.',
+  'no-disponible': 'Este móvil no permite saber si están protegidos frente al borrado por falta de espacio. Haz copias de vez en cuando.',
   error: 'No se ha podido comprobar la protección del almacenamiento. Puedes volver a intentarlo.',
 }
 
 export default function AlmacenamientoAjustes() {
   const [persistencia, setPersistencia] = useState<Persistencia | null>(null)
   const [solicitando, setSolicitando] = useState(false)
-  const { instalada } = entornoDeApp()
 
   useEffect(() => {
     let activa = true
@@ -31,8 +30,8 @@ export default function AlmacenamientoAjustes() {
     <section aria-label="Almacenamiento" className="space-y-stack">
       <Disclosure title="Dónde se guardan tus registros">
       <div className="space-y-3">
-        <p className="text-body-sm font-semibold">{instalada ? 'Guardados en el acceso de la pantalla de inicio' : 'Guardados en este navegador'}</p>
-        <p className="text-body-sm text-fg-muted">Cerrar la app o actualizarla conserva los registros. Usa siempre la misma dirección y el mismo acceso.</p>
+        <p className="text-body-sm font-semibold">Guardados en este móvil</p>
+        <p className="text-body-sm text-fg-muted">Cerrar la app o actualizarla conserva los registros. Si desinstalas la app o borras sus datos, se pierden: exporta antes una copia o usa la de la cuenta.</p>
         <p role="status" className="text-body-sm text-fg-muted">{persistencia ? MENSAJES[persistencia] : 'Comprobando almacenamiento…'}</p>
         {(persistencia === 'no-concedida' || persistencia === 'error') && (
           <Button variant="secondary" block loading={solicitando} onClick={proteger}>Proteger almacenamiento</Button>

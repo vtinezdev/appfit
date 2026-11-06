@@ -32,7 +32,7 @@ El diario, los recorridos GPS, la nutrición, el peso corporal y las medidas sig
 
 ## Perfiles y relaciones
 
-El alias es exacto, único, de 3–20 caracteres (`a-z`, números, punto y guion bajo), sin punto inicial/final; el nombre es opcional, hasta 40. Se confirma tener al menos 16 años al crear el perfil. El código revocable tiene ocho cifras hexadecimales y se acepta con/sin guion. No hay sugerencias abiertas de desconocidos.
+El alias es exacto, único, de 3–20 caracteres (`a-z`, números, punto y guion bajo), sin punto inicial/final; el nombre es opcional, hasta 40. Se confirma tener al menos 16 años (`shared/lib/legal.EDAD_MINIMA`, la de toda la app) y aceptar las normas de Social al crear el perfil, con enlaces a las condiciones y la privacidad ([ADR 065](../decisiones/065-textos-legales-y-edad-minima.md)). El código revocable tiene ocho cifras hexadecimales y se acepta con/sin guion. No hay sugerencias abiertas de desconocidos.
 
 Seguir requiere aprobación y aceptar hace que os sigáis los dos (0018, [ADR 050](../decisiones/050-seguimiento-mutuo-al-aceptar.md)): `responder_solicitud` aprueba la solicitud y crea el sentido contrario ya aceptado, sin otra solicitud; si quien acepta también había pedido seguir, esa queda aceptada sin aviso de «aceptó» para quien acepta. Después cada sentido es independiente: cancelar, dejar de seguir y quitar seguidores rompen solo el suyo. Las relaciones de un solo sentido anteriores a 0018 se quedan como estaban. Bloquear elimina ambos seguimientos, impide verse y no avisa al bloqueado. Silenciar solo retira a esa persona de Siguiendo: conserva seguimiento y acceso explícito, y se deshace en Ajustes del perfil › Personas silenciadas. Las comunidades mantienen su audiencia independiente.
 

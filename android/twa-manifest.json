@@ -1,0 +1,47 @@
+{
+  "packageId": "app.cumbrafit",
+  "host": "cumbrafit.app",
+  "name": "Cumbra Fit",
+  "launcherName": "Cumbra Fit",
+  "display": "standalone",
+  "orientation": "portrait",
+  "themeColor": "#0a0b09",
+  "themeColorDark": "#0a0b09",
+  "navigationColor": "#0a0b09",
+  "navigationColorDark": "#0a0b09",
+  "navigationDividerColor": "#0a0b09",
+  "navigationDividerColorDark": "#0a0b09",
+  "backgroundColor": "#0a0b09",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "fullScopeUrl": "https://cumbrafit.app/",
+  "webManifestUrl": "https://cumbrafit.app/manifest.webmanifest",
+  "iconUrl": "https://cumbrafit.app/icon-512.png",
+  "maskableIconUrl": "https://cumbrafit.app/icon-maskable-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./cumbrafit-subida.jks",
+    "alias": "subida"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "appVersion": "1.0.0",
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "fallbackType": "customtabs",
+  "features": {
+    "locationDelegation": {
+      "enabled": true
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "minSdkVersion": 21,
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}
