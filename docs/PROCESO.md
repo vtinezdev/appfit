@@ -3555,3 +3555,13 @@ Víctor pide empezar por la ficha de Play y los formularios de Play Console.
 - Documentos: `despliegue.md` (§ 5), `desarrollo.md`, `herramientas.md`, `roadmap.md`.
 
 **Verificación:** límites de caracteres medidos sobre el texto de los bloques; medidas y canales de los PNG comprobados con sharp; capturas y gráfico revisados a ojo.
+
+## 327. CI: el trabajo `navegador` en la imagen de Playwright (2026-11-06)
+
+En la PR de §320–325, `navegador` falló tres veces seguidas antes de ejecutar ninguna prueba: `apt` no terminaba de descargar los paquetes del sistema de Firefox y WebKit (unos 114 MB) del mirror de Ubuntu del runner. Víctor pidió fusionar igualmente y arreglarlo después.
+
+- `.github/workflows/qa.yml`: `navegador` corre en `mcr.microsoft.com/playwright:v1.62.1-noble` con `--user 1001`. Fuera la caché de navegadores, la descarga con `install` y el `install-deps` con sus reintentos; se queda `npm install playwright@1.62.1` en el directorio temporal (`NODE_PATH`), a la versión de la imagen.
+- Al probarlo dentro de la imagen apareció un fallo que el `apt` tapaba: en WebKit, `scripts/ui/bienvenida.cjs` volvía a pulsar el botón del último paso mientras la bienvenida se cerraba y esperaba 20 s a un botón que ya no estaba. Ahora, tras cada pulsación, espera a que cambie el paso o se cierre la bienvenida, y un botón que desaparece a mitad del clic cuenta como terminado.
+- Documentos: `desarrollo.md` (CI).
+
+**Verificación:** el job reproducido en local con Docker (la misma imagen, usuario 1001, una copia limpia del repositorio): `npm ci`, Playwright, build y los diez recorridos de la CI con Chromium, Firefox y WebKit. Resultados abajo.
