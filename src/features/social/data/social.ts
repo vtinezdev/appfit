@@ -6,7 +6,7 @@ import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
 import type { ImagenComunidad } from '../lib/imagenComunidad'
 import type { Companias } from '../lib/compania'
-import type { AccionDenuncia, ComunidadSuspendida, Denuncia, Suspendido } from '../lib/moderacion'
+import type { AccionDenuncia, ComunidadSuspendida, Denuncia, Desbloqueado, Suspendido } from '../lib/moderacion'
 
 /**
  * Lo que la app necesita del servidor para la parte social (Supabase en `socialSupabase.ts`). Todo pasa por las
@@ -111,6 +111,10 @@ export interface Social {
   /** Comunidades suspendidas desde una denuncia (0026); sin 0026, ninguna. */
   comunidadesSuspendidas(): Promise<ComunidadSuspendida[]>
   reactivarComunidad(id: string): Promise<void>
+  /** Desbloquear Cumbra Fit (`true`) o quitar el desbloqueo manual (`false`) por alias (0031, ADR 068). */
+  desbloquearApp(alias: string, desbloquear: boolean): Promise<void>
+  /** Desbloqueados a mano; sin 0031, `null` (no se enseña la sección). */
+  desbloqueadosApp(): Promise<Desbloqueado[] | null>
 
   // --- Semana en compañía (0024, ADR 057). Grupos de 2 o 3 personas que os seguís mutuamente. ---
   /** Mis grupos (cada miembro con su estado y su semana) y las invitaciones que me esperan. */

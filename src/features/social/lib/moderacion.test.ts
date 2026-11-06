@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { accionesDenuncia, describirDenuncia, leerComunidadesSuspendidas, leerDenuncias, leerSuspendidos, textoMotivos, type Denuncia } from './moderacion'
+import { accionesDenuncia, describirDenuncia, leerComunidadesSuspendidas, leerDenuncias, leerDesbloqueados, leerSuspendidos, textoMotivos, type Denuncia } from './moderacion'
 
 const base = { id: 7, creada: '2026-10-19T10:00:00+00:00', denuncias: 2, motivos: ['acoso', 'spam'], detalles: ['Me insulta', null], contenido: '', autor: 'beto', autorSuspendido: false, vigente: true, resumen: null, texto: null }
 const texto = { v: 1, tipo: 'texto', titulo: 'Hola', texto: 'Hola a todos' }
@@ -47,6 +47,14 @@ describe('accionesDenuncia', () => {
   })
   it('nombra los motivos', () => {
     expect(textoMotivos({ motivos: ['acoso', 'spam'] })).toBe('Acoso o insultos · Spam')
+  })
+})
+
+describe('leerDesbloqueados', () => {
+  it('lee alias, nombre y fecha y descarta lo que no tiene alias', () => {
+    expect(leerDesbloqueados([{ alias: 'ana', nombre: 'Ana', desde: '2026-11-06T10:00:00Z' }, { alias: 'beto', nombre: null, desde: null }, { nombre: 'x' }, null]))
+      .toEqual([{ alias: 'ana', nombre: 'Ana', desde: Date.parse('2026-11-06T10:00:00Z') }, { alias: 'beto', nombre: null, desde: null }])
+    expect(leerDesbloqueados(null)).toEqual([])
   })
 })
 

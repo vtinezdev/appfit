@@ -28,7 +28,31 @@ function previewCobro(): boolean {
   return preview
 }
 
-/** El entorno de esta sesión. Aún no hay forma de desbloquear (partes 2 y 3 del ADR 068). */
+// Desbloqueo recordado en este móvil (parte 2 del ADR 068): lo pone `desbloqueo/DesbloqueoContext` al preguntar a la nube
+// con la cuenta abierta. Vive en localStorage, fuera de IndexedDB: no viaja en el backup ni en la copia, ni se borra con
+// «Borrar registros». Sin red, vale lo último que se supo.
+const CLAVE_DESBLOQUEO = 'appfit-desbloqueo'
+const oyentes = new Set<() => void>()
+
+export function desbloqueadoAqui(): boolean {
+  try { return localStorage.getItem(CLAVE_DESBLOQUEO) === '1' } catch { return false }
+}
+
+export function recordarDesbloqueo(desbloqueado: boolean): void {
+  if (desbloqueado === desbloqueadoAqui()) return
+  try {
+    if (desbloqueado) localStorage.setItem(CLAVE_DESBLOQUEO, '1')
+    else localStorage.removeItem(CLAVE_DESBLOQUEO)
+  } catch { /* sin almacenamiento: se volverá a preguntar al abrir */ }
+  oyentes.forEach((f) => f())
+}
+
+export function observarDesbloqueo(oyente: () => void): () => void {
+  oyentes.add(oyente)
+  return () => { oyentes.delete(oyente) }
+}
+
+/** El entorno de esta sesión. */
 export function entornoAcceso(): EntornoAcceso {
-  return { aplica: aplicaCobro({ activo: COBRO_ACTIVO, appAndroid: esAppAndroid(), preview: previewCobro() }), desbloqueado: false }
+  return { aplica: aplicaCobro({ activo: COBRO_ACTIVO, appAndroid: esAppAndroid(), preview: previewCobro() }), desbloqueado: desbloqueadoAqui() }
 }

@@ -80,6 +80,23 @@ export function leerSuspendidos(x: unknown): Suspendido[] {
   })
 }
 
+/** Persona con Cumbra Fit desbloqueada a mano (0031, ADR 068). */
+export interface Desbloqueado {
+  alias: string
+  nombre: string | null
+  /** ms */
+  desde: number | null
+}
+
+export function leerDesbloqueados(x: unknown): Desbloqueado[] {
+  if (!Array.isArray(x)) return []
+  return x.flatMap((s): Desbloqueado[] => {
+    const alias = esObjeto(s) ? texto(s.alias) : null
+    if (!esObjeto(s) || !alias) return []
+    return [{ alias, nombre: texto(s.nombre), desde: ms(s.desde) }]
+  })
+}
+
 const ETIQUETA: Record<TipoDenuncia, string> = { perfil: 'Perfil', publicacion: 'Publicación', comentario: 'Comentario', comunidad: 'Comunidad' }
 
 /** Lo guardado al denunciar va como «alias · resto»; el resto, sin el alias. */

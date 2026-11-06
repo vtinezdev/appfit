@@ -1,6 +1,6 @@
 # 068 — Gratis y de pago: Entreno gratis, el resto con un pago único
 
-Fecha: 2026-11-06. Estado: aceptada; **parte 1 (bloqueo y prueba) implementada con el cobro apagado**, partes 2 (desbloqueo manual) y 3 (Play Billing) pendientes. Detalle: [desbloqueo](../features/desbloqueo.md). Cambia la app de Google Play, que hoy no cobra (`android/README.md`).
+Fecha: 2026-11-06. Estado: aceptada; **partes 1 (bloqueo y prueba) y 2 (desbloqueo manual, migración 0031) implementadas con el cobro apagado**, parte 3 (Play Billing) pendiente. Detalle: [desbloqueo](../features/desbloqueo.md). Cambia la app de Google Play, que hoy no cobra (`android/README.md`).
 
 ## Contexto
 

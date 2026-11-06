@@ -2,6 +2,8 @@
 // Imita las RPC sociales 0003–0026, las respuestas a respuestas de 0029 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 // `simular_companias` crea un grupo de semana en compañía con Jon y una invitación de Lucía (0024);
 // `simular_aceptar_compania`, que quien invitaste acepte. `simular_denuncia_actuada`: se actuó sobre una denuncia tuya (0026).
+// Desbloqueos de Cumbra Fit (0031): `mi_desbloqueo`, `admin_desbloquear` y `admin_desbloqueados`; `simular_desbloqueo`
+// con `{ p_desbloqueado: true }` desbloquea la cuenta propia.
 // `simular_respuestas_anidadas` con `{ p_disponibles: false }` imita un servidor sin 0029.
 //
 //   node scripts/ui/supabase-falso.mjs
@@ -34,6 +36,8 @@ const idsAnimos = new Map()
 const companias = new Map()
 // 0026: cuándo se actuó sobre una denuncia mía (aviso sin detalles).
 let denunciaActuada = null
+// 0031: quién tiene Cumbra Fit desbloqueada a mano (id -> fecha). `simular_desbloqueo` cambia el mío.
+const desbloqueos = new Map()
 const semanasCompania = new Map()
 const lunesHoy = () => { const d = new Date(); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` }
 const fueraDeCompania = (gid, id) => {
@@ -140,7 +144,7 @@ const rpc = {
     miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
     anadidos.clear(); ADMIN = false; for (const d of denunciasFalsas) d.revisada = false
     bloqueos.clear(); reacciones.clear(); comentarios.clear(); avisosVistos = new Date(0).toISOString()
-    companias.clear(); semanasCompania.clear(); denunciaActuada = null
+    companias.clear(); semanasCompania.clear(); denunciaActuada = null; desbloqueos.clear()
     return null
   },
   comunidades: ({ p_busqueda, p_solo_mias }) => {
@@ -518,6 +522,18 @@ const rpc = {
     return null
   },
   simular_denuncia_actuada: () => { denunciaActuada = new Date().toISOString(); return null },
+  mi_desbloqueo: () => desbloqueos.has(YO),
+  simular_desbloqueo: ({ p_desbloqueado }) => { if (p_desbloqueado) desbloqueos.set(YO, new Date().toISOString()); else desbloqueos.delete(YO); return null },
+  admin_desbloquear: ({ p_alias, p_desbloquear }) => {
+    const id = ADMIN && idDe(p_alias)
+    if (!id || (!p_desbloquear && !desbloqueos.has(id))) throw err('no_encontrado')
+    if (p_desbloquear) { if (!desbloqueos.has(id)) desbloqueos.set(id, new Date().toISOString()) } else desbloqueos.delete(id)
+    return null
+  },
+  admin_desbloqueados: () => {
+    if (!ADMIN) throw err('no_encontrado')
+    return [...desbloqueos].filter(([id]) => perfiles.has(id)).sort((x, y) => y[1].localeCompare(x[1])).map(([id, desde]) => ({ alias: perfiles.get(id).alias, nombre: perfiles.get(id).nombre, desde }))
+  },
   admin_suspendidos: () => {
     if (!ADMIN) throw err('no_encontrado')
     return [...perfiles.values()].filter(p => p.suspendido).map(p => ({ alias: p.alias, nombre: p.nombre, desde: p.suspendidoDesde ?? null, con_perfil: true }))
