@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import Button from '../shared/components/Button'
 import Card from '../shared/components/Card'
 import Disclosure from '../shared/components/Disclosure'
@@ -9,23 +8,6 @@ import { formatFechaHoraConDia } from '../shared/lib/dates'
 import { actualizaciones, VERSION_INSTALADA } from '../shared/pwa/actualizaciones'
 import { useActualizaciones } from '../shared/pwa/useActualizaciones'
 import { textoActualizacion } from '../shared/pwa/version'
-import { leerMedidas, lineasMedidas, type MedidasPantalla } from '../shared/design/viewport'
-
-/** Medidas de pantalla para diagnosticar la app instalada en iPhone: se leen al abrir y al cambiar el tamaño. */
-function MedidasDePantalla() {
-  const [medidas, setMedidas] = useState<MedidasPantalla | null>(null)
-  useEffect(() => {
-    const leer = () => setMedidas(leerMedidas())
-    leer()
-    window.addEventListener('resize', leer)
-    window.visualViewport?.addEventListener('resize', leer)
-    return () => { window.removeEventListener('resize', leer); window.visualViewport?.removeEventListener('resize', leer) }
-  }, [])
-  if (!medidas) return null
-  return <dl className="tabular space-y-1 text-body-sm">
-    {lineasMedidas(medidas).map(([nombre, valor]) => <div key={nombre} className="flex justify-between gap-3"><dt className="text-fg-muted">{nombre}</dt><dd className="break-words text-right font-semibold text-fg">{valor}</dd></div>)}
-  </dl>
-}
 
 export function ResumenActualizacion() {
   return textoActualizacion(useActualizaciones())
@@ -66,10 +48,6 @@ export default function ActualizacionesAjustes() {
           <li>Espera unos segundos y vuelve a comprobar el estado en esta pantalla.</li>
         </ol>
         <p className="mt-2 text-body-sm text-fg-muted">No hace falta borrar los datos ni reinstalar la app para actualizarla.</p>
-      </Disclosure></li>
-      <li><Disclosure title="Medidas de pantalla">
-        <p className="mb-3 text-body-sm text-fg-muted">Para revisar cómo se ajusta la app a la pantalla. Si algo se ve cortado, haz una captura de esto.</p>
-        <MedidasDePantalla />
       </Disclosure></li>
     </ListGroup>
   </div>

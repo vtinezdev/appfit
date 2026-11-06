@@ -122,21 +122,12 @@ async function main() {
           }
         }
 
-        // Oferta recibida antes de abrir Primeros pasos; nunca instala nada realmente.
-        await page.evaluate(() => {
-          window.__instalacionesPrueba = 0
-          const evento = new Event('beforeinstallprompt', { cancelable: true })
-          evento.prompt = async () => { window.__instalacionesPrueba++ }
-          evento.userChoice = Promise.resolve({ outcome: 'dismissed' })
-          window.dispatchEvent(evento)
-        })
-        await page.getByRole('button', { name: /^Primeros pasos/ }).click()
-        await page.getByRole('heading', { name: 'Android', exact: true }).waitFor()
+        // Ayuda y pistas (ADR 067: ya sin instalar desde la web ni trasladar registros de Safari).
+        await page.getByRole('button', { name: /^Ayuda y pistas/ }).click()
+        await page.getByRole('button', { name: 'Ayuda para registrar un entreno', exact: true }).waitFor()
         await geometria(page)
-        await page.getByRole('button', { name: 'Instalar Cumbra Fit', exact: true }).click()
-        assert.equal(await page.evaluate(() => window.__instalacionesPrueba), 1)
-        assert.equal(await page.getByRole('button', { name: 'Instalar Cumbra Fit', exact: true }).count(), 0)
-        assert.deepEqual(await backup(page), antes, 'lectura, capas e instalación conservan el backup')
+        assert.equal(await page.getByText(/pantalla de inicio|Safari/).count(), 0, 'sin instrucciones de instalación')
+        assert.deepEqual(await backup(page), antes, 'lectura y capas conservan el backup')
         assert.deepEqual(errores, [])
         resultado.correcto = true
         console.log(`${nombre}: correcto`)

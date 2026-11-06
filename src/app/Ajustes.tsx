@@ -2,7 +2,6 @@ import DiagnosticoAjustes from './DiagnosticoAjustes'
 import { PISTAS } from '../shared/lib/pistas'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import InstalarApp from '../shared/components/InstalarApp'
 import { getSettings, updateSettings } from '../shared/db/settings'
 import { borrarTodosLosDatos, descargarBackup, exportarBackup, importarBackup, migrarBackup } from '../shared/lib/backup'
 import { hayDatosGuardados } from '../shared/db/estadoDatos'
@@ -17,7 +16,6 @@ import { planDeSemana } from '../features/ritmo/lib/plan'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { ErrorState, LoadingState } from '../shared/components/StateMessage'
 import Button, { IconButton } from '../shared/components/Button'
-import Card from '../shared/components/Card'
 import Interruptor from '../shared/components/Interruptor'
 import Disclosure from '../shared/components/Disclosure'
 import Icon from '../shared/components/Icon'
@@ -28,8 +26,9 @@ import SegmentedControl from '../shared/components/SegmentedControl'
 import { getFondoPref, getThemePref, setFondoPref, setThemePref, type FondoPref, type ThemePref } from '../shared/design/theme'
 import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
 import PageHeader from '../shared/components/PageHeader'
-import { IconoApp, MarcaFirma } from '../shared/components/Marca'
+import { MarcaFirma } from '../shared/components/Marca'
 import EnlacesLegales from '../shared/components/EnlacesLegales'
+import { esAppAndroid } from '../shared/pwa/entorno'
 import { UMBRAL_BACKUP_POR_DEFECTO } from '../shared/lib/recordatorioBackup'
 import { descargarCsv, TABLAS_CSV, type TablaCsv } from '../shared/lib/exportarCsv'
 import AlmacenamientoAjustes from './AlmacenamientoAjustes'
@@ -43,16 +42,6 @@ import { GRUPOS_AJUSTES, OPCIONES_FONDO, OPCIONES_TEMA, resumenAjustes, SECCIONE
  * vista, con «Volver» que devuelve el foco a la fila. `seccionInicial` abre una directamente (avisos de Inicio, Cumbres…);
  * `enfocarReferencias` devuelve el foco a la fila Referencias al volver de ella.
  */
-/** Pasos de una tarea, cada uno con su número en un círculo. */
-function PasosNumerados({ pasos }: { pasos: string[] }) {
-  return <ol className="space-y-3">
-    {pasos.map((p, i) => <li key={p} className="flex items-start gap-3">
-      <span aria-hidden className="tabular flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-surface-muted text-caption font-semibold text-fg">{i + 1}</span>
-      <span className="min-w-0 pt-0.5 text-body-sm text-fg">{p}</span>
-    </li>)}
-  </ol>
-}
-
 export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias, enfocarReferencias = false }: { seccionInicial?: SeccionAjustes; onIrAPerfil?: () => void; onIrAReferencias?: () => void; enfocarReferencias?: boolean }) {
   const settings = useLiveQuery(() => getSettings(), [])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
@@ -66,7 +55,6 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
   const [fondo, setFondo] = useState<FondoPref>(getFondoPref)
   const [errorBorrado, setErrorBorrado] = useState<string | null>(null)
   const [errorAjuste, setErrorAjuste] = useState<string | null>(null)
-  const [plataforma, setPlataforma] = useState<'iphone' | 'android'>(() => (/iPhone|iPad|Macintosh/.test(navigator.userAgent) ? 'iphone' : 'android'))
   const [mensaje, setMensaje] = useState<string | null>(null)
   const [errorBackup, setErrorBackup] = useState<string | null>(null)
   const [backupPendiente, setBackupPendiente] = useState<{ texto: string; comidas: number } | null>(null)
@@ -207,7 +195,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
         <PageHeader title="Ajustes" />
         {GRUPOS_AJUSTES.map((g) => <section key={g.nombre} aria-labelledby={`ajustes-${g.nombre}`} className="space-y-2">
           <h2 id={`ajustes-${g.nombre}`} className="px-1 text-rotulo text-fg-muted">{g.nombre}</h2>
-          <ListGroup>{g.secciones.filter((id) => (id !== 'cuenta' || cuentaDisponible)).map((id) => fila(id))}</ListGroup>
+          <ListGroup>{g.secciones.filter((id) => (id !== 'cuenta' || cuentaDisponible) && (id !== 'actualizaciones' || !esAppAndroid())).map((id) => fila(id))}</ListGroup>
         </section>)}
         {onIrAReferencias && <section aria-labelledby="ajustes-saber-mas" className="space-y-2">
           <h2 id="ajustes-saber-mas" className="px-1 text-rotulo text-fg-muted">Saber más</h2>
@@ -263,36 +251,9 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
 
     actualizaciones: () => <ActualizacionesAjustes />,
 
-    // Punto 31: añadir la app en una tarjeta, con los pasos numerados del móvil elegido; lo demás, recogido.
-    instalacion: () => <div className="space-y-section">
-      <Card className="space-y-4">
-        <div className="flex items-start gap-3">
-          <IconoApp tam={48} />
-          <div className="min-w-0"><h3 className="text-title text-fg">Añade Cumbra Fit a tu pantalla de inicio</h3><p className="text-body-sm text-fg-muted">Se abre como una app y funciona sin conexión.</p></div>
-        </div>
-        <InstalarApp />
-        <SegmentedControl label="Tu móvil" valor={plataforma} onChange={setPlataforma} opciones={[{ valor: 'iphone', label: 'iPhone y iPad' }, { valor: 'android', label: 'Android' }]} />
-        <PasosNumerados pasos={plataforma === 'iphone'
-          ? ['Abre el enlace de Cumbra Fit en Safari.', 'Pulsa «Compartir» y elige «Añadir a pantalla de inicio».', 'Abre Cumbra Fit desde el nuevo icono.']
-          : ['Abre el enlace de Cumbra Fit en Chrome.', 'Pulsa «Instalar Cumbra Fit» o, en el menú, «Instalar aplicación».', 'Abre Cumbra Fit desde su icono.']} />
-        <p className="border-t border-line pt-3 text-caption text-fg-muted">{plataforma === 'iphone'
-          ? 'Si ya registraste comidas en Safari, lleva antes una copia (abajo).'
-          : 'Instala desde el navegador donde guardaste tus registros; para cambiar de navegador o de móvil, lleva una copia.'}</p>
-      </Card>
-      <ListGroup aria-label="Más ayuda">
-        <li><Disclosure title="¿Ya registraste comidas en Safari?">
-          <div className="space-y-3">
-            {cuentaDisponible && <p className="text-body-sm text-fg-muted">Con una cuenta es más fácil: créala en Safari (Ajustes › Cuenta) y entra con ella desde el icono. Tus registros se traen solos. Sin cuenta, lleva una copia:</p>}
-            <PasosNumerados pasos={[
-              'En Safari, abre el enlace y entra en Ajustes › Copias de seguridad.',
-              'Pulsa «Exportar» y guarda el archivo.',
-              'Abre Cumbra Fit desde la pantalla de inicio y entra en Ajustes › Copias de seguridad.',
-              'Pulsa «Importar», elige el archivo y confirma «Importar copia».',
-            ]} />
-            <p className="text-caption text-fg-muted">Después, abre siempre Cumbra Fit desde el mismo icono.</p>
-            <Button variant="secondary" block onClick={() => abrir('copias')}>Ir a Copias de seguridad</Button>
-          </div>
-        </Disclosure></li>
+    // Ayuda de la primera vez: cómo registrar un entreno y volver a ver las pistas (ADR 067: sin instalar ni trasladar).
+    ayuda: () => <div className="space-y-section">
+      <ListGroup aria-label="Ayuda y pistas">
         <li><Disclosure title="Ayuda para registrar un entreno">
           <div className="space-y-3">{(['entreno-series', 'entreno-rir', 'entreno-progresion', 'entreno-gimnasio'] as const).map(id => <p key={id} className="text-body-sm text-fg-muted">{PISTAS[id]}</p>)}</div>
         </Disclosure></li>

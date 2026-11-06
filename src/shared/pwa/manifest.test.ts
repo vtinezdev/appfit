@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { COLOR_MARCA, MANIFEST } from './manifest'
+import { PAQUETE_ANDROID } from './entorno'
 
 const raiz = join(__dirname, '../../..')
 const leer = (ruta: string) => readFileSync(join(raiz, ruta), 'utf8')
@@ -44,6 +45,7 @@ describe('TWA de Google Play', () => {
 
   it('usa el paquete decidido, que no se puede cambiar una vez publicado (ADR 063)', () => {
     expect(twa.packageId).toBe('app.cumbrafit')
+    expect(PAQUETE_ANDROID, 'la app reconoce la TWA por este paquete').toBe(twa.packageId)
     expect(twa.host).toBe('cumbrafit.app')
   })
 

@@ -23,10 +23,6 @@ El día se actualiza con `useHoy` al cruzar medianoche y al volver a la app. Los
 | Aviso de copia | `components/AvisoBackup` (banda de una línea con «Exportar» y la X de «Más tarde»), `shared/lib/recordatorioBackup.ts` (`textoSinCopia`: «14 días sin copia») | `shared/db/settings` (`ultimaExportacion`, `recordatorioBackupPospuesto`, `recordatorioBackupDias`) |
 | Aviso social | `social/components/AvisoAmigos` (banda «Novedades en Social» o «Solicitudes en Amigos» con «Ver», bajo el aviso de copia, solo con algo pendiente; ver [social](social.md)) | Supabase (`avisos`) |
 
-## Primer inicio en iPhone
-
-El shell (`app/TrasladarDatos`) muestra antes del resumen un aviso breve para añadir AppFit a la pantalla de inicio; si ya está abierta como PWA pero todavía no hay datos, pregunta «¿Primera vez abriendo AppFit?». «Ver instrucciones» abre Ajustes directamente en su guía de instalación y traslado de comidas, con el foco en ella. La guía explica cómo exportar en Safari e importar en el nuevo acceso y permite ir a los botones de backup. Condiciones y almacenamiento: `../datos.md` § Conservación y primer traslado en iPhone.
-
 ## Presentación y acciones
 
 «Hoy» con la fecha encima como rótulo («Miércoles · 28 oct», `formatRotuloDia`) y, a la derecha, el botón redondo de actualizaciones. Después, de arriba abajo:

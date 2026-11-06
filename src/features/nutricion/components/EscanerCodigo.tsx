@@ -26,7 +26,7 @@ const INTERVALO_MS = 200
 /** Por qué no hay cámara, en un texto que dice qué hacer. */
 function mensajeCamara(e: unknown): string {
   const nombre = e instanceof DOMException ? e.name : ''
-  if (nombre === 'NotAllowedError' || nombre === 'SecurityError') return 'Sin permiso para usar la cámara. Puedes escribir el código a mano o darle permiso en los ajustes del navegador.'
+  if (nombre === 'NotAllowedError' || nombre === 'SecurityError') return 'Sin permiso para usar la cámara. Puedes escribir el código a mano o darle permiso en los ajustes del móvil.'
   if (nombre === 'NotFoundError' || nombre === 'OverconstrainedError') return 'No se encuentra ninguna cámara. Escribe el código a mano.'
   if (nombre === 'NotReadableError') return 'La cámara está ocupada por otra app. Ciérrala o escribe el código a mano.'
   return 'No se pudo abrir la cámara. Escribe el código a mano.'
@@ -60,7 +60,7 @@ function VisorCamara({ onCodigo }: { onCodigo: (gtin: string) => void }) {
 
     async function arrancar() {
       if (!navigator.mediaDevices?.getUserMedia) {
-        setError('Este navegador no da acceso a la cámara (hace falta HTTPS). Escribe el código a mano.')
+        setError('Este móvil no da acceso a la cámara. Escribe el código a mano.')
         return
       }
       const detectorPromesa = crearDetector()

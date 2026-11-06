@@ -34,7 +34,7 @@ export function lineasMedidas(m: MedidasPantalla) {
     ['App', m.app ? `${r(m.app.alto)} desde ${r(m.app.arriba)}` : 'Sin datos'],
     ['Margen arriba', `${r(m.margenes.arriba)}`],
     ['Margen abajo', `${r(m.margenes.abajo)}`],
-    ['Instalada (iOS)', m.instalada ? 'Sí' : 'No'],
+    ['Pantalla completa en iPhone', m.instalada ? 'Sí' : 'No'],
   ] as const
 }
 

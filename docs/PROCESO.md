@@ -3520,3 +3520,17 @@ Cuarto paso de la preparación (§320–322). Víctor elige una página aparte e
 - Documentos: `arquitectura.md`, `despliegue.md` (§ Trabajo pendiente, 4), `desarrollo.md`, `herramientas.md` (sharp), `README.md`, `roadmap.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Sobre la build (`vite preview`): `/conoce` a 320/375/430 px en claro y oscuro y a 1.280 px, sin scroll horizontal, sin errores y con enlaces de 44 px; cada tema descarga solo sus cuatro capturas. Con la bienvenida (§322), los diez recorridos de navegador de la CI pasan en local (`validar-mejoras-pendientes` necesitó pasar la bienvenida en `auditoria-comun.abrir` antes de tomar la foto de los datos).
+
+## 324. App de tienda: fuera la instalación desde la web y actualizaciones solas en Android (2026-11-06)
+
+Víctor pide quitar lo que solo tiene sentido en una PWA añadida desde la web, porque quien descargue la app de Google Play no lo entendería. Revisada la lista, decide quitarlo para todos (también en iPhone), actualizar sola la app de Android, textos neutros y llevar las medidas de pantalla al informe de errores. [ADR 067](decisiones/067-app-de-tienda-sin-instalar-desde-la-web.md).
+
+- Borrados: `shared/components/InstalarApp`, `shared/pwa/instalacion` (+ test), `app/TrasladarDatos`, `IconoApp` y `entornoDeApp`; `main.tsx` ya no escucha `beforeinstallprompt`; `InicioTab` pierde `ayudaInicial`.
+- Ajustes: «Primeros pasos» pasa a «Ayuda y pistas» (`ayuda`), sin la tarjeta de instalación ni «¿Ya registraste comidas en Safari?»; «Dónde se guardan tus registros» habla del móvil.
+- Textos de GPS (`GrabacionActiva`, `HojaGrabar`) y cámara (`EscanerCodigo`) sin «navegador» ni «Ajustes del iPhone».
+- `shared/pwa/entorno` (`detectarAppAndroid`, `esAppAndroid`, `modoApp`, `PAQUETE_ANDROID`, con test; `manifest.test` vigila el paquete) y `shared/pwa/autoActualizacion.aplicarSola` (con test). En la app de Android: sin aviso de Inicio ni sección Actualizaciones, y `actualizaciones.ts` aplica la versión nueva al abrir o al volver tras 30 min fuera.
+- «Comunicar un problema»: «Abierta como» (Google Play, instalada desde la web o navegador) y las medidas de pantalla en el informe; se quitan de Ajustes › Actualizaciones.
+- Recorridos: `validar-mejoras-uso` y `validar-adaptacion` entran en «Ayuda y pistas».
+- Documentos: ADR 067 (y notas en 042 y 064), `arquitectura.md`, `datos.md`, `desarrollo.md`, `DESIGN-SYSTEM.md`, `cuentas.md`, `features/inicio.md`, `README.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. En Chromium (5173): iPhone emulado, Android en la web y sesión de la app de Android simulada, sin textos de instalar ni de Safari, con el almacenamiento y el informe nuevos y la fila Actualizaciones solo fuera de la app de Android. Con dos builds reales en `vite preview`: la app de Android abierta con la versión A se recarga sola con la B al volver a abrirla; la web se queda en la A con «Actualización disponible». `validar-mejoras-uso` correcto; `validar-adaptacion`, correcto en lo tocado, falla por las secciones solapadas con texto al 200 %, igual en `master`.

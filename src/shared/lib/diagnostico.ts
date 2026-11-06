@@ -15,16 +15,21 @@ export function iniciarDiagnostico() {
 
 export interface EntornoDiagnostico {
   version: string; compilacion: string; navegador: string; idioma: string
-  ancho: number; alto: number; enLinea: boolean; instalada: boolean; error: ErrorDiagnostico | null
+  ancho: number; alto: number; enLinea: boolean; modo: 'app-android' | 'instalada' | 'navegador'; error: ErrorDiagnostico | null
+  /** Medidas de pantalla (`design/viewport.lineasMedidas`), para lo que se vea cortado. */
+  medidas?: readonly (readonly [string, string])[]
 }
+
+const MODOS = { 'app-android': 'app de Google Play', instalada: 'app instalada desde la web', navegador: 'navegador' } as const
 
 export function crearDiagnostico(e: EntornoDiagnostico, pasos: string): string {
   const tipos = { operacion: 'Error de operación', ejecucion: 'Error de ejecución', promesa: 'Operación no controlada' }
   return [
     'Diagnóstico de Cumbra Fit', `Versión: ${e.version}`, `Compilación: ${e.compilacion}`,
-    `Navegador: ${e.navegador}`, `Idioma: ${e.idioma}`, `Pantalla de la app: ${e.ancho} × ${e.alto} px`,
-    `Conexión declarada por el navegador: ${e.enLinea ? 'con conexión' : 'sin conexión'}`,
-    `Modo: ${e.instalada ? 'pantalla de inicio' : 'navegador'}`,
+    `Sistema: ${e.navegador}`, `Idioma: ${e.idioma}`, `Pantalla de la app: ${e.ancho} × ${e.alto} px`,
+    `Conexión: ${e.enLinea ? 'con conexión' : 'sin conexión'}`,
+    `Abierta como: ${MODOS[e.modo]}`,
+    ...(e.medidas?.length ? ['Medidas de pantalla (px):', ...e.medidas.map(([nombre, valor]) => `  ${nombre}: ${valor}`)] : []),
     `Último error de esta sesión: ${e.error ? `${tipos[e.error.tipo]} (${e.error.fecha})` : 'ninguno registrado'}`,
     '', 'Pasos y comportamiento esperado/observado:', pasos.trim() || '(pendiente de describir)',
   ].join('\n')

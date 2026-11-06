@@ -198,7 +198,7 @@ Las pruebas reales de SQL están en `supabase/pruebas/comunidades.sql` (tras 000
 
 Ajustes › App › Actualizaciones muestra el estado de la página abierta, la fecha de su build y la última comprobación. «App al día» requiere consultar con éxito `version.json` y que su identidad coincida; sin conexión o si falla la consulta se informa de que no se puede comprobar. El aviso pequeño de Inicio y la fila del índice de Ajustes comparten el mismo estado. «Actualizar ahora» instala/activa el SW y recarga; si falla, conserva el estado pendiente y permite reintentar.
 
-La guía de esa pantalla explica el recurso para iPhone: con conexión, comprobar y actualizar; si no termina, cerrar completamente desde el selector de aplicaciones, reabrir desde el mismo icono y esperar unos segundos. No requiere reinstalar ni borrar datos. La versión que ya estaba abierta antes de introducir esta pantalla necesita cargar esta build para mostrarla.
+En la app de Google Play no se ve: la versión nueva se aplica sola al abrir ([ADR 067](decisiones/067-app-de-tienda-sin-instalar-desde-la-web.md)); para probarlo en el navegador, `sessionStorage.setItem('appfit-app-android', '1')` antes de cargar. La guía de esa pantalla explica el recurso para iPhone: con conexión, comprobar y actualizar; si no termina, cerrar completamente desde el selector de aplicaciones, reabrir desde el mismo icono y esperar unos segundos. No requiere reinstalar ni borrar datos. La versión que ya estaba abierta antes de introducir esta pantalla necesita cargar esta build para mostrarla.
 
 Prueba de producción, sin cuentas reales:
 

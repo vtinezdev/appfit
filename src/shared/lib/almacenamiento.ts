@@ -27,12 +27,3 @@ export async function solicitarPersistencia(storage: Almacenamiento | undefined 
     return 'error'
   }
 }
-
-/** iOS expone `navigator.standalone`; otros navegadores usan el modo del manifest. No cambia dónde se guarda la BD. */
-export function entornoDeApp() {
-  const instalada = matchMedia('(display-mode: standalone)').matches ||
-    (navigator as Navigator & { standalone?: boolean }).standalone === true
-  const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-    (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1)
-  return { instalada, esIOS }
-}

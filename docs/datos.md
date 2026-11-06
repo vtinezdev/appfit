@@ -127,13 +127,12 @@ Reglas y patrones:
 - Campos nuevos de `Perfil`: `proteinaPorKgActiva` (activa por defecto: solo `false` la desactiva), `proteinaPorKg` (1,6–2,2, por defecto 1,8) y `usarGastoObservado` (por defecto `false`). `normalizarPerfil` los sanea.
 - `hayDatosGuardados` cuenta un perfil con algún campo como dato introducido.
 
-## Conservación y primer traslado en iPhone
+## Conservación
 
-- La base se llama siempre `appfit`, sin el número de build en su nombre. Está en IndexedDB, ligada al origen (protocolo, dominio y puerto) y al almacenamiento del navegador/PWA. Cerrar, recargar o desplegar en la misma dirección no crea una base nueva.
-- En iPhone, Safari y la PWA abierta desde el acceso de la pantalla de inicio pueden usar almacenes separados. Añadir el acceso no traslada automáticamente los registros de Safari. Si parece vacío, comprobar el enlace original en Safari y **exportar allí → importar en el acceso nuevo**. No reinstalar ni borrar los datos para intentar recuperarlos.
-- `app/TrasladarDatos` muestra un aviso breve en iOS: antes de añadir el acceso, y en el primer inicio de la PWA si no hay registros. «Ver instrucciones» abre Ajustes › Primeros pasos y enfoca su título, con pasos para añadir el acceso y trasladar la copia; desde allí se puede saltar a Copias de seguridad. `shared/db/estadoDatos.ts` consulta todas las tablas de usuario en solo lectura; los ajustes por defecto y el catálogo no cuentan como datos introducidos, pero los objetivos personalizados sí.
-- `shared/lib/almacenamiento.ts` consulta/solicita protección con StorageManager. Distingue permiso concedido, rechazado, API no disponible y error. No cambia de base ni elimina registros si falla o se rechaza. Ajustes muestra el acceso actual y permite reintentar la solicitud.
-- La protección depende del navegador y no sustituye a una copia. Borrar los datos del sitio, cambiar de dominio/perfil o cambiar de móvil requiere recuperar una copia: la exportada o, con cuenta, la de la nube (entrar con la cuenta la trae). Safari y la PWA instalada cuentan como dos dispositivos.
+- La base se llama siempre `appfit`, sin el número de build en su nombre. Está en IndexedDB, ligada al origen (protocolo, dominio y puerto) y al almacenamiento de la app. Cerrar, recargar o desplegar en la misma dirección no crea una base nueva.
+- En iPhone, Safari y el acceso de la pantalla de inicio pueden usar almacenes separados. Desde el ADR 067 la app no lo explica dentro (ya no ofrece instalarse ni trasladar desde Safari): el camino es entrar con la cuenta, que trae la copia, o exportar e importar. `shared/db/estadoDatos.hayDatosGuardados` sigue sirviendo para decidir avisos de copia.
+- `shared/lib/almacenamiento.ts` consulta/solicita protección con StorageManager. Distingue permiso concedido, rechazado, API no disponible y error. No cambia de base ni elimina registros si falla o se rechaza. Ajustes › Copias de seguridad › «Dónde se guardan tus registros» lo explica en términos del móvil y permite reintentar la solicitud.
+- La protección depende del sistema y no sustituye a una copia. Borrar los datos del sitio, cambiar de dominio/perfil o cambiar de móvil requiere recuperar una copia: la exportada o, con cuenta, la de la nube (entrar con la cuenta la trae). Safari y la PWA instalada cuentan como dos dispositivos.
 
 ## Backup (`shared/lib/backup.ts`)
 
