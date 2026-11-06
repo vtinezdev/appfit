@@ -128,9 +128,10 @@ Después de fusionar `master` (gratis y de pago, ADR 068). **La migración del t
 | 11 | Gratis y de pago: prueba, bloqueo, desbloqueos | Revisada |
 | 12 | Privacidad de Social en el servidor: solicitudes, seguidores quitados, comunidades | Revisada |
 | 13 | Copia en la nube con dos versiones de la app | Revisada |
-| 14 | Configuración de Android (TWA) y Play Billing | Pendiente |
-| 15 | Textos legales frente a lo que hace el código | Pendiente |
-| 16 | Importar un backup con registros mal formados | Pendiente |
+| 14 | Configuración de Android (TWA) y Play Billing | Revisada |
+| 15 | Textos legales frente a lo que hace el código | Revisada |
+| 16 | Importar un backup con registros mal formados | Revisada |
+| 17 | Caracteres invisibles en nombres y textos de Social | Revisada |
 
 ### 11. Gratis y de pago
 
@@ -146,6 +147,22 @@ Comprobado en PGlite, con tres cuentas: con la solicitud pendiente no se ve ni e
 
 Arreglado (confirmado con dos móviles en `copiaNube.test.ts` y en `backup.test.ts`): las tablas nuevas del backup se añaden sin subir `BACKUP_VERSION` (`variantesReceta`, el 27 de octubre), e importar ignora las que no conoce. Un móvil con la app sin actualizar (algo habitual en el iPhone, que actualiza cuando la persona acepta) traía la copia de la nube y perdía esas tablas. Al guardar el siguiente cambio, las borraba también de la nube y, de ahí, del otro móvil. Ahora una copia de un esquema más nuevo (`dbVersion`) no se trae ni se sustituye: sale «Actualiza la app en este móvil». Vale también para importar un archivo a mano.
 
+### 14. Android (TWA) y Play Billing
+
+Comprobado sin problemas: la clave de subida no puede entrar en el repositorio (`*.jks`, `*.keystore` y todo `android/` salvo `twa-manifest.json` y el README están en `.gitignore`) y nunca ha estado en el historial. Sin notificaciones, con ubicación solo delegada en primer plano y Play Billing activado para la parte 3. Sigue pendiente `assetlinks.json`, que espera al dominio (ya apuntado en `seguridad.md`).
+
+### 15. Textos legales frente al código
+
+Arreglado: la tabla `desbloqueos` (0031, ya ejecutada) guarda de una cuenta que está desbloqueada, desde cuándo y quién lo hizo, y la política de privacidad no lo decía. Ahora lo dice (§ 3.2, la base legal y el plazo), y «Borrar la cuenta» dice que también se borra. Las condiciones, la ficha de Play, `/conoce` y el formulario siguen diciendo que la app es gratis. Eso es verdad mientras el cobro esté apagado, y el ADR 068 lo cambia en la parte 3.
+
+### 16. Backup con registros mal formados
+
+Visto y aceptado: importar comprueba el formato del archivo y que cada tabla sea una lista, no cada registro. Unos ajustes con tipos raros no rompen el arranque (como mucho, una cifra sale «NaN»). Solo afecta a un archivo propio editado a mano, y la importación es de todo o nada. La copia de la nube no se puede manipular por el camino: va cifrada y autenticada (AES-GCM).
+
+### 17. Caracteres invisibles en Social
+
+Arreglado (confirmado en PGlite y en `socialSupabase.test.ts`): el servidor guardaba un nombre con U+202E (invierte el texto que sigue) y espacios de ancho cero. En la lista de avisos, «Ana · comentó tu publicación», un nombre así da la vuelta al resto de la línea, y con espacios invisibles se puede imitar el nombre de otra persona. Ahora la app quita esos caracteres de todo lo que llega de Social (`shared/lib/text.limpiarTextosRecibidos`, en `socialSupabase.ts`). Conserva los que necesitan los emojis compuestos y otros alfabetos.
+
 ## Para Víctor
 
 1. **Ejecutar `supabase/migrations/0032_copias_tope_de_claves.sql`** en el SQL Editor del proyecto (después de 0031, la de desbloqueos). La app no cambia.
@@ -159,3 +176,4 @@ Arreglado (confirmado con dos móviles en `copiaNube.test.ts` y en `backup.test.
 9. **Perfil visible con solo pedir seguir (decisión).** Comprobado: si alguien te pide seguirte, ve tu biografía, disciplinas y logros destacados aunque no aceptes; quien no lo pide no los ve. La documentación dice «relación», y el código cuenta como relación una solicitud pendiente. Como cualquiera puede pedirte seguirte si sabe tu alias, la solicitud es casi un pase libre al perfil (hasta 50 al día). ¿Lo dejo así, o el perfil solo se ve tras aceptar? Si lo cambio, quien recibe la solicitud seguiría viendo el perfil de quien la pide.
 10. **Expulsar de una comunidad no impide volver (propuesta).** Hoy la persona expulsada vuelve a unirse al momento (es lo que decidió el ADR 044, y la pantalla lo avisa). Contra el acoso dentro de una comunidad, propongo una lista de expulsados: no podrían volver a unirse salvo que un moderador los readmita. ¿Lo hago?
 11. **Para la parte 3 (Play Billing):** el desbloqueo recordado se olvida en cuanto la cuenta pasa a «sin sesión», también si la sesión caduca sola y no solo al cerrar sesión a propósito. Con el cobro encendido, alguien que pagó vería el bloqueo hasta volver a entrar. Lo arreglará el desbloqueo por compra de Play; lo dejo apuntado para entonces.
+12. **Antes de encender el cobro (parte 3), además de lo que dice el ADR 068:** en Play Console › Estado de comerciante tendrás que declararte comerciante, porque vender dentro de la app genera ingresos (la normativa europea). Play publica entonces en la ficha tu nombre, dirección y teléfono o email de contacto. Si no quieres que salga tu domicilio, conviene resolverlo antes (por ejemplo, con una dirección profesional), y consultarlo con un gestor, como ya dice `formularios.md`. En Seguridad de los datos habrá que marcar el historial de compras.

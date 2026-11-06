@@ -3709,3 +3709,10 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Privacidad de Social, probada en PGlite con tres cuentas: solicitud pendiente, seguidor quitado, no miembro y expulsado, todo correcto. Para Víctor: el perfil deportivo se ve con solo pedir seguir; expulsar no impide volver a unirse (ADR 044).
 - Arreglado: un móvil con la app sin actualizar podía borrar de la nube, y del otro móvil, las tablas que no conocía (las opcionales se añaden sin subir `BACKUP_VERSION`). `importarBackup` rechaza un `dbVersion` mayor que `db.verno` y `CopiaNube.exigirVersionCompatible` no trae ni sustituye una copia más nueva. Tests en `backup.test.ts` y `copiaNube.test.ts` (los cuatro fallaban antes del arreglo).
 - Documentos: `datos.md`, `features/cuenta.md`, `features/social.md` (0032), `auditoria-seguridad-2026-11/ESTADO.md`.
+
+## 344. Auditoría de seguridad, segunda ronda: Android, textos legales y caracteres invisibles (2026-11-06)
+
+- Android (TWA): la clave de subida está fuera del repositorio y nunca ha estado en el historial. Sin hallazgos.
+- Textos legales: la política de privacidad y «Borrar la cuenta» ya cuentan el desbloqueo (tabla `desbloqueos`, 0031), que guarda datos de la cuenta desde la parte 2. `roadmap.md` y `features/desbloqueo.md` apuntan para la parte 3 el estado de comerciante y las compras en Seguridad de los datos.
+- Arreglado: los nombres y textos de Social admitían caracteres invisibles (U+202E, que invierte lo que sigue, y espacios de ancho cero), con los que se puede falsear una línea de avisos o imitar un nombre. `shared/lib/text.sinCaracteresOcultos` y `limpiarTextosRecibidos`, aplicados a cada respuesta en `socialSupabase.ts`. Tests en `text.test.ts` y `socialSupabase.test.ts` (el segundo falla sin el arreglo).
+- Documentos: `features/social.md`, `auditoria-seguridad-2026-11/ESTADO.md` §§ 14-17.

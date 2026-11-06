@@ -8,7 +8,7 @@
 
 | Pieza | Dónde |
 |---|---|
-| Contrato y RPC | `data/social.ts`, `data/socialSupabase.ts`, `servicio.ts` |
+| Contrato y RPC | `data/social.ts`, `data/socialSupabase.ts` (cada respuesta pasa por `shared/lib/text.limpiarTextosRecibidos`: sin inversiones de dirección, espacios de ancho cero ni controles en nombres, comentarios y publicaciones ajenos), `servicio.ts` |
 | Validación y construcción de resúmenes v1 | `lib/publicacion.ts` |
 | Récords públicos, agrupación y formato | `lib/records.ts`, `components/RecordsPublicacion` |
 | Lectores de páginas, comentarios, avisos, avatares y vistas previas | `lib/feed.ts`; textos de reacción en `lib/reaccion.ts` |

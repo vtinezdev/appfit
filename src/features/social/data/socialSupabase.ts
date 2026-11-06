@@ -1,6 +1,7 @@
 import { NubeError } from '../../cuenta/data/nube'
 import { clienteSupabase } from '../../cuenta/data/clienteSupabase'
 import { traducir } from '../../cuenta/data/nubeSupabase'
+import { limpiarTextosRecibidos } from '../../../shared/lib/text'
 import { leerAvatares, leerAvisos, leerPaginaSocial, leerPaginaComentarios, leerPaginaPublicaciones, leerUltimosComentarios, POR_PAGINA, type CursorSocial } from '../lib/feed'
 import { mensajeSocial } from '../lib/mensajes'
 import type { EstadoSeguimiento, Persona } from '../lib/relacion'
@@ -49,7 +50,8 @@ export function crearSocialSupabase(url: string, clave: string): Social {
       throw traducirSocial(e)
     }
     if (resultado.error) throw traducirSocial(resultado.error)
-    return resultado.data as T
+    // Nombres, comentarios y publicaciones de otras personas, sin caracteres invisibles con los que falsear lo que se ve.
+    return limpiarTextosRecibidos(resultado.data) as T
   }
 
   /** Lecturas añadidas después (0014): si la función aún no está en el servidor, `null` en lugar de un error. */
@@ -62,7 +64,7 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     }
     if ((resultado.error as { code?: string } | null)?.code === 'PGRST202') return null
     if (resultado.error) throw traducirSocial(resultado.error)
-    return resultado.data
+    return limpiarTextosRecibidos(resultado.data)
   }
 
   /** Escrituras añadidas después (0015, 0016): si la función aún no está en el servidor, un error propio, no «Amigos falta». */
