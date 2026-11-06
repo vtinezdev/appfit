@@ -89,7 +89,7 @@ Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguri
 ### 4. Empaquetar para Android (TWA)
 
 1. **Nombre del paquete** (definitivo, no se cambia nunca): previsto `app.cumbrafit`, el dominio al revés (ADR 063).
-2. Generar el proyecto Android con **Bubblewrap**. Configuración preparada (2026-11-05) en `android/twa-manifest.json`, con el paquete, `cumbrafit.app` y la ubicación delegada para el GPS; falta generarlo cuando el dominio sirva la PWA. Pasos en [`android/README.md`](../android/README.md).
+2. Generar el proyecto Android con **Bubblewrap**. Configuración preparada (2026-11-05) en `android/twa-manifest.json`, con el paquete, `cumbrafit.app`, la ubicación delegada para el GPS y Play Billing para el desbloqueo (2026-11-06, [desbloqueo](features/desbloqueo.md#cobro-con-play-billing-parte-3-en-curso)); falta generarlo cuando el dominio sirva la PWA. Pasos en [`android/README.md`](../android/README.md).
 3. **Firma:** activar *Play App Signing* (Google guarda la clave con la que se firma la app). Nosotros solo guardamos la *clave de subida* (upload key): el archivo `.jks` y su contraseña van a un gestor de contraseñas, con una copia fuera del ordenador. **Nunca** al repositorio.
 4. Servir `/.well-known/assetlinks.json` con la huella SHA-256 de la clave de firma de Play (Play Console › Configuración › Integridad de la app). Sin él, la app se abre con la barra de direcciones de Chrome. Lo añado yo con la huella.
 5. Probar el `.aab` en un Android real (§ Trabajo pendiente, punto 2).

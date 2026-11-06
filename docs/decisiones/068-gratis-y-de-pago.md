@@ -35,7 +35,7 @@ Víctor lo decide el 2026-11-06:
 ## Consecuencias
 
 - Nueva tabla en Supabase para los desbloqueos (manuales y comprados), con RLS: cada persona lee la suya y solo la administración escribe. Migración SQL nueva, a ejecutar a mano.
-- Verificar las compras de Play en el servidor exige una función de Supabase que consulte la API de Google Play: es un servicio nuevo y va en `docs/seguridad.md`. Sin cuenta, la compra se comprueba en el móvil con la Digital Goods API de la TWA.
+- Verificar las compras de Play en el servidor exige una función de Supabase que consulte la API de Google Play: es un servicio nuevo (aprobado por Víctor el 2026-11-06; solo el servidor, el móvil no habla con nada nuevo) y va en `docs/seguridad.md` cuando exista. Sin cuenta, la compra se comprueba en el móvil con la Digital Goods API de la TWA.
 - Hay que cambiar las condiciones de uso, la política de privacidad ([ADR 065](065-textos-legales-y-edad-minima.md)), la ficha de Play y `/conoce`, que hoy dicen que la app es gratis.
 - El bloqueo de lo local se puede saltar con conocimientos técnicos, o usando la web; se acepta.
 - Siguiente paso, aparte: pasar la app de Play de TWA a Capacitor para grabar actividades con la pantalla bloqueada (servicio en primer plano de ubicación). Play Billing funciona igual allí. Ver `docs/roadmap.md`.
