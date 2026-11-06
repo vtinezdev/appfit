@@ -3544,3 +3544,14 @@ Víctor pide quitar lo que solo tiene sentido en una PWA añadida desde la web, 
 - Documentos: ADR 060, `DESIGN-SYSTEM.md` (tokens), `roadmap.md`.
 
 **Verificación:** medido en Chromium a 320/375/430 px (100 % y 200 %), 812 × 375 y 1.440 px, en los dos temas: sin solapes, sin nombres partidos en dos líneas y sin scroll horizontal. `validar-adaptacion` correcto en sus 14 casos; `test:ui:responsive` y `test:ui:uso` (con texto al 200 %) correctos; `npm run test` y `npm run build` correctos.
+
+## 326. Ficha y formularios de Google Play (2026-11-06)
+
+Víctor pide empezar por la ficha de Play y los formularios de Play Console.
+
+- `docs/play/ficha.md`: nombre (27/30), descripción breve (79/80, sin «gratis» ni reclamos) y completa (2.283/4.000, con las cifras comprobadas en el código), categoría, contacto, sitio y países; tabla de gráficos con los requisitos de Play.
+- `docs/play/graficos/`: seis capturas de 1080 × 1920 (9:16, PNG RGB) de la app con datos inventados, en la sesión de la app de Android (sin aviso de actualizaciones), y el gráfico destacado de 1024 × 500 con el icono y el logotipo de `shared/design/marca.ts`. `scripts/web/capturas-conoce.cjs --play` y `scripts/play/grafico-destacado.mjs` los rehacen.
+- `docs/play/formularios.md`: acceso a la app, anuncios, clasificación de contenido, público (16-17 y 18+), salud, seguridad de los datos tipo por tipo (la copia cifrada no se declara: Play exime los datos cifrados de extremo a extremo), eliminación, permisos, estado de comerciante y prueba cerrada. Víctor elige las dos propuestas: explicar al revisor que la app funciona sin cuenta y que la cuenta se crea con cualquier email, y contestar que hay referencias al alcohol sin fomentar su consumo.
+- Documentos: `despliegue.md` (§ 5), `desarrollo.md`, `herramientas.md`, `roadmap.md`.
+
+**Verificación:** límites de caracteres medidos sobre el texto de los bloques; medidas y canales de los PNG comprobados con sharp; capturas y gráfico revisados a ojo.

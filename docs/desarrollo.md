@@ -6,7 +6,7 @@ Los comandos de todos los días están en `CLAUDE.md` § Comandos. Los scripts, 
 
 - Node.js compatible con Vite 8 (`^20.19` o `>= 22.12`) y npm. Los scripts del catálogo (`scripts/catalogo/*.ts`) se ejecutan con el *type stripping* nativo de Node, sin compilar: se usan con Node 24.
 - Iconos de la PWA: `node scripts/marca/generar-iconos.mjs` (Node 22.18+, Playwright y Chromium fuera del proyecto, como en `scripts/ui`) regenera `public/favicon.svg` y los PNG desde `src/shared/design/marca.ts` ([ADR 064](decisiones/064-marca-cumbra-fit.md)). Se ejecuta a mano al cambiar el dibujo.
-- Capturas de la web de la app: con Vite en 5173, `node scripts/web/capturas-conoce.cjs` siembra datos inventados en su propio origen (`appfit-demo.localhost`, nunca los datos reales) y escribe `public/conoce/<pantalla>-<claro|oscuro>.webp` (Inicio, Nutrición, un entreno y Cumbres). Se rehacen a mano cuando cambian esas pantallas; sirven también de base para las capturas de la ficha de Play.
+- Capturas de la web de la app: con Vite en 5173, `node scripts/web/capturas-conoce.cjs` siembra datos inventados en su propio origen (`appfit-demo.localhost`, nunca los datos reales) y escribe `public/conoce/<pantalla>-<claro|oscuro>.webp` (Inicio, Nutrición, un entreno y Cumbres). Se rehacen a mano cuando cambian esas pantallas; con `--play`, las capturas de la ficha de Google Play (seis pantallas, 1080 × 1920, PNG sin transparencia, en `docs/play/graficos/`). `node scripts/play/grafico-destacado.mjs` hace después el gráfico destacado (1024 × 500) con el logotipo de `shared/design/marca.ts`.
 - `npm install` para empezar; `npm run preview` sirve el build de `dist/`.
 - Sin variables de entorno ni backend: la configuración se hace dentro de la app (Ajustes).
 

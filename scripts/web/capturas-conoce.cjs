@@ -1,7 +1,10 @@
-/* Capturas de la web de la app (`public/conoce.html`) con datos de ejemplo inventados: Inicio, Hoy en Nutrición, Entreno y
-   Cumbres, en claro y oscuro. Necesita Vite en 5173 (`npm run dev -- --host 127.0.0.1`) y Playwright (docs/desarrollo.md
-   § Pruebas en navegador). Usa su propio origen, `appfit-demo.localhost`, con un contexto efímero: nunca toca datos reales.
-   Escribe `public/conoce/<pantalla>-<tema>.webp` (540 px de ancho). Uso: node scripts/web/capturas-conoce.cjs */
+/* Capturas con datos de ejemplo inventados, para la web de la app y para la ficha de Google Play. Necesita Vite en 5173
+   (`npm run dev -- --host 127.0.0.1`) y Playwright (docs/desarrollo.md § Pruebas en navegador). Usa su propio origen,
+   `appfit-demo.localhost`, con un contexto efímero: nunca toca datos reales.
+   - `node scripts/web/capturas-conoce.cjs`: Inicio, Hoy en Nutrición, un entreno y Cumbres, en claro y oscuro, en
+     `public/conoce/<pantalla>-<tema>.webp` (540 px de ancho).
+   - `node scripts/web/capturas-conoce.cjs --play`: las mismas más la semana y la Vitrina, en oscuro, a 1080 × 1920 (9:16)
+     y en PNG sin transparencia, como pide Play, en `docs/play/graficos/captura-<n>-<pantalla>.png`. */
 const path = require('node:path')
 const fs = require('node:fs')
 const { chromium } = require('playwright')
@@ -9,7 +12,8 @@ const sharp = require('sharp')
 const { navegar } = require('../ui/navegar.cjs')
 
 const ORIGEN = 'http://appfit-demo.localhost:5173'
-const SALIDA = path.join(__dirname, '../../public/conoce')
+const PLAY = process.argv.includes('--play')
+const SALIDA = PLAY ? path.join(__dirname, '../../docs/play/graficos') : path.join(__dirname, '../../public/conoce')
 const HOY = '2026-11-04'
 
 async function sembrar(page) {
@@ -84,8 +88,10 @@ async function main() {
   fs.mkdirSync(SALIDA, { recursive: true })
   const browser = await chromium.launch({ ...(process.env.APPFIT_CHROMIUM ? { executablePath: process.env.APPFIT_CHROMIUM } : {}), args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-demo.localhost 127.0.0.1'] })
   try {
-    for (const tema of ['dark', 'light']) {
-      const ctx = await browser.newContext({ viewport: { width: 375, height: 812 }, deviceScaleFactor: 2, colorScheme: tema, reducedMotion: 'reduce', timezoneId: 'Europe/Madrid', locale: 'es-ES', serviceWorkers: 'block' })
+    for (const tema of PLAY ? ['dark'] : ['dark', 'light']) {
+      const ctx = await browser.newContext({ viewport: PLAY ? { width: 360, height: 640 } : { width: 375, height: 812 }, deviceScaleFactor: PLAY ? 3 : 2, colorScheme: tema, reducedMotion: 'reduce', timezoneId: 'Europe/Madrid', locale: 'es-ES', serviceWorkers: 'block' })
+      // Para Play, como la ve quien la descarga de la tienda: la sesión de la app de Android (ADR 067), sin aviso de versión.
+      if (PLAY) await ctx.addInitScript(() => sessionStorage.setItem('appfit-app-android', '1'))
       const page = await ctx.newPage()
       await page.clock.setFixedTime(new Date(`${HOY}T21:15:00`))
       await page.addLocatorHandler(page.getByRole('button', { name: 'Genial', exact: true }), async (b) => { await b.click() })
@@ -94,12 +100,14 @@ async function main() {
       await sembrar(page)
       await page.reload()
       await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
+      let n = 0
       const capturar = async (nombre) => {
         await page.evaluate(() => document.fonts.ready)
         await page.waitForTimeout(900)
         for (let i = 0; i < 4 && await page.locator('.sheet-layer[data-visible=true]').count(); i++) { await page.keyboard.press('Escape'); await page.waitForTimeout(400) }
         const png = await page.screenshot()
-        await sharp(png).resize({ width: 540 }).webp({ quality: 78 }).toFile(path.join(SALIDA, `${nombre}-${tema === 'dark' ? 'oscuro' : 'claro'}.webp`))
+        if (PLAY) await sharp(png).removeAlpha().png().toFile(path.join(SALIDA, `captura-${++n}-${nombre}.png`))
+        else await sharp(png).resize({ width: 540 }).webp({ quality: 78 }).toFile(path.join(SALIDA, `${nombre}-${tema === 'dark' ? 'oscuro' : 'claro'}.webp`))
       }
       await capturar('inicio')
       await navegar(page, 'Nutrición'); await page.getByRole('heading').first().waitFor(); await capturar('nutricion')
@@ -111,6 +119,10 @@ async function main() {
       await capturar('entreno')
       await page.keyboard.press('Escape')
       await navegar(page, 'Cumbres'); await page.getByRole('heading').first().waitFor(); await capturar('cumbres')
+      if (PLAY) {
+        await navegar(page, 'Ritmo'); await page.getByRole('heading').first().waitFor(); await capturar('semana')
+        await navegar(page, 'Vitrina'); await page.getByRole('heading').first().waitFor(); await capturar('vitrina')
+      }
       await ctx.close()
     }
   } finally { await browser.close() }
