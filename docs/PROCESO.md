@@ -3721,3 +3721,7 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 
 - Sin hallazgos que arreglar: el CSV ya evita la inyección de fórmulas y la única lectura de la dirección es `?preview=cobro`.
 - Para Víctor (`auditoria-seguridad-2026-11/ESTADO.md`): limitar `?preview=cobro` a desarrollo, y exigir contraseñas menos débiles para la copia. Aceptada la carrera entre cambiar la contraseña y «Empezar de cero» en otro móvil (§ 19).
+
+## 346. Auditoría de seguridad, segunda ronda: cobertura del bloqueo de pago (2026-11-06)
+
+- Los componentes de Nutrición, Perfil e Inicio que escriben sin `useDePago` se abren desde botones protegidos o son libres según el ADR 068 (peso y medidas). Agua, pasos y creatina quedan libres sin estar en la tabla del ADR: anotado en `auditoria-seguridad-2026-11/ESTADO.md` § 20.

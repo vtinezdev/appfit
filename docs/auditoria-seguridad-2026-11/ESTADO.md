@@ -134,6 +134,7 @@ Después de fusionar `master` (gratis y de pago, ADR 068). **La migración del t
 | 17 | Caracteres invisibles en nombres y textos de Social | Revisada |
 | 18 | Exportar a CSV y parámetros de la dirección | Revisada |
 | 19 | Contraseña de la copia y carreras entre móviles | Revisada |
+| 20 | El bloqueo de pago cubre todas las formas de escribir | Revisada |
 
 ### 11. Gratis y de pago
 
@@ -174,6 +175,10 @@ Comprobado sin problemas: el CSV exportado pone un apóstrofo delante de los tex
 Visto y aceptado:
 - **Carrera muy improbable.** Si en un móvil se cambia la contraseña justo mientras otro hace «Empezar de cero», `actualizar_claves` (sin revisión) puede dejar en la nube unas claves de la clave anterior junto a una copia cifrada con la nueva. Los datos no se pierden (el móvil que empezó de cero los tiene y sigue subiéndolos), pero un móvil nuevo no podría abrir la copia hasta repetir «Empezar de cero». Arreglarlo pide una migración que compruebe la revisión. Con una ventana de segundos y dos acciones raras a la vez, no compensa ahora.
 - **Contraseñas débiles**, para Víctor (punto 14).
+
+### 20. Cobertura del bloqueo de pago
+
+Comprobado sin problemas: busqué en Nutrición, Perfil e Inicio los componentes que escriben en la base sin usar `useDePago`. Los que deberían estar protegidos (acciones de comida, comidas típicas, recetas y Añadir comida) se abren siempre desde botones que pasan por `proteger(...)`, en `Hoy.tsx`, `Alimentos.tsx` y las cabeceras. Los que quedan sin guarda son los que el ADR 068 deja libres: peso, medidas, agua, pasos y creatina. Ojo: agua, pasos y creatina no salen en la tabla del ADR. Si deben ser de pago, hay que decidirlo antes de encender el cobro.
 
 ## Para Víctor
 
