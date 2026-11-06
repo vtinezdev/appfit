@@ -23,7 +23,7 @@ Lo apuntado se ve y se exporta; lo que **añade o cambia** pide desbloquear (`pr
 - **Perfil**: editar los datos y el interruptor del gasto observado. El peso es de todos (Inicio) y sigue libre; las medidas corporales también.
 - **Inicio**: la tarjeta de energía cambia «Añadir comida» por «Desbloquear para añadir comidas».
 - **Cuenta**: «Activar la copia» pide desbloquear. Una copia ya activa sigue guardándose (pendiente de la parte 3).
-- **Cumbres, Ritmo y Vitrina** cuentan solo el entreno y las actividades (`experiencia/hooks/leerExperiencia`, el mismo camino que «Contar la nutrición» apagado): los metros y logros que venían de las comidas dejan de contar mientras siga bloqueada.
+- **Cumbres, Ritmo y Vitrina** conservan lo ganado con las comidas hasta el último día de prueba (Víctor, 2026-11-06); después solo cuentan el entreno y las actividades. `experiencia/hooks/leerExperiencia` lee las comidas hasta ese día y pasa `nutricionHasta` a `calcularExperiencia`, que lo pasa como `registroHasta` a `calcularRitmo`: las semanas que empiezan después se miden solo con el entreno, para que no salgan a medias por no poder apuntar comidas.
 - **Ajustes** enseña la fila «Cumbra Fit completa» con el estado («Prueba: quedan 12 días», «Prueba terminada»…) solo donde el cobro se aplica.
 
 La hoja de desbloqueo muestra el precio con el botón deshabilitado («Muy pronto podrás desbloquearla desde aquí»): el pago llega en la parte 3.
