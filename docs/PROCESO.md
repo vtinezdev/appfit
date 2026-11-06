@@ -3564,4 +3564,14 @@ En la PR de §320–325, `navegador` falló tres veces seguidas antes de ejecuta
 - Al probarlo dentro de la imagen apareció un fallo que el `apt` tapaba: en WebKit, `scripts/ui/bienvenida.cjs` volvía a pulsar el botón del último paso mientras la bienvenida se cerraba y esperaba 20 s a un botón que ya no estaba. Ahora, tras cada pulsación, espera a que cambie el paso o se cierre la bienvenida, y un botón que desaparece a mitad del clic cuenta como terminado.
 - Documentos: `desarrollo.md` (CI).
 
-**Verificación:** el job reproducido en local con Docker (la misma imagen, usuario 1001, una copia limpia del repositorio): `npm ci`, Playwright, build y los diez recorridos de la CI con Chromium, Firefox y WebKit. Resultados abajo.
+**Verificación:** el job reproducido en local con Docker (la misma imagen, usuario 1001, una copia limpia del repositorio): `npm ci`, Playwright, build y los diez recorridos de la CI con Chromium, Firefox y WebKit, todos correctos. En GitHub ([#202](https://github.com/vtinezdev/appfit/pull/202)) el job ya instala en menos de un minuto; el primer intento falló en `webkit-borrador` (§328) y el reintento pasó entero, en 15 min.
+
+## 328. CI: espera estricta en `webkit-borrador` (2026-11-06)
+
+En la primera ejecución de §327 falló un caso, solo en WebKit: en `validar-correcciones-auditoria` › borrador, tras volver con Atrás desde la revisión de Añadir comida no salía «¿Descartar los cambios?». El reintento pasó y en local no se reprodujo (11 de 11 veces, con los tres motores en paralelo); las evidencias de la CI no se pudieron descargar desde la sesión. Descartado: la limpieza del historial de la bienvenida (3-5 ms en WebKit) y una capa propia del aviso (es la misma página modal).
+
+- `conEntrada` esperaba cualquier entrada de capa en el historial (`!!history.state?.appfitOverlay`). Ahora espera la del propio editor, con el id que `useModalLayer` le dio al abrirse: Atrás no se pulsa mientras la app tiene puesta otra entrada que aún está limpiando.
+- Documentos: `roadmap.md`.
+
+**Verificación:** en el contenedor de §327, el caso 5 de 5 veces en los tres motores y el recorrido completo, 18 de 18 casos.
+

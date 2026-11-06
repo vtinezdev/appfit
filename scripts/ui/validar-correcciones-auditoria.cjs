@@ -70,7 +70,10 @@ async function motor(nombre) {
       await editor.getByRole('textbox', { name: 'Describe lo que has comido', exact: true }).fill('100 g de arroz blanco cocido')
       // Atrás solo cierra la capa si su entrada de historial ya está puesta: tras «Seguir editando» la app la vuelve a
       // poner al recibir popstate y WebKit puede tardar en hacerlo; pulsar Atrás antes saldría de la PWA sin preguntar.
-      const conEntrada = () => page.waitForFunction(() => !!history.state?.appfitOverlay)
+      // Se espera a la entrada del propio editor (su id, `useModalLayer`), no a una cualquiera: con la máquina cargada,
+      // WebKit puede tener aún puesta otra que la app está limpiando, y el Atrás se mezclaría con esa limpieza.
+      const idEditor = await (await page.waitForFunction(() => history.state?.appfitOverlay)).jsonValue()
+      const conEntrada = () => page.waitForFunction((id) => history.state?.appfitOverlay === id, idEditor)
       for (const salida of ['atras', 'escape', 'boton', 'atras']) {
         if (salida === 'atras') { await conEntrada(); await page.goBack() }
         else if (salida === 'escape') await page.keyboard.press('Escape')

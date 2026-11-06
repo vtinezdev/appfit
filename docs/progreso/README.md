@@ -27,6 +27,7 @@ Esta carpeta guarda un registro por sesión de trabajo. Cada vez que se cierra u
 - [`sesion-14/`](./sesion-14/) — «Encajan con lo que te falta» pasa a Escribir y propone con los cuatro macros: raciones habituales, típicas y combinaciones estables, ideas nuevas con «Sugerir otras» y propuestas del tamaño de una comida (PR #169). Se cerró en otra rama a la vez que la 12 y la 13; al juntarlas pasó a ser la 14.
 - [`sesion-15/`](./sesion-15/) — Documento de mejoras de Víctor (bloques 1 a 8, con el 13 resuelto en la sesión de recetas), mensajes al creador (0027), Añadir comida rehecha página por página y comunidad por dentro; unión con `master` y handoff de la imagen de comunidad.
 - [`sesion-16/`](./sesion-16/) — Ritmo en rayas, botón de secciones en iOS, auditoría de lógica (fechas locales) y endurecimiento para Google Play (CSP y cabeceras, `seguridad.md`); nombre y logo para la siguiente (PR #190 y #191).
+- [`sesion-17/`](./sesion-17/) — Preparación para Google Play: manifest y TWA, textos legales y 16+, bienvenida sin objetivos por defecto, web `/conoce`, app de tienda (sin instalar desde la web, actualización sola en Android), ficha y formularios de Play y CI en la imagen de Playwright (PR #201 y #202).
 
 ## Convención para cerrar una sesión («cierra la sesión»)
 
