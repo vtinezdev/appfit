@@ -3575,3 +3575,14 @@ En la primera ejecución de §327 falló un caso, solo en WebKit: en `validar-co
 
 **Verificación:** en el contenedor de §327, el caso 5 de 5 veces en los tres motores y el recorrido completo, 18 de 18 casos.
 
+## 329. Publicación: aviso de cambio de dirección (2026-11-06)
+
+Víctor pide preparar el aviso para cuando la app pase de `appfit.vtinez-dev.workers.dev` a `cumbrafit.app`: los registros van ligados a la dirección (IndexedDB por origen) y no pasan solos.
+
+- `inicio/lib/traslado.ts` (con test): `direccionNueva` (https, o http en local), `hayQueTrasladar` (hay dirección nueva y no es esta), `caminoTraslado` (cuenta con la copia al día → entrar con ella; cuenta con algo pendiente o por resolver → primero la copia; sin cuenta o sin copia → exportar e importar) y `textoTraslado`.
+- `inicio/components/AvisoTraslado`: arriba de Inicio, sin cerrar, con «Exportar copia» o «Revisar la copia» según el camino y los enlaces a la app nueva y a su `/conoce`. Mientras sale, no sale el aviso de copia.
+- Se activa con `VITE_DIRECCION_NUEVA` en el build (`vite-env.d.ts`, `.env.example`). Sin ella, nunca sale. El mismo build sirve las dos direcciones, así que sale solo en la vieja.
+- Documentos: `despliegue.md` (§ 3.1), `desarrollo.md`, `features/inicio.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` (274 archivos, 3.209 pruebas) y `npm run build` correctos. En Chromium, con `VITE_DIRECCION_NUEVA=http://appfit-nueva.localhost:5173`: en `appfit-test.localhost` (la dirección vieja) a 320/375/430 px en claro y oscuro, el aviso sin cuenta, sin scroll horizontal y con controles de 44 px; «Exportar copia» abre Copias de seguridad. En `appfit-nueva.localhost`, sin aviso. Los caminos con cuenta, solo en los tests (sin Supabase en la prueba).
+

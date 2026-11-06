@@ -28,6 +28,7 @@ import AccesoProgreso, { type DestinoProgreso } from './components/AccesoProgres
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
 import AvisoBackup from './components/AvisoBackup'
+import AvisoTraslado, { avisoTrasladoActivo } from './components/AvisoTraslado'
 import AvisoActualizacion from '../../shared/components/AvisoActualizacion'
 import { esAppAndroid } from '../../shared/pwa/entorno'
 import AvisoAmigos from '../social/components/AvisoAmigos'
@@ -158,7 +159,10 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
   return (
     <div className="inicio-layout space-y-section px-page pt-5">
       <PageHeader rotulo={formatRotuloDia(hoy)} title="Hoy" action={esAppAndroid() ? undefined : <AvisoActualizacion onRevisar={onRevisarActualizaciones} />} />
-      <AvisoBackup onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />
+      {/* Con el cambio de dirección activo, su aviso ya dice cómo guardar los registros: no se repite el de la copia. */}
+      {avisoTrasladoActivo()
+        ? <AvisoTraslado onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />
+        : <AvisoBackup onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />}
       <AvisoAmigos onIrAAmigos={onIrAAmigos} onIrASocial={onIrASocial} />
       {revision && (
         <TarjetaRevisionSemanal
