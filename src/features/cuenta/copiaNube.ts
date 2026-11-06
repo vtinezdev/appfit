@@ -1,4 +1,4 @@
-import type { BackupV3 } from '../../shared/lib/backup'
+import { ERROR_VERSION_NUEVA, type BackupV3 } from '../../shared/lib/backup'
 import { BackupCambiadoError } from '../../shared/lib/contenidoBackup'
 import { toISODate } from '../../shared/lib/dates'
 import { CopiaIlegibleError, crearClaves, cifrarCopia, desenvolver, descifrarCopia, envolver, generarCodigoRecuperacion, normalizarCodigo, sinExportar, type ClavesNube } from './lib/cifrado'
@@ -254,9 +254,26 @@ export class CopiaNube {
     }
   }
 
+  /**
+   * La copia de la nube la hizo una app más nueva que la de aquí (otro esquema): ni traerla ni sustituirla, porque este
+   * móvil perdería las tablas que no conoce y, al subir, las borraría también de la nube.
+   */
+  private async exigirVersionCompatible(json: string, local?: BackupV3): Promise<void> {
+    let remota: unknown
+    try {
+      remota = (JSON.parse(json) as { dbVersion?: unknown }).dbVersion
+    } catch {
+      return
+    }
+    const aqui = (local ?? await this.d.exportar()).dbVersion
+    if (typeof remota === 'number' && remota > aqui) throw new NubeError(ERROR_VERSION_NUEVA)
+  }
+
   /** Sustituye los datos de este dispositivo por la copia y devuelve la huella de lo que ha quedado. */
   private async importarCopia(copia: CopiaRemota, dek: CryptoKey, esperado?: BackupV3): Promise<string> {
-    const importada = await this.d.importar(await descifrarCopia(copia.datos, dek), esperado)
+    const json = await descifrarCopia(copia.datos, dek)
+    await this.exigirVersionCompatible(json, esperado)
+    const importada = await this.d.importar(json, esperado)
     return huellaBackup(importada)
   }
 
@@ -371,6 +388,7 @@ export class CopiaNube {
       const p = this.exigirPendiente()
       if (!p.copia || !p.dek) throw new NubeError('Vuelve a entrar en tu cuenta.')
       const backup = await this.d.exportar()
+      await this.exigirVersionCompatible(await descifrarCopia(p.copia.datos, p.dek), backup)
       const nueva = await (await this.d.nube()).subir(p.copia.revision, await cifrarCopia(JSON.stringify(backup), p.dek))
       if (nueva === null) throw new NubeError('La copia de la nube acaba de cambiar desde otro dispositivo. Vuelve a entrar.')
       await this.vincular(p, p.dek, nueva, await huellaBackup(backup))
@@ -416,8 +434,9 @@ export class CopiaNube {
       }
       // Antes de sustituirla, la clave de aquí tiene que abrir la copia de la nube: si no, la nube quedaría con una
       // copia que la contraseña nueva no abre.
-      await this.conClaveVigente(() => descifrarCopia(copia.datos, vinculo.dek))
+      const remota = await this.conClaveVigente(() => descifrarCopia(copia.datos, vinculo.dek))
       const backup = await this.d.exportar()
+      await this.exigirVersionCompatible(remota, backup)
       const huella = await huellaBackup(backup)
       const nueva = await nube.subir(copia.revision, await cifrarCopia(JSON.stringify(backup), vinculo.dek))
       if (nueva === null) throw new NubeError('La copia de la nube acaba de cambiar otra vez. Vuelve a intentarlo.')

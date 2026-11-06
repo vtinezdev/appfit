@@ -119,6 +119,33 @@ Visto y aceptado: con la app abierta en dos pestañas del navegador, si una se a
 
 Revisadas las 10 áreas. Arreglado en la PR: el tope de las claves de la copia (0032, que tienes que ejecutar), el atasco cuando otro móvil empieza de cero, las actividades de más de 35 horas, los valores imposibles de Open Food Facts, la CSP con el proyecto de Supabase exacto, las dependencias de desarrollo vulnerables, un test que dependía de la zona horaria y el mensaje de una copia demasiado grande. Nuevas pruebas: la suite SQL de la copia, la prueba de 40 000 publicaciones hostiles y las de actividades largas.
 
+## Segunda ronda (2026-11-06)
+
+Después de fusionar `master` (gratis y de pago, ADR 068). **La migración del tope de las claves pasa a ser la 0032**, porque la 0031 ya es la de desbloqueos y está ejecutada en el proyecto real.
+
+| # | Área | Estado |
+|---|---|---|
+| 11 | Gratis y de pago: prueba, bloqueo, desbloqueos | Revisada |
+| 12 | Privacidad de Social en el servidor: solicitudes, seguidores quitados, comunidades | Revisada |
+| 13 | Copia en la nube con dos versiones de la app | Revisada |
+| 14 | Configuración de Android (TWA) y Play Billing | Pendiente |
+| 15 | Textos legales frente a lo que hace el código | Pendiente |
+| 16 | Importar un backup con registros mal formados | Pendiente |
+
+### 11. Gratis y de pago
+
+Comprobado sin problemas: `mi_desbloqueo` solo mira la fila de quien llama, `admin_desbloquear` y `admin_desbloqueados` exigen administrador (`social_admin_yo`) y la tabla `desbloqueos` está cerrada (RLS sin políticas ni permisos). Un desbloqueo por compra no se puede quitar desde la administración.
+
+Visto y aceptado: el bloqueo vive en el móvil, así que quien sepa abrir las herramientas de Chrome en la app puede saltárselo (poniendo `appfit-desbloqueo` en `localStorage`, o borrando los registros para reiniciar la prueba). Pasa con cualquier bloqueo local, y la parte 3 (Play Billing) lo hará con la compra de Play.
+
+### 12. Privacidad de Social en el servidor
+
+Comprobado en PGlite, con tres cuentas: con la solicitud pendiente no se ve ni el feed ni las publicaciones, ni se puede comentar, dar ánimo o denunciar. Al quitar a un seguidor, pierde el acceso al momento. Quien no es miembro de una comunidad no ve sus publicaciones ni sus comentarios, y el expulsado tampoco. Las cuotas diarias documentadas (publicaciones, comentarios, solicitudes, denuncias, comunidades, invitaciones) están en cada función.
+
+### 13. Copia en la nube con dos versiones de la app
+
+Arreglado (confirmado con dos móviles en `copiaNube.test.ts` y en `backup.test.ts`): las tablas nuevas del backup se añaden sin subir `BACKUP_VERSION` (`variantesReceta`, el 27 de octubre), e importar ignora las que no conoce. Un móvil con la app sin actualizar (algo habitual en el iPhone, que actualiza cuando la persona acepta) traía la copia de la nube y perdía esas tablas. Al guardar el siguiente cambio, las borraba también de la nube y, de ahí, del otro móvil. Ahora una copia de un esquema más nuevo (`dbVersion`) no se trae ni se sustituye: sale «Actualiza la app en este móvil». Vale también para importar un archivo a mano.
+
 ## Para Víctor
 
 1. **Ejecutar `supabase/migrations/0032_copias_tope_de_claves.sql`** en el SQL Editor del proyecto (después de 0031, la de desbloqueos). La app no cambia.
@@ -128,3 +155,7 @@ Revisadas las 10 áreas. Arreglado en la PR: el tope de las claves de la copia (
 5. **Cerrar la sesión en todos los dispositivos (propuesta).** Si te roban el móvil, ahora no hay forma de cerrar la sesión que quedó abierta en él. Supabase lo permite (`signOut` global); sería un botón en Gestionar la cuenta. ¿Lo añado?
 6. **Pantalla de fallo sin salida (propuesta).** Si una pantalla falla, `FalloAplicacion` solo ofrece «Recargar». Si el fallo se repite en cada arranque, no hay forma de llegar a Ajustes para exportar o importar una copia. Propongo añadir en esa pantalla «Exportar una copia de seguridad», que no toca nada. ¿Lo añado?
 7. **Comprobar la CSP tras el próximo despliegue.** Abre la app publicada, entra en la cuenta y mira que la copia se guarda. Si algo falla con «Content Security Policy» en la consola, avísame: querría decir que Cloudflare no pasa `VITE_SUPABASE_URL` a la build como espero.
+8. **Corrección: la migración que tienes que ejecutar es `0032_copias_tope_de_claves.sql`**, no la 0031 que te dije: `master` ya tenía su 0031 (desbloqueos), ya ejecutada. Ejecútala después de esa.
+9. **Perfil visible con solo pedir seguir (decisión).** Comprobado: si alguien te pide seguirte, ve tu biografía, disciplinas y logros destacados aunque no aceptes; quien no lo pide no los ve. La documentación dice «relación», y el código cuenta como relación una solicitud pendiente. Como cualquiera puede pedirte seguirte si sabe tu alias, la solicitud es casi un pase libre al perfil (hasta 50 al día). ¿Lo dejo así, o el perfil solo se ve tras aceptar? Si lo cambio, quien recibe la solicitud seguiría viendo el perfil de quien la pide.
+10. **Expulsar de una comunidad no impide volver (propuesta).** Hoy la persona expulsada vuelve a unirse al momento (es lo que decidió el ADR 044, y la pantalla lo avisa). Contra el acoso dentro de una comunidad, propongo una lista de expulsados: no podrían volver a unirse salvo que un moderador los readmita. ¿Lo hago?
+11. **Para la parte 3 (Play Billing):** el desbloqueo recordado se olvida en cuanto la cuenta pasa a «sin sesión», también si la sesión caduca sola y no solo al cerrar sesión a propósito. Con el cobro encendido, alguien que pagó vería el bloqueo hasta volver a entrar. Lo arreglará el desbloqueo por compra de Play; lo dejo apuntado para entonces.

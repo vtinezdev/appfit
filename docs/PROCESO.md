@@ -3701,3 +3701,11 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Arreglado: `cuenta/data/nubeSupabase.traducir` convierte una violación de tope de `copias` (`23514`) en «Tu copia es demasiado grande para la nube…». Antes decía «Inténtalo de nuevo», y reintentar no servía. Test en `nubeSupabase.test.ts`.
 - Sin hallazgos en el arranque, el catálogo, los permisos ni Open Food Facts.
 - Cierre: las 10 áreas revisadas. Resumen y decisiones pendientes en `auditoria-seguridad-2026-11/ESTADO.md`.
+
+## 343. Auditoría de seguridad, segunda ronda: pago, privacidad de Social y versiones de la app (2026-11-06)
+
+- Fusionado `master`: la migración del tope de las claves pasa a ser `0032_copias_tope_de_claves.sql`, porque la 0031 es la de desbloqueos, ya ejecutada. Las entradas de la auditoría en este archivo pasan a §336–§342.
+- Gratis y de pago: sin hallazgos en el servidor. El bloqueo local se puede saltar, como cualquier bloqueo en el móvil.
+- Privacidad de Social, probada en PGlite con tres cuentas: solicitud pendiente, seguidor quitado, no miembro y expulsado, todo correcto. Para Víctor: el perfil deportivo se ve con solo pedir seguir; expulsar no impide volver a unirse (ADR 044).
+- Arreglado: un móvil con la app sin actualizar podía borrar de la nube, y del otro móvil, las tablas que no conocía (las opcionales se añaden sin subir `BACKUP_VERSION`). `importarBackup` rechaza un `dbVersion` mayor que `db.verno` y `CopiaNube.exigirVersionCompatible` no trae ni sustituye una copia más nueva. Tests en `backup.test.ts` y `copiaNube.test.ts` (los cuatro fallaban antes del arreglo).
+- Documentos: `datos.md`, `features/cuenta.md`, `features/social.md` (0032), `auditoria-seguridad-2026-11/ESTADO.md`.

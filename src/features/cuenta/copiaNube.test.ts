@@ -11,6 +11,8 @@ import type { Nube } from './data/nube'
 /** Un móvil en memoria: sus comidas (lo que va en la copia), su vínculo y su sesión en la nube falsa. */
 class Movil {
   comidas: string[] = []
+  /** Versión del esquema de la app de este móvil (`db.verno`). */
+  version = 11
   vinculo: VinculoDispositivo | undefined
   copia: CopiaNube
   nube: Nube
@@ -45,7 +47,7 @@ class Movil {
 
   backup(): BackupV3 {
     return migrarBackup({
-      version: 3, exportedAt: new Date().toISOString(), dbVersion: 11, foods: [], settings: [], exercises: [], routines: [], workouts: [], sets: [],
+      version: 3, exportedAt: new Date().toISOString(), dbVersion: this.version, foods: [], settings: [], exercises: [], routines: [], workouts: [], sets: [],
       entries: this.comidas.map((nombre, i) => ({ id: i + 1, nombre }) as unknown as Entry),
     })
   }
@@ -344,6 +346,53 @@ describe('dos móviles con la misma cuenta', () => {
     expect(b.fase).toBe('al-dia')
     await a.copia.sincronizar({ comprobarNube: true })
     expect(a.comidas).toEqual(['Tortilla', 'Pizza'])
+  })
+})
+
+describe('dos móviles con versiones distintas de la app', () => {
+  /** A ya se ha actualizado (esquema 12) y sube; B sigue con la app de antes (esquema 11). */
+  async function versiones() {
+    const { a } = await cuentaCreada(['Tortilla'])
+    const b = new Movil(servidor)
+    await b.entrar()
+    await b.copia.abrir('contraseña larga', 'contrasena')
+    await b.copia.traerCopia()
+    a.version = 12
+    a.comidas.push('Lentejas')
+    await a.copia.sincronizar()
+    return { a, b }
+  }
+
+  it('el móvil sin actualizar no trae una copia más nueva: pide actualizar y no la pisa', async () => {
+    const { b } = await versiones()
+    await b.copia.sincronizar({ comprobarNube: true })
+    expect(b.fase).toBe('error')
+    expect(b.copia.leerEstado().error).toMatch(/Actualiza/)
+    expect(b.comidas).toEqual(['Tortilla'])
+    expect([...servidor.copias.values()][0].revision).toBe(2)
+  })
+
+  it('en un conflicto tampoco deja subir lo de este móvil encima de la copia más nueva', async () => {
+    const { b } = await versiones()
+    b.comidas.push('Pizza')
+    await b.copia.sincronizar({ comprobarNube: true })
+    expect(b.fase).toBe('conflicto')
+    await expect(b.copia.resolverConflicto('subir')).rejects.toThrow(/Actualiza/)
+    expect([...servidor.copias.values()][0].revision).toBe(2)
+  })
+
+  it('al entrar, «usar este móvil» tampoco sustituye una copia más nueva', async () => {
+    const { a } = await cuentaCreada(['Tortilla'])
+    a.version = 12
+    a.comidas.push('Lentejas')
+    await a.copia.sincronizar()
+    const c = new Movil(servidor)
+    c.comidas = ['Pizza']
+    expect(await c.entrar()).toEqual({ vinculo: 'elegir' })
+    await c.copia.abrir('contraseña larga', 'contrasena')
+    await expect(c.copia.subirEstaCopia()).rejects.toThrow(/Actualiza/)
+    await expect(c.copia.traerCopia()).rejects.toThrow(/Actualiza/)
+    expect([...servidor.copias.values()][0].revision).toBe(2)
   })
 })
 
