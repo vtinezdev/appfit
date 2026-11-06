@@ -3636,3 +3636,13 @@ Víctor quiere poder desbloquear a quien ya usa la app ([ADR 068](decisiones/068
 - Supabase falso: las tres funciones y `simular_desbloqueo`; recorrido `scripts/ui/validar-desbloqueos.cjs`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Las migraciones 0001–0031 y todas las suites de `supabase/pruebas/`, incluida `desbloqueos.sql`, en un PostgreSQL 16 local efímero (Docker Hub limitó la imagen; PGlite no aguanta las excepciones de los bloques `do`). `validar-desbloqueos.cjs` (320 claro, 375 oscuro, 430 claro) y `validar-administracion.cjs` (ocho contextos) correctos con el Supabase falso. Víctor ejecuta 0031 en el proyecto real el mismo día; falta probarlo con cuentas reales.
+
+## 335. Gratis y de pago, parte 3: Play Billing en el envoltorio de Android (2026-11-06)
+
+Víctor aprueba cobrar con Play Billing y que el servidor compruebe las compras con la API de Google Play, y pide empezar por el primer paso.
+
+- `android/twa-manifest.json`: `features.playBilling.enabled` (comprobado en el código de Bubblewrap, `PlayBillingFeature`: añade `androidbrowserhelper:billing`, la actividad de pago y la Digital Goods API). `manifest.test.ts` lo vigila; `android/README.md` lo explica.
+- `docs/features/desbloqueo.md` § Cobro con Play Billing: los cinco pasos que quedan, de quién es cada uno.
+
+**Verificación:** `npm run test` (277 archivos, 3.229 pruebas) y `npm run build` correctos. Sin generar el envoltorio: el dominio `cumbrafit.app` aún no sirve la app, y sin él Bubblewrap no puede generarlo. La documentación de Chrome sobre pagos en TWA no se pudo leer desde el contenedor; el lado web se comprobará al implementarlo.
+

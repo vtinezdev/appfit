@@ -36,5 +36,9 @@ Bubblewrap no puede generar el proyecto. Con el dominio:
 
 - `locationDelegation`: el GPS de Actividades pide el permiso de ubicación de Android, no el de Chrome. Igual que en la
   PWA, solo graba con la pantalla encendida.
-- Sin notificaciones ni Play Billing: la app no envía avisos ni cobra.
+- `playBilling` (ADR 068, parte 3): el envoltorio lleva el puente de pagos de Google Play
+  (`com.google.androidbrowserhelper:billing`, la actividad de pago y la Digital Goods API), para cobrar el desbloqueo de
+  9,99 € con Play Billing. La app web no cobra todavía (`COBRO_ACTIVO = false`); Play Console exige subir una versión con
+  este permiso antes de dejar crear el producto.
+- Sin notificaciones: la app no envía avisos.
 - `orientation: portrait`, como la PWA, que está pensada para el móvil en vertical.

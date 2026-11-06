@@ -2,7 +2,7 @@
 
 `src/features/desbloqueo/` y la lógica en `shared/lib/acceso.ts` y `shared/pwa/cobro.ts`. Decisión: [ADR 068](../decisiones/068-gratis-y-de-pago.md). Entreno, Actividades, Liga, Social y la cuenta son gratis siempre; Nutrición, Perfil y la copia en la nube, durante un mes de prueba desde la primera apertura y después con un pago único.
 
-**Estado:** partes 1 (bloqueo y prueba) y 2 (desbloqueo manual) de 3. **El cobro está apagado** (`COBRO_ACTIVO = false`): nadie ve nada distinto hasta que se pueda pagar con Play Billing (parte 3). La parte 2 usa `supabase/migrations/0031_desbloqueos.sql`, que Víctor ejecutó en el proyecto real el 2026-11-06 (sin ella, la app sigue igual y Moderación no enseña la pestaña).
+**Estado:** partes 1 (bloqueo y prueba) y 2 (desbloqueo manual) de 3; la 3 (Play Billing), en curso ([abajo](#cobro-con-play-billing-parte-3-en-curso)). **El cobro está apagado** (`COBRO_ACTIVO = false`): nadie ve nada distinto hasta que se pueda pagar con Play Billing (parte 3). La parte 2 usa `supabase/migrations/0031_desbloqueos.sql`, que Víctor ejecutó en el proyecto real el 2026-11-06 (sin ella, la app sigue igual y Moderación no enseña la pestaña).
 
 ## Dónde está cada cosa
 
@@ -36,3 +36,13 @@ La hoja de desbloqueo muestra el precio con el botón deshabilitado («Muy pront
 Para quien ya usa la app: Víctor, como administrador, abre Social › Moderación › Desbloqueos, escribe el alias del perfil social y pulsa «Desbloquear». Queda en `public.desbloqueos` (0031: `user_id`, `origen` `manual` o `play`, quién lo hizo y cuándo; RLS cerrada, todo por funciones) y vale en cualquier móvil donde esa persona entre con su cuenta. «Quitar» lo deshace (solo los manuales; una compra no se quita desde aquí). Un alias sin perfil avisa «No hay ningún perfil con el alias @…». Requiere que la persona tenga cuenta y perfil en Social.
 
 La app de esa persona pregunta `mi_desbloqueo` al abrir con sesión y lo recuerda en el móvil. Al quitarlo en la nube, la próxima vez que abra con sesión vuelve a la prueba (o al bloqueo). Al cerrar la sesión se olvida. Pruebas: `supabase/pruebas/desbloqueos.sql` y `scripts/ui/validar-desbloqueos.cjs` (Supabase falso: `mi_desbloqueo`, `admin_desbloquear`, `admin_desbloqueados` y `simular_desbloqueo`).
+
+## Cobro con Play Billing (parte 3, en curso)
+
+Víctor aprueba el 2026-11-06 cobrar con Play Billing y que el **servidor** (una función de Supabase) compruebe cada compra con la API de Google Play (Google Play Developer API); el móvil no habla con nada nuevo. Cuando exista, va en `docs/seguridad.md`.
+
+1. **Hecho:** `android/twa-manifest.json` lleva `features.playBilling.enabled`. Al generar el envoltorio, Bubblewrap añade el puente de pagos (`com.google.androidbrowserhelper:billing`), la actividad de pago (`https://play.google.com/billing`) y la Digital Goods API. Lo vigila `shared/pwa/manifest.test.ts`.
+2. **Víctor, cuando el dominio sirva la app:** generar el envoltorio con Bubblewrap (`android/README.md`) y subirlo a Prueba interna en Play Console (Play no deja crear el producto sin una versión con el permiso de pagos); crear el perfil de pagos (datos fiscales y bancarios); crear el producto de compra única con el identificador que se fije en el paso 3 y el precio 9,99 €; y añadir su correo como tester de licencias.
+3. **Código:** el botón «Desbloquear» abre la compra (Digital Goods API y Payment Request) en la app de Android; la compra se confirma, se recupera al reinstalar y se anota en `desbloqueos` con origen `play` tras comprobarla en el servidor; con la prueba terminada se pausa la copia en la nube.
+4. **Víctor:** cuenta de servicio en Google Cloud con acceso a la API de Google Play, vinculada en Play Console, y su clave como secreto de la función en Supabase.
+5. **Juntos:** política de privacidad, condiciones, ficha de Play y `/conoce` (hoy dicen que la app es gratis); probar con el tester de licencias; encender `COBRO_ACTIVO` y publicar.
