@@ -2,6 +2,20 @@
 // sin mapas: el recorrido se dibuja como una línea, sin calles ni teselas de ningún servicio.
 import type { PuntoRecorrido } from '../../../shared/db/types'
 
+/**
+ * Mínimo y máximo sin `Math.min(...lista)`: con más de unos 120 000 valores (una actividad de 35 horas a un punto por
+ * segundo) el spread desborda la pila. `[Infinity, -Infinity]` si no hay valores.
+ */
+export function extremos(valores: Iterable<number>): [number, number] {
+  let min = Infinity
+  let max = -Infinity
+  for (const v of valores) {
+    if (v < min) min = v
+    if (v > max) max = v
+  }
+  return [min, max]
+}
+
 /** Radio medio de la Tierra (m), el de la fórmula del semiverseno. */
 const RADIO_TIERRA = 6_371_008.8
 const RAD = Math.PI / 180
@@ -160,7 +174,7 @@ export function proyectarRecorrido(tramos: readonly (readonly PuntoRecorrido[])[
   const enMetros = tramos.map((t) => t.map((p) => aMetros(p, lat0)))
   const xs = enMetros.flat().map((p) => p[0])
   const ys = enMetros.flat().map((p) => p[1])
-  const [minX, maxX, minY, maxY] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)]
+  const [[minX, maxX], [minY, maxY]] = [extremos(xs), extremos(ys)]
   const escala = Math.min((ancho - 2 * margen) / Math.max(maxX - minX, 1), (alto - 2 * margen) / Math.max(maxY - minY, 1))
   const offX = (ancho - (maxX - minX) * escala) / 2
   const offY = (alto - (maxY - minY) * escala) / 2

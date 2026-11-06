@@ -3619,3 +3619,11 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Documentos: `features/cuenta.md`.
 
 **Verificación:** tres tests nuevos en `copiaNube.test.ts` (los dos primeros fallaban antes del arreglo).
+
+## 333. Auditoría de seguridad, área 3: validación de entradas (2026-11-06)
+
+- Social: `social/lib/publicacion.hostil.test.ts` pasa 40 000 resúmenes hostiles por la lectura y la presentación, y ninguno las hace fallar.
+- Arreglado: GPX, TCX y FIT de más de unos 120 000 puntos fallaban por `Math.max(...lista)` (desborde de pila), y el dibujo del recorrido también, con una grabación de más de 35 horas. Ahora usan `actividades/lib/geo.extremos`, con un bucle. Tests de 150 000 puntos en `gpx`, `tcx`, `fit` y `geo`, que fallaban antes del arreglo.
+- Arreglado: `nutricion/lib/off/mapearProducto` aceptaba valores imposibles de Open Food Facts y guardaba solo el producto. Ahora aplica los límites del catálogo (900 kcal, 100 g y macros que no sumen más de 101 g): un valor imposible es desconocido y el producto se revisa. Nombre y marca, hasta 120 caracteres.
+- Para Víctor: «Exportar una copia» en la pantalla de fallo.
+- Documentos: `features/nutricion.md`, `features/actividades.md`, `auditoria-seguridad-2026-11/ESTADO.md` § 3.

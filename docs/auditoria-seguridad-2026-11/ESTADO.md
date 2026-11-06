@@ -8,7 +8,7 @@ Revisión por áreas antes de publicar en Google Play. Cada área se revisa leye
 |---|---|---|
 | 1 | Supabase: RLS, funciones `security definer`, permisos, entradas de las RPC y frenos | Revisada (2026-11-06) |
 | 2 | Cuenta: cifrado de la copia, PBKDF2, sesión, código OTP, borrado | Revisada (2026-11-06) |
-| 3 | Validación de entradas: importar backup, GPX/FIT, Open Food Facts, datos de Social | Pendiente |
+| 3 | Validación de entradas: importar backup, GPX/FIT, Open Food Facts, datos de Social | Revisada (2026-11-06) |
 | 4 | XSS y renderizado de contenido de terceros | Pendiente |
 | 5 | Cabeceras y CSP | Pendiente |
 | 6 | Dependencias (npm audit, versiones) | Pendiente |
@@ -44,6 +44,19 @@ Arreglado:
 
 Visto y aceptado: con una contraseña de 8 caracteres, quien robara la base de datos podría probar contraseñas contra las claves sin límite (600 000 iteraciones lo hacen lento, no imposible). Es el precio de no guardar nada legible en el servidor.
 
+## 3. Validación de entradas
+
+Comprobado sin problemas:
+- **Social:** todo lo que llega de otras personas pasa por lectores que rechazan o normalizan (`social/lib/feed.ts`, `publicacion.leerResumen`). Nueva prueba `publicacion.hostil.test.ts`: 40 000 resúmenes válidos con un campo cambiado por un valor hostil (`null`, `NaN`, textos de 5000 caracteres, `__proto__`…). Ninguno hace fallar la lectura ni la presentación, y lo que se acepta tiene cifras finitas.
+- **FIT:** el lector binario no lee fuera del archivo (un archivo cortado da «El FIT está cortado») y siempre avanza, así que no se queda en un bucle.
+- **Open Food Facts:** solo se envía el código de barras normalizado (solo cifras), con un tiempo máximo de 10 s.
+
+Arreglado:
+- **Actividades muy largas** (confirmado con GPX, TCX y FIT de 150 000 puntos, unos 14 MB, por debajo del tope de 25 MB). `Math.max(...lista)` desbordaba la pila con más de unos 120 000 puntos: el archivo daba «No se ha podido leer». El mismo fallo estaba en el dibujo del recorrido, que también usa la grabación en curso sin simplificar (una grabación de más de 35 horas acababa en la pantalla de fallo). Ahora `geo.extremos` lo hace con un bucle.
+- **Valores imposibles de Open Food Facts.** OFF lo edita cualquiera y trae erratas (kJ escritos como kcal, una cifra de más). Un producto con 1628 kcal por 100 g se guardaba solo y se sumaba al día. Ahora un valor imposible cuenta como desconocido, con los mismos límites que el catálogo empaquetado: el producto pasa a revisión y la persona escribe esa cifra. Los nombres y las marcas se recortan a 120 caracteres.
+
+Visto y aceptado: importar un backup comprueba que sea de Cumbra Fit y que cada tabla sea una lista, pero no revisa la forma de cada registro. Un archivo editado a mano con registros rotos podría romper alguna pantalla. Solo afecta a los archivos de la propia persona, y la importación es de todo o nada.
+
 ## Para Víctor
 
 1. **Ejecutar `supabase/migrations/0031_copias_tope_de_claves.sql`** en el SQL Editor del proyecto (después de 0030). La app no cambia.
@@ -51,3 +64,4 @@ Visto y aceptado: con una contraseña de 8 caracteres, quien robara la base de d
 3. **Panel de Supabase › Authentication › Rate Limits:** revisar los límites de envío de correos y de verificación del código (ya estaba en `seguridad.md` junto a la caducidad de 600 s).
 4. **Suspendidos que vuelven con el mismo email (decisión).** Una suspensión de Social (`vetados`) se borra con la cuenta. Así, quien está suspendido puede borrar su cuenta, crearla otra vez con el mismo email y hacerse un perfil nuevo. Para impedirlo habría que guardar, tras borrar la cuenta, una huella (hash) del email de quien fue suspendido, y decirlo en la política de privacidad. Con otro email podría volver igualmente. ¿Lo hago, o lo dejas así?
 5. **Cerrar la sesión en todos los dispositivos (propuesta).** Si te roban el móvil, ahora no hay forma de cerrar la sesión que quedó abierta en él. Supabase lo permite (`signOut` global); sería un botón en Gestionar la cuenta. ¿Lo añado?
+6. **Pantalla de fallo sin salida (propuesta).** Si una pantalla falla, `FalloAplicacion` solo ofrece «Recargar». Si el fallo se repite en cada arranque, no hay forma de llegar a Ajustes para exportar o importar una copia. Propongo añadir en esa pantalla «Exportar una copia de seguridad», que no toca nada. ¿Lo añado?

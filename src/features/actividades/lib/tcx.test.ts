@@ -101,3 +101,14 @@ describe('resumirArchivoActividad', () => {
     expect(() => resumirArchivoActividad('{"no": "xml"}')).toThrow('ni un FIT')
   })
 })
+
+describe('actividad muy larga', () => {
+  it('lee un TCX de 150 000 puntos sin desbordar la pila', () => {
+    const t0 = Date.parse('2026-10-18T06:00:00Z')
+    const puntos = Array.from({ length: 150_000 }, (_, i) =>
+      `<Trackpoint><Time>${new Date(t0 + i * 1000).toISOString()}</Time><Position><LatitudeDegrees>${(42 + i * 1e-5).toFixed(6)}</LatitudeDegrees><LongitudeDegrees>-0.5</LongitudeDegrees></Position><DistanceMeters>${i * 1.1}</DistanceMeters></Trackpoint>`)
+    const r = resumirTcx(`<TrainingCenterDatabase><Activities><Activity Sport="Running"><Lap><Track>${puntos.join('')}</Track></Lap></Activity></Activities></TrainingCenterDatabase>`)
+    expect(r.duracionSeg).toBe(149_999)
+    expect(r.distanciaM).toBeGreaterThan(160_000)
+  })
+})

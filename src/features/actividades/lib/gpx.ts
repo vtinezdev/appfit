@@ -1,7 +1,7 @@
 // Lectura de archivos GPX (Strava, Wikiloc, Garmin, relojes…), sin librerías ni DOM: el formato es sencillo y así
 // funciona igual en los tests (Node). Solo se leen los puntos del track (o de la ruta), su altitud y su hora.
 import type { PuntoRecorrido, TipoActividad } from '../../../shared/db/types'
-import { desnivelPositivo, distanciaRecorrido } from './geo'
+import { desnivelPositivo, distanciaRecorrido, extremos } from './geo'
 import { tiemposDesde } from './parciales'
 
 export class GpxError extends Error {}
@@ -111,7 +111,7 @@ export function resumirGpx(gpx: Gpx): ResumenGpx {
   let conHoras = false
   for (const t of gpx.tramos) {
     const horas = t.map((p) => p.t).filter((x): x is number => x !== undefined)
-    if (horas.length >= 2) { duracion += Math.max(...horas) - Math.min(...horas); conHoras = true }
+    if (horas.length >= 2) { const [min, max] = extremos(horas); duracion += max - min; conHoras = true }
   }
   const inicio = gpx.tramos.flat().find((p) => p.t !== undefined)?.t
   const duracionSeg = conHoras ? Math.round(duracion / 1000) : undefined

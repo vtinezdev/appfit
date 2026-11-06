@@ -2,6 +2,7 @@
 // sin librerías (decisión de Víctor, A17). Solo se lee lo que necesita una actividad: la sesión (inicio, tiempo, distancia, desnivel y
 // deporte), las vueltas (si no hay sesión) y los puntos (posición, altitud, hora y distancia). El resto de mensajes se
 // salta. Devuelve el mismo resumen que GPX y TCX.
+import { extremos } from './geo'
 import { GpxError, resumirGpx, sugerirTipo, type PuntoGpx, type ResumenGpx } from './gpx'
 
 /** «.FIT» en los bytes 8–11 de la cabecera. */
@@ -151,14 +152,15 @@ export function resumirFit(bytes: Uint8Array): ResumenGpx {
 
   const sumar = (k: number) => vueltas.reduce((n, v) => n + (v.get(k) ?? 0), 0)
   const horas = [...puntos, ...sinPosicion].map((p) => p.t).filter((t): t is number => t !== undefined)
-  const distanciaPuntos = Math.max(0, ...[...puntos, ...sinPosicion].map((p) => p.d ?? 0))
+  const distanciaPuntos = Math.max(0, extremos([...puntos, ...sinPosicion].map((p) => p.d ?? 0))[1])
   const distanciaM = Math.round((sesion?.get(9) ?? sumar(9)) / 100 || distanciaPuntos || (base?.distanciaM ?? 0))
-  const tiempo = (sesion?.get(8) ?? sumar(8)) / 1000 || (horas.length >= 2 ? (Math.max(...horas) - Math.min(...horas)) / 1000 : 0)
+  const [primeraHora, ultimaHora] = extremos(horas)
+  const tiempo = (sesion?.get(8) ?? sumar(8)) / 1000 || (horas.length >= 2 ? (ultimaHora - primeraHora) / 1000 : 0)
   const duracionSeg = Math.round(tiempo) || undefined
   if (!distanciaM && !duracionSeg) throw new GpxError('El FIT no trae ni tiempo ni distancia.')
 
   const inicioSesion = sesion?.get(2)
-  const inicio = inicioSesion !== undefined ? aMs(inicioSesion) : horas.length ? Math.min(...horas) : undefined
+  const inicio = inicioSesion !== undefined ? aMs(inicioSesion) : horas.length ? primeraHora : undefined
   const desnivelM = sesion?.get(22) ?? base?.desnivelM
   const tipoArchivo = DEPORTES[sesion?.get(5) ?? deporte ?? -1]
   return {
