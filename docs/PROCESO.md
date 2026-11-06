@@ -3635,3 +3635,11 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Documentos: `seguridad.md`, `auditoria-seguridad-2026-11/ESTADO.md` §§ 4-5.
 
 **Verificación:** `vite build` sin la variable deja el comodín en `dist/_headers` y con `VITE_SUPABASE_URL=https://abcdefghijklmnop.supabase.co`, ese proyecto.
+
+## 335. Auditoría de seguridad, área 6: dependencias (2026-11-06)
+
+- `npm audit --omit=dev`: 0. En desarrollo había 2 altas (vite: `launch-editor` en Windows; source-map-js), entre 13. Ahora vite 8.3.5, vitest 5.0.5, source-map-js 1.2.2, fast-uri 3.1.9, postcss-selector-parser 6.1.5 y serialize-javascript 7.1.4, todas publicadas hace más de dos semanas. Quedan 6 moderadas o bajas de `workbox-build`.
+- `vite` y `vitest` quedan fijados a una versión exacta: el `npm install` de npm 10.9 falla al subirlos (`Cannot read properties of null (reading 'edgesOut')`), y con npm 11 sí se puede. El lockfile vale para el `npm ci` de npm 10.
+- Documentos: `seguridad.md` § Dependencias, `auditoria-seguridad-2026-11/ESTADO.md` § 6.
+
+**Verificación:** `npm ci` con npm 10 desde cero, `npm run test` (276 archivos, 3.223 pruebas) y `npm run build` correctos.

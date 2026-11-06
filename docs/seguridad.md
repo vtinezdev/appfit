@@ -43,6 +43,8 @@ Un cambio del servidor sigue yendo en un SQL nuevo de `supabase/migrations/`, co
 ## Dependencias
 
 - `npm audit --omit=dev --audit-level=high` en la CI (trabajo `pruebas-y-build`): una dependencia que llega al móvil con una vulnerabilidad conocida alta o crítica no deja pasar la PR. Las de desarrollo (Vite, Vitest…) no llegan al móvil.
+- Al actualizar, mejor una versión publicada hace más de dos semanas: un paquete secuestrado suele detectarse y retirarse en días. `vite` y `vitest` van fijados a una versión exacta (8.3.5 y 5.0.5, auditoría de 2026-11), porque el `npm install` de npm 10 falla al subirlas (`edgesOut`); se actualizan con npm 11 (`npx npm@11 install`), y el lockfile vale igual para el `npm ci` de la CI.
+- Lo que queda en `npm audit` (2026-11-06: 2 bajas y 4 moderadas) es de `workbox-build`, que usa `vite-plugin-pwa` para generar el service worker con nuestros propios archivos. Solo se quita bajando `vite-plugin-pwa` a 1.1.0, que es más vieja.
 - El escáner carga su `.wasm` del propio origen, no de un CDN, y su versión está fijada (`nutricion/lib/escaner/zxing.ts`).
 
 ## Pendiente fuera del código (lo hace Víctor)

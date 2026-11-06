@@ -11,7 +11,7 @@ Revisión por áreas antes de publicar en Google Play. Cada área se revisa leye
 | 3 | Validación de entradas: importar backup, GPX/FIT, Open Food Facts, datos de Social | Revisada (2026-11-06) |
 | 4 | XSS y renderizado de contenido de terceros | Revisada (2026-11-06) |
 | 5 | Cabeceras y CSP | Revisada (2026-11-06) |
-| 6 | Dependencias (npm audit, versiones) | Pendiente |
+| 6 | Dependencias (npm audit, versiones) | Revisada (2026-11-06) |
 | 7 | Service worker y caché | Pendiente |
 | 8 | Almacenamiento local y datos sensibles | Pendiente |
 | 9 | Lógica de negocio: fechas, cálculos, casos límite | Pendiente |
@@ -72,6 +72,17 @@ Visto y aceptado: el nombre visible de Social (de 1 a 40 caracteres) admite cual
 Comprobado sin problemas: CSP con `default-src 'self'` y sin scripts en línea ni `eval` (solo `'wasm-unsafe-eval'`, para el escáner), `object-src 'none'`, `frame-ancestors 'none'`, `base-uri` y `form-action` en `'self'`, HSTS, `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, COOP y `Permissions-Policy`, con la cámara y la ubicación solo para la app. Lo vigilan `cabeceras.test.ts` y, en la CI, `validar-seguridad.cjs`.
 
 Endurecido: `connect-src` permitía cualquier proyecto de Supabase (`*.supabase.co`). Si alguna vez se colara un script, podría enviar datos a un proyecto de otra persona. Ahora la build lo cambia por el proyecto de `VITE_SUPABASE_URL` (`shared/seguridad/cspSupabase.ts` y el plugin `appfit-csp-supabase`). Comprobado con `vite build`: sin la variable queda el comodín y con ella, el proyecto exacto.
+
+## 6. Dependencias
+
+Comprobado sin problemas: `npm audit --omit=dev` (lo que llega al móvil) no da ninguna vulnerabilidad, y la CI lo vigila.
+
+Arreglado (herramientas de desarrollo): había 2 vulnerabilidades altas y 11 más.
+- **vite 8.3.1 → 8.3.5:** `launch-editor` podía ejecutar órdenes en Windows al abrir un archivo desde el error del servidor de desarrollo. Te afecta porque trabajas en Windows.
+- **vitest 5.0.2 → 5.0.5:** inyección de código en `@vitest/mocker`.
+- **source-map-js, fast-uri, postcss-selector-parser y serialize-javascript**, versiones nuevas.
+
+Todas las versiones elegidas se publicaron hace más de dos semanas. Las más recientes (vite 8.3.6, vitest 5.1.0) tenían de 1 a 4 días y quedan para más adelante. Quedan 6 vulnerabilidades moderadas o bajas de `workbox-build` (por `vite-plugin-pwa`), que solo procesan nuestros archivos al construir. `vite` y `vitest` van fijados a una versión exacta por un fallo de npm 10 al actualizarlos (`seguridad.md` § Dependencias).
 
 ## Para Víctor
 
