@@ -6,15 +6,20 @@
 const playwright = require('playwright')
 
 async function pasarBienvenida(page) {
-  const capa = page.locator('[data-paso-bienvenida]')
-  for (let i = 0; i < 8 && await capa.isVisible().catch(() => false); i++) {
+  const capa = page.locator('[data-paso-bienvenida]').first()
+  for (let i = 0; i < 8; i++) {
+    const paso = await capa.getAttribute('data-paso-bienvenida', { timeout: 1000 }).catch(() => null)
+    if (!paso) return
     const casilla = page.getByRole('checkbox', { name: /años o más/ })
     if (await casilla.isVisible().catch(() => false) && !(await casilla.isChecked())) await casilla.check()
     const ahoraNo = page.getByRole('dialog').getByRole('button', { name: 'Ahora no', exact: true })
     const boton = await ahoraNo.isVisible().catch(() => false) ? ahoraNo
       : page.getByRole('dialog').getByRole('button', { name: /^(Empezar|Continuar|Empezar a usar Cumbra Fit)$/ })
-    await boton.click()
-    await page.waitForTimeout(50)
+    // Tras el último paso la bienvenida guarda y desaparece: el botón puede irse a mitad del clic, y eso es terminar.
+    await boton.click({ timeout: 5000 }).catch(() => undefined)
+    // Antes de seguir, que cambie el paso o se cierre: si no, el siguiente clic cae en un botón que está a punto de irse.
+    await page.waitForFunction((antes) => document.querySelector('[data-paso-bienvenida]')?.getAttribute('data-paso-bienvenida') !== antes,
+      paso, { timeout: 10000 }).catch(() => undefined)
   }
 }
 

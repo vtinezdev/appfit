@@ -96,6 +96,9 @@ Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguri
 
 ### 5. Ficha y formularios de Play Console
 
+Preparados (2026-11-06) en [`play/ficha.md`](play/ficha.md) (textos, capturas y gráfico destacado) y [`play/formularios.md`](play/formularios.md) (contenido de la app, seguridad de los datos, clasificación, público, salud y prueba cerrada). Decididos el 2026-11-06 el acceso del revisor (la app funciona sin cuenta y la cuenta se crea con cualquier email) y la respuesta sobre el alcohol (referencias, sin fomentar su consumo).
+
+
 - **Política de privacidad** y **página para borrar la cuenta**, con URL pública en el dominio. Redactadas (2026-11-05, [ADR 065](decisiones/065-textos-legales-y-edad-minima.md)) en `public/privacidad.html`, `condiciones.html` y `borrar-cuenta.html`; faltan el correo de contacto (`[CORREO DE CONTACTO]`) y la revisión por alguien que sepa de protección de datos.
 - **Seguridad de los datos:** sin cuenta no se recoge nada; con cuenta, email y copia cifrada (el servidor no puede leerla); Social, lo publicado. Cifrado en tránsito (HTTPS) y borrado desde la app.
 - **Declaración de app de salud**, clasificación de contenido (cuestionario) y público objetivo: 16 años o más (decidido el 2026-11-05, ADR 065).

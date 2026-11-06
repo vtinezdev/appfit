@@ -3544,3 +3544,24 @@ Víctor pide quitar lo que solo tiene sentido en una PWA añadida desde la web, 
 - Documentos: ADR 060, `DESIGN-SYSTEM.md` (tokens), `roadmap.md`.
 
 **Verificación:** medido en Chromium a 320/375/430 px (100 % y 200 %), 812 × 375 y 1.440 px, en los dos temas: sin solapes, sin nombres partidos en dos líneas y sin scroll horizontal. `validar-adaptacion` correcto en sus 14 casos; `test:ui:responsive` y `test:ui:uso` (con texto al 200 %) correctos; `npm run test` y `npm run build` correctos.
+
+## 326. Ficha y formularios de Google Play (2026-11-06)
+
+Víctor pide empezar por la ficha de Play y los formularios de Play Console.
+
+- `docs/play/ficha.md`: nombre (27/30), descripción breve (79/80, sin «gratis» ni reclamos) y completa (2.283/4.000, con las cifras comprobadas en el código), categoría, contacto, sitio y países; tabla de gráficos con los requisitos de Play.
+- `docs/play/graficos/`: seis capturas de 1080 × 1920 (9:16, PNG RGB) de la app con datos inventados, en la sesión de la app de Android (sin aviso de actualizaciones), y el gráfico destacado de 1024 × 500 con el icono y el logotipo de `shared/design/marca.ts`. `scripts/web/capturas-conoce.cjs --play` y `scripts/play/grafico-destacado.mjs` los rehacen.
+- `docs/play/formularios.md`: acceso a la app, anuncios, clasificación de contenido, público (16-17 y 18+), salud, seguridad de los datos tipo por tipo (la copia cifrada no se declara: Play exime los datos cifrados de extremo a extremo), eliminación, permisos, estado de comerciante y prueba cerrada. Víctor elige las dos propuestas: explicar al revisor que la app funciona sin cuenta y que la cuenta se crea con cualquier email, y contestar que hay referencias al alcohol sin fomentar su consumo.
+- Documentos: `despliegue.md` (§ 5), `desarrollo.md`, `herramientas.md`, `roadmap.md`.
+
+**Verificación:** límites de caracteres medidos sobre el texto de los bloques; medidas y canales de los PNG comprobados con sharp; capturas y gráfico revisados a ojo.
+
+## 327. CI: el trabajo `navegador` en la imagen de Playwright (2026-11-06)
+
+En la PR de §320–325, `navegador` falló tres veces seguidas antes de ejecutar ninguna prueba: `apt` no terminaba de descargar los paquetes del sistema de Firefox y WebKit (unos 114 MB) del mirror de Ubuntu del runner. Víctor pidió fusionar igualmente y arreglarlo después.
+
+- `.github/workflows/qa.yml`: `navegador` corre en `mcr.microsoft.com/playwright:v1.62.1-noble` con `--user 1001`. Fuera la caché de navegadores, la descarga con `install` y el `install-deps` con sus reintentos; se queda `npm install playwright@1.62.1` en el directorio temporal (`NODE_PATH`), a la versión de la imagen.
+- Al probarlo dentro de la imagen apareció un fallo que el `apt` tapaba: en WebKit, `scripts/ui/bienvenida.cjs` volvía a pulsar el botón del último paso mientras la bienvenida se cerraba y esperaba 20 s a un botón que ya no estaba. Ahora, tras cada pulsación, espera a que cambie el paso o se cierre la bienvenida, y un botón que desaparece a mitad del clic cuenta como terminado.
+- Documentos: `desarrollo.md` (CI).
+
+**Verificación:** el job reproducido en local con Docker (la misma imagen, usuario 1001, una copia limpia del repositorio): `npm ci`, Playwright, build y los diez recorridos de la CI con Chromium, Firefox y WebKit. Resultados abajo.
