@@ -3716,3 +3716,8 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Textos legales: la política de privacidad y «Borrar la cuenta» ya cuentan el desbloqueo (tabla `desbloqueos`, 0031), que guarda datos de la cuenta desde la parte 2. `roadmap.md` y `features/desbloqueo.md` apuntan para la parte 3 el estado de comerciante y las compras en Seguridad de los datos.
 - Arreglado: los nombres y textos de Social admitían caracteres invisibles (U+202E, que invierte lo que sigue, y espacios de ancho cero), con los que se puede falsear una línea de avisos o imitar un nombre. `shared/lib/text.sinCaracteresOcultos` y `limpiarTextosRecibidos`, aplicados a cada respuesta en `socialSupabase.ts`. Tests en `text.test.ts` y `socialSupabase.test.ts` (el segundo falla sin el arreglo).
 - Documentos: `features/social.md`, `auditoria-seguridad-2026-11/ESTADO.md` §§ 14-17.
+
+## 345. Auditoría de seguridad, segunda ronda: CSV, parámetros de la dirección y contraseña (2026-11-06)
+
+- Sin hallazgos que arreglar: el CSV ya evita la inyección de fórmulas y la única lectura de la dirección es `?preview=cobro`.
+- Para Víctor (`auditoria-seguridad-2026-11/ESTADO.md`): limitar `?preview=cobro` a desarrollo, y exigir contraseñas menos débiles para la copia. Aceptada la carrera entre cambiar la contraseña y «Empezar de cero» en otro móvil (§ 19).

@@ -132,6 +132,8 @@ Después de fusionar `master` (gratis y de pago, ADR 068). **La migración del t
 | 15 | Textos legales frente a lo que hace el código | Revisada |
 | 16 | Importar un backup con registros mal formados | Revisada |
 | 17 | Caracteres invisibles en nombres y textos de Social | Revisada |
+| 18 | Exportar a CSV y parámetros de la dirección | Revisada |
+| 19 | Contraseña de la copia y carreras entre móviles | Revisada |
 
 ### 11. Gratis y de pago
 
@@ -163,6 +165,16 @@ Visto y aceptado: importar comprueba el formato del archivo y que cada tabla sea
 
 Arreglado (confirmado en PGlite y en `socialSupabase.test.ts`): el servidor guardaba un nombre con U+202E (invierte el texto que sigue) y espacios de ancho cero. En la lista de avisos, «Ana · comentó tu publicación», un nombre así da la vuelta al resto de la línea, y con espacios invisibles se puede imitar el nombre de otra persona. Ahora la app quita esos caracteres de todo lo que llega de Social (`shared/lib/text.limpiarTextosRecibidos`, en `socialSupabase.ts`). Conserva los que necesitan los emojis compuestos y otros alfabetos.
 
+### 18. CSV y parámetros de la dirección
+
+Comprobado sin problemas: el CSV exportado pone un apóstrofo delante de los textos que empiezan por `=`, `+`, `-`, `@` o tabulador, así que un nombre de Open Food Facts como `=HIPERVINCULO(…)` no se ejecuta como fórmula al abrirlo en Excel. La app solo lee un parámetro de la dirección, `?preview=cobro` (para Víctor, punto 13).
+
+### 19. Contraseña de la copia y carreras entre móviles
+
+Visto y aceptado:
+- **Carrera muy improbable.** Si en un móvil se cambia la contraseña justo mientras otro hace «Empezar de cero», `actualizar_claves` (sin revisión) puede dejar en la nube unas claves de la clave anterior junto a una copia cifrada con la nueva. Los datos no se pierden (el móvil que empezó de cero los tiene y sigue subiéndolos), pero un móvil nuevo no podría abrir la copia hasta repetir «Empezar de cero». Arreglarlo pide una migración que compruebe la revisión. Con una ventana de segundos y dos acciones raras a la vez, no compensa ahora.
+- **Contraseñas débiles**, para Víctor (punto 14).
+
 ## Para Víctor
 
 1. **Ejecutar `supabase/migrations/0032_copias_tope_de_claves.sql`** en el SQL Editor del proyecto (después de 0031, la de desbloqueos). La app no cambia.
@@ -177,3 +189,5 @@ Arreglado (confirmado en PGlite y en `socialSupabase.test.ts`): el servidor guar
 10. **Expulsar de una comunidad no impide volver (propuesta).** Hoy la persona expulsada vuelve a unirse al momento (es lo que decidió el ADR 044, y la pantalla lo avisa). Contra el acoso dentro de una comunidad, propongo una lista de expulsados: no podrían volver a unirse salvo que un moderador los readmita. ¿Lo hago?
 11. **Para la parte 3 (Play Billing):** el desbloqueo recordado se olvida en cuanto la cuenta pasa a «sin sesión», también si la sesión caduca sola y no solo al cerrar sesión a propósito. Con el cobro encendido, alguien que pagó vería el bloqueo hasta volver a entrar. Lo arreglará el desbloqueo por compra de Play; lo dejo apuntado para entonces.
 12. **Antes de encender el cobro (parte 3), además de lo que dice el ADR 068:** en Play Console › Estado de comerciante tendrás que declararte comerciante, porque vender dentro de la app genera ingresos (la normativa europea). Play publica entonces en la ficha tu nombre, dirección y teléfono o email de contacto. Si no quieres que salga tu domicilio, conviene resolverlo antes (por ejemplo, con una dirección profesional), y consultarlo con un gestor, como ya dice `formularios.md`. En Seguridad de los datos habrá que marcar el historial de compras.
+13. **`?preview=cobro` en producción (decisión).** Hoy cualquier enlace como `cumbrafit.app/?preview=cobro` enciende el bloqueo de pago en esa pestaña: quien lo abra ve su nutrición «bloqueada» y «Desbloquear 9,99 €» en la web, donde no se puede pagar. Es un buen anzuelo para un engaño («págame y te lo desbloqueo»). Las pruebas usan el servidor de desarrollo, así que puedo limitarlo a desarrollo sin romper nada; solo perderías probar el bloqueo en la web publicada (en la app de Play lo verías con `COBRO_ACTIVO`). ¿Lo limito?
+14. **Contraseñas débiles para la copia (decisión).** Basta con 8 caracteres, y se acepta «12345678». La copia va cifrada, pero si alguien robara la base de datos de Supabase podría probar contraseñas contra las claves sin límite: las comunes caen enseguida, aunque PBKDF2 con 600 000 iteraciones las haga lentas. Propongo rechazar las contraseñas más comunes (una lista de unas 1000, dentro de la app, sin servicios externos) o pedir 10 caracteres. ¿Cuál prefieres, o lo dejamos?
