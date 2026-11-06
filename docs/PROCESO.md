@@ -3473,3 +3473,11 @@ Tras §317 Víctor seguía viendo el botón de secciones cortado y mandó una ca
 - Ajustes › Actualizaciones › «Medidas de pantalla»: pantalla, ventana, zona visible, documento, rectángulo de la app y márgenes del sistema (`leerMedidas`, `lineasMedidas` con test), para que una captura diga qué da iOS si vuelve a fallar.
 
 **Verificación:** `npm run test` y `npm run build` correctos; las medidas en Chromium a 320 (oscuro) y 430 (claro) sin scroll horizontal. Sin iPhone: falta comprobar en el dispositivo que el botón sale entero.
+
+## 320. Revisión: «Añadir otro alimento» debajo de la lista (2026-11-06)
+
+Víctor no encontraba cómo añadir ingredientes al tocar «Cambiar ingredientes» en una receta al añadir comida: solo veía «Quitar». El botón existía, pero al final de la revisión (tras el total, «Cómo queda tu día», «Guardar como comida típica» y el plato), fuera de la vista con una receta de varios ingredientes.
+
+- `AnadirComida`: el bloque de añadido («Añadir otro alimento», «Editar descripción», «Medidas») pasa a ir justo debajo de la lista de alimentos, como en el editor de recetas. Vale para toda revisión, no solo la de una receta.
+
+**Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 375 px en `appfit-test.localhost`: receta → «Cambiar ingredientes» muestra el botón sin desplazar y añadir «100 g de pollo asado» lo incorpora. `validar-recetas-anadir.cjs` no llega a este paso aquí (falta el recetario descargado; falla igual sin el cambio). Sin iPhone.
