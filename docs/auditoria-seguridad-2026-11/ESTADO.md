@@ -12,9 +12,9 @@ Revisión por áreas antes de publicar en Google Play. Cada área se revisa leye
 | 4 | XSS y renderizado de contenido de terceros | Revisada (2026-11-06) |
 | 5 | Cabeceras y CSP | Revisada (2026-11-06) |
 | 6 | Dependencias (npm audit, versiones) | Revisada (2026-11-06) |
-| 7 | Service worker y caché | Pendiente |
-| 8 | Almacenamiento local y datos sensibles | Pendiente |
-| 9 | Lógica de negocio: fechas, cálculos, casos límite | Pendiente |
+| 7 | Service worker y caché | Revisada (2026-11-06) |
+| 8 | Almacenamiento local y datos sensibles | Revisada (2026-11-06) |
+| 9 | Lógica de negocio: fechas, cálculos, casos límite | Revisada (2026-11-06) |
 | 10 | Recorridos de error | Pendiente |
 
 ## 1. Supabase
@@ -83,6 +83,25 @@ Arreglado (herramientas de desarrollo): había 2 vulnerabilidades altas y 11 má
 - **source-map-js, fast-uri, postcss-selector-parser y serialize-javascript**, versiones nuevas.
 
 Todas las versiones elegidas se publicaron hace más de dos semanas. Las más recientes (vite 8.3.6, vitest 5.1.0) tenían de 1 a 4 días y quedan para más adelante. Quedan 6 vulnerabilidades moderadas o bajas de `workbox-build` (por `vite-plugin-pwa`), que solo procesan nuestros archivos al construir. `vite` y `vitest` van fijados a una versión exacta por un fallo de npm 10 al actualizarlos (`seguridad.md` § Dependencias).
+
+## 7. Service worker y caché
+
+Comprobado sin problemas: solo se precachean archivos propios (209, unos 4 MB). Las imágenes de ejercicios, los lugares y el `.wasm` del escáner se guardan al usarlos. Ninguna respuesta de Supabase ni de Open Food Facts pasa por la caché, y `version.json` se pide con `no-store`. Una versión nueva solo se aplica cuando la persona la acepta (`registerType: 'prompt'`); en Android, sola al volver a abrir la app.
+
+## 8. Almacenamiento local y datos sensibles
+
+Comprobado sin problemas: en `localStorage` solo están la sesión de Supabase (lo normal en supabase-js), el tema, el fondo y el descanso habitual. La clave de datos está en una base aparte, como no exportable: no sale ni en el backup ni en «Borrar registros». Cerrar sesión borra la sesión y el vínculo, y las cachés en memoria de Social (avatares y si eres administrador) se reinician al entrar en Social o Amigos, por si cambió la cuenta. No hay cookies.
+
+## 9. Lógica de negocio
+
+Comprobado sin problemas:
+- Los 3.223 tests pasan en UTC, Europe/Madrid, Atlantic/Canary, America/Los_Angeles, Pacific/Pago_Pago (UTC−11) y Pacific/Kiritimati (UTC+14).
+- Una prueba de propiedades sobre todos los días de 2019 a 2031 (sumar días, inicio de semana en lunes, semanas y meses seguidos) pasa en Madrid, en São Paulo (cambio de hora a medianoche) y en UTC+14. Las cuentas de días usan `Math.round` o tiempo transcurrido, así que no les afecta el cambio de hora.
+- Energía: suelo de kcal (el mayor entre el gasto en reposo y el mínimo), límites de edad, altura y peso, sin déficit con un IMC bajo y aviso de ritmo alto. Récords, progresión y cargas comprueban las listas vacías antes de `Math.max`.
+
+Arreglado: un test dependía de la zona horaria (`feed.test.ts`, una hora en UTC que en UTC+14 ya es otro día). La app estaba bien: muestra el día local.
+
+Visto y aceptado: las ecuaciones de energía son para 18 años o más y la app para 16 o más. Entre 16 y 17 la app funciona, pero no calcula objetivos (lo dice en pantalla).
 
 ## Para Víctor
 

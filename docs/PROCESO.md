@@ -3643,3 +3643,8 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Documentos: `seguridad.md` § Dependencias, `auditoria-seguridad-2026-11/ESTADO.md` § 6.
 
 **Verificación:** `npm ci` con npm 10 desde cero, `npm run test` (276 archivos, 3.223 pruebas) y `npm run build` correctos.
+
+## 336. Auditoría de seguridad, áreas 7 a 9: service worker, almacenamiento y lógica de negocio (2026-11-06)
+
+- Service worker y almacenamiento: sin hallazgos (detalle en `auditoria-seguridad-2026-11/ESTADO.md` §§ 7-8).
+- Lógica de negocio: la batería completa pasa en seis zonas horarias, de UTC−11 a UTC+14. Una prueba de propiedades de `shared/lib/dates` sobre 13 años pasa en Madrid, São Paulo y UTC+14 (no se queda en el repositorio: repite lo que ya cubre `dates.test.ts`). Arreglado `social/lib/feed.test.ts`, que dependía de la zona horaria.
