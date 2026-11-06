@@ -3590,7 +3590,7 @@ Víctor pide preparar el aviso para cuando la app pase de `appfit.vtinez-dev.wor
 
 Hasta ahora ni las denuncias (con la copia de lo denunciado) ni los mensajes de «Comunicar un problema» y «Proponer un alimento» se borraban nunca, y los textos legales decían «el tiempo necesario». Víctor fija los plazos: denuncias, 6 meses después de revisarlas (las pendientes esperan); mensajes, 12 meses después de llegar, leídos o no.
 
-- `supabase/migrations/0030_plazos_de_borrado.sql`: `borrar_caducados()` (`security definer`, `search_path` vacío, sin permiso para la app; devuelve cuántas borró de cada) y la tarea `appfit-plazos-borrado` de pg_cron, domingos a las 03:45 UTC. Ninguna tabla apunta a esas dos; con la denuncia se va su aviso «hemos actuado» (0026). **Víctor tiene que ejecutarla en el SQL Editor del proyecto.**
+- `supabase/migrations/0030_plazos_de_borrado.sql`: `borrar_caducados()` (`security definer`, `search_path` vacío, sin permiso para la app; devuelve cuántas borró de cada) y la tarea `appfit-plazos-borrado` de pg_cron, domingos a las 03:45 UTC. Ninguna tabla apunta a esas dos; con la denuncia se va su aviso «hemos actuado» (0026). Víctor la ejecutó en el SQL Editor del proyecto real el 2026-11-06.
 - `supabase/pruebas/plazos_de_borrado.sql`: borra la denuncia revisada hace 7 meses y deja la de hace 2 y la que sigue sin revisar; borra los mensajes de hace 13 meses, leídos o no, y deja el de hace 11; repetirla no borra más; ni `anon` ni `authenticated` pueden ejecutarla.
 - `scripts/sql/validar-social.mjs`: quita la parte de `pg_cron` de cualquier migración (antes solo de 0002).
 - Textos: `public/privacidad.html` § 6 y `public/borrar-cuenta.html` con los plazos; las tres páginas legales y `VERSION_TEXTOS_LEGALES` pasan al 2026-11-06.
