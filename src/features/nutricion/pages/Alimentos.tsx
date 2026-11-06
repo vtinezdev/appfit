@@ -27,6 +27,7 @@ import ListRow from '../../../shared/components/ListRow'
 import { Input, SearchInput, Select } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 /** Un alimento antiguo puede no tener categoría: el formulario la pide antes de guardar. */
 type FoodDraft = Omit<foodsRepo.FoodInput, 'categoria'> & { id?: number; categoria?: string }
@@ -39,6 +40,8 @@ const VISTAS: { valor: Vista; label: string }[] = [
 ]
 
 export default function Alimentos() {
+  // Prueba terminada (ADR 068): los alimentos se ven, pero guardar uno nuevo o un cambio pide desbloquear.
+  const { proteger } = useDePago()
   const [vista, setVista] = useState<Vista>('alimentos')
   const [busqueda, setBusqueda] = useState('')
   const [filtro, setFiltro] = useState<FiltroCategoria>('todas')
@@ -160,7 +163,7 @@ export default function Alimentos() {
       {vista === 'tipicas' && (
         <div className="space-y-stack">
           <p className="text-body-sm text-fg-muted">Toca una típica para editarla o guardar una sugerencia.</p>
-          <ComidasTipicas fecha={todayISO()} onElegir={setTipicaEditando} onCrear={() => setCreandoTipica(true)} />
+          <ComidasTipicas fecha={todayISO()} onElegir={proteger(setTipicaEditando)} onCrear={proteger(() => setCreandoTipica(true))} />
         </div>
       )}
 
@@ -173,7 +176,7 @@ export default function Alimentos() {
                   Borrar
                 </Button>
               )}
-              <Button onClick={guardar} disabled={!editando.nombre.trim() || !esCategoriaAlimento(editando.categoria)} className="flex-1">
+              <Button onClick={proteger(guardar)} disabled={!editando.nombre.trim() || !esCategoriaAlimento(editando.categoria)} className="flex-1">
                 Guardar
               </Button>
             </div></div>}>

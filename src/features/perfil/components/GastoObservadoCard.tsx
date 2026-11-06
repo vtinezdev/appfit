@@ -15,6 +15,7 @@ import * as perfilRepo from '../data/perfilRepo'
 import { actualizarObjetivoHoy } from '../data/objetivosDiaRepo'
 import { KCAL_POR_KG, formatSigned, type ResultadoEnergia } from '../lib/energia'
 import { DIAS_VENTANA, DIAS_VENTANA_MIN, FRACCION_REGISTRO_MIN, PESAJES_SEMANA_MIN, semanasCumplidas, type GastoObservado } from '../lib/gastoObservado'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 interface Props {
   perfil: Perfil
@@ -114,6 +115,7 @@ function ComoSeCalcula({ observado }: { observado: GastoObservado }) {
 /** Gasto observado junto al estimado, con el progreso de sus requisitos y la opción de usarlo como gasto diario (desactivada por defecto). */
 export default function GastoObservadoCard({ perfil, energia, observado, hoy, plegado = false }: Props) {
   const [error, setError] = useState<string | null>(null)
+  const { proteger } = useDePago()
   const usando = perfil.usarGastoObservado === true
   const estimado = energia.estado === 'ok' ? energia.getEstimado : null
   const requisitosCumplidos = observado.diasRegistrados >= observado.diasMin && semanasCumplidas(observado) === observado.semanas.length
@@ -146,7 +148,7 @@ export default function GastoObservadoCard({ perfil, energia, observado, hoy, pl
           {requisitosCumplidos && observado.motivos.map((m) => <p key={m} className="text-body-sm text-fg-muted">{m}</p>)}
         </div>}
     <div className="border-t border-line">
-      <Interruptor label="Usar el gasto observado" detalle={detalleUso} activo={usando} onChange={(v) => void cambiar(v)} />
+      <Interruptor label="Usar el gasto observado" detalle={detalleUso} activo={usando} onChange={proteger((v: boolean) => cambiar(v))} />
       {error && <ErrorState>{error}</ErrorState>}
     </div>
   </div>

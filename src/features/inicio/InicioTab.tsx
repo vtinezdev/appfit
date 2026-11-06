@@ -37,6 +37,9 @@ import { useTarjetaRevision } from './hooks/useRevisionSemanal'
 import { useHoy } from '../../shared/hooks/useHoy'
 import { usePeriodoAResumir } from '../vitrina/hooks/useTuPeriodo'
 import { moduloActivo, tarjetasInicio, type TarjetaInicio } from '../../shared/lib/modulos'
+import { useDePago } from '../desbloqueo/DesbloqueoContext'
+import Button from '../../shared/components/Button'
+import Icon from '../../shared/components/Icon'
 
 // El detalle de la revisión (con récords y resumen de Gym) va en su propio chunk: no entra en el arranque de Inicio.
 const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
@@ -70,6 +73,7 @@ const DIAS_HISTORIAL = 365
 export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, onIrAPerfil }: Props) {
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
+  const { bloqueado, pedir } = useDePago()
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
   const pesos = useLiveQuery(() => pesosRepo.delRango(addDays(hoy, -DIAS_HISTORIAL), hoy), [hoy])
   const agua = useLiveQuery(() => aguaRepo.delDia(hoy), [hoy])
@@ -141,7 +145,10 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
   function tarjeta(t: TarjetaInicio): ReactNode {
     switch (t) {
       case 'energia': return <TarjetaEnergia totales={sumMacros(entries ?? [])} objetivos={vigentes!} onAbrir={onIrANutricion}
-        pie={<AnadirComidaAhora onAnadir={onAnadirComida} onCalcularObjetivo={vigentes!.kcal <= 0 ? onIrAPerfil : undefined} />} />
+        pie={bloqueado
+          // Prueba terminada (ADR 068): la tarjeta sigue mostrando el día; añadir comida pide desbloquear.
+          ? <Button variant="secondary" block onClick={pedir}><Icon name="sparkles" size={18} />Desbloquear para añadir comidas</Button>
+          : <AnadirComidaAhora onAnadir={onAnadirComida} onCalcularObjetivo={vigentes!.kcal <= 0 ? onIrAPerfil : undefined} />} />
       case 'progreso': return <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} sinCaminos={!moduloActivo(settings, 'actividades')} />
       case 'registros': return <div className="inicio-registros">
         {moduloActivo(settings, 'peso') && <AccesoPeso tendencia={tendencia} pesos={pesos ?? []} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />}

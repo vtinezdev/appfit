@@ -1,6 +1,8 @@
 // Lecturas de la experiencia (solo lectura: se usan dentro del lector compartido, `experiencia/hooks/useProgreso`). La XP se recalcula a partir del historial completo.
 import { getSettings } from '../../../shared/db/settings'
+import { calcularAcceso, dePagoBloqueado } from '../../../shared/lib/acceso'
 import { conNutricionEfectiva } from '../../../shared/lib/modulos'
+import { entornoAcceso } from '../../../shared/pwa/cobro'
 import type { Actividad, Entry, Exercise, Pausa, PlanSemanal, SetEntry, Workout } from '../../../shared/db/types'
 import { startOfWeek } from '../../../shared/lib/dates'
 import * as actividadesRepo from '../../actividades/data/actividadesRepo'
@@ -38,8 +40,9 @@ export type EstadoExperiencia =
 export async function leerExperiencia(hoy: string): Promise<EstadoExperiencia> {
   const settings = await getSettings()
   if (settings.gamificacionVisible === false) return { visible: false }
-  // Con Nutrición apagada en «Lo que usas» (B9), solo el entreno: se deriva al leer, sin escribir el ajuste.
-  const conNutricion = conNutricionEfectiva(settings)
+  // Con Nutrición apagada en «Lo que usas» (B9), o con la prueba terminada sin desbloquear (ADR 068), solo el entreno:
+  // se deriva al leer, sin escribir el ajuste.
+  const conNutricion = conNutricionEfectiva(settings) && !dePagoBloqueado(calcularAcceso(settings, entornoAcceso(), hoy))
   const [workouts, sets, exercises, entries, cheatDays, actividades] = await Promise.all([
     workoutsRepo.terminados(),
     setsRepo.todas(),

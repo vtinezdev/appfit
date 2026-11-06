@@ -36,6 +36,8 @@ import CuentaAjustes, { ResumenCuenta } from '../features/cuenta/components/Cuen
 import ActualizacionesAjustes, { ResumenActualizacion } from './ActualizacionesAjustes'
 import { cuentaDisponible } from '../features/cuenta/servicio'
 import { GRUPOS_AJUSTES, OPCIONES_FONDO, OPCIONES_TEMA, resumenAjustes, SECCIONES_AJUSTES, type SeccionAjustes } from './seccionesAjustes'
+import { useDePago } from '../features/desbloqueo/DesbloqueoContext'
+import { resumenAcceso } from '../shared/lib/acceso'
 
 /**
  * Ajustes es un índice por temas (Tú, Entreno, App, Tus datos) con el valor actual de cada sección; cada fila abre su
@@ -46,6 +48,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
   const settings = useLiveQuery(() => getSettings(), [])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
+  const { acceso, pedir: pedirDesbloqueo } = useDePago()
   const [seccion, setSeccion] = useState<SeccionAjustes | null>(seccionInicial ?? null)
   const [enfocarTitulo, setEnfocarTitulo] = useState(seccionInicial !== undefined)
   /** Fila del índice que recupera el foco al volver de su sección. */
@@ -178,6 +181,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
     entrenosPlan: planDeSemana(settings.planSemanal, startOfWeek(todayISO())).entrenos,
   }
 
+  const resumen = acceso ? resumenAcceso(acceso) : null
   const fila = (id: SeccionAjustes, destructiva = false) => <li key={id}>
     <ListRow data-seccion={id} onClick={() => abrir(id)}>
       <Icon name={SECCIONES_AJUSTES[id].icon} size={20} className={destructiva ? 'text-destructive' : 'text-fg-muted'} />
@@ -193,6 +197,15 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
     return (
       <div ref={indiceRef} className="space-y-section px-page pt-5">
         <PageHeader title="Ajustes" />
+        {/* ADR 068: solo donde el cobro se aplica (la app de Google Play); en la web y el iPhone no hay nada que contar. */}
+        {resumen && <ListGroup aria-label="Cumbra Fit completa"><li><ListRow data-fila="desbloqueo" onClick={pedirDesbloqueo}>
+          <Icon name="sparkles" size={20} className="text-fg-muted" />
+          <span className="min-w-0 flex-1">
+            <span className="block break-words text-body font-semibold text-fg">Cumbra Fit completa</span>
+            <span className="block break-words text-caption text-fg-muted">{resumen}</span>
+          </span>
+          <Icon name="chevron-right" size={18} className="text-fg-subtle" />
+        </ListRow></li></ListGroup>}
         {GRUPOS_AJUSTES.map((g) => <section key={g.nombre} aria-labelledby={`ajustes-${g.nombre}`} className="space-y-2">
           <h2 id={`ajustes-${g.nombre}`} className="px-1 text-rotulo text-fg-muted">{g.nombre}</h2>
           <ListGroup>{g.secciones.filter((id) => (id !== 'cuenta' || cuentaDisponible) && (id !== 'actualizaciones' || !esAppAndroid())).map((id) => fila(id))}</ListGroup>

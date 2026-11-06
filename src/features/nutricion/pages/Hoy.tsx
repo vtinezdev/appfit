@@ -37,6 +37,7 @@ import Card from '../../../shared/components/Card'
 import { formatInt } from '../../../shared/lib/format'
 import type { NutrienteId } from '../../../shared/lib/referenciasNutricionales'
 import { useHoy } from '../../../shared/hooks/useHoy'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 
 interface Props {
   fecha: string
@@ -53,6 +54,8 @@ interface Props {
 
 
 export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir, onCrearTipica, onVerReferencia, onVerPlan }: Props) {
+  // Prueba terminada (ADR 068): lo que añade o cambia comidas pide desbloquear; borrar y deshacer, no.
+  const { proteger, bloqueado, pedir } = useDePago()
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
   const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
@@ -205,7 +208,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   return (
     <div className="space-y-section">
       <SemanaKcal fecha={fecha} hoy={hoy} dias={semana} onFecha={onFechaChange} transicion={transicion}
-        acciones={<IconButton icon="more" label="Acciones del día" variant="ghost" aria-haspopup="dialog" onClick={() => { setErrorDia(null); setAccionesDia({ paso: 'menu', fechaDestino: fecha }) }} />} />
+        acciones={<IconButton icon="more" label="Acciones del día" variant="ghost" aria-haspopup="dialog" onClick={proteger(() => { setErrorDia(null); setAccionesDia({ paso: 'menu', fechaDestino: fecha }) })} />} />
 
       {!cargado || !totales || !objetivos ? (
         <div className="animate-fade-in-late">
@@ -235,7 +238,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
               setPlatoArrastrado(null)
               const plato = active.data.current?.plato as Plato | undefined
               const destino = over?.data.current?.comida
-              if (plato && esComida(destino)) void mover(plato, destino)
+              if (plato && esComida(destino)) { if (bloqueado) pedir(); else void mover(plato, destino) }
             }}>
           <div data-comidas-diario className={`space-y-4 ${transicion}`}>
             {COMIDAS.map(({ valor: c, label }) => (
@@ -246,20 +249,20 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
                 entries={porComida.get(c) ?? []}
                 nombresCortos={nombresCortos}
                 categorias={categorias}
-                onAcciones={() => setAccionesComida({ comida: c })}
+                onAcciones={proteger(() => setAccionesComida({ comida: c }))}
                 onEditar={onEditarEntry}
                 onBorrar={(e) => borrar(e.id)}
-                onCopiarEntrada={entrada => setAccionesComida({ comida: c, entrada })}
+                onCopiarEntrada={proteger((entrada: Entry) => setAccionesComida({ comida: c, entrada }))}
                 onBorrarPlato={borrarPlato}
                 onEditarPlato={onEditarPlato}
-                onMoverPlato={plato => { setErrorMover(null); setPlatoMover(plato) }}
+                onMoverPlato={proteger((plato: Plato) => { setErrorMover(null); setPlatoMover(plato) })}
                 moviendo={moviendo}
-                onAccionesPlato={(plato) => {
+                onAccionesPlato={proteger((plato: Plato) => {
                   const id = plato.entries[0].platoId
                   if (id) setAccionesComida({ comida: c, plato: { id, nombre: plato.nombre } })
-                }}
+                })}
                 onAnadir={() => onAnadir(c)}
-                onTipicas={() => setComidaTipicas(c)}
+                onTipicas={proteger(() => setComidaTipicas(c))}
                 tipicasAbiertas={comidaTipicas === c}
                 tipicasId={tipicasId}
               />
@@ -277,7 +280,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
 
       {fecha === hoy && <Planificadas hoy={hoy} avisar={avisar} avisarError={avisarError} onVerPlan={onVerPlan} />}
 
-      {semana && <Button variant="subtle" size="sm" aria-pressed={cheat} disabled={marcandoCheat} onClick={() => { void alternarCheat(false) }}>
+      {semana && <Button variant="subtle" size="sm" aria-pressed={cheat} disabled={marcandoCheat} onClick={proteger(() => alternarCheat(false))}>
         <Icon name="sparkles" size={18} className={cheat ? 'text-accent-strong' : 'text-fg-muted'} />{cheat ? 'Cheat day · fuera de las medias' : 'Marcar como cheat day'}
       </Button>}
       {toast}

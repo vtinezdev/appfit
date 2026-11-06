@@ -1,0 +1,29 @@
+# Desbloqueo (gratis y de pago)
+
+`src/features/desbloqueo/` y la lógica en `shared/lib/acceso.ts` y `shared/pwa/cobro.ts`. Decisión: [ADR 068](../decisiones/068-gratis-y-de-pago.md). Entreno, Actividades, Liga, Social y la cuenta son gratis siempre; Nutrición, Perfil y la copia en la nube, durante un mes de prueba desde la primera apertura y después con un pago único.
+
+**Estado:** parte 1 de 3 (bloqueo y prueba). **El cobro está apagado** (`COBRO_ACTIVO = false`): nadie ve nada distinto hasta que se pueda pagar con Play Billing (parte 3). El desbloqueo manual desde la administración de Social es la parte 2.
+
+## Dónde está cada cosa
+
+| Qué | Dónde | Notas |
+|---|---|---|
+| Estado del acceso | `shared/lib/acceso.ts`: `calcularAcceso` (`abierto` · `prueba` · `terminada` · `desbloqueado`), `dePagoBloqueado`, `resumenAcceso`, `DIAS_PRUEBA` (30, contando el primer día), `PRECIO_DESBLOQUEO` | puro, con tests |
+| Dónde se aplica | `shared/pwa/cobro.ts`: `aplicaCobro` (solo la app de Google Play con `COBRO_ACTIVO`; la web y el iPhone, abiertos), `entornoAcceso` | `?preview=cobro` lo enciende en esa sesión para probarlo |
+| Primera apertura | `settings.primeraApertura`, que apunta `ensureSettings` al arrancar si falta | viaja en el backup y en la copia; borrar los datos reinicia la prueba (aceptado) |
+| Contexto y hoja | `DesbloqueoContext`: `DesbloqueoProvider` (en `App`) y `useDePago()` → `{ acceso, bloqueado, pedir, proteger }`; `components/DesbloquearSheet` («Cumbra Fit completa») | sin proveedor (tests sueltos), todo abierto |
+| Aviso en las secciones de pago | `components/AvisoPruebaTerminada` en Nutrición, Recetas y Perfil | solo con la prueba terminada |
+
+## Con la prueba terminada
+
+Lo apuntado se ve y se exporta; lo que **añade o cambia** pide desbloquear (`proteger(accion)` abre la hoja en vez de hacer la acción). Borrar y deshacer siguen libres: los datos son de cada persona.
+
+- **Nutrición**: Añadir comida (cabecera, cada comida, comidas típicas, editar una entrada o un plato), acciones del día (copiar, cheat day), acciones de comida (copiar, guardar como típica), mover un plato (hoja y arrastre), «Lo he comido» de lo planificado, Plan › Añadir, guardar un alimento o una ración, editar o crear comidas típicas en Alimentos y apuntar una nota en Medidas.
+- **Recetas**: nueva receta; en la ficha, registrar, planificar, editar, añadir preparación y copiar a mis recetas. La lista de la compra se puede seguir marcando.
+- **Perfil**: editar los datos y el interruptor del gasto observado. El peso es de todos (Inicio) y sigue libre; las medidas corporales también.
+- **Inicio**: la tarjeta de energía cambia «Añadir comida» por «Desbloquear para añadir comidas».
+- **Cuenta**: «Activar la copia» pide desbloquear. Una copia ya activa sigue guardándose (pendiente de la parte 3).
+- **Cumbres, Ritmo y Vitrina** cuentan solo el entreno y las actividades (`experiencia/hooks/leerExperiencia`, el mismo camino que «Contar la nutrición» apagado): los metros y logros que venían de las comidas dejan de contar mientras siga bloqueada.
+- **Ajustes** enseña la fila «Cumbra Fit completa» con el estado («Prueba: quedan 12 días», «Prueba terminada»…) solo donde el cobro se aplica.
+
+La hoja de desbloqueo muestra el precio con el botón deshabilitado («Muy pronto podrás desbloquearla desde aquí»): el pago llega en la parte 3.
