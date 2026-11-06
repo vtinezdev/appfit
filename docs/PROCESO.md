@@ -3598,3 +3598,18 @@ Hasta ahora ni las denuncias (con la copia de lo denunciado) ni los mensajes de 
 
 **Verificación:** Docker Hub respondía 429 y el proxy de la sesión bloquea el espejo de AWS, así que las migraciones y las pruebas se pasaron en PGlite (PostgreSQL 17 en WASM, como la suite de 0014): las 30 migraciones (sin pg_cron) y las 23 suites, la nueva incluida, correctas. `npm run test` y `npm run build` correctos. La tarea de pg_cron no se puede probar fuera de Supabase.
 
+## 331. Revisión: «Añadir otro alimento» debajo de la lista (2026-11-06)
+
+Víctor no encontraba cómo añadir ingredientes al tocar «Cambiar ingredientes» en una receta al añadir comida: solo veía «Quitar». El botón existía, pero al final de la revisión (tras el total, «Cómo queda tu día», «Guardar como comida típica» y el plato), fuera de la vista con una receta de varios ingredientes.
+
+- `AnadirComida`: el bloque de añadido («Añadir otro alimento», «Editar descripción», «Medidas») pasa a ir justo debajo de la lista de alimentos, como en el editor de recetas. Vale para toda revisión, no solo la de una receta.
+
+**Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 375 px en `appfit-test.localhost`: receta → «Cambiar ingredientes» muestra el botón sin desplazar y añadir «100 g de pollo asado» lo incorpora. `validar-recetas-anadir.cjs` no llega a este paso aquí (falta el recetario descargado; falla igual sin el cambio). Sin iPhone.
+
+## 332. Revisión: Buscar también al añadir otro alimento (2026-11-06)
+
+Tras §331 Víctor pide poder buscar, no solo escribir, al añadir ingredientes en la revisión.
+
+- `AnadirComida`: «Añadir otro alimento» abre `ViewTabs` Escribir/Buscar (`metodoAnadido`, independiente de la pestaña inicial). Buscar reutiliza `AlimentosRapidos` y `elegirRapido`: con `anadiendo`, la hoja de cantidad suma el alimento a la revisión y una receta entra como alimento; «Crear» añade una fila sin coincidencia.
+
+**Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 320 (oscuro), 375 y 430 px en `appfit-buscar.localhost`: receta → «Cambiar ingredientes» → «Añadir otro alimento» → Buscar → elegir → «Revisar alimento» lo suma; la pestaña se recuerda en el siguiente añadido; sin scroll horizontal ni errores. Sin iPhone.
