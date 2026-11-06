@@ -16,7 +16,8 @@ interface Props {
   /** Objetivos vigentes: los de Ajustes, o los derivados del Perfil cuando este manda. */
   objetivos: Objetivos
   /** `perfil`: las kcal se calculan en Perfil y aquí son de solo lectura; los macros siguen editables. */
-  origen?: 'perfil' | 'manual'
+  /** `ninguno`: aún sin objetivo (ADR 066); `objetivos` trae los valores de ejemplo y guardar uno los hace propios. */
+  origen?: 'perfil' | 'manual' | 'ninguno'
   onIrAPerfil?: () => void
   /** Proteína calculada con g/kg × peso en Perfil: el campo es de solo lectura y los demás la respetan. */
   proteinaPorKg?: AjusteProteina
@@ -62,6 +63,10 @@ export default function ObjetivosAjustes({ objetivos, origen = 'manual', onIrAPe
   // Punto 26: las calorías en grande, el reparto en una barra y cada macro en su fila; la regla de ajuste, como pie.
   return (
     <section aria-label="Objetivos diarios" className="space-y-stack">
+      {origen === 'ninguno' && <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="min-w-0 flex-1 basis-48 text-body-sm text-fg-muted">Aún no tienes objetivo: estos valores son solo un ejemplo y no se usan. Calcúlalo en Perfil con tus datos, o escribe el tuyo aquí.</p>
+        {onIrAPerfil && <Button variant="ghost" size="sm" className="shrink-0" onClick={onIrAPerfil}>Ir a Perfil<Icon name="chevron-right" size={16} /></Button>}
+      </div>}
       <Card className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="min-w-0">

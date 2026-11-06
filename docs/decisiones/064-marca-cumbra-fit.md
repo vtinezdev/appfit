@@ -13,8 +13,8 @@ Con el nombre decidido (**Cumbra**, visible como «Cumbra Fit»), Víctor pide e
 
 ## Dónde vive
 
-- Dibujo único en `src/shared/design/marca.ts` (icono, logotipo y su versión SVG para imágenes). Componentes en `src/shared/components/Marca.tsx`: `MarcaLogotipo`, `MarcaIcono`, `MarcaFirma` (icono + logotipo) e `IconoApp` (el icono instalado).
-- Aparece en el pie de Ajustes y la pantalla de error (firma), en «Primeros pasos» y en el aviso de traslado de Inicio (icono instalado), y en el pie de los pósteres de entreno y de «Tu mes» («Hecho con» + logotipo). Víctor revisa las capturas y aprueba los cuatro sitios.
+- Dibujo único en `src/shared/design/marca.ts` (icono, logotipo y su versión SVG para imágenes). Componentes en `src/shared/components/Marca.tsx`: `MarcaLogotipo`, `MarcaIcono`, `MarcaFirma` (icono + logotipo). `IconoApp` (el icono instalado) se retiró con el ADR 067.
+- Aparece en el pie de Ajustes y la pantalla de error (firma), y en el pie de los pósteres de entreno y de «Tu mes» («Hecho con» + logotipo). Víctor revisa las capturas y aprueba los cuatro sitios.
 - Iconos de la PWA (`public/favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png` con el dibujo dentro del círculo seguro) generados con `node scripts/marca/generar-iconos.mjs`. El manifest se llama «Cumbra Fit».
 
 ## Lo que no cambia

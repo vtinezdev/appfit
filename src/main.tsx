@@ -8,12 +8,10 @@ import { initTheme } from './shared/design/theme.ts'
 import { initViewport } from './shared/design/viewport.ts'
 import { solicitarPersistencia } from './shared/lib/almacenamiento.ts'
 import { iniciarActualizaciones } from './shared/pwa/actualizaciones.ts'
-import { initInstalacion } from './shared/pwa/instalacion.ts'
 
 iniciarDiagnostico()
 initTheme()
 initViewport()
-initInstalacion()
 iniciarActualizaciones()
 void solicitarPersistencia()
 

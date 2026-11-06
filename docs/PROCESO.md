@@ -3474,7 +3474,131 @@ Tras §317 Víctor seguía viendo el botón de secciones cortado y mandó una ca
 
 **Verificación:** `npm run test` y `npm run build` correctos; las medidas en Chromium a 320 (oscuro) y 430 (claro) sin scroll horizontal. Sin iPhone: falta comprobar en el dispositivo que el botón sale entero.
 
-## 320. Revisión: «Añadir otro alimento» debajo de la lista (2026-11-06)
+## 320. Publicación: manifest listo para Google Play y configuración de la TWA (2026-11-05)
+
+Víctor pide empezar a preparar la publicación y elige, en este orden: manifest, textos legales, uso por otras personas y web de la app (`despliegue.md`). Este paso es el primero.
+
+- El manifest pasa a `shared/pwa/manifest.ts` (lo importa `vite.config.ts`): descripción para cualquiera (decía «uso personal»), `lang: 'es'`, categorías, `orientation: 'portrait'` y `purpose` explícito en los iconos. `COLOR_MARCA` con excepción documentada del guardián (el manifest no lee variables CSS).
+- `android/twa-manifest.json`: configuración de Bubblewrap con el paquete `app.cumbrafit`, el host `cumbrafit.app` (aún sin comprar), los colores y los iconos del manifest, ubicación delegada (GPS de Actividades), sin notificaciones ni Play Billing. `android/README.md` explica cómo generar el proyecto con el dominio. `.gitignore`: el proyecto Gradle generado y cualquier `*.jks`/`*.keystore` quedan fuera.
+- `shared/pwa/manifest.test.ts`: la TWA, el manifest, `index.html` y las medidas reales de los PNG coinciden.
+- Documentos: `arquitectura.md` (PWA y mapa), `despliegue.md` (§ 3.2 hecho, § 4.2 preparado), `roadmap.md`, `CLAUDE.md` (mapa).
+
+**Verificación:** `npm run test` y `npm run build` correctos; `dist/manifest.webmanifest` revisado. Sin dominio no se puede generar ni probar el `.aab`.
+
+## 321. Publicación: política de privacidad, condiciones de uso y borrado de la cuenta (2026-11-05)
+
+Segundo paso de la preparación (§320). Víctor decide: responsable Victor Martinez, correo de contacto como hueco hasta tener el buzón, 16 años o más para toda la app y páginas estáticas con enlaces desde la app. [ADR 065](decisiones/065-textos-legales-y-edad-minima.md).
+
+- `public/privacidad.html`, `condiciones.html` y `borrar-cuenta.html` con `legal.css` (tokens claro/oscuro, Saira local, `tema-inicial.js`). Redactadas a partir de `features/cuenta.md`, `features/social.md`, ADR 061 y las migraciones (cascadas de `auth.users`: las denuncias y los mensajes se quedan sin vínculo, `on delete set null`). Correo: `[CORREO DE CONTACTO]`.
+- `shared/lib/legal.ts` (`EDAD_MINIMA`, `PAGINAS_LEGALES`, `RUTAS_ESTATICAS_SW`) y `navigateFallbackDenylist` en `vite.config.ts`: en la PWA instalada se abren las páginas, no la app, también sin red.
+- `shared/components/EnlacesLegales`: pie de Ajustes (las tres), Entrar o crear cuenta (aviso de 16 años y aceptación) y Crear perfil de Social (la casilla pasa a «Tengo 16 años o más y acepto las normas de Social…»).
+- `shared/lib/legal.test.ts`: las páginas existen, se enlazan, solo cargan recursos del origen, nombran responsable y edad, y dan el mismo correo; la lista del service worker no deja pasar otras rutas.
+- Documentos: ADR 065, `despliegue.md` § 5, `social.md` (fase 6), `features/cuenta.md`, `features/social.md`, `arquitectura.md`, `DESIGN-SYSTEM.md`, `README.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Sobre la build (`vite preview`) en Chromium: las tres páginas a 320/375/430 px en claro y oscuro, sin scroll horizontal ni errores de consola y con enlaces de 44 px; con el service worker activo, el enlace del pie de Ajustes abre la privacidad en otra pestaña y `/condiciones` se abre sin red. Entrar o crear cuenta con un Supabase falso (sin peticiones) a 320/375/430 px. Crear perfil de Social, sin probar en el navegador (necesita el Supabase falso con sesión). Pendiente: revisión legal por una persona experta.
+
+## 322. Publicación: bienvenida y sin objetivos por defecto (2026-11-05)
+
+Tercer paso de la preparación (§320–321). Víctor elige pasos cortos que se pueden saltar, una pantalla para Cumbres, Ritmo y Liga y, si se salta el perfil, ningún objetivo hasta tenerlo. [ADR 066](decisiones/066-bienvenida-y-sin-objetivos-por-defecto.md).
+
+- `ensureSettings` (ahora en una transacción): en una instalación nueva crea los ajustes con `sinObjetivos` y `bienvenidaPendiente`. Las existentes, los backups y las copias de la nube no cambian.
+- `perfil/lib/objetivosVigentes`: origen `ninguno` (objetivos a cero, `SIN_OBJETIVOS`) con `sinObjetivos` y sin perfil completo. El resto de la app ya trataba el cero como «sin objetivo».
+- Inicio: «Sin objetivo diario» y «Calcular mi objetivo» (abre Perfil). Ajustes › Objetivos: valores de ejemplo con aviso e «Ir a Perfil»; guardar uno quita la marca; la fila del índice dice «Sin objetivo». Referencias: «Sin objetivo».
+- `app/Bienvenida` + `app/bienvenida.ts` (pasos, sistemas explicados y lo que se guarda al terminar, con test): entrada con 16+ y textos legales, «Lo que usas» (`ModulosAjustes conOrden={false}`), tu objetivo diario (`PerfilTab enBienvenida`, solo con Nutrición; «Ahora no») y Cumbres, Ritmo y Liga (`GamificacionAjustes`). Guarda `textosLegalesAceptados`. `CelebracionLogros` espera a que termine.
+- `scripts/ui/bienvenida.cjs` (lo carga `navegar.cjs`; también `medir-progreso` y `validar-tu-mes`): cada página nueva de los recorridos pasa la bienvenida sola.
+- Documentos: ADR 066, `datos.md`, `arquitectura.md`, `features/perfil.md`, `features/inicio.md`, `desarrollo.md`, `despliegue.md` (§ Trabajo pendiente, 1), `mejoras.md` (§ 6), `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. En Chromium, en `appfit-test.localhost:5173` a 320/375/430 px en claro y oscuro: los cuatro pasos sin scroll horizontal ni controles de menos de 44 px; sin aceptar no avanza; Escape en el primer paso no la cierra; «Volver» va al paso anterior; al terminar no vuelve tras recargar; Inicio enseña «Sin objetivo diario» y «Calcular mi objetivo» abre Perfil; en Ajustes › Objetivos, escribir unas kcal quita el aviso. Los diez recorridos de la CI, en local (§323).
+
+## 323. Publicación: web de la app en /conoce (2026-11-05)
+
+Cuarto paso de la preparación (§320–322). Víctor elige una página aparte en `/conoce`, sin mover la app de `/`, y capturas reales con datos de ejemplo.
+
+- `public/conoce.html` + `conoce.css` (sobre `legal.css`): portada con «Abrir Cumbra Fit» y «Muy pronto en Google Play» (sin enlace hasta publicar), cuatro capturas, qué hace, privacidad, cómo instalarla en iPhone y Android, enlaces legales y contacto (`[CORREO DE CONTACTO]`). Cada captura va en claro y oscuro y la página solo descarga las de su tema.
+- `scripts/web/capturas-conoce.cjs`: siembra datos inventados en `appfit-demo.localhost` (ocho semanas de entrenos con ejercicios del catálogo, salidas, comidas, pesajes, perfil, Cumbres y Caminos; pistas cerradas) y escribe `public/conoce/*.webp` (540 px, unos 30 KB cada una, 284 KB en total).
+- `shared/lib/legal`: `PAGINA_CONOCE` y `RUTAS_ESTATICAS_SW` (antes `RUTAS_LEGALES_SW`). `vite.config.ts`: `/conoce` fuera del `navigateFallback` y la página y sus capturas fuera del precache. `legal.test.ts` comprueba enlaces, contacto, recursos del origen y que existan las capturas, con su texto alternativo.
+- Documentos: `arquitectura.md`, `despliegue.md` (§ Trabajo pendiente, 4), `desarrollo.md`, `herramientas.md` (sharp), `README.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Sobre la build (`vite preview`): `/conoce` a 320/375/430 px en claro y oscuro y a 1.280 px, sin scroll horizontal, sin errores y con enlaces de 44 px; cada tema descarga solo sus cuatro capturas. Con la bienvenida (§322), los diez recorridos de navegador de la CI pasan en local (`validar-mejoras-pendientes` necesitó pasar la bienvenida en `auditoria-comun.abrir` antes de tomar la foto de los datos).
+
+## 324. App de tienda: fuera la instalación desde la web y actualizaciones solas en Android (2026-11-06)
+
+Víctor pide quitar lo que solo tiene sentido en una PWA añadida desde la web, porque quien descargue la app de Google Play no lo entendería. Revisada la lista, decide quitarlo para todos (también en iPhone), actualizar sola la app de Android, textos neutros y llevar las medidas de pantalla al informe de errores. [ADR 067](decisiones/067-app-de-tienda-sin-instalar-desde-la-web.md).
+
+- Borrados: `shared/components/InstalarApp`, `shared/pwa/instalacion` (+ test), `app/TrasladarDatos`, `IconoApp` y `entornoDeApp`; `main.tsx` ya no escucha `beforeinstallprompt`; `InicioTab` pierde `ayudaInicial`.
+- Ajustes: «Primeros pasos» pasa a «Ayuda y pistas» (`ayuda`), sin la tarjeta de instalación ni «¿Ya registraste comidas en Safari?»; «Dónde se guardan tus registros» habla del móvil.
+- Textos de GPS (`GrabacionActiva`, `HojaGrabar`) y cámara (`EscanerCodigo`) sin «navegador» ni «Ajustes del iPhone».
+- `shared/pwa/entorno` (`detectarAppAndroid`, `esAppAndroid`, `modoApp`, `PAQUETE_ANDROID`, con test; `manifest.test` vigila el paquete) y `shared/pwa/autoActualizacion.aplicarSola` (con test). En la app de Android: sin aviso de Inicio ni sección Actualizaciones, y `actualizaciones.ts` aplica la versión nueva al abrir o al volver tras 30 min fuera.
+- «Comunicar un problema»: «Abierta como» (Google Play, instalada desde la web o navegador) y las medidas de pantalla en el informe; se quitan de Ajustes › Actualizaciones.
+- Recorridos: `validar-mejoras-uso` y `validar-adaptacion` entran en «Ayuda y pistas».
+- Documentos: ADR 067 (y notas en 042 y 064), `arquitectura.md`, `datos.md`, `desarrollo.md`, `DESIGN-SYSTEM.md`, `cuentas.md`, `features/inicio.md`, `README.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. En Chromium (5173): iPhone emulado, Android en la web y sesión de la app de Android simulada, sin textos de instalar ni de Safari, con el almacenamiento y el informe nuevos y la fila Actualizaciones solo fuera de la app de Android. Con dos builds reales en `vite preview`: la app de Android abierta con la versión A se recarga sola con la B al volver a abrirla; la web se queda en la A con «Actualización disponible». `validar-mejoras-uso` correcto; `validar-adaptacion`, correcto en lo tocado, falla por las secciones solapadas con texto al 200 %, igual en `master`.
+
+## 325. Rejilla de secciones y último entreno con el texto al 200 % (2026-11-06)
+
+`validar-adaptacion` fallaba ya en `master` con el texto al 200 %: los cuatro huecos por fila eran más estrechos que el círculo (unos 86 px frente a 96) y las secciones se solapaban, con nombres partidos («Nutrici-ón»).
+
+- `--secciones-celda-min` (círculo + 0,75 rem) y `.secciones-item { width: max(100% / columnas, mínimo) }`: si no caben, la fila lleva menos. A 100 %, 4 + 3 como siempre (a 320 px los huecos miden 72 px y el mínimo 60); a 200 % en el móvil, 2 + 2 + 2 + 1, con la rejilla desplazable. Nota en el ADR 060.
+- Con la rejilla arreglada, el recorrido llegó a Entreno y encontró otro desborde: en «Último entreno» (`gym/components/SemanaEntreno`) el texto se quedaba en 19 px junto al día. Mismo patrón que el Historial: día y texto en un bloque que pasa a dos líneas (`flex-wrap`, `basis-24`).
+- Documentos: ADR 060, `DESIGN-SYSTEM.md` (tokens), `roadmap.md`.
+
+**Verificación:** medido en Chromium a 320/375/430 px (100 % y 200 %), 812 × 375 y 1.440 px, en los dos temas: sin solapes, sin nombres partidos en dos líneas y sin scroll horizontal. `validar-adaptacion` correcto en sus 14 casos; `test:ui:responsive` y `test:ui:uso` (con texto al 200 %) correctos; `npm run test` y `npm run build` correctos.
+
+## 326. Ficha y formularios de Google Play (2026-11-06)
+
+Víctor pide empezar por la ficha de Play y los formularios de Play Console.
+
+- `docs/play/ficha.md`: nombre (27/30), descripción breve (79/80, sin «gratis» ni reclamos) y completa (2.283/4.000, con las cifras comprobadas en el código), categoría, contacto, sitio y países; tabla de gráficos con los requisitos de Play.
+- `docs/play/graficos/`: seis capturas de 1080 × 1920 (9:16, PNG RGB) de la app con datos inventados, en la sesión de la app de Android (sin aviso de actualizaciones), y el gráfico destacado de 1024 × 500 con el icono y el logotipo de `shared/design/marca.ts`. `scripts/web/capturas-conoce.cjs --play` y `scripts/play/grafico-destacado.mjs` los rehacen.
+- `docs/play/formularios.md`: acceso a la app, anuncios, clasificación de contenido, público (16-17 y 18+), salud, seguridad de los datos tipo por tipo (la copia cifrada no se declara: Play exime los datos cifrados de extremo a extremo), eliminación, permisos, estado de comerciante y prueba cerrada. Víctor elige las dos propuestas: explicar al revisor que la app funciona sin cuenta y que la cuenta se crea con cualquier email, y contestar que hay referencias al alcohol sin fomentar su consumo.
+- Documentos: `despliegue.md` (§ 5), `desarrollo.md`, `herramientas.md`, `roadmap.md`.
+
+**Verificación:** límites de caracteres medidos sobre el texto de los bloques; medidas y canales de los PNG comprobados con sharp; capturas y gráfico revisados a ojo.
+
+## 327. CI: el trabajo `navegador` en la imagen de Playwright (2026-11-06)
+
+En la PR de §320–325, `navegador` falló tres veces seguidas antes de ejecutar ninguna prueba: `apt` no terminaba de descargar los paquetes del sistema de Firefox y WebKit (unos 114 MB) del mirror de Ubuntu del runner. Víctor pidió fusionar igualmente y arreglarlo después.
+
+- `.github/workflows/qa.yml`: `navegador` corre en `mcr.microsoft.com/playwright:v1.62.1-noble` con `--user 1001`. Fuera la caché de navegadores, la descarga con `install` y el `install-deps` con sus reintentos; se queda `npm install playwright@1.62.1` en el directorio temporal (`NODE_PATH`), a la versión de la imagen.
+- Al probarlo dentro de la imagen apareció un fallo que el `apt` tapaba: en WebKit, `scripts/ui/bienvenida.cjs` volvía a pulsar el botón del último paso mientras la bienvenida se cerraba y esperaba 20 s a un botón que ya no estaba. Ahora, tras cada pulsación, espera a que cambie el paso o se cierre la bienvenida, y un botón que desaparece a mitad del clic cuenta como terminado.
+- Documentos: `desarrollo.md` (CI).
+
+**Verificación:** el job reproducido en local con Docker (la misma imagen, usuario 1001, una copia limpia del repositorio): `npm ci`, Playwright, build y los diez recorridos de la CI con Chromium, Firefox y WebKit, todos correctos. En GitHub ([#202](https://github.com/vtinezdev/appfit/pull/202)) el job ya instala en menos de un minuto; el primer intento falló en `webkit-borrador` (§328) y el reintento pasó entero, en 15 min.
+
+## 328. CI: espera estricta en `webkit-borrador` (2026-11-06)
+
+En la primera ejecución de §327 falló un caso, solo en WebKit: en `validar-correcciones-auditoria` › borrador, tras volver con Atrás desde la revisión de Añadir comida no salía «¿Descartar los cambios?». El reintento pasó y en local no se reprodujo (11 de 11 veces, con los tres motores en paralelo); las evidencias de la CI no se pudieron descargar desde la sesión. Descartado: la limpieza del historial de la bienvenida (3-5 ms en WebKit) y una capa propia del aviso (es la misma página modal).
+
+- `conEntrada` esperaba cualquier entrada de capa en el historial (`!!history.state?.appfitOverlay`). Ahora espera la del propio editor, con el id que `useModalLayer` le dio al abrirse: Atrás no se pulsa mientras la app tiene puesta otra entrada que aún está limpiando.
+- Documentos: `roadmap.md`.
+
+**Verificación:** en el contenedor de §327, el caso 5 de 5 veces en los tres motores y el recorrido completo, 18 de 18 casos.
+
+## 329. Publicación: aviso de cambio de dirección (2026-11-06)
+
+Víctor pide preparar el aviso para cuando la app pase de `appfit.vtinez-dev.workers.dev` a `cumbrafit.app`: los registros van ligados a la dirección (IndexedDB por origen) y no pasan solos.
+
+- `inicio/lib/traslado.ts` (con test): `direccionNueva` (https, o http en local), `hayQueTrasladar` (hay dirección nueva y no es esta), `caminoTraslado` (cuenta con la copia al día → entrar con ella; cuenta con algo pendiente o por resolver → primero la copia; sin cuenta o sin copia → exportar e importar) y `textoTraslado`.
+- `inicio/components/AvisoTraslado`: arriba de Inicio, sin cerrar, con «Exportar copia» o «Revisar la copia» según el camino y los enlaces a la app nueva y a su `/conoce`. Mientras sale, no sale el aviso de copia.
+- Se activa con `VITE_DIRECCION_NUEVA` en el build (`vite-env.d.ts`, `.env.example`). Sin ella, nunca sale. El mismo build sirve las dos direcciones, así que sale solo en la vieja.
+- Documentos: `despliegue.md` (§ 3.1), `desarrollo.md`, `features/inicio.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` (274 archivos, 3.209 pruebas) y `npm run build` correctos. En Chromium, con `VITE_DIRECCION_NUEVA=http://appfit-nueva.localhost:5173`: en `appfit-test.localhost` (la dirección vieja) a 320/375/430 px en claro y oscuro, el aviso sin cuenta, sin scroll horizontal y con controles de 44 px; «Exportar copia» abre Copias de seguridad. En `appfit-nueva.localhost`, sin aviso. Los caminos con cuenta, solo en los tests (sin Supabase en la prueba).
+
+## 330. Plazos de borrado de las denuncias y los mensajes al creador (2026-11-06)
+
+Hasta ahora ni las denuncias (con la copia de lo denunciado) ni los mensajes de «Comunicar un problema» y «Proponer un alimento» se borraban nunca, y los textos legales decían «el tiempo necesario». Víctor fija los plazos: denuncias, 6 meses después de revisarlas (las pendientes esperan); mensajes, 12 meses después de llegar, leídos o no.
+
+- `supabase/migrations/0030_plazos_de_borrado.sql`: `borrar_caducados()` (`security definer`, `search_path` vacío, sin permiso para la app; devuelve cuántas borró de cada) y la tarea `appfit-plazos-borrado` de pg_cron, domingos a las 03:45 UTC. Ninguna tabla apunta a esas dos; con la denuncia se va su aviso «hemos actuado» (0026). Víctor la ejecutó en el SQL Editor del proyecto real el 2026-11-06.
+- `supabase/pruebas/plazos_de_borrado.sql`: borra la denuncia revisada hace 7 meses y deja la de hace 2 y la que sigue sin revisar; borra los mensajes de hace 13 meses, leídos o no, y deja el de hace 11; repetirla no borra más; ni `anon` ni `authenticated` pueden ejecutarla.
+- `scripts/sql/validar-social.mjs`: quita la parte de `pg_cron` de cualquier migración (antes solo de 0002).
+- Textos: `public/privacidad.html` § 6 y `public/borrar-cuenta.html` con los plazos; las tres páginas legales y `VERSION_TEXTOS_LEGALES` pasan al 2026-11-06.
+- Documentos: ADR 065, `seguridad.md`, `features/social.md`, `features/cuenta.md`, `roadmap.md`.
+
+**Verificación:** Docker Hub respondía 429 y el proxy de la sesión bloquea el espejo de AWS, así que las migraciones y las pruebas se pasaron en PGlite (PostgreSQL 17 en WASM, como la suite de 0014): las 30 migraciones (sin pg_cron) y las 23 suites, la nueva incluida, correctas. `npm run test` y `npm run build` correctos. La tarea de pg_cron no se puede probar fuera de Supabase.
+
+## 331. Revisión: «Añadir otro alimento» debajo de la lista (2026-11-06)
 
 Víctor no encontraba cómo añadir ingredientes al tocar «Cambiar ingredientes» en una receta al añadir comida: solo veía «Quitar». El botón existía, pero al final de la revisión (tras el total, «Cómo queda tu día», «Guardar como comida típica» y el plato), fuera de la vista con una receta de varios ingredientes.
 
@@ -3482,9 +3606,9 @@ Víctor no encontraba cómo añadir ingredientes al tocar «Cambiar ingredientes
 
 **Verificación:** `npm run test` (269 archivos, 3.169 pruebas) y `npm run build` correctos. En Chromium a 375 px en `appfit-test.localhost`: receta → «Cambiar ingredientes» muestra el botón sin desplazar y añadir «100 g de pollo asado» lo incorpora. `validar-recetas-anadir.cjs` no llega a este paso aquí (falta el recetario descargado; falla igual sin el cambio). Sin iPhone.
 
-## 321. Revisión: Buscar también al añadir otro alimento (2026-11-06)
+## 332. Revisión: Buscar también al añadir otro alimento (2026-11-06)
 
-Tras §320 Víctor pide poder buscar, no solo escribir, al añadir ingredientes en la revisión.
+Tras §331 Víctor pide poder buscar, no solo escribir, al añadir ingredientes en la revisión.
 
 - `AnadirComida`: «Añadir otro alimento» abre `ViewTabs` Escribir/Buscar (`metodoAnadido`, independiente de la pestaña inicial). Buscar reutiliza `AlimentosRapidos` y `elegirRapido`: con `anadiendo`, la hoja de cantidad suma el alimento a la revisión y una receta entra como alimento; «Crear» añade una fila sin coincidencia.
 

@@ -28,7 +28,9 @@ import AccesoProgreso, { type DestinoProgreso } from './components/AccesoProgres
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
 import AvisoBackup from './components/AvisoBackup'
+import AvisoTraslado, { avisoTrasladoActivo } from './components/AvisoTraslado'
 import AvisoActualizacion from '../../shared/components/AvisoActualizacion'
+import { esAppAndroid } from '../../shared/pwa/entorno'
 import AvisoAmigos from '../social/components/AvisoAmigos'
 import TarjetaRevisionSemanal from './components/TarjetaRevisionSemanal'
 import { useTarjetaRevision } from './hooks/useRevisionSemanal'
@@ -56,7 +58,8 @@ interface Props {
   onIrAAmigos: () => void
   onIrASocial: () => void
   onRevisarActualizaciones: () => void
-  ayudaInicial?: ReactNode
+  /** «Calcular mi objetivo» de la tarjeta de energía, sin objetivo todavía (ADR 066). */
+  onIrAPerfil?: () => void
 }
 
 const PESO_POR_DEFECTO = 70
@@ -64,7 +67,7 @@ const PESO_POR_DEFECTO = 70
 const DIAS_HISTORIAL = 365
 
 /** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, el progreso (Cumbres, Caminos, Ritmo y Vitrina), peso, agua y pasos y el último entreno. */
-export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
+export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, onIrAPerfil }: Props) {
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -138,7 +141,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
   function tarjeta(t: TarjetaInicio): ReactNode {
     switch (t) {
       case 'energia': return <TarjetaEnergia totales={sumMacros(entries ?? [])} objetivos={vigentes!} onAbrir={onIrANutricion}
-        pie={<AnadirComidaAhora onAnadir={onAnadirComida} />} />
+        pie={<AnadirComidaAhora onAnadir={onAnadirComida} onCalcularObjetivo={vigentes!.kcal <= 0 ? onIrAPerfil : undefined} />} />
       case 'progreso': return <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} sinCaminos={!moduloActivo(settings, 'actividades')} />
       case 'registros': return <div className="inicio-registros">
         {moduloActivo(settings, 'peso') && <AccesoPeso tendencia={tendencia} pesos={pesos ?? []} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />}
@@ -155,9 +158,11 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
 
   return (
     <div className="inicio-layout space-y-section px-page pt-5">
-      <PageHeader rotulo={formatRotuloDia(hoy)} title="Hoy" action={<AvisoActualizacion onRevisar={onRevisarActualizaciones} />} />
-      {ayudaInicial}
-      <AvisoBackup onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />
+      <PageHeader rotulo={formatRotuloDia(hoy)} title="Hoy" action={esAppAndroid() ? undefined : <AvisoActualizacion onRevisar={onRevisarActualizaciones} />} />
+      {/* Con el cambio de dirección activo, su aviso ya dice cómo guardar los registros: no se repite el de la copia. */}
+      {avisoTrasladoActivo()
+        ? <AvisoTraslado onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />
+        : <AvisoBackup onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />}
       <AvisoAmigos onIrAAmigos={onIrAAmigos} onIrASocial={onIrASocial} />
       {revision && (
         <TarjetaRevisionSemanal

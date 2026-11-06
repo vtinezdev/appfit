@@ -58,11 +58,14 @@ export default function SemanaEntreno({ onAbrirSesion }: { onAbrirSesion: (id: n
       </ol>
       <div className="border-t border-line pt-2">
       <button type="button" onClick={() => onAbrirSesion(ultimo.id)} className="app-button -mx-2 flex min-h-touch w-full items-center gap-3 rounded-md px-2 py-1 text-left">
-        <DiaSesion inicio={ultimo.inicio} />
-        <span className="min-w-0 flex-1">
-          <span className="block text-caption text-fg-muted">Último entreno · {cuandoFue(ultimo.inicio).toLowerCase()}</span>
-          <span className="block break-words text-body font-semibold text-fg">{titulo}</span>
-          <span className="tabular block text-caption text-fg-muted">{ultimo.fin !== undefined ? `${formatDuracion(ultimo.fin - ultimo.inicio)} · ` : ''}{formatInt(volumenSets(series))} kg</span>
+        {/* Como en el Historial: con el texto ampliado, el título baja bajo el día en vez de quedarse sin ancho. */}
+        <span className="flex min-w-0 flex-1 flex-wrap items-center gap-3">
+          <DiaSesion inicio={ultimo.inicio} />
+          <span className="min-w-0 flex-1 basis-24">
+            <span className="block break-words text-caption text-fg-muted">Último entreno · {cuandoFue(ultimo.inicio).toLowerCase()}</span>
+            <span className="block break-words text-body font-semibold text-fg">{titulo}</span>
+            <span className="tabular block break-words text-caption text-fg-muted">{ultimo.fin !== undefined ? `${formatDuracion(ultimo.fin - ultimo.inicio)} · ` : ''}{formatInt(volumenSets(series))} kg</span>
+          </span>
         </span>
         <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
       </button>

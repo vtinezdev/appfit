@@ -3,6 +3,8 @@ import { configDefaults, defineConfig } from 'vitest/config'
 import { VitePWA } from 'vite-plugin-pwa'
 import { randomUUID } from 'node:crypto'
 import { readFileSync } from 'node:fs'
+import { MANIFEST } from './src/shared/pwa/manifest.ts'
+import { RUTAS_ESTATICAS_SW } from './src/shared/lib/legal.ts'
 
 /**
  * Las cabeceras de `public/_headers` (las que aplica Cloudflare en producción) para `npm run preview`: así los recorridos de
@@ -36,29 +38,16 @@ export default defineConfig({
       // shared/pwa/actualizaciones registra y aplica el SW al pedirlo la persona.
       injectRegister: false,
       includeAssets: ['apple-touch-icon.png', 'favicon.svg'],
-      manifest: {
-        // Identidad estable entre builds; el almacenamiento sigue ligado al mismo origen.
-        id: '/',
-        name: 'Cumbra Fit',
-        short_name: 'Cumbra Fit',
-        description: 'Nutrición y gimnasio, uso personal',
-        theme_color: '#0a0b09',
-        background_color: '#0a0b09',
-        display: 'standalone',
-        start_url: '/',
-        scope: '/',
-        icons: [
-          { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
-        ],
-      },
+      manifest: MANIFEST,
       workbox: {
         skipWaiting: false,
         clientsClaim: true,
         globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,woff2}'],
         // Las imágenes de ejercicios (~0,5 MB) tampoco: se guardan al verlas por primera vez (regla de abajo).
-        globIgnores: ['ejercicios/**'],
+        // La web de la app y sus capturas (~0,3 MB) tampoco: no hacen falta para usarla.
+        globIgnores: ['ejercicios/**', 'conoce/**', 'conoce.html', 'conoce.css'],
+        // Las páginas legales y la web de la app (shared/lib/legal.ts) se abren como lo que son, también desde la PWA instalada.
+        navigateFallbackDenylist: RUTAS_ESTATICAS_SW,
         // El .wasm del escáner (~1 MB) no se precachea: pesaría en cada instalación y el escáner casi siempre
         // necesita conexión (Open Food Facts). Se guarda la primera vez que se usa y después funciona sin red.
         runtimeCaching: [

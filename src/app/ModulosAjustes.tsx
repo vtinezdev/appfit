@@ -19,7 +19,8 @@ const AL_APAGAR_CREATINA = 'Al activarla, su tarjeta sale en Inicio; la dosis y 
 /** Icono de cada tarjeta de Inicio en «Ordenar Inicio». */
 const ICONO_TARJETA: Record<TarjetaInicio, IconName> = { energia: 'utensils', progreso: 'mountain', metas: 'trophy', registros: 'scale', creatina: 'zap', entreno: 'dumbbell' }
 
-export default function ModulosAjustes({ settings, onError }: { settings: Settings; onError: (mensaje: string) => void }) {
+/** `conOrden: false` (bienvenida, ADR 066): solo los módulos, sin «Ordenar Inicio». */
+export default function ModulosAjustes({ settings, onError, conOrden = true }: { settings: Settings; onError: (mensaje: string) => void; conOrden?: boolean }) {
   const guardar = (patch: Partial<Omit<Settings, 'id'>>) => { updateSettings(patch).catch(() => onError(ERROR)) }
   // El orden se lleva también aquí: dos toques seguidos no esperan a que vuelva la lectura de los ajustes.
   const [orden, setOrden] = useState(() => ordenTarjetas(settings))
@@ -66,7 +67,7 @@ export default function ModulosAjustes({ settings, onError }: { settings: Settin
       </ListGroup>
     </section>
 
-    <section aria-labelledby="ordenar-inicio" className="space-y-2">
+    {conOrden && <section aria-labelledby="ordenar-inicio" className="space-y-2">
       <h3 id="ordenar-inicio" className="text-title text-fg">Ordenar Inicio</h3>
       <ListGroup aria-label="Tarjetas de Inicio" pie="Los avisos y la revisión del lunes van siempre arriba.">
         {orden.map((t, i) => {
@@ -86,6 +87,6 @@ export default function ModulosAjustes({ settings, onError }: { settings: Settin
           </li>
         })}
       </ListGroup>
-    </section>
+    </section>}
   </div>
 }

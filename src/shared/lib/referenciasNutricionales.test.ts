@@ -33,6 +33,14 @@ describe('referencias compartidas con valores reales y procedencia explícita', 
     expect(r.descripcion).toContain('No es un máximo')
     expect(r.particularidades.join(' ')).toContain('no permiten separar los azúcares libres')
   })
+  it('sin objetivo (instalación nueva): «Sin objetivo» en los cuatro y dónde elegirlo', () => {
+    for (const id of ['kcal', 'prot', 'carb', 'grasa'] as const) {
+      const r = referenciaNutricional(id, { kcal: 0, prot: 0, carb: 0, grasa: 0 }, 'ninguno')
+      expect(textoReferencia(r)).toBe('Sin objetivo')
+      expect(r.descripcion).toMatch(/Perfil/)
+    }
+  })
+
   it('la referencia de kcal indica su origen: Perfil o Ajustes', () => {
     expect(referenciaNutricional('kcal', objetivos).fuente.nombre).toMatch(/Ajustes/)
     const delPerfil = referenciaNutricional('kcal', objetivos, 'perfil')

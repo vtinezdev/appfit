@@ -22,7 +22,8 @@ try {
     create function auth.uid() returns uuid language sql stable as $$ select (current_setting('request.jwt.claims',true)::jsonb->>'sub')::uuid $$;`)
   for(const nombreSql of readdirSync(path.join(raiz,'supabase/migrations')).filter(f=>f.endsWith('.sql')).sort()) {
     let entrada=readFileSync(path.join(raiz,'supabase/migrations',nombreSql),'utf8')
-    if(nombreSql.startsWith('0002_')) entrada=entrada.split('-- Tareas programadas (pg_cron')[0]
+    // Sin pg_cron en esta base: se quita la parte de tareas programadas de cada migración (0002, 0030…).
+    entrada=entrada.split('-- Tareas programadas (pg_cron')[0]
     sql(entrada); console.log(`Migración correcta: ${nombreSql}`)
   }
   console.log('pg_cron y auth de Supabase se sustituyen solo en esta base temporal; no se prueba el envío de correo ni las tareas programadas.')

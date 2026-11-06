@@ -1,0 +1,42 @@
+/* La web de la app (`conoce.html`), sobre `legal.css`: mismos colores y tipografía; aquí solo lo propio de la portada. */
+:root { --on-accent: rgb(10 11 9); }
+
+.conoce { max-width: 60rem; }
+
+.cabecera { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+.cabecera img { border-radius: 10px; }
+.marca-texto { font-weight: 800; font-stretch: 75%; font-size: 1.25rem; letter-spacing: 0.02em; text-transform: uppercase; }
+
+.portada { max-width: 40rem; }
+.portada h1 { font-size: clamp(2rem, 8vw, 3.25rem); line-height: 1.05; margin-bottom: 0.75rem; }
+.entradilla { font-size: 1.125rem; color: var(--fg-muted); }
+
+.acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0 2.5rem; }
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem;
+  border-radius: 999px; font-weight: 700; text-decoration: none;
+}
+.boton.primario { background: var(--accent); color: var(--on-accent); }
+.boton.pronto { border: 1px solid var(--line); color: var(--fg-muted); font-weight: 600; }
+
+.capturas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+@media (min-width: 48rem) { .capturas { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.capturas figure { margin: 0; }
+.capturas img { display: block; width: 100%; height: auto; border-radius: 1.25rem; border: 1px solid var(--line); }
+.capturas figcaption { margin-top: 0.5rem; font-size: 0.875rem; color: var(--fg-muted); }
+
+/* Cada captura en el tema de la página: la otra no se descarga (`loading="lazy"` y oculta). */
+.tema-oscuro { display: none !important; }
+:root[data-theme='dark'] .tema-oscuro { display: block !important; }
+:root[data-theme='dark'] .tema-claro { display: none !important; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .tema-oscuro { display: block !important; }
+  :root:not([data-theme]) .tema-claro { display: none !important; }
+}
+
+.funciones { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
+@media (min-width: 48rem) { .funciones { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.funciones li { margin: 0; padding: 1rem 1.125rem; background: var(--surface); border: 1px solid var(--line); border-radius: 0.75rem; }
+
+.resumen ul { margin: 0; }
+.pie { color: var(--fg-muted); font-size: 0.875rem; }

@@ -36,6 +36,15 @@ describe('ensureSettings / updateSettings', () => {
     expect((await db.settings.get(1))?.objetivos).toEqual(objetivos)
   })
 
+  it('en una instalación nueva marca la bienvenida y la falta de objetivos; en una existente, nada', async () => {
+    await ensureSettings()
+    expect(await db.settings.get(1)).toEqual({ id: 1, objetivos: DEFAULT_OBJETIVOS, sinObjetivos: true, bienvenidaPendiente: true })
+    const existente = { id: 1, objetivos: { kcal: 1800, prot: 140, carb: 180, grasa: 60 } }
+    await db.settings.put(existente)
+    await ensureSettings()
+    expect(await db.settings.get(1)).toEqual(existente)
+  })
+
   it('ensureSettings borra del dispositivo la API key antigua y conserva lo demás', async () => {
     const objetivos = { kcal: 1800, prot: 140, carb: 180, grasa: 60 }
     await db.settings.put({ id: 1, apiKey: 'secreta', modelo: 'm', objetivos } as unknown as Settings)

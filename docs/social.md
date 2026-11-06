@@ -83,7 +83,7 @@ Todo con `on delete cascade` desde `auth.users` y desde `publicaciones`.
 | 3 | Perfiles y seguir: `0003_social.sql` (perfiles, seguimientos, bloqueos, denuncias y sus funciones) y la UI de perfil, buscar, código, solicitudes, bloquear y denunciar | Claude (Víctor ejecuta el SQL) | hecha; `0003_social.sql` ejecutado el 2026-10-15 y `pruebas/social.sql` pasa (PRUEBAS_OK); probada por Víctor con dos cuentas reales en `appfit-test.localhost` |
 | 4 | Publicar: `0004_publicaciones.sql`, resúmenes puros, vista previa al terminar y en el detalle, «Publicado» y borrar | Claude (Víctor ejecuta el SQL) | hecha; `0004_publicaciones.sql` ejecutado el 2026-10-15 y `pruebas/social.sql` pasa (PRUEBAS_OK) |
 | 5 | Feed, reacciones, comentarios y avisos en la app: `0005_feed.sql`, pestaña Social en la barra, comentarios, avisos y banda en Inicio | Claude (Víctor ejecuta el SQL) | hecha; `0005_feed.sql` ejecutado el 2026-10-15, `pruebas/social.sql` pasa (PRUEBAS_OK) y Víctor lo probó con dos cuentas reales |
-| 6 | Legal y publicación: condiciones de uso, política de privacidad, ficha de datos de Play, cómo revisa Víctor las denuncias | Víctor + Claude | pendiente |
+| 6 | Legal y publicación: condiciones de uso, política de privacidad, ficha de datos de Play, cómo revisa Víctor las denuncias | Víctor + Claude | condiciones y privacidad redactadas (2026-11-05, [ADR 065](decisiones/065-textos-legales-y-edad-minima.md)); faltan el correo, la revisión legal y la ficha de Play |
 | 7 | Prueba con dos cuentas en iPhone y Android | Víctor + Claude | pendiente |
 | 8 | Documentación (ver abajo) | Claude | hecha (al cerrar cada fase) |
 

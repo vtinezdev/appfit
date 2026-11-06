@@ -1,4 +1,6 @@
 /* Recorrido de la navegación pública; evita que cada regresión conozca el interior de la rejilla de secciones. */
+// Cada página nueva pasa la bienvenida de una instalación nueva (ADR 066) por su cuenta: `bienvenida.cjs`.
+require('./bienvenida.cjs')
 // Destinos que se abren desde su sección (ADR 043): sección y cómo se entra.
 const DENTRO = {
   Amigos: ['Social', (page) => page.getByRole('main').getByRole('button', { name: 'Amigos', exact: true }).first()],

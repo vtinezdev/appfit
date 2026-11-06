@@ -7,6 +7,8 @@ import { Textarea } from '../shared/components/Input'
 import ListGroup from '../shared/components/ListGroup'
 import { ErrorState } from '../shared/components/StateMessage'
 import { crearDiagnostico, ultimoErrorDiagnostico } from '../shared/lib/diagnostico'
+import { leerMedidas, lineasMedidas } from '../shared/design/viewport'
+import { modoApp } from '../shared/pwa/entorno'
 import { enviarAlCreador, envioDisponible } from '../features/cuenta/mensajes'
 
 function entorno() {
@@ -14,7 +16,7 @@ function entorno() {
     version: __APP_VERSION__.id, compilacion: __APP_VERSION__.fecha,
     navegador: navigator.userAgent, idioma: navigator.language,
     ancho: window.innerWidth, alto: window.innerHeight, enLinea: navigator.onLine,
-    instalada: window.matchMedia('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone === true,
+    modo: modoApp(), medidas: lineasMedidas(leerMedidas()),
     error: ultimoErrorDiagnostico(),
   }
 }
@@ -49,8 +51,8 @@ export default function DiagnosticoAjustes() {
     <Card tone="muted" className="flex items-start gap-3">
       <Icon name="info" size={20} className="mt-0.5 shrink-0 text-fg-muted" />
       <p className="min-w-0 text-body-sm text-fg">{envioDisponible
-        ? 'Cuéntanos qué ha pasado y llegará al creador de Cumbra Fit con unos datos técnicos (versión, navegador, pantalla y último error). Solo se envía lo que ves en el informe, al pulsar Enviar.'
-        : 'Prepara un informe con lo que te ha pasado y unos datos técnicos (versión, navegador, pantalla y último error) para que lo envíes tú. No se envía nada solo.'}</p>
+        ? 'Cuéntanos qué ha pasado y llegará al creador de Cumbra Fit con unos datos técnicos (versión, móvil, medidas de pantalla, conexión y último error). Solo se envía lo que ves en el informe, al pulsar Enviar.'
+        : 'Prepara un informe con lo que te ha pasado y unos datos técnicos (versión, móvil, medidas de pantalla, conexión y último error) para que lo envíes tú. No se envía nada solo.'}</p>
     </Card>
     <section className="space-y-2">
       {paso(1, 'Cuenta qué ha pasado')}

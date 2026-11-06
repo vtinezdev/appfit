@@ -16,3 +16,5 @@ Con Progreso ([ADR 058](058-destino-progreso.md)) la media luna pasó a siete se
 
 - Desaparecen la geometría de la órbita (`app/arco.ts`, `posicionesArco`) y los tokens `--arco-rx`, `--arco-ry` y `--arco-nodo`. Los sustituyen `--secciones-celda` (ancho máximo de cada celda) y `--secciones-circulo`. Las clases `.arco-*` pasan a `.secciones-*`, y `EN_ARCO` a `EN_SECCIONES`.
 - Añadir una sección ya no exige revisar solapes a 320 px: basta con que `columnasRejilla` dé el reparto que se quiera.
+
+**2026-11-06:** con el texto ampliado (200 %) los cuatro huecos por fila quedaban más estrechos que el círculo y las secciones se solapaban. Cada sección tiene ahora un ancho mínimo (`--secciones-celda-min`): si no caben cuatro, la fila lleva menos (dos por fila a 200 % en el móvil, 2 + 2 + 2 + 1) y la rejilla se desplaza si hace falta. A tamaño normal sigue siendo 4 + 3.

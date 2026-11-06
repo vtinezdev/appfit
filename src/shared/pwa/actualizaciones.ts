@@ -1,3 +1,5 @@
+import { aplicarSola, type MomentoComprobacion } from './autoActualizacion'
+import { esAppAndroid } from './entorno'
 import { crearGestorActualizaciones } from './gestorActualizaciones'
 import { leerVersion } from './version'
 
@@ -82,11 +84,30 @@ export const actualizaciones = crearGestorActualizaciones({
   ahora: Date.now,
 })
 
+/** App de Google Play (ADR 067): aplica sola la versión nueva al abrirla o al volver tras un rato fuera (`aplicarSola`). */
+function aplicarSolaEnAndroid() {
+  let momento: MomentoComprobacion = 'arranque'
+  let ocultaDesde: number | null = null
+  let ausenteMs = 0
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') ocultaDesde = Date.now()
+    else if (ocultaDesde !== null) { ausenteMs = Date.now() - ocultaDesde; ocultaDesde = null; momento = 'vuelta' }
+  })
+  actualizaciones.suscribir(() => {
+    const e = actualizaciones.getEstado()
+    if (e.fase === 'comprobando' || e.fase === 'aplicando') return
+    const aplicar = aplicarSola({ appAndroid: true, hayActualizacion: e.hayActualizacion, momento, ausenteMs })
+    momento = 'uso'
+    if (aplicar) void actualizaciones.actualizar()
+  })
+}
+
 let iniciado = false
 export function iniciarActualizaciones() {
   if (iniciado || import.meta.env.DEV) return
   iniciado = true
   if ('serviceWorker' in navigator) void obtenerRegistro().catch(() => {})
+  if (esAppAndroid()) aplicarSolaEnAndroid()
   const comprobar = () => {
     if (document.visibilityState !== 'visible') return
     const e = actualizaciones.getEstado()

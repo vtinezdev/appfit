@@ -18,7 +18,8 @@ import MedidasCorporales from './components/MedidasCorporales'
 const PESO_POR_DEFECTO = 70
 
 /** Perfil: resultado de la estimación arriba, datos editables debajo. La explicación completa vive en Referencias. */
-export default function PerfilTab({ onVerMetodo }: { onVerMetodo: () => void }) {
+/** `enBienvenida` (ADR 066): solo el resultado y los datos, sin cabecera, gasto observado ni medidas. */
+export default function PerfilTab({ onVerMetodo, enBienvenida = false }: { onVerMetodo?: () => void; enBienvenida?: boolean }) {
   const hoy = todayISO()
   const estado = useLiveQuery(() => perfilRepo.estadoEnergetico(hoy), [hoy])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(hoy), [hoy])
@@ -62,13 +63,13 @@ export default function PerfilTab({ onVerMetodo }: { onVerMetodo: () => void }) 
     }
   }
 
-  return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Perfil" />
+  return <div className={enBienvenida ? 'space-y-section' : 'space-y-section px-page pt-5'}>
+    {!enBienvenida && <PageHeader title="Perfil" />}
     {!estado ? <LoadingState /> : <>
       <ResultadoEnergia energia={estado.energia} macros={vigentes?.origen === 'perfil' ? vigentes : undefined} onElegirObjetivo={() => editar('objetivo')} onVerMetodo={onVerMetodo} onCompletar={editar} />
-      <GastoObservadoCard perfil={estado.perfil} energia={estado.energia} observado={estado.observado} hoy={hoy} plegado={estado.energia.estado === 'incompleto'} />
+      {!enBienvenida && <GastoObservadoCard perfil={estado.perfil} energia={estado.energia} observado={estado.observado} hoy={hoy} plegado={estado.energia.estado === 'incompleto'} />}
       <DatosPerfil perfil={estado.perfil} peso={estado.peso} hoy={hoy} onEditar={editar} onBorrar={borrar} />
-      <MedidasCorporales />
+      {!enBienvenida && <MedidasCorporales />}
       <EditarDatoSheet key={aperturas} campo={campo} open={abierto} perfil={estado.perfil} pesoKg={estado.peso?.kg} hoy={hoy}
         onClose={() => setAbierto(false)} onAntesDeGuardar={recordarObjetivo} />
       <RegistrarPesoSheet key={`peso-${aperturas}`} open={pesoAbierto} onClose={() => setPesoAbierto(false)}

@@ -24,6 +24,7 @@ src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato
 src/features/       inicio/ · nutricion/ · gym/ · actividades/ · perfil/ · referencias/ · experiencia/ · cumbres/ · caminos/ · ritmo/ · vitrina/ · progreso/ · liga/ · cuenta/ · social/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
 src/test/           setup-db.ts (fake-indexeddb) y fixtures/
 scripts/catalogo/   tubería offline (Node, manual) que genera los paquetes de public/catalogo/
+android/            configuración de la TWA de Google Play (Bubblewrap): `android/README.md`
 supabase/           SQL del proyecto de Supabase (migrations/, se ejecuta a mano en su SQL Editor; pruebas/, se ejecuta y se deshace)
 ```
 

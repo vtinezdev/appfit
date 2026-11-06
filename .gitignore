@@ -36,3 +36,11 @@ scripts/ejercicios/ia/
 .env
 .env.*
 !.env.example
+
+# Android (TWA, android/README.md): la clave de subida y su contraseña van al gestor de contraseñas, nunca al repositorio.
+# El proyecto Gradle se regenera con Bubblewrap a partir de android/twa-manifest.json.
+*.jks
+*.keystore
+android/*
+!android/twa-manifest.json
+!android/README.md
