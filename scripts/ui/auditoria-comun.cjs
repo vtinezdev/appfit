@@ -3,7 +3,7 @@ const path = require('node:path')
 const assert = require('node:assert/strict')
 const playwright = require('playwright')
 const { navegar } = require('./navegar.cjs')
-const { pasarBienvenida } = require('./bienvenida.cjs')
+const { pasarBienvenidaAhora } = require('./bienvenida.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-auditoria'
 fs.mkdirSync(salida, { recursive: true })
@@ -39,7 +39,7 @@ async function abrir(context) {
   await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
   // La bienvenida (ADR 066) se pasa ya: si no, la pasaría el primer clic y sus escrituras contarían como del recorrido.
   if (process.env.APPFIT_UI_CON_BIENVENIDA !== '1') {
-    await page.locator('[data-paso-bienvenida]').waitFor({ timeout: 5000 }).then(() => pasarBienvenida(page), () => undefined)
+    await page.locator('[data-paso-bienvenida]').waitFor({ timeout: 5000 }).then(() => pasarBienvenidaAhora(page), () => undefined)
   }
   return { page, errores, red }
 }

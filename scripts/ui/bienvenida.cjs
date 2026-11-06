@@ -18,9 +18,26 @@ async function pasarBienvenida(page) {
   }
 }
 
+const capa = (page) => page.locator('[data-paso-bienvenida]').first()
+
 function conManejador(page) {
   if (process.env.APPFIT_UI_CON_BIENVENIDA === '1') return
-  page.addLocatorHandler(page.locator('[data-paso-bienvenida]').first(), () => pasarBienvenida(page)).catch(() => undefined)
+  page.__bienvenidaManejador = page.addLocatorHandler(capa(page), () => pasarBienvenida(page)).catch(() => undefined)
+}
+
+/**
+ * Pasarla ya, sin esperar al primer clic del recorrido. El manejador se retira mientras tanto: si no, el primer clic de
+ * aquí lo dispararía y los dos la pasarían a la vez (uno se quedaría esperando un botón que el otro ya pulsó).
+ */
+async function pasarBienvenidaAhora(page) {
+  const conManejadorPuesto = page.__bienvenidaManejador !== undefined
+  if (conManejadorPuesto) { await page.__bienvenidaManejador; await page.removeLocatorHandler(capa(page)) }
+  try {
+    await pasarBienvenida(page)
+    await capa(page).waitFor({ state: 'detached' })
+  } finally {
+    if (conManejadorPuesto) conManejador(page)
+  }
 }
 
 function envolverContexto(context) {
@@ -51,4 +68,4 @@ for (const nombre of ['chromium', 'firefox', 'webkit']) {
   tipo.launchPersistentContext = async (...args) => envolverContexto(await persistente(...args))
 }
 
-module.exports = { pasarBienvenida }
+module.exports = { pasarBienvenida, pasarBienvenidaAhora }
