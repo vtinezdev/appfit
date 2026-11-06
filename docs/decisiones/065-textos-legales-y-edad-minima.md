@@ -18,6 +18,6 @@ Google Play exige una política de privacidad y una página para pedir el borrad
 ## Consecuencias
 
 - Antes de publicar: rellenar el correo, cambiar a las URLs del dominio en la ficha de Play y pasar los textos por alguien que sepa de protección de datos.
-- Las denuncias y los mensajes al creador no tienen hoy un plazo de borrado automático; los textos dicen «el tiempo necesario». Si se fija un plazo (p. ej. una tarea de pg_cron), hay que actualizar la política.
+- Plazos de borrado (Víctor, 2026-11-06): las denuncias, 6 meses después de revisarlas (las pendientes esperan), y los mensajes al creador, 12 meses después de llegar, con la tarea semanal de 0030 (`borrar_caducados`). Están en la política y en la página de borrar la cuenta; cambiar un plazo es cambiar los dos textos y la migración.
 - Borrar solo la copia de la nube, sin borrar la cuenta, se pide por correo: la app no lo ofrece.
 - Cambiar un flujo de datos (algo nuevo que sale del móvil, un proveedor, un plazo) obliga a actualizar `privacidad.html` y su fecha.

@@ -74,7 +74,7 @@ async function sembrar(page) {
     for (let d = -60; d <= 0; d += 3) await db.pesos.add({ fecha: addDays(hoy, d), kg: Math.round((66 - (d + 60) * 0.04) * 10) / 10 })
 
     await updateSettings({
-      bienvenidaPendiente: undefined, sinObjetivos: undefined, textosLegalesAceptados: '2026-11-05',
+      bienvenidaPendiente: undefined, sinObjetivos: undefined, textosLegalesAceptados: '2026-11-06',
       perfil: { sexo: 'mujer', fechaNacimiento: '1994-03-12', alturaCm: 168, actividad: 'moderado', objetivo: 'mantenimiento' },
       cumbres: { inicio: addDays(hoy, -56), ruta: ['aneto', 'mulhacen', 'teide'] },
       caminos: { inicio: addDays(hoy, -56), ruta: ['inca', 'ingles'] },
