@@ -6,6 +6,7 @@
  * Uso: node scripts/ui/medir-progreso.cjs   (con `npm run dev` en 5173; APPFIT_CHROMIUM opcional; APPFIT_CPU=1 sin ralentizar)
  */
 const { chromium } = require('playwright')
+require('./bienvenida.cjs') // pasa la bienvenida de cada página nueva (ADR 066)
 
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const CPU = Number(process.env.APPFIT_CPU || 4)

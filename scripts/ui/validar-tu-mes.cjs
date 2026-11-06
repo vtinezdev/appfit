@@ -6,6 +6,7 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const { chromium } = require('playwright')
+require('./bienvenida.cjs') // pasa la bienvenida de cada página nueva (ADR 066)
 const out = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-tu-mes'; fs.mkdirSync(out, { recursive: true })
 const fixture = JSON.parse(fs.readFileSync('src/test/fixtures/backup-v1.json', 'utf8'))
 async function backup(page) {

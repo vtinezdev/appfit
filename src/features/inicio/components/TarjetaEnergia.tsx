@@ -79,6 +79,7 @@ export default function TarjetaEnergia({ totales, objetivos, onAbrir, pie }: Pro
                 <span className="font-numeric text-metric text-fg">{formatInt(resto.kcal)}</span><span className="text-body-sm text-fg-muted">kcal</span>
               </span>}
             </>}
+            {meta <= 0 && <span className="text-body-sm text-fg-muted">Sin objetivo diario</span>}
             {meta > 0 && <span className="tabular text-body-sm text-fg-muted">de <strong className="font-semibold text-fg">{formatInt(meta)}</strong> kcal</span>}
           </span>
         </span>

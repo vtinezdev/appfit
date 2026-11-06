@@ -44,7 +44,7 @@ Orden: primero el rediseño visual y los últimos retoques (sesión aparte); des
 
 ## Trabajo pendiente antes de abrirla
 
-1. **Uso por otras personas** (ya anotado en `mejoras.md` § 6):
+1. **Uso por otras personas** (ya anotado en `mejoras.md` § 6). Hecho el 2026-11-05 ([ADR 066](decisiones/066-bienvenida-y-sin-objetivos-por-defecto.md)): bienvenida por pasos y sin objetivos por defecto en las instalaciones nuevas. `CLAUDE.md`, `README.md` y `arquitectura.md` ya no hablan de «único usuario».
    - Quitar valores por defecto pensados para Víctor (perfil, objetivos, rutinas…).
    - Primera pantalla de bienvenida: rellenar el perfil y entender Cumbres, Ritmo y Liga.
    - Actualizar `CLAUDE.md`, `README.md` y `arquitectura.md`, que hoy dicen «único usuario» y «no pensado para tiendas», y añadir un ADR con la decisión.
@@ -54,7 +54,7 @@ Orden: primero el rediseño visual y los últimos retoques (sesión aparte); des
    - Vibración, pitido del descanso y descargas de CSV y copia de seguridad.
    - Persistencia del almacenamiento.
 3. **Copia de seguridad más fácil.** Sin servidor, quien cambia de móvil sin exportar lo pierde todo. Decidido: cuentas con copia automática y cifrada en Supabase, plan en [`cuentas.md`](cuentas.md).
-4. **Página web de la app** en el mismo dominio:
+4. **Página web de la app** en el mismo dominio. Hecha el 2026-11-05: `public/conoce.html` en `/conoce` (la app sigue en `/`), con capturas de ejemplo; falta el enlace a Play cuando esté publicada y el correo:
    - Qué hace la app y su privacidad.
    - Cómo instalarla en iPhone (Safari › Compartir › Añadir a pantalla de inicio) y enlace a Play para Android.
    - Política de privacidad: todo se queda en el móvil; solo se envía el código de barras a Open Food Facts al escanear un producto nuevo y, con cuenta, el email y la copia cifrada a Supabase.
@@ -82,23 +82,23 @@ Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguri
 ### 3. Al decidir nombre, logo y dominio
 
 1. Comprar el dominio y conectarlo al Worker `appfit` de Cloudflare (Settings › Domains & Routes). Mantener `appfit.vtinez-dev.workers.dev` funcionando un tiempo y avisar en la app de que hay que pasar los datos con una copia de seguridad (los datos van ligados a la dirección).
-2. Nombre, iconos (incluido uno *maskable* propio, con margen de seguridad) y descripción del manifest (`vite.config.ts`; hoy dice «uso personal»).
+2. ~~Nombre, iconos (incluido uno *maskable* propio, con margen de seguridad) y descripción del manifest~~. Hecho (2026-11-05): nombre, iconos y logo en ADR 064; descripción para cualquiera, idioma, categorías y orientación vertical en `src/shared/pwa/manifest.ts`.
 3. Correo con el dominio (Brevo o Resend) y cambiar el SMTP en Supabase (§ Trabajo pendiente, punto 4).
 4. HSTS con `includeSubDomains` en `_headers`.
 
 ### 4. Empaquetar para Android (TWA)
 
 1. **Nombre del paquete** (definitivo, no se cambia nunca): previsto `app.cumbrafit`, el dominio al revés (ADR 063).
-2. Generar el proyecto Android con **Bubblewrap** (o PWABuilder) a partir del manifest del dominio definitivo. Lo preparo yo cuando haya dominio.
+2. Generar el proyecto Android con **Bubblewrap**. Configuración preparada (2026-11-05) en `android/twa-manifest.json`, con el paquete, `cumbrafit.app` y la ubicación delegada para el GPS; falta generarlo cuando el dominio sirva la PWA. Pasos en [`android/README.md`](../android/README.md).
 3. **Firma:** activar *Play App Signing* (Google guarda la clave con la que se firma la app). Nosotros solo guardamos la *clave de subida* (upload key): el archivo `.jks` y su contraseña van a un gestor de contraseñas, con una copia fuera del ordenador. **Nunca** al repositorio.
 4. Servir `/.well-known/assetlinks.json` con la huella SHA-256 de la clave de firma de Play (Play Console › Configuración › Integridad de la app). Sin él, la app se abre con la barra de direcciones de Chrome. Lo añado yo con la huella.
 5. Probar el `.aab` en un Android real (§ Trabajo pendiente, punto 2).
 
 ### 5. Ficha y formularios de Play Console
 
-- **Política de privacidad** y **página para borrar la cuenta**, con URL pública en el dominio (las redacto yo a partir de `seguridad.md`, `features/cuenta.md` y `features/social.md`).
+- **Política de privacidad** y **página para borrar la cuenta**, con URL pública en el dominio. Redactadas (2026-11-05, [ADR 065](decisiones/065-textos-legales-y-edad-minima.md)) en `public/privacidad.html`, `condiciones.html` y `borrar-cuenta.html`; faltan el correo de contacto (`[CORREO DE CONTACTO]`) y la revisión por alguien que sepa de protección de datos.
 - **Seguridad de los datos:** sin cuenta no se recoge nada; con cuenta, email y copia cifrada (el servidor no puede leerla); Social, lo publicado. Cifrado en tránsito (HTTPS) y borrado desde la app.
-- **Declaración de app de salud**, clasificación de contenido (cuestionario) y público objetivo (mayores de 18 o 16: decidirlo).
+- **Declaración de app de salud**, clasificación de contenido (cuestionario) y público objetivo: 16 años o más (decidido el 2026-11-05, ADR 065).
 - **Prueba cerrada:** 12 testers o más durante 14 días seguidos antes de producción (§ Requisitos de Google Play).
 
 ## Monetización (para más adelante, solo si funciona)

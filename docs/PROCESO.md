@@ -3473,3 +3473,50 @@ Tras §317 Víctor seguía viendo el botón de secciones cortado y mandó una ca
 - Ajustes › Actualizaciones › «Medidas de pantalla»: pantalla, ventana, zona visible, documento, rectángulo de la app y márgenes del sistema (`leerMedidas`, `lineasMedidas` con test), para que una captura diga qué da iOS si vuelve a fallar.
 
 **Verificación:** `npm run test` y `npm run build` correctos; las medidas en Chromium a 320 (oscuro) y 430 (claro) sin scroll horizontal. Sin iPhone: falta comprobar en el dispositivo que el botón sale entero.
+
+## 320. Publicación: manifest listo para Google Play y configuración de la TWA (2026-11-05)
+
+Víctor pide empezar a preparar la publicación y elige, en este orden: manifest, textos legales, uso por otras personas y web de la app (`despliegue.md`). Este paso es el primero.
+
+- El manifest pasa a `shared/pwa/manifest.ts` (lo importa `vite.config.ts`): descripción para cualquiera (decía «uso personal»), `lang: 'es'`, categorías, `orientation: 'portrait'` y `purpose` explícito en los iconos. `COLOR_MARCA` con excepción documentada del guardián (el manifest no lee variables CSS).
+- `android/twa-manifest.json`: configuración de Bubblewrap con el paquete `app.cumbrafit`, el host `cumbrafit.app` (aún sin comprar), los colores y los iconos del manifest, ubicación delegada (GPS de Actividades), sin notificaciones ni Play Billing. `android/README.md` explica cómo generar el proyecto con el dominio. `.gitignore`: el proyecto Gradle generado y cualquier `*.jks`/`*.keystore` quedan fuera.
+- `shared/pwa/manifest.test.ts`: la TWA, el manifest, `index.html` y las medidas reales de los PNG coinciden.
+- Documentos: `arquitectura.md` (PWA y mapa), `despliegue.md` (§ 3.2 hecho, § 4.2 preparado), `roadmap.md`, `CLAUDE.md` (mapa).
+
+**Verificación:** `npm run test` y `npm run build` correctos; `dist/manifest.webmanifest` revisado. Sin dominio no se puede generar ni probar el `.aab`.
+
+## 321. Publicación: política de privacidad, condiciones de uso y borrado de la cuenta (2026-11-05)
+
+Segundo paso de la preparación (§320). Víctor decide: responsable Victor Martinez, correo de contacto como hueco hasta tener el buzón, 16 años o más para toda la app y páginas estáticas con enlaces desde la app. [ADR 065](decisiones/065-textos-legales-y-edad-minima.md).
+
+- `public/privacidad.html`, `condiciones.html` y `borrar-cuenta.html` con `legal.css` (tokens claro/oscuro, Saira local, `tema-inicial.js`). Redactadas a partir de `features/cuenta.md`, `features/social.md`, ADR 061 y las migraciones (cascadas de `auth.users`: las denuncias y los mensajes se quedan sin vínculo, `on delete set null`). Correo: `[CORREO DE CONTACTO]`.
+- `shared/lib/legal.ts` (`EDAD_MINIMA`, `PAGINAS_LEGALES`, `RUTAS_ESTATICAS_SW`) y `navigateFallbackDenylist` en `vite.config.ts`: en la PWA instalada se abren las páginas, no la app, también sin red.
+- `shared/components/EnlacesLegales`: pie de Ajustes (las tres), Entrar o crear cuenta (aviso de 16 años y aceptación) y Crear perfil de Social (la casilla pasa a «Tengo 16 años o más y acepto las normas de Social…»).
+- `shared/lib/legal.test.ts`: las páginas existen, se enlazan, solo cargan recursos del origen, nombran responsable y edad, y dan el mismo correo; la lista del service worker no deja pasar otras rutas.
+- Documentos: ADR 065, `despliegue.md` § 5, `social.md` (fase 6), `features/cuenta.md`, `features/social.md`, `arquitectura.md`, `DESIGN-SYSTEM.md`, `README.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Sobre la build (`vite preview`) en Chromium: las tres páginas a 320/375/430 px en claro y oscuro, sin scroll horizontal ni errores de consola y con enlaces de 44 px; con el service worker activo, el enlace del pie de Ajustes abre la privacidad en otra pestaña y `/condiciones` se abre sin red. Entrar o crear cuenta con un Supabase falso (sin peticiones) a 320/375/430 px. Crear perfil de Social, sin probar en el navegador (necesita el Supabase falso con sesión). Pendiente: revisión legal por una persona experta.
+
+## 322. Publicación: bienvenida y sin objetivos por defecto (2026-11-05)
+
+Tercer paso de la preparación (§320–321). Víctor elige pasos cortos que se pueden saltar, una pantalla para Cumbres, Ritmo y Liga y, si se salta el perfil, ningún objetivo hasta tenerlo. [ADR 066](decisiones/066-bienvenida-y-sin-objetivos-por-defecto.md).
+
+- `ensureSettings` (ahora en una transacción): en una instalación nueva crea los ajustes con `sinObjetivos` y `bienvenidaPendiente`. Las existentes, los backups y las copias de la nube no cambian.
+- `perfil/lib/objetivosVigentes`: origen `ninguno` (objetivos a cero, `SIN_OBJETIVOS`) con `sinObjetivos` y sin perfil completo. El resto de la app ya trataba el cero como «sin objetivo».
+- Inicio: «Sin objetivo diario» y «Calcular mi objetivo» (abre Perfil). Ajustes › Objetivos: valores de ejemplo con aviso e «Ir a Perfil»; guardar uno quita la marca; la fila del índice dice «Sin objetivo». Referencias: «Sin objetivo».
+- `app/Bienvenida` + `app/bienvenida.ts` (pasos, sistemas explicados y lo que se guarda al terminar, con test): entrada con 16+ y textos legales, «Lo que usas» (`ModulosAjustes conOrden={false}`), tu objetivo diario (`PerfilTab enBienvenida`, solo con Nutrición; «Ahora no») y Cumbres, Ritmo y Liga (`GamificacionAjustes`). Guarda `textosLegalesAceptados`. `CelebracionLogros` espera a que termine.
+- `scripts/ui/bienvenida.cjs` (lo carga `navegar.cjs`; también `medir-progreso` y `validar-tu-mes`): cada página nueva de los recorridos pasa la bienvenida sola.
+- Documentos: ADR 066, `datos.md`, `arquitectura.md`, `features/perfil.md`, `features/inicio.md`, `desarrollo.md`, `despliegue.md` (§ Trabajo pendiente, 1), `mejoras.md` (§ 6), `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. En Chromium, en `appfit-test.localhost:5173` a 320/375/430 px en claro y oscuro: los cuatro pasos sin scroll horizontal ni controles de menos de 44 px; sin aceptar no avanza; Escape en el primer paso no la cierra; «Volver» va al paso anterior; al terminar no vuelve tras recargar; Inicio enseña «Sin objetivo diario» y «Calcular mi objetivo» abre Perfil; en Ajustes › Objetivos, escribir unas kcal quita el aviso. Los diez recorridos de la CI, en local (§323).
+
+## 323. Publicación: web de la app en /conoce (2026-11-05)
+
+Cuarto paso de la preparación (§320–322). Víctor elige una página aparte en `/conoce`, sin mover la app de `/`, y capturas reales con datos de ejemplo.
+
+- `public/conoce.html` + `conoce.css` (sobre `legal.css`): portada con «Abrir Cumbra Fit» y «Muy pronto en Google Play» (sin enlace hasta publicar), cuatro capturas, qué hace, privacidad, cómo instalarla en iPhone y Android, enlaces legales y contacto (`[CORREO DE CONTACTO]`). Cada captura va en claro y oscuro y la página solo descarga las de su tema.
+- `scripts/web/capturas-conoce.cjs`: siembra datos inventados en `appfit-demo.localhost` (ocho semanas de entrenos con ejercicios del catálogo, salidas, comidas, pesajes, perfil, Cumbres y Caminos; pistas cerradas) y escribe `public/conoce/*.webp` (540 px, unos 30 KB cada una, 284 KB en total).
+- `shared/lib/legal`: `PAGINA_CONOCE` y `RUTAS_ESTATICAS_SW` (antes `RUTAS_LEGALES_SW`). `vite.config.ts`: `/conoce` fuera del `navigateFallback` y la página y sus capturas fuera del precache. `legal.test.ts` comprueba enlaces, contacto, recursos del origen y que existan las capturas, con su texto alternativo.
+- Documentos: `arquitectura.md`, `despliegue.md` (§ Trabajo pendiente, 4), `desarrollo.md`, `herramientas.md` (sharp), `README.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Sobre la build (`vite preview`): `/conoce` a 320/375/430 px en claro y oscuro y a 1.280 px, sin scroll horizontal, sin errores y con enlaces de 44 px; cada tema descarga solo sus cuatro capturas. Con la bienvenida (§322), los diez recorridos de navegador de la CI pasan en local (`validar-mejoras-pendientes` necesitó pasar la bienvenida en `auditoria-comun.abrir` antes de tomar la foto de los datos).

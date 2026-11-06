@@ -56,6 +56,8 @@ interface Props {
   onIrAAmigos: () => void
   onIrASocial: () => void
   onRevisarActualizaciones: () => void
+  /** «Calcular mi objetivo» de la tarjeta de energía, sin objetivo todavía (ADR 066). */
+  onIrAPerfil?: () => void
   ayudaInicial?: ReactNode
 }
 
@@ -64,7 +66,7 @@ const PESO_POR_DEFECTO = 70
 const DIAS_HISTORIAL = 365
 
 /** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, el progreso (Cumbres, Caminos, Ritmo y Vitrina), peso, agua y pasos y el último entreno. */
-export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
+export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, onIrAPerfil, ayudaInicial }: Props) {
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -138,7 +140,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
   function tarjeta(t: TarjetaInicio): ReactNode {
     switch (t) {
       case 'energia': return <TarjetaEnergia totales={sumMacros(entries ?? [])} objetivos={vigentes!} onAbrir={onIrANutricion}
-        pie={<AnadirComidaAhora onAnadir={onAnadirComida} />} />
+        pie={<AnadirComidaAhora onAnadir={onAnadirComida} onCalcularObjetivo={vigentes!.kcal <= 0 ? onIrAPerfil : undefined} />} />
       case 'progreso': return <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} sinCaminos={!moduloActivo(settings, 'actividades')} />
       case 'registros': return <div className="inicio-registros">
         {moduloActivo(settings, 'peso') && <AccesoPeso tendencia={tendencia} pesos={pesos ?? []} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />}

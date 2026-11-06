@@ -367,6 +367,16 @@ export interface Settings {
   metas?: Meta[]
   /** «Tu mes» / «Tu año» (B15): clave (YYYY-MM o YYYY) del último resumen cerrado en Inicio; ausente = ninguno. */
   resumenMesCerrado?: string
+  /**
+   * Instalación nueva sin objetivos elegidos (ADR 066): mientras no haya perfil completo ni objetivos guardados en Ajustes,
+   * los objetivos vigentes son cero (`perfil/lib/objetivosVigentes`, origen `ninguno`). Se pone al crear los ajustes
+   * por primera vez (`ensureSettings`) y se quita al guardar objetivos en Ajustes; ausente = objetivos de `objetivos`.
+   */
+  sinObjetivos?: boolean
+  /** Bienvenida por enseñar (ADR 066): se pone al crear los ajustes por primera vez y se quita al terminarla. */
+  bienvenidaPendiente?: boolean
+  /** Versión de las condiciones y la privacidad aceptadas en la bienvenida (`shared/lib/legal.VERSION_TEXTOS_LEGALES`). */
+  textosLegalesAceptados?: string
 }
 
 /**

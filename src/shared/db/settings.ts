@@ -31,11 +31,14 @@ export async function getSettings(): Promise<Settings> {
  * Crea el registro de settings por defecto si todavía no existe, y borra del dispositivo los campos antiguos
  * (la API key de Gemini). Llamar una vez al arrancar la app.
  */
-export async function ensureSettings(): Promise<void> {
-  const s: SettingsGuardados | undefined = await db.settings.get(1)
-  if (!s || s.apiKey !== undefined || s.modelo !== undefined) {
-    await db.settings.put(conDefaults(s))
-  }
+export function ensureSettings(): Promise<void> {
+  return db.transaction('rw', db.settings, async () => {
+    const s: SettingsGuardados | undefined = await db.settings.get(1)
+    // Instalación nueva (sin ajustes): bienvenida y sin objetivos hasta elegirlos (ADR 066). Un backup importado o una
+    // copia de la nube traen sus propios ajustes, sin estas marcas.
+    if (!s) await db.settings.put({ ...conDefaults(), sinObjetivos: true, bienvenidaPendiente: true })
+    else if (s.apiKey !== undefined || s.modelo !== undefined) await db.settings.put(conDefaults(s))
+  })
 }
 
 /**

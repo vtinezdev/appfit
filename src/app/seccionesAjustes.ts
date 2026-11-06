@@ -56,7 +56,7 @@ export function resumenAjustes(seccion: SeccionAjustes, d: DatosResumen): string
       const apagados = MODULOS.filter((m) => !moduloActivo(s, m))
       return apagados.length === 0 ? 'Todo activo' : `Sin ${apagados.map((m) => NOMBRE_MODULO[m].toLowerCase()).join(', ')}`
     }
-    case 'objetivos': return `${formatInt(d.objetivos.kcal)} kcal · ${formatInt(d.objetivos.prot)} g de proteína`
+    case 'objetivos': return d.objetivos.kcal > 0 ? `${formatInt(d.objetivos.kcal)} kcal · ${formatInt(d.objetivos.prot)} g de proteína` : 'Sin objetivo'
     case 'entreno': return `${s.sonidoDescanso === false ? 'Sin sonido' : 'Con sonido'} · ${s.rirAlCompletar === false ? 'Sin preguntar el RIR' : 'Pregunta el RIR'}`
     case 'gamificacion':
       if (s.gamificacionVisible === false) return 'Ocultos'

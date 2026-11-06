@@ -17,7 +17,8 @@ import { CAMPOS_ENERGIA, listaCampos, type CampoPerfil } from '../lib/validacion
 interface Props {
   energia: ResultadoEnergia
   onElegirObjetivo: () => void
-  onVerMetodo: () => void
+  /** Sin ella (bienvenida), la explicación no ofrece ir a Referencias. */
+  onVerMetodo?: () => void
   /** Abre el editor del dato que falta (el mismo que la fila de «Tus datos»). */
   onCompletar: (campo: CampoPerfil) => void
   /** Objetivos de macros que salen de este objetivo (los que usa Nutrición); sin ellos no se pinta el reparto. */
@@ -118,7 +119,7 @@ function Paso({ n, titulo, valor, detalle, ultimo = false, children }: { n: numb
  * Cómo se ha calculado, tras la «i» del título: la cuenta en pasos numerados (reposo, actividad y objetivo) con sus cifras,
  * las ecuaciones con tus datos en un recuadro, el ritmo aproximado y el acceso al método.
  */
-function ComoSeCalcula({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => void }) {
+function ComoSeCalcula({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo?: () => void }) {
   const nivel = NIVELES_ACTIVIDAD[e.actividad].etiqueta.toLowerCase()
   const conObjetivo = e.objetivoKcal !== null && e.objetivoAplicado !== null
   return <Ayuda titulo="Tu energía diaria">
@@ -146,7 +147,7 @@ function ComoSeCalcula({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => vo
       <p className="text-caption text-fg-muted">Con {formatNumber(KCAL_POR_KG)} kcal por kg (Hall, 2008). Pierde validez con el tiempo: ajusta según tu peso real.</p>
     </div>}
     <p className="text-caption">{AVISO_ORIENTATIVO}. Nunca baja de {formatNumber(SUELO_KCAL)} kcal ni de tu gasto en reposo (criterio de prudencia de Cumbra Fit).</p>
-    <Button variant="ghost" size="sm" onClick={onVerMetodo}>Ver método y fuentes<Icon name="chevron-right" size={16} /></Button>
+    {onVerMetodo && <Button variant="ghost" size="sm" onClick={onVerMetodo}>Ver método y fuentes<Icon name="chevron-right" size={16} /></Button>}
   </Ayuda>
 }
 

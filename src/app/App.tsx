@@ -30,6 +30,7 @@ const ProgresoTab = lazy(() => import('../features/progreso/ProgresoTab'))
 const AmigosTab = lazy(() => import('../features/social/AmigosTab'))
 const SocialTab = lazy(() => import('../features/social/SocialTab'))
 const CelebracionLogros = lazy(() => import('../features/vitrina/components/CelebracionLogros'))
+const Bienvenida = lazy(() => import('./Bienvenida'))
 
 export default function App() {
   // Actualiza también las pantallas derivadas de la fecha al volver después de medianoche.
@@ -130,7 +131,7 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top safe-inline h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view app-content mx-auto w-full">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onAnadirComida={c => { navegar('nutricion'); setAnadirInicial(c) }} onIrAGym={abrirEntreno} onIrAProgreso={abrirProgreso} enfocarProgreso={focoVuelta === 'referencias' ? undefined : focoVuelta} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onAnadirComida={c => { navegar('nutricion'); setAnadirInicial(c) }} onIrAGym={abrirEntreno} onIrAProgreso={abrirProgreso} enfocarProgreso={focoVuelta === 'referencias' ? undefined : focoVuelta} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')} onIrAPerfil={() => navegar('perfil')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
         {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab onIrARecetas={() => navegar('recetas')} anadirInicial={anadirInicial} fechaInicial={fechaNutricion} onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
         {tab === 'recetas' && <Suspense fallback={<LoadingState />}><RecetasTab /></Suspense>}
@@ -145,7 +146,9 @@ export default function App() {
       </main>
       </div>
       {/* Nuevos logros, en la pantalla en la que se consigan; con el entreno en curso abierto, al terminarlo. */}
-      {!(tab === 'gym' && entrenoAbierto && entrenoActivo) && <Suspense fallback={null}><CelebracionLogros onElegirRuta={abrirEleccionRuta} /></Suspense>}
+      {!settings?.bienvenidaPendiente && !(tab === 'gym' && entrenoAbierto && entrenoActivo) && <Suspense fallback={null}><CelebracionLogros onElegirRuta={abrirEleccionRuta} /></Suspense>}
+      {/* Instalación nueva (ADR 066): la bienvenida, encima de Inicio, hasta terminarla. */}
+      {settings?.bienvenidaPendiente && <Suspense fallback={null}><Bienvenida /></Suspense>}
       <BottomNav tab={tab} onChange={navegar} ocultos={ocultos}
         encima={entrenoMinimizado && <EntrenoMinimizado key={entrenoMinimizado.id} workout={entrenoMinimizado} onAbrir={abrirEntreno} />} />
     </div>

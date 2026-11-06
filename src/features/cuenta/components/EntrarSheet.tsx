@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import Button from '../../../shared/components/Button'
 import Campo from '../../../shared/components/Campo'
+import EnlacesLegales from '../../../shared/components/EnlacesLegales'
 import Icon from '../../../shared/components/Icon'
 import { Input } from '../../../shared/components/Input'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState, LoadingState } from '../../../shared/components/StateMessage'
+import { EDAD_MINIMA } from '../../../shared/lib/legal'
 import type { Vinculo } from '../lib/decision'
 import { validarContrasena } from '../lib/cifrado'
 import { copiaNube } from '../servicio'
@@ -174,6 +176,10 @@ export default function EntrarSheet({ open, reanudar = false, onClose, onTermina
               <Input type="email" inputMode="email" autoComplete="email" autoCapitalize="none" spellCheck={false} enterKeyHint="send" value={email} onChange={(e) => setEmail(e.target.value)} />
             </Campo>
             <Button type="submit" variant="primary" block loading={ocupado}>Enviarme un código</Button>
+            <div>
+              <p className="text-caption text-fg-muted">Al crear la cuenta confirmas que tienes {EDAD_MINIMA} años o más y aceptas las condiciones de uso y la política de privacidad.</p>
+              <EnlacesLegales paginas={['condiciones', 'privacidad']} />
+            </div>
           </form>
         )
       case 'codigo':

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { DEFAULT_OBJETIVOS } from '../../../shared/db/settings'
 import { kcalDeMacros, objetivosCuadran } from '../../nutricion/lib/objetivos'
 import { calcularEnergia } from './energia'
-import { objetivosVigentes } from './objetivosVigentes'
+import { objetivosVigentes, SIN_OBJETIVOS } from './objetivosVigentes'
 
 const perfil = { sexo: 'hombre', fechaNacimiento: '1996-10-06', alturaCm: 180, actividad: 'moderado', objetivo: 'definicion' } as const
 const HOY = '2026-10-06'
@@ -15,6 +15,14 @@ describe('objetivos vigentes', () => {
   it('sin objetivo elegido mandan los manuales aunque el perfil esté completo', () => {
     const e = calcularEnergia({ ...perfil, objetivo: undefined }, 80, HOY)
     expect(objetivosVigentes(DEFAULT_OBJETIVOS, e)).toMatchObject({ origen: 'manual', kcal: 2200 })
+  })
+  it('instalación nueva (sinObjetivos) sin perfil completo: sin objetivo, también sin la proteína por kg', () => {
+    expect(objetivosVigentes(DEFAULT_OBJETIVOS, null, null, true)).toEqual({ ...SIN_OBJETIVOS, origen: 'ninguno' })
+    const incompleto = calcularEnergia({ sexo: 'mujer' }, 60, HOY)
+    expect(objetivosVigentes(DEFAULT_OBJETIVOS, incompleto, { gPorKg: 1.8, pesoKg: 60, prot: 108 } as never, true)).toEqual({ ...SIN_OBJETIVOS, origen: 'ninguno' })
+  })
+  it('instalación nueva con el perfil completo: manda el perfil', () => {
+    expect(objetivosVigentes(DEFAULT_OBJETIVOS, calcularEnergia(perfil, 80, HOY), null, true).origen).toBe('perfil')
   })
   it('con perfil y objetivo, las kcal son las del perfil, cuadran y conservan el reparto', () => {
     const e = calcularEnergia(perfil, 80, HOY)

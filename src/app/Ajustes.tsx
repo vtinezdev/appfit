@@ -29,6 +29,7 @@ import { getFondoPref, getThemePref, setFondoPref, setThemePref, type FondoPref,
 import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
 import PageHeader from '../shared/components/PageHeader'
 import { IconoApp, MarcaFirma } from '../shared/components/Marca'
+import EnlacesLegales from '../shared/components/EnlacesLegales'
 import { UMBRAL_BACKUP_POR_DEFECTO } from '../shared/lib/recordatorioBackup'
 import { descargarCsv, TABLAS_CSV, type TablaCsv } from '../shared/lib/exportarCsv'
 import AlmacenamientoAjustes from './AlmacenamientoAjustes'
@@ -224,6 +225,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
         <footer className="space-y-3 border-t border-line pt-4">
           <MarcaFirma alto={36} />
           <p className="text-caption text-fg-muted">Privada: tus registros viven en este móvil y la copia de la nube, si tienes cuenta, va cifrada.<br />Nutrición y entrenos disponibles sin conexión.</p>
+          <EnlacesLegales paginas={['privacidad', 'condiciones', 'borrarCuenta']} />
         </footer>
       </div>
     )
@@ -232,9 +234,9 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
   const contenido: Record<SeccionAjustes, () => ReactNode> = {
     modulos: () => <ModulosAjustes settings={settings} onError={setErrorAjuste} />,
 
-    objetivos: () => <ObjetivosAjustes objetivos={vigentes} origen={vigentes.origen} proteinaPorKg={vigentes.proteinaPorKg} onIrAPerfil={onIrAPerfil} onGuardar={(objetivos) => {
+    objetivos: () => <ObjetivosAjustes objetivos={vigentes.origen === 'ninguno' ? settings.objetivos : vigentes} origen={vigentes.origen} proteinaPorKg={vigentes.proteinaPorKg} onIrAPerfil={onIrAPerfil} onGuardar={(objetivos) => {
       setErrorAjuste(null)
-      updateSettings({ objetivos }).then(() => actualizarObjetivoHoy(todayISO(), 'ajustes')).catch(() => setErrorAjuste('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
+      updateSettings({ objetivos, sinObjetivos: undefined }).then(() => actualizarObjetivoHoy(todayISO(), 'ajustes')).catch(() => setErrorAjuste('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
     }} />,
 
 

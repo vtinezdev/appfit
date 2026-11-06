@@ -55,8 +55,13 @@ export function referenciasNutrientes(kcal: number): Record<keyof NutrientesAdic
 }
 
 /** Los objetivos se reciben de Settings: nunca se sustituyen por una recomendación clínica. */
-export function referenciaNutricional(id: NutrienteId, objetivos: Objetivos, origen: 'perfil' | 'manual' = 'manual'): ReferenciaNutricional {
+export function referenciaNutricional(id: NutrienteId, objetivos: Objetivos, origen: 'perfil' | 'manual' | 'ninguno' = 'manual'): ReferenciaNutricional {
   const base = { id, nombre: NOMBRES_NUTRIENTES[id] }
+  if ((id === 'kcal' || id === 'prot' || id === 'carb' || id === 'grasa') && origen === 'ninguno') {
+    return { ...base, valor: 0, unidad: id === 'kcal' ? 'kcal' : 'g', tipo: 'objetivo', fuente: FUENTES.personal,
+      descripcion: 'Aún no tienes un objetivo diario. Complétalo en Perfil con tus datos, o escríbelo en Ajustes › Objetivos diarios.',
+      particularidades: ['Mientras no lo tengas, Cumbra Fit cuenta lo que comes sin compararlo con ningún objetivo.'] }
+  }
   if (id === 'kcal' || id === 'prot' || id === 'carb' || id === 'grasa') {
     const delPerfil = origen === 'perfil'
     return { ...base, valor: objetivos[id], unidad: id === 'kcal' ? 'kcal' : 'g', tipo: 'objetivo', fuente: delPerfil ? FUENTES.perfil : FUENTES.personal,
@@ -84,6 +89,7 @@ export function referenciaNutricional(id: NutrienteId, objetivos: Objetivos, ori
 }
 
 export function textoReferencia(referencia: ReferenciaNutricional): string {
+  if (referencia.tipo === 'objetivo' && referencia.valor <= 0) return 'Sin objetivo'
   const valor = formatNumber(referencia.valor, referencia.unidad === 'kcal' ? 0 : 1)
   return `${referencia.comparador ? `${referencia.comparador} ` : ''}${valor} ${referencia.unidad}/día`
 }
