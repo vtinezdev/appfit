@@ -2,7 +2,7 @@
 
 `src/features/desbloqueo/` y la lógica en `shared/lib/acceso.ts` y `shared/pwa/cobro.ts`. Decisión: [ADR 068](../decisiones/068-gratis-y-de-pago.md). Entreno, Actividades, Liga, Social y la cuenta son gratis siempre; Nutrición, Perfil y la copia en la nube, durante un mes de prueba desde la primera apertura y después con un pago único.
 
-**Estado:** partes 1 (bloqueo y prueba) y 2 (desbloqueo manual) de 3. **El cobro está apagado** (`COBRO_ACTIVO = false`): nadie ve nada distinto hasta que se pueda pagar con Play Billing (parte 3). La parte 2 necesita `supabase/migrations/0031_desbloqueos.sql` en el proyecto real (la ejecuta Víctor en el SQL Editor; sin ella, la app sigue igual y Moderación no enseña la pestaña).
+**Estado:** partes 1 (bloqueo y prueba) y 2 (desbloqueo manual) de 3. **El cobro está apagado** (`COBRO_ACTIVO = false`): nadie ve nada distinto hasta que se pueda pagar con Play Billing (parte 3). La parte 2 usa `supabase/migrations/0031_desbloqueos.sql`, que Víctor ejecutó en el proyecto real el 2026-11-06 (sin ella, la app sigue igual y Moderación no enseña la pestaña).
 
 ## Dónde está cada cosa
 
