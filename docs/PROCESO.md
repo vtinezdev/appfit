@@ -3627,3 +3627,11 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Arreglado: `nutricion/lib/off/mapearProducto` aceptaba valores imposibles de Open Food Facts y guardaba solo el producto. Ahora aplica los límites del catálogo (900 kcal, 100 g y macros que no sumen más de 101 g): un valor imposible es desconocido y el producto se revisa. Nombre y marca, hasta 120 caracteres.
 - Para Víctor: «Exportar una copia» en la pantalla de fallo.
 - Documentos: `features/nutricion.md`, `features/actividades.md`, `auditoria-seguridad-2026-11/ESTADO.md` § 3.
+
+## 334. Auditoría de seguridad, áreas 4 y 5: XSS, cabeceras y CSP (2026-11-06)
+
+- XSS: no hay HTML inyectado, los textos de los pósteres se escapan y de Social no llega ninguna URL. Sin cambios.
+- CSP: `connect-src` pasa de `*.supabase.co` al proyecto de `VITE_SUPABASE_URL` en la build y en `npm run preview` (`shared/seguridad/cspSupabase.ts`, con test, y el plugin `appfit-csp-supabase` de `vite.config.ts`). Sin la variable, o con un Supabase falso, queda el comodín.
+- Documentos: `seguridad.md`, `auditoria-seguridad-2026-11/ESTADO.md` §§ 4-5.
+
+**Verificación:** `vite build` sin la variable deja el comodín en `dist/_headers` y con `VITE_SUPABASE_URL=https://abcdefghijklmnop.supabase.co`, ese proyecto.

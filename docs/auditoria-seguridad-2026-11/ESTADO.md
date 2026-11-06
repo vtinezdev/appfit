@@ -9,8 +9,8 @@ Revisión por áreas antes de publicar en Google Play. Cada área se revisa leye
 | 1 | Supabase: RLS, funciones `security definer`, permisos, entradas de las RPC y frenos | Revisada (2026-11-06) |
 | 2 | Cuenta: cifrado de la copia, PBKDF2, sesión, código OTP, borrado | Revisada (2026-11-06) |
 | 3 | Validación de entradas: importar backup, GPX/FIT, Open Food Facts, datos de Social | Revisada (2026-11-06) |
-| 4 | XSS y renderizado de contenido de terceros | Pendiente |
-| 5 | Cabeceras y CSP | Pendiente |
+| 4 | XSS y renderizado de contenido de terceros | Revisada (2026-11-06) |
+| 5 | Cabeceras y CSP | Revisada (2026-11-06) |
 | 6 | Dependencias (npm audit, versiones) | Pendiente |
 | 7 | Service worker y caché | Pendiente |
 | 8 | Almacenamiento local y datos sensibles | Pendiente |
@@ -57,6 +57,22 @@ Arreglado:
 
 Visto y aceptado: importar un backup comprueba que sea de Cumbra Fit y que cada tabla sea una lista, pero no revisa la forma de cada registro. Un archivo editado a mano con registros rotos podría romper alguna pantalla. Solo afecta a los archivos de la propia persona, y la importación es de todo o nada.
 
+## 4. XSS y contenido de terceros
+
+Comprobado sin problemas:
+- No hay `dangerouslySetInnerHTML`, `eval`, `new Function` ni `document.write`. El único `innerHTML` lee un SVG propio ya pintado, para el póster.
+- Los textos de la persona en los pósteres (SVG a PNG) se escapan con `escaparXml`, y un SVG cargado como imagen no ejecuta scripts.
+- De Social no llega ninguna URL: avatares e imágenes de comunidades salen de una lista cerrada de recursos de la app. El alias solo admite `a-z 0-9 . _`. Los enlaces externos son fijos (fuentes de Referencias), con `rel="noopener noreferrer"`.
+- Ni la app ni las páginas estáticas tienen scripts en línea. El tema inicial es un archivo propio.
+
+Visto y aceptado: el nombre visible de Social (de 1 a 40 caracteres) admite cualquier texto, así que alguien podría ponerse «Cumbra Fit». Para eso están la denuncia por suplantación y la moderación.
+
+## 5. Cabeceras y CSP
+
+Comprobado sin problemas: CSP con `default-src 'self'` y sin scripts en línea ni `eval` (solo `'wasm-unsafe-eval'`, para el escáner), `object-src 'none'`, `frame-ancestors 'none'`, `base-uri` y `form-action` en `'self'`, HSTS, `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, COOP y `Permissions-Policy`, con la cámara y la ubicación solo para la app. Lo vigilan `cabeceras.test.ts` y, en la CI, `validar-seguridad.cjs`.
+
+Endurecido: `connect-src` permitía cualquier proyecto de Supabase (`*.supabase.co`). Si alguna vez se colara un script, podría enviar datos a un proyecto de otra persona. Ahora la build lo cambia por el proyecto de `VITE_SUPABASE_URL` (`shared/seguridad/cspSupabase.ts` y el plugin `appfit-csp-supabase`). Comprobado con `vite build`: sin la variable queda el comodín y con ella, el proyecto exacto.
+
 ## Para Víctor
 
 1. **Ejecutar `supabase/migrations/0031_copias_tope_de_claves.sql`** en el SQL Editor del proyecto (después de 0030). La app no cambia.
@@ -65,3 +81,4 @@ Visto y aceptado: importar un backup comprueba que sea de Cumbra Fit y que cada 
 4. **Suspendidos que vuelven con el mismo email (decisión).** Una suspensión de Social (`vetados`) se borra con la cuenta. Así, quien está suspendido puede borrar su cuenta, crearla otra vez con el mismo email y hacerse un perfil nuevo. Para impedirlo habría que guardar, tras borrar la cuenta, una huella (hash) del email de quien fue suspendido, y decirlo en la política de privacidad. Con otro email podría volver igualmente. ¿Lo hago, o lo dejas así?
 5. **Cerrar la sesión en todos los dispositivos (propuesta).** Si te roban el móvil, ahora no hay forma de cerrar la sesión que quedó abierta en él. Supabase lo permite (`signOut` global); sería un botón en Gestionar la cuenta. ¿Lo añado?
 6. **Pantalla de fallo sin salida (propuesta).** Si una pantalla falla, `FalloAplicacion` solo ofrece «Recargar». Si el fallo se repite en cada arranque, no hay forma de llegar a Ajustes para exportar o importar una copia. Propongo añadir en esa pantalla «Exportar una copia de seguridad», que no toca nada. ¿Lo añado?
+7. **Comprobar la CSP tras el próximo despliegue.** Abre la app publicada, entra en la cuenta y mira que la copia se guarda. Si algo falla con «Content Security Policy» en la consola, avísame: querría decir que Cloudflare no pasa `VITE_SUPABASE_URL` a la build como espero.

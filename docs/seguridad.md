@@ -24,6 +24,7 @@ Para que la CSP no tenga que permitir scripts en línea, el tema inicial va en `
 
 **Al cambiar algo que toque la red o los permisos** (un servicio nuevo, que además hay que preguntar a Víctor; un sensor nuevo; un script en `index.html`): actualizar `_headers`. Lo vigilan:
 
+- `src/shared/seguridad/cspSupabase.ts` (con test): `public/_headers` permite cualquier proyecto de Supabase (`*.supabase.co`), y la build (plugin `appfit-csp-supabase` de `vite.config.ts`, también en `npm run preview`) lo cambia en `dist/_headers` por el de `VITE_SUPABASE_URL`. Sin ella, o con un Supabase falso de pruebas, queda el comodín.
 - `src/shared/seguridad/cabeceras.test.ts`: que estén todas las cabeceras, que la CSP no se abra (`script-src`, `connect-src`…), que cada origen al que el código hace `fetch` esté permitido y que `index.html` no tenga scripts en línea.
 - `scripts/ui/validar-seguridad.cjs` (CI, trabajo `navegador`): sobre la build, abre todos los destinos sin una sola violación de la CSP, compila el WebAssembly del escáner, comprueba que Open Food Facts y Supabase están permitidos y que cualquier otro origen queda bloqueado.
 
@@ -52,4 +53,4 @@ Pasos detallados en `despliegue.md` § Preparación para Google Play.
 - **Supabase › Advisors › Security Advisor:** ejecutarlo y revisar los avisos.
 - **Supabase › Authentication:** acortar la caducidad del código del email de 3600 s a 600 s y revisar los límites de envío de correos.
 - **Clave de firma de Android:** usar *Play App Signing* (Google guarda la clave de la app) y guardar la clave de subida y su contraseña en un gestor de contraseñas, con una copia fuera del ordenador.
-- **Dominio propio** (cuando estén el nombre y el logo): después, `assetlinks.json`, HSTS con `includeSubDomains` y la CSP si cambia la URL de Supabase.
+- **Dominio propio** (cuando estén el nombre y el logo): después, `assetlinks.json`, y HSTS con `includeSubDomains`. La CSP sigue sola a la URL de Supabase de la build.
