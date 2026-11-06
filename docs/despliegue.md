@@ -81,7 +81,7 @@ Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguri
 
 ### 3. Al decidir nombre, logo y dominio
 
-1. Comprar el dominio y conectarlo al Worker `appfit` de Cloudflare (Settings › Domains & Routes). Mantener `appfit.vtinez-dev.workers.dev` funcionando un tiempo y avisar en la app de que hay que pasar los datos con una copia de seguridad (los datos van ligados a la dirección).
+1. Comprar el dominio y conectarlo al Worker `appfit` de Cloudflare (Settings › Domains & Routes). Mantener `appfit.vtinez-dev.workers.dev` funcionando un tiempo y avisar en la app de que hay que pasar los datos (van ligados a la dirección). El aviso está preparado (2026-11-06, `inicio/components/AvisoTraslado`): se activa añadiendo `VITE_DIRECCION_NUEVA=https://cumbrafit.app` a las variables de build del Worker y volviendo a desplegar. Como las dos direcciones sirven el mismo build, sale solo en la vieja: con la copia de la nube al día, «entra con tu cuenta»; con algo pendiente, «deja al día tu copia» primero; sin cuenta, «exporta una copia e impórtala». Enlaza la app nueva y su `/conoce`, y no se puede cerrar.
 2. ~~Nombre, iconos (incluido uno *maskable* propio, con margen de seguridad) y descripción del manifest~~. Hecho (2026-11-05): nombre, iconos y logo en ADR 064; descripción para cualquiera, idioma, categorías y orientación vertical en `src/shared/pwa/manifest.ts`.
 3. Correo con el dominio (Brevo o Resend) y cambiar el SMTP en Supabase (§ Trabajo pendiente, punto 4).
 4. HSTS con `includeSubDomains` en `_headers`.
