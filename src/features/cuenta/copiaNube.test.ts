@@ -347,6 +347,54 @@ describe('dos móviles con la misma cuenta', () => {
   })
 })
 
+describe('otro móvil empieza de cero', () => {
+  /** A queda vinculado con la clave de antes; B sustituye la copia con claves nuevas. */
+  async function claveCambiada() {
+    const { a } = await cuentaCreada(['Tortilla'])
+    const b = new Movil(servidor)
+    b.comidas = ['Pizza']
+    await b.entrar()
+    await b.copia.empezarDeCero('otra contraseña')
+    return { a, b }
+  }
+
+  it('sin cambios aquí: pide volver a entrar en vez de quedarse en un error', async () => {
+    const { a } = await claveCambiada()
+    await a.copia.sincronizar({ comprobarNube: true })
+    expect(a.fase).toBe('perdida')
+    expect(a.comidas).toEqual(['Tortilla'])
+  })
+
+  it('con cambios aquí: el conflicto no deja subir una copia que nadie podría abrir', async () => {
+    const { a } = await claveCambiada()
+    a.comidas.push('Lentejas')
+    await a.copia.sincronizar({ comprobarNube: true })
+    expect(a.fase).toBe('conflicto')
+    await expect(a.copia.resumenesConflicto()).rejects.toThrow(/otro dispositivo/)
+    expect(a.fase).toBe('perdida')
+    await expect(a.copia.resolverConflicto('subir')).rejects.toThrow(/otro dispositivo/)
+    expect(a.fase).toBe('perdida')
+    expect(a.comidas).toEqual(['Tortilla', 'Lentejas'])
+    // La copia de la nube sigue abriéndose con la contraseña nueva.
+    const c = new Movil(servidor)
+    await c.entrar()
+    await c.copia.abrir('otra contraseña', 'contrasena')
+    await c.copia.traerCopia()
+    expect(c.comidas).toEqual(['Pizza'])
+  })
+
+  it('tras volver a entrar, abre la copia nueva con la contraseña nueva', async () => {
+    const { a } = await claveCambiada()
+    await a.copia.sincronizar({ comprobarNube: true })
+    await a.copia.cerrarSesion(false)
+    expect(await a.entrar()).toEqual({ vinculo: 'elegir' })
+    await a.copia.abrir('otra contraseña', 'contrasena')
+    await a.copia.traerCopia()
+    expect(a.comidas).toEqual(['Pizza'])
+    expect(a.fase).toBe('al-dia')
+  })
+})
+
 describe('cuenta', () => {
   it('cambiar la contraseña exige la actual', async () => {
     const { a } = await cuentaCreada(['Tortilla'])

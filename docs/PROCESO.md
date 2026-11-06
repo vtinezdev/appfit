@@ -3610,3 +3610,12 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Documentos: `seguridad.md`, `features/cuenta.md`.
 
 **Verificación:** en PGlite, las 31 migraciones y las 24 suites correctas; la suite nueva falla sin 0031 («claves enormes al subir»).
+
+## 332. Auditoría de seguridad, área 2: cuenta (2026-11-06)
+
+- Revisados el cifrado (`cuenta/lib/cifrado.ts`), la copia (`copiaNube.ts`), la sesión y el borrado de la cuenta en el servidor (cascadas desde `auth.users`). Detalle en `auditoria-seguridad-2026-11/ESTADO.md` § 2.
+- Arreglado: si otro dispositivo empezaba de cero, este se quedaba en un error que no se iba («no se puede leer con esta clave») y, en un conflicto, podía subir lo suyo con la clave vieja y dejar la copia sin abrir con la contraseña nueva. `conClaveVigente` lo pasa a «perdida» (volver a entrar) al traer, al leer los resúmenes del conflicto y antes de subir en él.
+- Para Víctor: los suspendidos pueden volver borrando la cuenta y creándola con el mismo email, y no hay forma de cerrar la sesión en todos los dispositivos.
+- Documentos: `features/cuenta.md`.
+
+**Verificación:** tres tests nuevos en `copiaNube.test.ts` (los dos primeros fallaban antes del arreglo).

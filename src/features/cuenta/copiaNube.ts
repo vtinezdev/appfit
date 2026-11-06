@@ -1,7 +1,7 @@
 import type { BackupV3 } from '../../shared/lib/backup'
 import { BackupCambiadoError } from '../../shared/lib/contenidoBackup'
 import { toISODate } from '../../shared/lib/dates'
-import { crearClaves, cifrarCopia, desenvolver, descifrarCopia, envolver, generarCodigoRecuperacion, normalizarCodigo, sinExportar, type ClavesNube } from './lib/cifrado'
+import { CopiaIlegibleError, crearClaves, cifrarCopia, desenvolver, descifrarCopia, envolver, generarCodigoRecuperacion, normalizarCodigo, sinExportar, type ClavesNube } from './lib/cifrado'
 import { decidirCopia, decidirVinculo, type Vinculo } from './lib/decision'
 import { huellaBackup } from './lib/huella'
 import { NubeError, type CopiaRemota, type Nube } from './data/nube'
@@ -74,6 +74,12 @@ export interface ResumenCopia {
   comidas: number
   entrenos: number
 }
+
+/**
+ * La clave de este dispositivo ya no abre la copia de la nube: otro dispositivo empezó de cero con claves nuevas. Lo de
+ * aquí no se sube (nadie podría abrirlo con la contraseña nueva) y hay que volver a entrar.
+ */
+const PERDIDA = 'La copia de la nube se ha creado de nuevo desde otro dispositivo. Vuelve a entrar con la contraseña nueva.'
 
 const resumen = (b: BackupV3, actualizada: string): ResumenCopia => ({ actualizada, comidas: b.entries.length, entrenos: b.workouts.length })
 
@@ -218,9 +224,24 @@ export class CopiaNube {
           this.poner({ fase: 'conflicto' })
           return
         }
+        if (e instanceof CopiaIlegibleError) {
+          this.poner({ fase: 'perdida' })
+          return
+        }
         this.fallo(e, huella !== vinculo.huella)
       }
     })
+  }
+
+  /** Pasa a «perdida» si la clave de este dispositivo ya no abre la copia; si no, deja seguir el error. */
+  private async conClaveVigente<T>(fn: () => Promise<T>): Promise<T> {
+    try {
+      return await fn()
+    } catch (e) {
+      if (!(e instanceof CopiaIlegibleError)) throw e
+      this.poner({ fase: 'perdida' })
+      throw new NubeError(PERDIDA)
+    }
   }
 
   private fallo(e: unknown, hayCambios: boolean) {
@@ -390,9 +411,12 @@ export class CopiaNube {
         return
       }
       if (eleccion === 'traer') {
-        await this.restaurar(copia, vinculo.dek)
+        await this.conClaveVigente(() => this.restaurar(copia, vinculo.dek))
         return
       }
+      // Antes de sustituirla, la clave de aquí tiene que abrir la copia de la nube: si no, la nube quedaría con una
+      // copia que la contraseña nueva no abre.
+      await this.conClaveVigente(() => descifrarCopia(copia.datos, vinculo.dek))
       const backup = await this.d.exportar()
       const huella = await huellaBackup(backup)
       const nueva = await nube.subir(copia.revision, await cifrarCopia(JSON.stringify(backup), vinculo.dek))
@@ -409,7 +433,7 @@ export class CopiaNube {
       const vinculo = await this.d.dispositivo.leer()
       const copia = await (await this.d.nube()).leerCopia()
       if (!vinculo || !copia) throw new NubeError('La copia de la nube ya no está. Vuelve a entrar en tu cuenta.')
-      const remoto = JSON.parse(await descifrarCopia(copia.datos, vinculo.dek)) as BackupV3
+      const remoto = JSON.parse(await this.conClaveVigente(() => descifrarCopia(copia.datos, vinculo.dek))) as BackupV3
       return { nube: resumen(remoto, copia.actualizada), local: resumen(await this.d.exportar(), new Date(this.ahora()).toISOString()) }
     })
   }
