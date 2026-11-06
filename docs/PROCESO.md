@@ -3648,3 +3648,9 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 
 - Service worker y almacenamiento: sin hallazgos (detalle en `auditoria-seguridad-2026-11/ESTADO.md` §§ 7-8).
 - Lógica de negocio: la batería completa pasa en seis zonas horarias, de UTC−11 a UTC+14. Una prueba de propiedades de `shared/lib/dates` sobre 13 años pasa en Madrid, São Paulo y UTC+14 (no se queda en el repositorio: repite lo que ya cubre `dates.test.ts`). Arreglado `social/lib/feed.test.ts`, que dependía de la zona horaria.
+
+## 337. Auditoría de seguridad, área 10: recorridos de error, y cierre (2026-11-06)
+
+- Arreglado: `cuenta/data/nubeSupabase.traducir` convierte una violación de tope de `copias` (`23514`) en «Tu copia es demasiado grande para la nube…». Antes decía «Inténtalo de nuevo», y reintentar no servía. Test en `nubeSupabase.test.ts`.
+- Sin hallazgos en el arranque, el catálogo, los permisos ni Open Food Facts.
+- Cierre: las 10 áreas revisadas. Resumen y decisiones pendientes en `auditoria-seguridad-2026-11/ESTADO.md`.

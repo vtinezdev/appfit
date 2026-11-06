@@ -27,6 +27,13 @@ describe('traducir', () => {
     expect(traducir(new AuthApiError('Rate limit', 429, 'over_email_send_rate_limit')).message).toMatch(/demasiados códigos/)
   })
 
+  it('una copia por encima del tope del servidor dice qué pasa, no «inténtalo de nuevo»', () => {
+    // Lo que devuelve PostgREST si `subir_copia` choca con el tope de `tamano` (0001) o de `claves` (0031).
+    const error = traducir({ code: '23514', message: 'new row for relation "copias" violates check constraint "copias_tamano_check"' })
+    expect(error.message).toMatch(/demasiado grande/)
+    expect(error.message).toMatch(/Copias de seguridad/)
+  })
+
   it('deja pasar un NubeError tal cual', () => {
     const original = new NubeError('ya traducido', 'sesion')
     expect(traducir(original)).toBe(original)

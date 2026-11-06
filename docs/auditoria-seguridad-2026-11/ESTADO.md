@@ -15,7 +15,7 @@ Revisión por áreas antes de publicar en Google Play. Cada área se revisa leye
 | 7 | Service worker y caché | Revisada (2026-11-06) |
 | 8 | Almacenamiento local y datos sensibles | Revisada (2026-11-06) |
 | 9 | Lógica de negocio: fechas, cálculos, casos límite | Revisada (2026-11-06) |
-| 10 | Recorridos de error | Pendiente |
+| 10 | Recorridos de error | Revisada (2026-11-06) |
 
 ## 1. Supabase
 
@@ -102,6 +102,22 @@ Comprobado sin problemas:
 Arreglado: un test dependía de la zona horaria (`feed.test.ts`, una hora en UTC que en UTC+14 ya es otro día). La app estaba bien: muestra el día local.
 
 Visto y aceptado: las ecuaciones de energía son para 18 años o más y la app para 16 o más. Entre 16 y 17 la app funciona, pero no calcula objetivos (lo dice en pantalla).
+
+## 10. Recorridos de error
+
+Comprobado sin problemas:
+- Arranque: si la base de datos no abre, sale «No se han podido abrir tus registros» con Reintentar. Un fallo al pintar sale en la pantalla de fallo, con Recargar.
+- Errores sueltos y promesas sin capturar se anotan para el informe de «Comunicar un problema», sin mensajes ni datos.
+- El catálogo se descarga y se valida antes de importarlo, fuera de las transacciones: un fallo a medias no deja un catálogo roto.
+- El GPS y la cámara sin permiso dan un mensaje que dice qué hacer. Open Food Facts lento corta a los 10 s. Los errores de Supabase se traducen: sin conexión, servidor caído, sesión caducada, demasiados códigos.
+
+Arreglado: una copia por encima del tope del servidor (30 MB cifrada) daba «No se ha podido conectar con tu cuenta. Inténtalo de nuevo», y reintentar no servía nunca. Ahora dice que es demasiado grande y que se guarde una copia en el móvil (`nubeSupabase.traducir`, con test).
+
+Visto y aceptado: con la app abierta en dos pestañas del navegador, si una se actualiza y cambia la base de datos, la otra acaba en la pantalla de fallo y se arregla con «Recargar». En la app de Android hay una sola ventana.
+
+## Resumen
+
+Revisadas las 10 áreas. Arreglado en la PR: el tope de las claves de la copia (0031, que tienes que ejecutar), el atasco cuando otro móvil empieza de cero, las actividades de más de 35 horas, los valores imposibles de Open Food Facts, la CSP con el proyecto de Supabase exacto, las dependencias de desarrollo vulnerables, un test que dependía de la zona horaria y el mensaje de una copia demasiado grande. Nuevas pruebas: la suite SQL de la copia, la prueba de 40 000 publicaciones hostiles y las de actividades largas.
 
 ## Para Víctor
 
