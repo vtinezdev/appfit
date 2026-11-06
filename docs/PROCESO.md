@@ -3534,3 +3534,13 @@ Víctor pide quitar lo que solo tiene sentido en una PWA añadida desde la web, 
 - Documentos: ADR 067 (y notas en 042 y 064), `arquitectura.md`, `datos.md`, `desarrollo.md`, `DESIGN-SYSTEM.md`, `cuentas.md`, `features/inicio.md`, `README.md`, `roadmap.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. En Chromium (5173): iPhone emulado, Android en la web y sesión de la app de Android simulada, sin textos de instalar ni de Safari, con el almacenamiento y el informe nuevos y la fila Actualizaciones solo fuera de la app de Android. Con dos builds reales en `vite preview`: la app de Android abierta con la versión A se recarga sola con la B al volver a abrirla; la web se queda en la A con «Actualización disponible». `validar-mejoras-uso` correcto; `validar-adaptacion`, correcto en lo tocado, falla por las secciones solapadas con texto al 200 %, igual en `master`.
+
+## 325. Rejilla de secciones y último entreno con el texto al 200 % (2026-11-06)
+
+`validar-adaptacion` fallaba ya en `master` con el texto al 200 %: los cuatro huecos por fila eran más estrechos que el círculo (unos 86 px frente a 96) y las secciones se solapaban, con nombres partidos («Nutrici-ón»).
+
+- `--secciones-celda-min` (círculo + 0,75 rem) y `.secciones-item { width: max(100% / columnas, mínimo) }`: si no caben, la fila lleva menos. A 100 %, 4 + 3 como siempre (a 320 px los huecos miden 72 px y el mínimo 60); a 200 % en el móvil, 2 + 2 + 2 + 1, con la rejilla desplazable. Nota en el ADR 060.
+- Con la rejilla arreglada, el recorrido llegó a Entreno y encontró otro desborde: en «Último entreno» (`gym/components/SemanaEntreno`) el texto se quedaba en 19 px junto al día. Mismo patrón que el Historial: día y texto en un bloque que pasa a dos líneas (`flex-wrap`, `basis-24`).
+- Documentos: ADR 060, `DESIGN-SYSTEM.md` (tokens), `roadmap.md`.
+
+**Verificación:** medido en Chromium a 320/375/430 px (100 % y 200 %), 812 × 375 y 1.440 px, en los dos temas: sin solapes, sin nombres partidos en dos líneas y sin scroll horizontal. `validar-adaptacion` correcto en sus 14 casos; `test:ui:responsive` y `test:ui:uso` (con texto al 200 %) correctos; `npm run test` y `npm run build` correctos.
