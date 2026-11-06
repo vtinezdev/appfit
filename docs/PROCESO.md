@@ -3598,3 +3598,15 @@ Hasta ahora ni las denuncias (con la copia de lo denunciado) ni los mensajes de 
 
 **Verificación:** Docker Hub respondía 429 y el proxy de la sesión bloquea el espejo de AWS, así que las migraciones y las pruebas se pasaron en PGlite (PostgreSQL 17 en WASM, como la suite de 0014): las 30 migraciones (sin pg_cron) y las 23 suites, la nueva incluida, correctas. `npm run test` y `npm run build` correctos. La tarea de pg_cron no se puede probar fuera de Supabase.
 
+
+## 331. Auditoría de seguridad, área 1: Supabase (2026-11-06)
+
+Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Play, por áreas y en una sola PR. El estado vive en `docs/auditoria-seguridad-2026-11/ESTADO.md`.
+
+- Revisión del servidor sobre las 30 migraciones en PGlite: RLS en todas las tablas, `search_path` fijo en todas las `security definer`, solo `enviar_mensaje_creador` sin sesión, todas las funciones de la app miran la sesión, topes de texto y JSON y frenos por día.
+- Encontrado y confirmado: `claves` de `copias` no tenía tope, así que una cuenta podía guardar ahí decenas de MB y saltarse el tope de 30 MB de la copia. `supabase/migrations/0031_copias_tope_de_claves.sql` lo limita a un objeto de 2 KB y hace que `tamano` cuente bytes. Pendiente de que Víctor la ejecute.
+- `supabase/pruebas/copias.sql`, la primera suite de la copia: sesión, conflictos de revisión, la copia anterior, el tope de las claves al subir y al cambiar la contraseña, el tamaño en bytes y que una cuenta no toque la copia de otra.
+- Para Víctor (en `ESTADO.md`): ejecutar 0031 y decidir sobre el espacio por cuenta (hasta 60 MB con cuentas de cualquier email).
+- Documentos: `seguridad.md`, `features/cuenta.md`.
+
+**Verificación:** en PGlite, las 31 migraciones y las 24 suites correctas; la suite nueva falla sin 0031 («claves enormes al subir»).

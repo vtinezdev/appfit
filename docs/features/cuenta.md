@@ -17,7 +17,7 @@
 | Orquestación | `copiaNube.ts`: clase `CopiaNube` con todo inyectado; `servicio.ts`: instancia de la app, `cuentaDisponible` e `iniciarCopiaNube` (disparadores) | backup (`shared/lib/backup`) |
 | UI | `useCuenta` (`useSyncExternalStore`), `components/CuentaAjustes` (vista «Cuenta» de Ajustes; `ResumenCuenta` es su línea en el índice), `EntrarSheet`, `ElegirCopia`, `GestionarCuenta` | — |
 | Aviso en Inicio | `inicio/components/AvisoBackup` (con cuenta en uso avisa por la copia de la nube) | — |
-| Servidor | `supabase/migrations/0001_copias.sql`: tabla `copias`, RLS, `subir_copia`, `actualizar_claves`, `borrar_cuenta`. `0002_espacio.sql`: tabla `actividad`, `marcar_actividad`, `borrar_cuentas_inactivas` y dos tareas de pg_cron | Postgres |
+| Servidor | `supabase/migrations/0001_copias.sql`: tabla `copias`, RLS, `subir_copia`, `actualizar_claves`, `borrar_cuenta`. `0031_copias_tope_de_claves.sql`: tope de 2 KB para `claves` y `tamano` en bytes. `0002_espacio.sql`: tabla `actividad`, `marcar_actividad`, `borrar_cuentas_inactivas` y dos tareas de pg_cron | Postgres |
 
 ## Reglas
 
