@@ -37,11 +37,18 @@ async function abrir(context) {
   page.on('response', r => { if (r.status() >= 400 && r.url().startsWith(ORIGEN)) red.push({ url: r.url(), status: r.status() }) })
   await page.goto(ORIGEN)
   await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
-  // La bienvenida (ADR 066) se pasa ya: si no, la pasaría el primer clic y sus escrituras contarían como del recorrido.
-  if (process.env.APPFIT_UI_CON_BIENVENIDA !== '1') {
-    await page.locator('[data-paso-bienvenida]').waitFor({ timeout: 5000 }).then(() => pasarBienvenidaAhora(page), () => undefined)
-  }
+  await pasarBienvenidaSiSale(page)
   return { page, errores, red }
+}
+
+/**
+ * La bienvenida (ADR 066) se pasa ya, tras cargar Inicio: si no, la pasaría el primer clic y sus escrituras contarían como
+ * del recorrido. Sale un poco después de Inicio; si sale a mitad de una acción (un Toast con «Deshacer»), esa acción se
+ * pierde: por eso también los recorridos que abren la página por su cuenta la llaman antes de actuar.
+ */
+async function pasarBienvenidaSiSale(page) {
+  if (process.env.APPFIT_UI_CON_BIENVENIDA === '1') return
+  await page.locator('[data-paso-bienvenida]').waitFor({ timeout: 5000 }).then(() => pasarBienvenidaAhora(page), () => undefined)
 }
 
 async function datos(page) {
@@ -126,4 +133,4 @@ async function geometria(page, etiqueta) {
 }
 
 function informe(nombre, datos) { fs.writeFileSync(path.join(salida, `${nombre}.json`), JSON.stringify(datos, null, 2)) }
-module.exports = { cerrarCelebraciones, marcarLogrosVistos, assert, fs, path, playwright, ORIGEN, salida, lanzar, contexto, abrir, datos, sembrar, captura, geometria, informe, navegar }
+module.exports = { pasarBienvenidaSiSale, cerrarCelebraciones, marcarLogrosVistos, assert, fs, path, playwright, ORIGEN, salida, lanzar, contexto, abrir, datos, sembrar, captura, geometria, informe, navegar }
