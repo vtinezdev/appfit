@@ -30,7 +30,7 @@ Comprobado sin problemas:
 - Frenos por día: 30 publicaciones, 5 comunidades, 20 denuncias, 20 invitaciones a compañía; mensajes al creador, 5 por hora y 300 en total.
 
 Arreglado:
-- **Las claves de la copia no tenían tope** (confirmado: `subir_copia` guardaba 20 MB en `claves` con una copia de 3 bytes, saltándose el tope de 30 MB, que solo mide `datos`). `0032_copias_tope_de_claves.sql` limita `claves` a un objeto de 2 KB (las reales ocupan unos 400 bytes) y hace que `tamano` cuente bytes. Prueba: `supabase/pruebas/copias.sql` (falla sin 0032). **Víctor tiene que ejecutar 0032** en el SQL Editor.
+- **Las claves de la copia no tenían tope** (confirmado: `subir_copia` guardaba 20 MB en `claves` con una copia de 3 bytes, saltándose el tope de 30 MB, que solo mide `datos`). `0032_copias_tope_de_claves.sql` limita `claves` a un objeto de 2 KB (las reales ocupan unos 400 bytes) y hace que `tamano` cuente bytes. Prueba: `supabase/pruebas/copias.sql` (falla sin 0032). Víctor la ejecutó en el proyecto real el 2026-11-07 («Success. No rows returned»).
 
 ## 2. Cuenta
 
@@ -117,7 +117,7 @@ Visto y aceptado: con la app abierta en dos pestañas del navegador, si una se a
 
 ## Resumen
 
-Revisadas las 10 áreas. Arreglado en la PR: el tope de las claves de la copia (0032, que tienes que ejecutar), el atasco cuando otro móvil empieza de cero, las actividades de más de 35 horas, los valores imposibles de Open Food Facts, la CSP con el proyecto de Supabase exacto, las dependencias de desarrollo vulnerables, un test que dependía de la zona horaria y el mensaje de una copia demasiado grande. Nuevas pruebas: la suite SQL de la copia, la prueba de 40 000 publicaciones hostiles y las de actividades largas.
+Revisadas las 10 áreas. Arreglado en la PR: el tope de las claves de la copia (0032, ejecutada el 2026-11-07), el atasco cuando otro móvil empieza de cero, las actividades de más de 35 horas, los valores imposibles de Open Food Facts, la CSP con el proyecto de Supabase exacto, las dependencias de desarrollo vulnerables, un test que dependía de la zona horaria y el mensaje de una copia demasiado grande. Nuevas pruebas: la suite SQL de la copia, la prueba de 40 000 publicaciones hostiles y las de actividades largas.
 
 ## Segunda ronda (2026-11-06)
 
@@ -206,14 +206,14 @@ Comprobado sin problemas: cada serie se guarda en la base al momento, y si está
 
 ## Para Víctor
 
-1. **Ejecutar `supabase/migrations/0032_copias_tope_de_claves.sql`** en el SQL Editor del proyecto (después de 0031, la de desbloqueos). La app no cambia.
+1. ~~Ejecutar `supabase/migrations/0032_copias_tope_de_claves.sql`~~ **Hecho** el 2026-11-07 («Success. No rows returned»).
 2. **Espacio por cuenta (decisión).** Cada cuenta puede ocupar hasta 60 MB en la base de datos (la copia, hasta 30 MB, y la anterior, otros 30 MB, que se borra cuando la copia lleva 7 días sin cambiar), y las cuentas se crean con cualquier email. Con el plan gratuito de Supabase (500 MB de base de datos) bastan unas pocas cuentas hechas a propósito para llenarla. Opciones: bajar el tope de la copia (por ejemplo, a 10 MB, si las copias reales quedan muy por debajo; la tuya se puede ver en Table Editor › `copias` › `tamano`), activar CAPTCHA en Authentication › Attack Protection (pide un cambio en la app y un servicio externo nuevo en la CSP), o vigilar el uso en el panel. Dime cuál prefieres.
 3. **Panel de Supabase › Authentication › Rate Limits:** revisar los límites de envío de correos y de verificación del código (ya estaba en `seguridad.md` junto a la caducidad de 600 s).
 4. **Suspendidos que vuelven con el mismo email (decisión).** Una suspensión de Social (`vetados`) se borra con la cuenta. Así, quien está suspendido puede borrar su cuenta, crearla otra vez con el mismo email y hacerse un perfil nuevo. Para impedirlo habría que guardar, tras borrar la cuenta, una huella (hash) del email de quien fue suspendido, y decirlo en la política de privacidad. Con otro email podría volver igualmente. ¿Lo hago, o lo dejas así?
 5. **Cerrar la sesión en todos los dispositivos (propuesta).** Si te roban el móvil, ahora no hay forma de cerrar la sesión que quedó abierta en él. Supabase lo permite (`signOut` global); sería un botón en Gestionar la cuenta. ¿Lo añado?
 6. **Pantalla de fallo sin salida (propuesta).** Si una pantalla falla, `FalloAplicacion` solo ofrece «Recargar». Si el fallo se repite en cada arranque, no hay forma de llegar a Ajustes para exportar o importar una copia. Propongo añadir en esa pantalla «Exportar una copia de seguridad», que no toca nada. ¿Lo añado?
 7. **Comprobar la CSP tras el próximo despliegue.** Abre la app publicada, entra en la cuenta y mira que la copia se guarda. Si algo falla con «Content Security Policy» en la consola, avísame: querría decir que Cloudflare no pasa `VITE_SUPABASE_URL` a la build como espero.
-8. **Corrección: la migración que tienes que ejecutar es `0032_copias_tope_de_claves.sql`**, no la 0031 que te dije: `master` ya tenía su 0031 (desbloqueos), ya ejecutada. Ejecútala después de esa.
+8. ~~Corrección: la migración era la 0032, no la 0031~~ **Hecho:** 0032 ejecutada el 2026-11-07.
 9. **Perfil visible con solo pedir seguir (decisión).** Comprobado: si alguien te pide seguirte, ve tu biografía, disciplinas y logros destacados aunque no aceptes; quien no lo pide no los ve. La documentación dice «relación», y el código cuenta como relación una solicitud pendiente. Como cualquiera puede pedirte seguirte si sabe tu alias, la solicitud es casi un pase libre al perfil (hasta 50 al día). ¿Lo dejo así, o el perfil solo se ve tras aceptar? Si lo cambio, quien recibe la solicitud seguiría viendo el perfil de quien la pide.
 10. **Expulsar de una comunidad no impide volver (propuesta).** Hoy la persona expulsada vuelve a unirse al momento (es lo que decidió el ADR 044, y la pantalla lo avisa). Contra el acoso dentro de una comunidad, propongo una lista de expulsados: no podrían volver a unirse salvo que un moderador los readmita. ¿Lo hago?
 11. **Para la parte 3 (Play Billing):** el desbloqueo recordado se olvida en cuanto la cuenta pasa a «sin sesión», también si la sesión caduca sola y no solo al cerrar sesión a propósito. Con el cobro encendido, alguien que pagó vería el bloqueo hasta volver a entrar. Lo arreglará el desbloqueo por compra de Play; lo dejo apuntado para entonces.

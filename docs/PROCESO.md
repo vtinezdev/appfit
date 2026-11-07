@@ -3743,3 +3743,4 @@ Víctor decide, a raíz de la auditoría (`auditoria-seguridad-2026-11/ESTADO.md
 - Documentos: ADR 068, `features/desbloqueo.md`, `desarrollo.md`.
 
 **Verificación:** `validar-desbloqueos.cjs` en local (320 claro, 375 oscuro, 430 claro) correcto, con el Supabase falso.
+- Víctor ejecuta `0032_copias_tope_de_claves.sql` en el proyecto real el 2026-11-07: «Success. No rows returned» (ninguna copia real superaba el tope de las claves). Anotado en `features/social.md`, `features/cuenta.md`, `seguridad.md` y `ESTADO.md`.
