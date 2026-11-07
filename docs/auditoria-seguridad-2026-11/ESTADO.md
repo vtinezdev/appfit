@@ -186,7 +186,7 @@ Visto y aceptado:
 
 ### 20. Cobertura del bloqueo de pago
 
-Comprobado sin problemas: busqué en Nutrición, Perfil e Inicio los componentes que escriben en la base sin usar `useDePago`. Los que deberían estar protegidos (acciones de comida, comidas típicas, recetas y Añadir comida) se abren siempre desde botones que pasan por `proteger(...)`, en `Hoy.tsx`, `Alimentos.tsx` y las cabeceras. Los que quedan sin guarda son los que el ADR 068 deja libres: peso, medidas, agua, pasos y creatina. Ojo: agua, pasos y creatina no salen en la tabla del ADR. Si deben ser de pago, hay que decidirlo antes de encender el cobro.
+Comprobado sin problemas: busqué en Nutrición, Perfil e Inicio los componentes que escriben en la base sin usar `useDePago`. Los que deberían estar protegidos (acciones de comida, comidas típicas, recetas y Añadir comida) se abren siempre desde botones que pasan por `proteger(...)`, en `Hoy.tsx`, `Alimentos.tsx` y las cabeceras. Los que quedan sin guarda son los que el ADR 068 deja libres: peso, medidas, agua, pasos y creatina. Agua, pasos y creatina no salían en la tabla del ADR. Víctor decidió el 2026-11-07 que el agua y la creatina son de pago: ya piden desbloquear (`InicioTab`, `AguaSheet`, `CreatinaHoy`), con su comprobación en `validar-desbloqueos.cjs`. Los pasos siguen gratis.
 
 ### 21. Guardados que fallan sin avisar
 

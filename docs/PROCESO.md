@@ -3733,3 +3733,13 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 - Documentos: `arquitectura.md` (coste del lector compartido), `auditoria-seguridad-2026-11/ESTADO.md` §§ 21-22.
 - Entreno en curso al cerrarse la app: sin hallazgos (las series y si están hechas viven en la base; solo se pierde la cuenta atrás del descanso). `ESTADO.md` § 23.
 - CI: `validar-correcciones-auditoria` › `firefox-medianoche` falló una vez (ejecución 320, en un commit que solo cambiaba documentación). El caso abría la página por su cuenta, sin pasar la bienvenida, y esta salía en mitad del Toast del agua, así que se perdía su «Deshacer». Nuevo `auditoria-comun.pasarBienvenidaSiSale` (lo usa `abrir`), llamado también en ese caso antes de actuar. En local, en Chromium, 3 de 3.
+
+## 348. Gratis y de pago: el agua y la creatina, de pago (2026-11-07)
+
+Víctor decide, a raíz de la auditoría (`auditoria-seguridad-2026-11/ESTADO.md` § 20), que el agua y la creatina son de pago, como la nutrición; los pasos, el peso y las medidas siguen gratis.
+
+- Con la prueba terminada piden desbloquear: añadir agua en la tarjeta de Inicio (`InicioTab`) y en su hoja, y cambiar el objetivo (`AguaSheet`); marcar la toma de creatina, guardar la dosis y empezar la carga (`CreatinaHoy`). Quitar la última toma, desmarcar la creatina y cancelar la carga siguen libres, como borrar en el resto.
+- `scripts/ui/validar-desbloqueos.cjs`: con la prueba terminada, «Añadir 250 ml de agua» y «Tomada hoy» abren «Cumbra Fit completa» y no apuntan nada (falla sin el cambio).
+- Documentos: ADR 068, `features/desbloqueo.md`, `desarrollo.md`.
+
+**Verificación:** `validar-desbloqueos.cjs` en local (320 claro, 375 oscuro, 430 claro) correcto, con el Supabase falso.

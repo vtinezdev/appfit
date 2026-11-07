@@ -9,6 +9,7 @@ import { ErrorState } from '../../../shared/components/StateMessage'
 import { addDays, formatFriendly, parseISODate, todayISO } from '../../../shared/lib/dates'
 import { formatNumber, leerDecimal } from '../../../shared/lib/format'
 import * as creatinaRepo from '../data/creatinaRepo'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 import { DIAS_CARGA, diaCreatina, dosisManualValida, pesoCreatinaValido } from '../lib/creatina'
 import TarjetaAcceso from './TarjetaAcceso'
 
@@ -23,6 +24,9 @@ const NOMBRES_DIA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'vier
  */
 export default function CreatinaHoy({ hoy }: { hoy: string }) {
   const datos = useLiveQuery(() => creatinaRepo.leer(hoy), [hoy])
+  // La creatina es de pago (ADR 068): con la prueba terminada, marcar la toma, la dosis y empezar la carga piden
+  // desbloquear; desmarcar y cancelar la carga, no (quitar sigue libre).
+  const { bloqueado, pedir } = useDePago()
   const [abierta, setAbierta] = useState(false)
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -46,9 +50,10 @@ export default function CreatinaHoy({ hoy }: { hoy: string }) {
     catch { setError(fallo) }
     finally { enCurso.current = false; setOcupado(false) }
   }
-  const cambiar = (tomada: boolean) => ejecutar(() => creatinaRepo.marcar(todayISO(), tomada), 'No se ha podido guardar la toma. Inténtalo de nuevo.')
+  const cambiar = (tomada: boolean) => tomada && bloqueado ? pedir() : ejecutar(() => creatinaRepo.marcar(todayISO(), tomada), 'No se ha podido guardar la toma. Inténtalo de nuevo.')
   const guardarCreatina = (accion: () => Promise<void>) => ejecutar(accion, 'No se ha podido guardar Creatina. Inténtalo de nuevo.')
   function guardarDosis() {
+    if (bloqueado) { pedir(); return }
     const g = dosisTexto.trim() === '' ? undefined : leerDecimal(dosisTexto)
     if (dosisTexto.trim() !== '' && (g === undefined || !dosisManualValida(g))) {
       setError('Introduce una dosis mayor que 0 g, o deja el campo vacío para usar la automática.'); return
@@ -97,7 +102,7 @@ export default function CreatinaHoy({ hoy }: { hoy: string }) {
           </div>
           {dia.carga
             ? <Button variant="secondary" disabled={ocupado} onClick={() => { void guardarCreatina(() => creatinaRepo.configurar({ inicioCarga: undefined })) }}>Cancelar fase de carga</Button>
-            : <Button variant="secondary" disabled={ocupado || !conPeso} onClick={() => { void guardarCreatina(() => creatinaRepo.empezarCarga(hoy)) }}>Empezar fase de carga</Button>}
+            : <Button variant="secondary" disabled={ocupado || !conPeso} onClick={() => { if (bloqueado) pedir(); else void guardarCreatina(() => creatinaRepo.empezarCarga(hoy)) }}>Empezar fase de carga</Button>}
         </section>
 
         <section aria-labelledby="creatina-mantenimiento" className="space-y-2">

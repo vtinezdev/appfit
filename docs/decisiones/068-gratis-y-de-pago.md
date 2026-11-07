@@ -12,7 +12,7 @@ Víctor quiere monetizar la app sin convertirla en una suscripción: una parte g
 
 | Gratis siempre | De pago (tras la prueba) |
 |---|---|
-| Entreno › Gimnasio (rutinas, sesiones, historial) y su progreso (gráficas, récords) | Nutrición entera (diario, recetas, catálogo, escáner, plan, lista de la compra) |
+| Entreno › Gimnasio (rutinas, sesiones, historial) y su progreso (gráficas, récords) | Nutrición entera (diario, recetas, catálogo, escáner, plan, lista de la compra), con el agua y la creatina de Inicio (Víctor, 2026-11-07) |
 | Entreno › Actividades y Caminos | Perfil (gasto y objetivo de kcal, que solo sirve a Nutrición) |
 | Liga | Copia en la nube (lo único que cuesta dinero cada mes) |
 | Progreso › Semana, Cumbres y Vitrina, **contando solo entrenos y actividades** | Lo que comidas y nutrición aportan a Semana, Cumbres y Vitrina (Herbario, metros por comidas…) |
@@ -39,3 +39,5 @@ Víctor lo decide el 2026-11-06:
 - Hay que cambiar las condiciones de uso, la política de privacidad ([ADR 065](065-textos-legales-y-edad-minima.md)), la ficha de Play y `/conoce`, que hoy dicen que la app es gratis.
 - El bloqueo de lo local se puede saltar con conocimientos técnicos, o usando la web; se acepta.
 - Siguiente paso, aparte: pasar la app de Play de TWA a Capacitor para grabar actividades con la pantalla bloqueada (servicio en primer plano de ubicación). Play Billing funciona igual allí. Ver `docs/roadmap.md`.
+
+Añadido el 2026-11-07: el agua y la creatina son de pago, como la nutrición. El peso, las medidas y los pasos siguen gratis.

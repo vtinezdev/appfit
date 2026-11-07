@@ -9,6 +9,7 @@ import { ErrorState } from '../../../shared/components/StateMessage'
 import { addDays, todayISO } from '../../../shared/lib/dates'
 import { getPerfil } from '../../perfil/data/perfilRepo'
 import * as aguaRepo from '../data/aguaRepo'
+import { useDePago } from '../../desbloqueo/DesbloqueoContext'
 import EvolucionAgua from './EvolucionAgua'
 import { AGUA_POR_DEFECTO_ML, formatAgua, objetivoAguaPorDefecto, OPCIONES_AGUA_ML, validarObjetivoAgua, type ObjetivoAgua } from '../lib/agua'
 
@@ -26,6 +27,8 @@ type Eleccion = `${(typeof OPCIONES_AGUA_ML)[number]}` | 'otra'
  * aquí, no en Ajustes) y repasar los últimos días. Dentro de un Sheet el Toast queda debajo, así que los errores van en línea.
  */
 export default function AguaSheet({ open, onClose, hoy, objetivo }: Props) {
+  // El agua es de pago (ADR 068): con la prueba terminada, añadir y cambiar el objetivo piden desbloquear; quitar, no.
+  const { proteger } = useDePago()
   const hoyAgua = useLiveQuery(() => aguaRepo.delDia(hoy), [hoy])
   const historial = useLiveQuery(() => aguaRepo.entreFechas(addDays(hoy, -89), hoy), [hoy])
   const [eleccion, setEleccion] = useState<Eleccion>(`${AGUA_POR_DEFECTO_ML}` as Eleccion)
@@ -44,10 +47,10 @@ export default function AguaSheet({ open, onClose, hoy, objetivo }: Props) {
     setError(null)
     try { await aguaRepo.quitarUltima(todayISO()) } catch { setError('No se ha podido quitar la última toma.') }
   }
-  function fijarObjetivo(nuevo: number | undefined) {
+  const fijarObjetivo = proteger((nuevo: number | undefined) => {
     setErrorObjetivo(null)
     aguaRepo.fijarObjetivo(nuevo).catch(() => setErrorObjetivo('No se ha podido guardar el objetivo de agua.'))
-  }
+  })
 
   return (
     <Sheet open={open} onClose={onClose} title="Agua">
@@ -60,7 +63,7 @@ export default function AguaSheet({ open, onClose, hoy, objetivo }: Props) {
           <SegmentedControl<Eleccion> label="Cantidad de la toma" valor={eleccion} onChange={setEleccion}
             opciones={[...OPCIONES_AGUA_ML.map((n) => ({ valor: `${n}` as Eleccion, label: `${n} ml` })), { valor: 'otra' as const, label: 'Otra' }]} />
           {eleccion === 'otra' && <div className="flex justify-center"><NumberStepper label="mililitros de la toma" value={otra} min={1} step={50} suffix="ml" onChange={setOtra} /></div>}
-          <Button block size="lg" onClick={anadir}>Añadir {formatAgua(ml)}</Button>
+          <Button block size="lg" onClick={proteger(anadir)}>Añadir {formatAgua(ml)}</Button>
           <Button block variant="subtle" disabled={ultima === undefined} onClick={quitar}>{ultima === undefined ? 'Quitar la última toma' : `Quitar la última toma (${formatAgua(ultima)})`}</Button>
           {error && <ErrorState>{error}</ErrorState>}
         </div>
