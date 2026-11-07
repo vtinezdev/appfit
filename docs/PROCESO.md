@@ -3725,3 +3725,9 @@ Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Pl
 ## 346. Auditoría de seguridad, segunda ronda: cobertura del bloqueo de pago (2026-11-06)
 
 - Los componentes de Nutrición, Perfil e Inicio que escriben sin `useDePago` se abren desde botones protegidos o son libres según el ADR 068 (peso y medidas). Agua, pasos y creatina quedan libres sin estar en la tabla del ADR: anotado en `auditoria-seguridad-2026-11/ESTADO.md` § 20.
+
+## 347. Auditoría de seguridad, tercera ronda: guardados y rendimiento con años de datos (2026-11-07)
+
+- Guardados que fallan sin avisar: sin hallazgos («Deshacer», las series del entreno y publicar ya avisan y no duplican).
+- Rendimiento: con tres años de uso intenso en la base de pruebas, `leerVitrina` tardaba unos 1 150 ms, y lo recalcula cada escritura porque `CelebracionLogros` lo tiene suscrito en casi toda la app. Según el perfil de CPU, la mayor parte era `gym/lib/selectorEjercicios.catalogoDeLocal`, que normalizaba el catálogo entero por cada serie de un ejercicio antiguo. Ahora un índice por nombre que se construye una vez, con tests de equivalencia y de velocidad (el de velocidad fallaba antes: 1,8 s). Queda en unos 850 ms, casi todo lectura de fake-indexeddb.
+- Documentos: `arquitectura.md` (coste del lector compartido), `auditoria-seguridad-2026-11/ESTADO.md` §§ 21-22.

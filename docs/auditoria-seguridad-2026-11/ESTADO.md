@@ -136,6 +136,13 @@ Después de fusionar `master` (gratis y de pago, ADR 068). **La migración del t
 | 19 | Contraseña de la copia y carreras entre móviles | Revisada |
 | 20 | El bloqueo de pago cubre todas las formas de escribir | Revisada |
 
+### Tercera ronda (2026-11-07)
+
+| # | Área | Estado |
+|---|---|---|
+| 21 | Guardados que fallan sin avisar | Revisada |
+| 22 | Rendimiento con años de datos | Revisada |
+
 ### 11. Gratis y de pago
 
 Comprobado sin problemas: `mi_desbloqueo` solo mira la fila de quien llama, `admin_desbloquear` y `admin_desbloqueados` exigen administrador (`social_admin_yo`) y la tabla `desbloqueos` está cerrada (RLS sin políticas ni permisos). Un desbloqueo por compra no se puede quitar desde la administración.
@@ -180,6 +187,18 @@ Visto y aceptado:
 
 Comprobado sin problemas: busqué en Nutrición, Perfil e Inicio los componentes que escriben en la base sin usar `useDePago`. Los que deberían estar protegidos (acciones de comida, comidas típicas, recetas y Añadir comida) se abren siempre desde botones que pasan por `proteger(...)`, en `Hoy.tsx`, `Alimentos.tsx` y las cabeceras. Los que quedan sin guarda son los que el ADR 068 deja libres: peso, medidas, agua, pasos y creatina. Ojo: agua, pasos y creatina no salen en la tabla del ADR. Si deben ser de pago, hay que decidirlo antes de encender el cobro.
 
+### 21. Guardados que fallan sin avisar
+
+Comprobado sin problemas: «Deshacer» avisa si falla (`useAviso`). Las series del entreno se guardan en cola por serie, con aviso de error, y borrar espera a que termine la escritura pendiente. Publicar en Social usa un id determinista (`idPara`), así que reintentar no duplica, y un fallo al apuntar la publicación en el entreno sale en la hoja.
+
+### 22. Rendimiento con años de datos
+
+Medido con tres años de uso intenso generados en la base de pruebas (16 425 comidas, 471 entrenos, 13 188 series, 274 actividades): el cálculo de la gamificación (`leerVitrina`) tardaba unos 1 150 ms. Es síncrono, en el hilo principal, y se repite con cada cambio de datos en casi toda la app, porque `CelebracionLogros` lo tiene suscrito siempre (salvo con un entreno abierto). Con un año, unos 350 ms.
+
+Arreglado: el perfil de CPU señalaba `gym/lib/selectorEjercicios.catalogoDeLocal`. Para cada serie de un ejercicio antiguo sin `catalogId` (los de antes del catálogo, como los tuyos) recorría el catálogo entero normalizando cada nombre y alias. Ahora usa un índice que se construye una vez, con el mismo resultado: hay un test que lo compara con la búsqueda de antes para cada nombre y alias, y otro que comprueba que 20 000 búsquedas tardan menos de 200 ms (antes, 1,8 s). Con tres años de datos, de unos 1 150 a unos 850 ms. Lo que queda es casi todo leer la base de pruebas (fake-indexeddb, más lenta que la real). El cálculo de la app ya ronda los 30 ms.
+
+Visto: el cálculo sigue repitiéndose con cada escritura (una comida, un vaso de agua). Para quien lleve años, conviene medirlo en un móvil real (punto 15).
+
 ## Para Víctor
 
 1. **Ejecutar `supabase/migrations/0032_copias_tope_de_claves.sql`** en el SQL Editor del proyecto (después de 0031, la de desbloqueos). La app no cambia.
@@ -196,3 +215,4 @@ Comprobado sin problemas: busqué en Nutrición, Perfil e Inicio los componentes
 12. **Antes de encender el cobro (parte 3), además de lo que dice el ADR 068:** en Play Console › Estado de comerciante tendrás que declararte comerciante, porque vender dentro de la app genera ingresos (la normativa europea). Play publica entonces en la ficha tu nombre, dirección y teléfono o email de contacto. Si no quieres que salga tu domicilio, conviene resolverlo antes (por ejemplo, con una dirección profesional), y consultarlo con un gestor, como ya dice `formularios.md`. En Seguridad de los datos habrá que marcar el historial de compras.
 13. **`?preview=cobro` en producción (decisión).** Hoy cualquier enlace como `cumbrafit.app/?preview=cobro` enciende el bloqueo de pago en esa pestaña: quien lo abra ve su nutrición «bloqueada» y «Desbloquear 9,99 €» en la web, donde no se puede pagar. Es un buen anzuelo para un engaño («págame y te lo desbloqueo»). Las pruebas usan el servidor de desarrollo, así que puedo limitarlo a desarrollo sin romper nada; solo perderías probar el bloqueo en la web publicada (en la app de Play lo verías con `COBRO_ACTIVO`). ¿Lo limito?
 14. **Contraseñas débiles para la copia (decisión).** Basta con 8 caracteres, y se acepta «12345678». La copia va cifrada, pero si alguien robara la base de datos de Supabase podría probar contraseñas contra las claves sin límite: las comunes caen enseguida, aunque PBKDF2 con 600 000 iteraciones las haga lentas. Propongo rechazar las contraseñas más comunes (una lista de unas 1000, dentro de la app, sin servicios externos) o pedir 10 caracteres. ¿Cuál prefieres, o lo dejamos?
+15. **Medir en tu móvil (propuesta).** Con tus datos reales, abre Inicio y apunta un vaso de agua: si notas un tirón de más de medio segundo, dímelo. La solución sería recalcular el progreso con menos frecuencia (por ejemplo, una vez cuando paras de escribir) o fuera del hilo principal. Es un cambio de arquitectura y prefiero no hacerlo a ciegas.

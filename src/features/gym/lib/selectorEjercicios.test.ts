@@ -140,3 +140,22 @@ describe('recientes desde series', () => {
     expect(series).toEqual(original)
   })
 })
+
+describe('catalogoDeLocal con el índice por nombre', () => {
+  // La búsqueda lineal de antes, como referencia: el primer ejercicio del catálogo con ese nombre o alias.
+  const lineal = (nombreNorm: string) => CATALOGO_EJERCICIOS.find(c => [c.name, ...(c.aliases ?? [])].some(n => normalizeName(n) === nombreNorm))
+  const antiguo = (nombre: string): Exercise => ({ id: 1, nombre, nombreNorm: normalizeName(nombre), grupo: 'pecho', createdAt: 0 } as unknown as Exercise)
+
+  it('encuentra lo mismo que la búsqueda lineal para cada nombre y alias del catálogo, y nada para lo demás', () => {
+    const nombres = CATALOGO_EJERCICIOS.flatMap(c => [c.name, ...(c.aliases ?? [])])
+    for (const n of [...nombres, 'Press banca mío', 'zzz', '']) expect(catalogoDeLocal(antiguo(n))?.id).toBe(lineal(normalizeName(n))?.id)
+  })
+
+  it('es rápido con muchas series de ejercicios antiguos', () => {
+    // El peor caso: un ejercicio propio antiguo que no está en el catálogo lo recorre entero.
+    const e = antiguo('Mi ejercicio de siempre')
+    const t0 = performance.now()
+    for (let i = 0; i < 20_000; i++) catalogoDeLocal(e)
+    expect(performance.now() - t0).toBeLessThan(200)
+  })
+})
