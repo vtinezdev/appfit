@@ -142,6 +142,7 @@ Después de fusionar `master` (gratis y de pago, ADR 068). **La migración del t
 |---|---|---|
 | 21 | Guardados que fallan sin avisar | Revisada |
 | 22 | Rendimiento con años de datos | Revisada |
+| 23 | Entreno en curso cuando el sistema cierra la app | Revisada |
 
 ### 11. Gratis y de pago
 
@@ -198,6 +199,10 @@ Medido con tres años de uso intenso generados en la base de pruebas (16 425 com
 Arreglado: el perfil de CPU señalaba `gym/lib/selectorEjercicios.catalogoDeLocal`. Para cada serie de un ejercicio antiguo sin `catalogId` (los de antes del catálogo, como los tuyos) recorría el catálogo entero normalizando cada nombre y alias. Ahora usa un índice que se construye una vez, con el mismo resultado: hay un test que lo compara con la búsqueda de antes para cada nombre y alias, y otro que comprueba que 20 000 búsquedas tardan menos de 200 ms (antes, 1,8 s). Con tres años de datos, de unos 1 150 a unos 850 ms. Lo que queda es casi todo leer la base de pruebas (fake-indexeddb, más lenta que la real). El cálculo de la app ya ronda los 30 ms.
 
 Visto: el cálculo sigue repitiéndose con cada escritura (una comida, un vaso de agua). Para quien lleve años, conviene medirlo en un móvil real (punto 15).
+
+### 23. Entreno en curso al cerrarse la app
+
+Comprobado sin problemas: cada serie se guarda en la base al momento, y si está hecha va en la propia serie (`realizada`), así que sobrevive a que el sistema cierre la app o a quitarla de recientes. En `sessionStorage` solo va lo secundario (la cuenta atrás del descanso), que es lo único que se pierde.
 
 ## Para Víctor
 
