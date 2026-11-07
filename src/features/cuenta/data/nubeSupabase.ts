@@ -32,6 +32,10 @@ export function traducir(error: unknown, falloServidor = FALLO_SERVIDOR): NubeEr
   if (e?.code === 'PGRST301' || e?.status === 401 || /jwt/i.test(e?.message ?? '')) {
     return new NubeError('Tu sesión ha caducado. Vuelve a entrar en tu cuenta.', 'sesion')
   }
+  // Un tope de la tabla `copias` (30 MB de copia, 0001; 2 KB de claves, 0032): reintentar no lo arregla.
+  if (e?.code === '23514') {
+    return new NubeError('Tu copia es demasiado grande para la nube (hasta 30 MB cifrada). Guarda una en el móvil desde Ajustes › Copias de seguridad.')
+  }
   if (/fetch|network/i.test(e?.message ?? '')) return new NubeError(SIN_CONEXION, 'sin-conexion')
   return new NubeError(GENERICO)
 }

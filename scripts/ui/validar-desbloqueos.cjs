@@ -57,6 +57,21 @@ async function main() {
         await navegar(page, 'Nutrición')
         await page.getByRole('region', { name: 'Prueba terminada' }).waitFor()
 
+        // Agua y creatina también son de pago (Víctor, 2026-11-07): añadir pide desbloquear y no guarda nada.
+        await page.evaluate(async () => { const c = await import('/src/features/inicio/data/creatinaRepo.ts'); await c.configurar({ activa: true }) })
+        await navegar(page, 'Inicio')
+        const pago = page.getByRole('dialog', { name: 'Cumbra Fit completa' })
+        for (const boton of [page.getByRole('button', { name: 'Añadir 250 ml de agua', exact: true }), page.getByRole('button', { name: 'Tomada hoy', exact: true })]) {
+          await boton.click()
+          await pago.waitFor()
+          await page.keyboard.press('Escape'); await pago.waitFor({ state: 'detached' })
+        }
+        const apuntado = await page.evaluate(async () => {
+          const d = await import('/src/shared/lib/dates.ts'); const a = await import('/src/features/inicio/data/aguaRepo.ts'); const c = await import('/src/features/inicio/data/creatinaRepo.ts')
+          return { agua: (await a.delDia(d.todayISO()))?.ml ?? 0, creatina: (await c.leer(d.todayISO())).tomada }
+        })
+        assert.deepEqual(apuntado, { agua: 0, creatina: false }, 'agua y creatina no se apuntan sin desbloquear')
+
         // Desbloqueada en la nube: al abrir, la app pregunta y lo recuerda; el aviso desaparece.
         await page.request.post(`${API}simular_desbloqueo`, { data: { p_desbloqueado: true } })
         await page.reload()

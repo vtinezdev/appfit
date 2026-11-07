@@ -176,3 +176,13 @@ describe('administración (0017)', () => {
     await expect(social().anadirAComunidad('grupo', 'beto')).rejects.toMatchObject({ clave: 'ya_miembro', message: 'Esa persona ya es miembro de la comunidad.' })
   })
 })
+
+describe('textos de otras personas', () => {
+  beforeEach(() => { rpc.mockReset() })
+  it('llegan sin caracteres invisibles con los que falsear un nombre o una línea', async () => {
+    rpc.mockResolvedValue({ data: [{ alias: 'ana', nombre: 'Ana‮ zurt​', sigo: 'no', me_sigue: 'no' }], error: null })
+    const social = crearSocialSupabase('https://appfit-pruebas.invalid', 'publica-falsa')
+    const [persona] = await social.personas('siguiendo')
+    expect(persona.nombre).toBe('Ana zurt')
+  })
+})

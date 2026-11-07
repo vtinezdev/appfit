@@ -8,7 +8,7 @@
 
 | Pieza | Dónde |
 |---|---|
-| Contrato y RPC | `data/social.ts`, `data/socialSupabase.ts`, `servicio.ts` |
+| Contrato y RPC | `data/social.ts`, `data/socialSupabase.ts` (cada respuesta pasa por `shared/lib/text.limpiarTextosRecibidos`: sin inversiones de dirección, espacios de ancho cero ni controles en nombres, comentarios y publicaciones ajenos), `servicio.ts` |
 | Validación y construcción de resúmenes v1 | `lib/publicacion.ts` |
 | Récords públicos, agrupación y formato | `lib/records.ts`, `components/RecordsPublicacion` |
 | Lectores de páginas, comentarios, avisos, avatares y vistas previas | `lib/feed.ts`; textos de reacción en `lib/reaccion.ts` |
@@ -206,6 +206,7 @@ El original subido al repositorio se conserva en `src/features/social/assets/ava
 | 0026 | Moderar comunidades (A22): `denuncias.actuada`; `admin_resolver_denuncia` acepta `suspender_comunidad` y `cerrar` (solo con denuncias de comunidad) y anota `actuada` salvo al descartar; `admin_comunidades_suspendidas()` y `admin_reactivar_comunidad(id)`; `social_eventos` añade `denuncia` (las mías en las que se actuó). Se deshace quitando la columna y las dos funciones nuevas y reejecutando `admin_resolver_denuncia` de 0017 y `social_eventos` de 0025 |
 | 0014 | Lecturas del rediseño: `avatares_social(alias[], comunidad)` (logro elegido, con la visibilidad de `perfil_deportivo`; desde una comunidad, solo lo publicado en ella) y `ultimos_comentarios(ids[])` (último comentario visible de cada publicación, recortado a 140). Si no existen (`PGRST202`), el cliente devuelve `{}` en silencio |
 | 0031 | Desbloqueos de Cumbra Fit (ADR 068, parte 2): tabla `desbloqueos` (RLS cerrada), `mi_desbloqueo()` para cualquiera con sesión y, para administradores, `admin_desbloquear(alias, bool)` y `admin_desbloqueados()`. Aditiva: sin ella, la app sigue con la prueba y Moderación no enseña Desbloqueos. Prueba: `desbloqueos.sql`. Víctor la ejecuta en el proyecto real el 2026-11-06 |
+| 0032 | Tope de las claves de la copia (auditoría de 2026-11): `copias.claves`, objeto de 2 KB como mucho, y `subir_copia` cuenta `tamano` en bytes. Aditiva: la app no cambia. Prueba: `copias.sql`. Víctor la ejecuta en el proyecto real el 2026-11-07 («Success. No rows returned») |
 | 0029 | Responder a una respuesta: `comentar_respuesta` acepta como `p_respuesta` cualquier comentario visible de la publicación (antes, solo raíz) y `social_capacidades` devuelve además `respuestasAnidadas: true`. Se puede ejecutar antes o después de desplegar. Se deshace reejecutando `comentar_respuesta` de 0010 y `social_capacidades` de 0028. Víctor la ejecuta en el proyecto real el 2026-11-04 con «Success» |
 | 0028 | Imágenes de comunidades (ADR 062): `comunidades.imagen`, validador de catálogo privado, creación atómica, edición por el creador, lectura compatible y capacidad `imagenesComunidades`. Ejecutada después de 0027; Víctor confirma las seis comprobaciones en `true` el 2026-10-28 |
 

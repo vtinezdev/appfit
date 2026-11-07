@@ -73,7 +73,7 @@ const DIAS_HISTORIAL = 365
 export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, onIrAPerfil }: Props) {
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
-  const { bloqueado, pedir } = useDePago()
+  const { bloqueado, pedir, proteger } = useDePago()
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
   const pesos = useLiveQuery(() => pesosRepo.delRango(addDays(hoy, -DIAS_HISTORIAL), hoy), [hoy])
   const agua = useLiveQuery(() => aguaRepo.delDia(hoy), [hoy])
@@ -153,7 +153,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
       case 'registros': return <div className="inicio-registros">
         {moduloActivo(settings, 'peso') && <AccesoPeso tendencia={tendencia} pesos={pesos ?? []} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />}
         {(moduloActivo(settings, 'agua') || moduloActivo(settings, 'pasos')) && <div className="inicio-par">
-          {moduloActivo(settings, 'agua') && <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />}
+          {moduloActivo(settings, 'agua') && <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={proteger(anadirAgua)} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />}
           {moduloActivo(settings, 'pasos') && <AccesoPasos hoy={hoy} avisar={avisar} />}
         </div>}
       </div>

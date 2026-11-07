@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { iniciales, mismaRaiz, normalizeName, singular, tokenizar, tokensConsulta } from './text'
+import { iniciales, limpiarTextosRecibidos, mismaRaiz, normalizeName, singular, sinCaracteresOcultos, tokenizar, tokensConsulta } from './text'
 
 describe('normalizeName', () => {
   it('quita espacios sobrantes, mayúsculas y tildes', () => {
@@ -83,5 +83,22 @@ describe('iniciales', () => {
     expect(iniciales('ñandú')).toBe('ÑA')
     expect(iniciales('Ωmega fit')).toBe('ΩF')
     expect(iniciales('¡¡ !!')).toBe('?')
+  })
+})
+
+describe('caracteres ocultos en textos de otras personas', () => {
+  it('quita inversiones de dirección, espacios de ancho cero y controles', () => {
+    expect(sinCaracteresOcultos('Ana​‮zurt')).toBe('Anazurt')
+    expect(sinCaracteresOcultos('⁦Víctor⁩﻿\u0007')).toBe('Víctor')
+    expect(sinCaracteresOcultos('Hola\nadiós\tya')).toBe('Hola\nadiós\tya')
+  })
+
+  it('conserva emojis compuestos, acentos y otros alfabetos', () => {
+    for (const t of ['🏃‍♀️ Carrera', '👨‍👩‍👧', 'Mañana', 'عمر', 'می‌خواهم', '日本']) expect(sinCaracteresOcultos(t)).toBe(t)
+  })
+
+  it('limpia todos los textos de una respuesta, a cualquier profundidad, sin tocar lo demás', () => {
+    const r = limpiarTextosRecibidos([{ alias: 'ana', nombre: 'A‮na', n: 3, ok: true, nada: null, resumen: { titulo: 'x​y', lista: ['‮z'] } }])
+    expect(r).toEqual([{ alias: 'ana', nombre: 'Ana', n: 3, ok: true, nada: null, resumen: { titulo: 'xy', lista: ['z'] } }])
   })
 })

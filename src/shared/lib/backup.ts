@@ -15,6 +15,9 @@ import type { Actividad, Agua, CheatDay, DiaPasos, Entry, Exercise, Food, Gimnas
  * - Cambiar la forma de los registros: sube BACKUP_VERSION y se añade el paso correspondiente en `migrarBackup`.
  *   Lo mismo si un `upgrade()` de Dexie transforma registros, porque importar se salta los upgrades.
  */
+/** Una copia hecha con una versión más nueva de la app: hay que actualizar antes de importarla. */
+export const ERROR_VERSION_NUEVA = 'Esta copia es de una versión más nueva de Cumbra Fit. Actualiza la app en este móvil antes de abrirla.'
+
 export const BACKUP_VERSION = 3
 
 const TABLAS_OBLIGATORIAS = ['foods', 'entries', 'settings', 'exercises', 'routines', 'workouts', 'sets'] as const
@@ -213,6 +216,9 @@ export async function importarBackup(json: string, esperado?: BackupV3): Promise
     throw new BackupError('El archivo no es un JSON válido.')
   }
   const backup = migrarBackup(data)
+  // Un esquema más nuevo puede traer tablas que esta app no conoce (las tablas opcionales se añaden sin cambiar
+  // `BACKUP_VERSION`): importarlo las perdería sin avisar y, con la copia en la nube, las borraría también allí.
+  if (backup.dbVersion > db.verno) throw new BackupError(ERROR_VERSION_NUEVA)
 
   return db.transaction('rw', usuarioTablas(), async () => {
     // La comprobación y el reemplazo comparten el bloqueo de escritura de todas las tablas, también entre pestañas.

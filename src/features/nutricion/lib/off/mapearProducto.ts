@@ -16,6 +16,16 @@ export const CAMPOS_OFF = 'code,product_name,product_name_es,brands,nutriments,c
 
 const KJ_POR_KCAL = 4.184
 const TOTAL_NUTRIENTES = 8
+/**
+ * Máximos físicos por 100 g, los mismos que bloquean el catálogo empaquetado (`scripts/catalogo/calidad.ts`). OFF lo
+ * edita cualquiera y trae erratas (kJ escritos como kcal, una cifra de más): un valor imposible cuenta como desconocido,
+ * así que el producto no se guarda solo y la persona lo revisa.
+ */
+export const KCAL_MAX_OFF = 900
+const GRAMOS_MAX = 100
+/** Suma de proteína, hidratos y grasa, con margen por el redondeo de la etiqueta. */
+const MACROS_SUMA_MAX = 101
+export const NOMBRE_MAX_OFF = 120
 
 /** Nutrientes extra con las mismas claves que CIQUAL. */
 const NUTRIENTES_OFF: Record<ClaveNutriente, string> = {
@@ -43,14 +53,16 @@ function esObjeto(x: unknown): x is Record<string, unknown> {
 }
 
 /** Número finito y no negativo (OFF a veces manda cifras como texto); si no, desconocido. */
-function numero(x: unknown): number | undefined {
+function numero(x: unknown, max = Infinity): number | undefined {
   const n = typeof x === 'string' && x.trim() !== '' ? Number(x.replace(',', '.')) : x
-  return typeof n === 'number' && Number.isFinite(n) && n >= 0 ? n : undefined
+  return typeof n === 'number' && Number.isFinite(n) && n >= 0 && n <= max ? n : undefined
 }
 
 function texto(x: unknown): string | undefined {
   return typeof x === 'string' && x.trim() !== '' ? x.trim() : undefined
 }
+
+const nombreDe = (x: unknown): string | undefined => texto(x)?.slice(0, NOMBRE_MAX_OFF).trim()
 
 /**
  * Categoría Cumbra Fit con las mismas reglas que la tubería del catálogo (`categories_tags`, `pnns_groups_2`, nombre).
@@ -64,10 +76,10 @@ function categoriaDe(p: Record<string, unknown>, nombre: string): CategoriaAlime
 
 /** kcal por 100 g: `energy-kcal_100g`; si no, los kJ (`energy-kj_100g` o `energy_100g`, que OFF da en kJ) / 4,184. */
 function kcalDe(n: Record<string, unknown>): number | undefined {
-  const kcal = numero(n['energy-kcal_100g'])
-  if (kcal !== undefined) return kcal
+  // Unas kcal imposibles no se sustituyen por los kJ: el producto ya está mal y se revisa.
+  if (n['energy-kcal_100g'] !== undefined && n['energy-kcal_100g'] !== null && n['energy-kcal_100g'] !== '') return numero(n['energy-kcal_100g'], KCAL_MAX_OFF)
   const kj = numero(n['energy-kj_100g']) ?? numero(n['energy_100g'])
-  return kj === undefined ? undefined : kj / KJ_POR_KCAL
+  return kj === undefined || kj / KJ_POR_KCAL > KCAL_MAX_OFF ? undefined : kj / KJ_POR_KCAL
 }
 
 /**
@@ -79,20 +91,25 @@ export function mapearProducto(respuesta: unknown, gtin: string, importadoAt: nu
   if (!codigo || !esObjeto(respuesta) || respuesta.status === 0 || !esObjeto(respuesta.product)) return { tipo: 'no-encontrado' }
   const p = respuesta.product
   const n = esObjeto(p.nutriments) ? p.nutriments : {}
-  const nombre = texto(p.product_name_es) ?? texto(p.product_name)
-  const marca = texto(p.brands)?.split(',')[0].trim() || undefined
+  const nombre = nombreDe(p.product_name_es) ?? nombreDe(p.product_name)
+  const marca = nombreDe(texto(p.brands)?.split(',')[0]) || undefined
 
   const valores: Partial<Por100> = {}
   const kcal = kcalDe(n)
   if (kcal !== undefined) valores.kcal100 = round1(kcal)
   for (const [clave, campo] of Object.entries(MACROS_OFF) as [keyof typeof MACROS_OFF, string][]) {
-    const v = numero(n[campo])
+    const v = numero(n[campo], GRAMOS_MAX)
     if (v !== undefined) valores[clave] = round1(v)
+  }
+  if ((valores.prot100 ?? 0) + (valores.carb100 ?? 0) + (valores.grasa100 ?? 0) > MACROS_SUMA_MAX) {
+    delete valores.prot100
+    delete valores.carb100
+    delete valores.grasa100
   }
 
   const nutrientes: Record<string, number> = {}
   for (const [clave, campo] of Object.entries(NUTRIENTES_OFF)) {
-    const v = numero(n[campo])
+    const v = numero(n[campo], GRAMOS_MAX)
     if (v !== undefined) nutrientes[clave] = v
   }
   const { kcal100, prot100, carb100, grasa100 } = valores

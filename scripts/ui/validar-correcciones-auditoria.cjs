@@ -29,6 +29,8 @@ async function motor(nombre) {
       await page.clock.install({ time: new Date('2026-10-21T21:59:00Z') }) // 23:59 en Madrid.
       await page.goto(qa.ORIGEN)
       await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
+      // La bienvenida sale un poco después: en Firefox, a veces en mitad del Toast del agua, y se perdía su «Deshacer».
+      await qa.pasarBienvenidaSiSale(page)
       await page.getByRole('button', { name: 'Añadir 250 ml de agua', exact: true }).click()
       await page.getByRole('button', { name: 'Deshacer', exact: true }).waitFor()
       await page.clock.setSystemTime(new Date('2026-10-21T22:01:00Z'))

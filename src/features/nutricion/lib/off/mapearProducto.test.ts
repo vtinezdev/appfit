@@ -127,3 +127,36 @@ describe('mapearProducto', () => {
     expect(r.tipo === 'completo' && [r.food.id, r.food.gtin, r.food.idExterno]).toEqual([`off:${gtin}`, gtin, gtin])
   })
 })
+
+describe('valores imposibles (OFF lo edita cualquiera)', () => {
+  const con = (cambios: Record<string, unknown>, extra: Record<string, unknown> = {}) =>
+    mapearProducto(respuesta({ product_name: 'Galletas', nutriments: { ...NUTRIMENTS, ...cambios }, ...extra }), '8480000123456', 1)
+
+  it('no guarda solo un producto con kcal o macros imposibles: queda para revisar, sin esa cifra', () => {
+    // kJ escritos como kcal, una errata de mil y unos macros que suman más de 100 g.
+    const kcal = con({ 'energy-kcal_100g': 1628 })
+    expect(kcal.tipo).toBe('incompleto')
+    expect(kcal.tipo === 'incompleto' && kcal.valores.kcal100).toBeUndefined()
+    const macro = con({ proteins_100g: 135 })
+    expect(macro.tipo === 'incompleto' && macro.valores).toMatchObject({ kcal100: 389, carb100: 58.7, grasa100: 7 })
+    expect(macro.tipo === 'incompleto' && macro.valores.prot100).toBeUndefined()
+    const suma = con({ proteins_100g: 40, carbohydrates_100g: 50, fat_100g: 30 })
+    expect(suma.tipo).toBe('incompleto')
+    expect(suma.tipo === 'incompleto' && [suma.valores.prot100, suma.valores.carb100, suma.valores.grasa100]).toEqual([undefined, undefined, undefined])
+    expect(con({ 'energy-kcal_100g': 1e300 }).tipo).toBe('incompleto')
+  })
+
+  it('descarta un nutriente extra imposible y recorta un nombre enorme', () => {
+    const r = con({ salt_100g: 250, fiber_100g: 1e9 }, { product_name: 'G'.repeat(5000) })
+    expect(r.tipo).toBe('completo')
+    if (r.tipo !== 'completo') return
+    expect(r.food.nutrientes).toEqual({ azucares: 1.2, agSat: 1.3 })
+    expect(r.food.nombre.length).toBeLessThanOrEqual(120)
+  })
+
+  it('los límites de verdad siguen valiendo: aceite (900 kcal, 100 g de grasa) y sal pura', () => {
+    expect(con({ 'energy-kcal_100g': 900, proteins_100g: 0, carbohydrates_100g: 0, fat_100g: 100 }).tipo).toBe('completo')
+    const sal = con({ 'energy-kcal_100g': 0, proteins_100g: 0, carbohydrates_100g: 0, fat_100g: 0, salt_100g: 100 })
+    expect(sal.tipo === 'completo' && sal.food.nutrientes?.sal).toBe(100)
+  })
+})

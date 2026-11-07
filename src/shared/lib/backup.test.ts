@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import backupV1 from '../../test/fixtures/backup-v1.json?raw'
 import { db } from '../db/db'
 import type { CatalogFood } from '../db/types'
+import { contenidoBackup } from './contenidoBackup'
 import { BackupError, borrarTodosLosDatos, exportarBackup, nombreArchivoBackup, importarBackup, migrarBackup } from './backup'
 
 beforeEach(async () => {
@@ -21,6 +22,16 @@ function v1ConApiKey(apiKey: string): string {
 }
 
 describe('importarBackup', () => {
+  it('rechaza una copia de un esquema más nuevo: perdería sus tablas nuevas sin avisar', async () => {
+    await importarBackup(backupV1)
+    const antes = contenidoBackup(await exportarBackup())
+    const nueva = { ...(await exportarBackup()), dbVersion: db.verno + 1, tablaDelFuturo: [{ id: 1 }] }
+    await expect(importarBackup(JSON.stringify(nueva))).rejects.toThrow(/versión más nueva/)
+    expect(contenidoBackup(await exportarBackup())).toBe(antes)
+    // La de la misma versión sigue entrando.
+    await expect(importarBackup(JSON.stringify({ ...nueva, dbVersion: db.verno }))).resolves.toBeDefined()
+  })
+
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
     expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, cheatDays: 0, actividades: 0, rutasPropias: 0, pasos: 0, gimnasios: 0, planificadas: 0, variantesReceta: 0, catalogFoods: 0, catalogSources: 0 })

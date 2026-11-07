@@ -1,6 +1,6 @@
 import type { PuntoRecorrido } from '../../../shared/db/types'
 import { formatInt } from '../../../shared/lib/format'
-import { perfilAltitud } from '../lib/geo'
+import { extremos, perfilAltitud } from '../lib/geo'
 
 const ANCHO = 320
 const ALTO = 72
@@ -14,9 +14,7 @@ export default function PerfilAltitud({ recorrido }: { recorrido: readonly (read
   const perfil = perfilAltitud(recorrido)
   if (perfil.length < 2) return null
   const total = perfil[perfil.length - 1].distanciaM
-  const eles = perfil.map((p) => p.ele)
-  const min = Math.min(...eles)
-  const max = Math.max(...eles)
+  const [min, max] = extremos(perfil.map((p) => p.ele))
   if (!(total > 0) || max - min < 1) return null
   const x = (d: number) => Math.round((MARGEN + (d / total) * (ANCHO - 2 * MARGEN)) * 10) / 10
   const y = (e: number) => Math.round((MARGEN + (1 - (e - min) / (max - min)) * (ALTO - 2 * MARGEN)) * 10) / 10

@@ -136,7 +136,7 @@ describe('páginas sociales', () => {
   it('la fecha de entreno solo aparece si es de otro día', () => {
     expect(contextoPublicacion('entreno', Date.parse(fila.creada), fila.creada)).toBeNull()
     expect(contextoPublicacion('texto', 0, fila.creada)).toBeNull()
-    expect(contextoPublicacion('entreno', Date.parse('2026-10-01T12:00:00Z'), fila.creada)).toContain('1 de octubre')
+    expect(contextoPublicacion('entreno', new Date(2026, 9, 1, 12).getTime(), fila.creada)).toContain('1 de octubre')
   })
 })
 

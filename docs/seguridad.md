@@ -24,15 +24,17 @@ Para que la CSP no tenga que permitir scripts en línea, el tema inicial va en `
 
 **Al cambiar algo que toque la red o los permisos** (un servicio nuevo, que además hay que preguntar a Víctor; un sensor nuevo; un script en `index.html`): actualizar `_headers`. Lo vigilan:
 
+- `src/shared/seguridad/cspSupabase.ts` (con test): `public/_headers` permite cualquier proyecto de Supabase (`*.supabase.co`), y la build (plugin `appfit-csp-supabase` de `vite.config.ts`, también en `npm run preview`) lo cambia en `dist/_headers` por el de `VITE_SUPABASE_URL`. Sin ella, o con un Supabase falso de pruebas, queda el comodín.
 - `src/shared/seguridad/cabeceras.test.ts`: que estén todas las cabeceras, que la CSP no se abra (`script-src`, `connect-src`…), que cada origen al que el código hace `fetch` esté permitido y que `index.html` no tenga scripts en línea.
 - `scripts/ui/validar-seguridad.cjs` (CI, trabajo `navegador`): sobre la build, abre todos los destinos sin una sola violación de la CSP, compila el WebAssembly del escáner, comprueba que Open Food Facts y Supabase están permitidos y que cualquier otro origen queda bloqueado.
 
 ## Supabase
 
-Revisado el 2026-11-03 sobre `supabase/migrations/` (0001–0028); 0029 (2026-11-04) solo amplía `comentar_respuesta` y `social_capacidades`, con las mismas comprobaciones de sesión, publicación visible y bloqueo; 0030 (2026-11-06) añade `borrar_caducados` (sin permiso para `public`, `anon` ni `authenticated`; la ejecuta solo la tarea programada); 0031 (2026-11-06) añade la tabla `desbloqueos` con RLS y sin permisos directos, `mi_desbloqueo` (solo la fila propia, con sesión) y `admin_desbloquear`/`admin_desbloqueados` (comprueban `social_admin_yo`):
+Revisado el 2026-11-03 sobre `supabase/migrations/` (0001–0028); 0029 (2026-11-04) solo amplía `comentar_respuesta` y `social_capacidades`, con las mismas comprobaciones de sesión, publicación visible y bloqueo; 0030 (2026-11-06) añade `borrar_caducados` (sin permiso para `public`, `anon` ni `authenticated`; la ejecuta solo la tarea programada); 0031 (2026-11-06) añade la tabla `desbloqueos` con RLS y sin permisos directos, `mi_desbloqueo` (solo la fila propia, con sesión) y `admin_desbloquear`/`admin_desbloqueados` (comprueban `social_admin_yo`). Repasado entero en la auditoría de 2026-11 (`auditoria-seguridad-2026-11/ESTADO.md` § 1), que añadió 0032 (ejecutada en el proyecto real el 2026-11-07):
 
 - Las 21 tablas tienen RLS activada (seguridad por fila: cada persona solo ve lo suyo o lo que le corresponde ver) y se les quitan los permisos directos a `anon` y `authenticated`: todo pasa por funciones.
 - Las funciones `security definer` fijan `search_path` (evita que alguien las engañe con una tabla falsa del mismo nombre) y comprueban la sesión; las que solo usa la cuenta revocan la ejecución a `public` y `anon`.
+- Textos y JSON que llegan de la app tienen tope en la tabla; las claves de la copia, 2 KB (0032), y la copia, 30 MB contados en bytes.
 - Sin sesión solo se puede enviar un mensaje al creador, con freno por cuenta (5 por hora) y global (300 por hora).
 - En la app solo viajan la URL y la clave **publicable** (`VITE_SUPABASE_*`); la *secret key* nunca está en el repositorio ni en el build.
 
@@ -41,6 +43,8 @@ Un cambio del servidor sigue yendo en un SQL nuevo de `supabase/migrations/`, co
 ## Dependencias
 
 - `npm audit --omit=dev --audit-level=high` en la CI (trabajo `pruebas-y-build`): una dependencia que llega al móvil con una vulnerabilidad conocida alta o crítica no deja pasar la PR. Las de desarrollo (Vite, Vitest…) no llegan al móvil.
+- Al actualizar, mejor una versión publicada hace más de dos semanas: un paquete secuestrado suele detectarse y retirarse en días. `vite` y `vitest` van fijados a una versión exacta (8.3.5 y 5.0.5, auditoría de 2026-11), porque el `npm install` de npm 10 falla al subirlas (`edgesOut`); se actualizan con npm 11 (`npx npm@11 install`), y el lockfile vale igual para el `npm ci` de la CI.
+- Lo que queda en `npm audit` (2026-11-06: 2 bajas y 4 moderadas) es de `workbox-build`, que usa `vite-plugin-pwa` para generar el service worker con nuestros propios archivos. Solo se quita bajando `vite-plugin-pwa` a 1.1.0, que es más vieja.
 - El escáner carga su `.wasm` del propio origen, no de un CDN, y su versión está fijada (`nutricion/lib/escaner/zxing.ts`).
 
 ## Pendiente fuera del código (lo hace Víctor)
@@ -51,4 +55,4 @@ Pasos detallados en `despliegue.md` § Preparación para Google Play.
 - **Supabase › Advisors › Security Advisor:** ejecutarlo y revisar los avisos.
 - **Supabase › Authentication:** acortar la caducidad del código del email de 3600 s a 600 s y revisar los límites de envío de correos.
 - **Clave de firma de Android:** usar *Play App Signing* (Google guarda la clave de la app) y guardar la clave de subida y su contraseña en un gestor de contraseñas, con una copia fuera del ordenador.
-- **Dominio propio** (cuando estén el nombre y el logo): después, `assetlinks.json`, HSTS con `includeSubDomains` y la CSP si cambia la URL de Supabase.
+- **Dominio propio** (cuando estén el nombre y el logo): después, `assetlinks.json`, y HSTS con `includeSubDomains`. La CSP sigue sola a la URL de Supabase de la build.

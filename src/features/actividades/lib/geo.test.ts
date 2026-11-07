@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { PuntoRecorrido } from '../../../shared/db/types'
-import { desnivelPositivo, distanciaM, distanciaRecorrido, perfilAltitud, proyectarRecorrido, redondearPunto, simplificarRecorrido } from './geo'
+import { desnivelPositivo, distanciaM, distanciaRecorrido, extremos, perfilAltitud, proyectarRecorrido, redondearPunto, simplificarRecorrido } from './geo'
 
 // Un grado de latitud son unos 111,2 km; 0,001° ≈ 111 m.
 const norte = (i: number, ele?: number): PuntoRecorrido => (ele === undefined ? [42.88 + i * 0.001, -8.54] : [42.88 + i * 0.001, -8.54, ele])
@@ -79,5 +79,17 @@ describe('perfil de altitud', () => {
     expect(p).toHaveLength(2)
     expect(p[0]).toEqual({ distanciaM: 0, ele: 100 })
     expect(p[1].distanciaM).toBeCloseTo(222.4, 0)
+  })
+})
+
+describe('recorridos muy largos', () => {
+  it('extremos de una lista enorme o vacía', () => {
+    expect(extremos(Array.from({ length: 300_000 }, (_, i) => (i * 7919) % 300_000))).toEqual([0, 299_999])
+    expect(extremos([])).toEqual([Infinity, -Infinity])
+  })
+
+  it('dibuja un recorrido de 150 000 puntos sin simplificar (la vista previa al importar, una grabación larga)', () => {
+    const tramo: PuntoRecorrido[] = Array.from({ length: 150_000 }, (_, i) => [42 + i * 1e-5, -0.5 + (i % 100) * 1e-6])
+    expect(proyectarRecorrido([tramo], 300, 200)).not.toBeNull()
   })
 })

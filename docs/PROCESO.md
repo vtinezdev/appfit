@@ -3646,3 +3646,101 @@ Víctor aprueba cobrar con Play Billing y que el servidor compruebe las compras 
 
 **Verificación:** `npm run test` (277 archivos, 3.229 pruebas) y `npm run build` correctos. Sin generar el envoltorio: el dominio `cumbrafit.app` aún no sirve la app, y sin él Bubblewrap no puede generarlo. La documentación de Chrome sobre pagos en TWA no se pudo leer desde el contenedor; el lado web se comprobará al implementarlo.
 
+## 336. Auditoría de seguridad, área 1: Supabase (2026-11-06)
+
+Víctor pide una auditoría continua de seguridad y bugs antes de publicar en Play, por áreas y en una sola PR. El estado vive en `docs/auditoria-seguridad-2026-11/ESTADO.md`.
+
+- Revisión del servidor sobre las 30 migraciones en PGlite: RLS en todas las tablas, `search_path` fijo en todas las `security definer`, solo `enviar_mensaje_creador` sin sesión, todas las funciones de la app miran la sesión, topes de texto y JSON y frenos por día.
+- Encontrado y confirmado: `claves` de `copias` no tenía tope, así que una cuenta podía guardar ahí decenas de MB y saltarse el tope de 30 MB de la copia. `supabase/migrations/0032_copias_tope_de_claves.sql` lo limita a un objeto de 2 KB y hace que `tamano` cuente bytes. Pendiente de que Víctor la ejecute.
+- `supabase/pruebas/copias.sql`, la primera suite de la copia: sesión, conflictos de revisión, la copia anterior, el tope de las claves al subir y al cambiar la contraseña, el tamaño en bytes y que una cuenta no toque la copia de otra.
+- Para Víctor (en `ESTADO.md`): ejecutar 0032 y decidir sobre el espacio por cuenta (hasta 60 MB con cuentas de cualquier email).
+- Documentos: `seguridad.md`, `features/cuenta.md`.
+
+**Verificación:** en PGlite, las migraciones y las suites correctas; la suite nueva falla sin 0032 («claves enormes al subir»).
+
+## 337. Auditoría de seguridad, área 2: cuenta (2026-11-06)
+
+- Revisados el cifrado (`cuenta/lib/cifrado.ts`), la copia (`copiaNube.ts`), la sesión y el borrado de la cuenta en el servidor (cascadas desde `auth.users`). Detalle en `auditoria-seguridad-2026-11/ESTADO.md` § 2.
+- Arreglado: si otro dispositivo empezaba de cero, este se quedaba en un error que no se iba («no se puede leer con esta clave») y, en un conflicto, podía subir lo suyo con la clave vieja y dejar la copia sin abrir con la contraseña nueva. `conClaveVigente` lo pasa a «perdida» (volver a entrar) al traer, al leer los resúmenes del conflicto y antes de subir en él.
+- Para Víctor: los suspendidos pueden volver borrando la cuenta y creándola con el mismo email, y no hay forma de cerrar la sesión en todos los dispositivos.
+- Documentos: `features/cuenta.md`.
+
+**Verificación:** tres tests nuevos en `copiaNube.test.ts` (los dos primeros fallaban antes del arreglo).
+
+## 338. Auditoría de seguridad, área 3: validación de entradas (2026-11-06)
+
+- Social: `social/lib/publicacion.hostil.test.ts` pasa 40 000 resúmenes hostiles por la lectura y la presentación, y ninguno las hace fallar.
+- Arreglado: GPX, TCX y FIT de más de unos 120 000 puntos fallaban por `Math.max(...lista)` (desborde de pila), y el dibujo del recorrido también, con una grabación de más de 35 horas. Ahora usan `actividades/lib/geo.extremos`, con un bucle. Tests de 150 000 puntos en `gpx`, `tcx`, `fit` y `geo`, que fallaban antes del arreglo.
+- Arreglado: `nutricion/lib/off/mapearProducto` aceptaba valores imposibles de Open Food Facts y guardaba solo el producto. Ahora aplica los límites del catálogo (900 kcal, 100 g y macros que no sumen más de 101 g): un valor imposible es desconocido y el producto se revisa. Nombre y marca, hasta 120 caracteres.
+- Para Víctor: «Exportar una copia» en la pantalla de fallo.
+- Documentos: `features/nutricion.md`, `features/actividades.md`, `auditoria-seguridad-2026-11/ESTADO.md` § 3.
+
+## 339. Auditoría de seguridad, áreas 4 y 5: XSS, cabeceras y CSP (2026-11-06)
+
+- XSS: no hay HTML inyectado, los textos de los pósteres se escapan y de Social no llega ninguna URL. Sin cambios.
+- CSP: `connect-src` pasa de `*.supabase.co` al proyecto de `VITE_SUPABASE_URL` en la build y en `npm run preview` (`shared/seguridad/cspSupabase.ts`, con test, y el plugin `appfit-csp-supabase` de `vite.config.ts`). Sin la variable, o con un Supabase falso, queda el comodín.
+- Documentos: `seguridad.md`, `auditoria-seguridad-2026-11/ESTADO.md` §§ 4-5.
+
+**Verificación:** `vite build` sin la variable deja el comodín en `dist/_headers` y con `VITE_SUPABASE_URL=https://abcdefghijklmnop.supabase.co`, ese proyecto.
+
+## 340. Auditoría de seguridad, área 6: dependencias (2026-11-06)
+
+- `npm audit --omit=dev`: 0. En desarrollo había 2 altas (vite: `launch-editor` en Windows; source-map-js), entre 13. Ahora vite 8.3.5, vitest 5.0.5, source-map-js 1.2.2, fast-uri 3.1.9, postcss-selector-parser 6.1.5 y serialize-javascript 7.1.4, todas publicadas hace más de dos semanas. Quedan 6 moderadas o bajas de `workbox-build`.
+- `vite` y `vitest` quedan fijados a una versión exacta: el `npm install` de npm 10.9 falla al subirlos (`Cannot read properties of null (reading 'edgesOut')`), y con npm 11 sí se puede. El lockfile vale para el `npm ci` de npm 10.
+- Documentos: `seguridad.md` § Dependencias, `auditoria-seguridad-2026-11/ESTADO.md` § 6.
+
+**Verificación:** `npm ci` con npm 10 desde cero, `npm run test` (276 archivos, 3.223 pruebas) y `npm run build` correctos.
+
+## 341. Auditoría de seguridad, áreas 7 a 9: service worker, almacenamiento y lógica de negocio (2026-11-06)
+
+- Service worker y almacenamiento: sin hallazgos (detalle en `auditoria-seguridad-2026-11/ESTADO.md` §§ 7-8).
+- Lógica de negocio: la batería completa pasa en seis zonas horarias, de UTC−11 a UTC+14. Una prueba de propiedades de `shared/lib/dates` sobre 13 años pasa en Madrid, São Paulo y UTC+14 (no se queda en el repositorio: repite lo que ya cubre `dates.test.ts`). Arreglado `social/lib/feed.test.ts`, que dependía de la zona horaria.
+
+## 342. Auditoría de seguridad, área 10: recorridos de error, y cierre (2026-11-06)
+
+- Arreglado: `cuenta/data/nubeSupabase.traducir` convierte una violación de tope de `copias` (`23514`) en «Tu copia es demasiado grande para la nube…». Antes decía «Inténtalo de nuevo», y reintentar no servía. Test en `nubeSupabase.test.ts`.
+- Sin hallazgos en el arranque, el catálogo, los permisos ni Open Food Facts.
+- Cierre: las 10 áreas revisadas. Resumen y decisiones pendientes en `auditoria-seguridad-2026-11/ESTADO.md`.
+
+## 343. Auditoría de seguridad, segunda ronda: pago, privacidad de Social y versiones de la app (2026-11-06)
+
+- Fusionado `master`: la migración del tope de las claves pasa a ser `0032_copias_tope_de_claves.sql`, porque la 0031 es la de desbloqueos, ya ejecutada. Las entradas de la auditoría en este archivo pasan a §336–§342.
+- Gratis y de pago: sin hallazgos en el servidor. El bloqueo local se puede saltar, como cualquier bloqueo en el móvil.
+- Privacidad de Social, probada en PGlite con tres cuentas: solicitud pendiente, seguidor quitado, no miembro y expulsado, todo correcto. Para Víctor: el perfil deportivo se ve con solo pedir seguir; expulsar no impide volver a unirse (ADR 044).
+- Arreglado: un móvil con la app sin actualizar podía borrar de la nube, y del otro móvil, las tablas que no conocía (las opcionales se añaden sin subir `BACKUP_VERSION`). `importarBackup` rechaza un `dbVersion` mayor que `db.verno` y `CopiaNube.exigirVersionCompatible` no trae ni sustituye una copia más nueva. Tests en `backup.test.ts` y `copiaNube.test.ts` (los cuatro fallaban antes del arreglo).
+- Documentos: `datos.md`, `features/cuenta.md`, `features/social.md` (0032), `auditoria-seguridad-2026-11/ESTADO.md`.
+
+## 344. Auditoría de seguridad, segunda ronda: Android, textos legales y caracteres invisibles (2026-11-06)
+
+- Android (TWA): la clave de subida está fuera del repositorio y nunca ha estado en el historial. Sin hallazgos.
+- Textos legales: la política de privacidad y «Borrar la cuenta» ya cuentan el desbloqueo (tabla `desbloqueos`, 0031), que guarda datos de la cuenta desde la parte 2. `roadmap.md` y `features/desbloqueo.md` apuntan para la parte 3 el estado de comerciante y las compras en Seguridad de los datos.
+- Arreglado: los nombres y textos de Social admitían caracteres invisibles (U+202E, que invierte lo que sigue, y espacios de ancho cero), con los que se puede falsear una línea de avisos o imitar un nombre. `shared/lib/text.sinCaracteresOcultos` y `limpiarTextosRecibidos`, aplicados a cada respuesta en `socialSupabase.ts`. Tests en `text.test.ts` y `socialSupabase.test.ts` (el segundo falla sin el arreglo).
+- Documentos: `features/social.md`, `auditoria-seguridad-2026-11/ESTADO.md` §§ 14-17.
+
+## 345. Auditoría de seguridad, segunda ronda: CSV, parámetros de la dirección y contraseña (2026-11-06)
+
+- Sin hallazgos que arreglar: el CSV ya evita la inyección de fórmulas y la única lectura de la dirección es `?preview=cobro`.
+- Para Víctor (`auditoria-seguridad-2026-11/ESTADO.md`): limitar `?preview=cobro` a desarrollo, y exigir contraseñas menos débiles para la copia. Aceptada la carrera entre cambiar la contraseña y «Empezar de cero» en otro móvil (§ 19).
+
+## 346. Auditoría de seguridad, segunda ronda: cobertura del bloqueo de pago (2026-11-06)
+
+- Los componentes de Nutrición, Perfil e Inicio que escriben sin `useDePago` se abren desde botones protegidos o son libres según el ADR 068 (peso y medidas). Agua, pasos y creatina quedan libres sin estar en la tabla del ADR: anotado en `auditoria-seguridad-2026-11/ESTADO.md` § 20.
+
+## 347. Auditoría de seguridad, tercera ronda: guardados y rendimiento con años de datos (2026-11-07)
+
+- Guardados que fallan sin avisar: sin hallazgos («Deshacer», las series del entreno y publicar ya avisan y no duplican).
+- Rendimiento: con tres años de uso intenso en la base de pruebas, `leerVitrina` tardaba unos 1 150 ms, y lo recalcula cada escritura porque `CelebracionLogros` lo tiene suscrito en casi toda la app. Según el perfil de CPU, la mayor parte era `gym/lib/selectorEjercicios.catalogoDeLocal`, que normalizaba el catálogo entero por cada serie de un ejercicio antiguo. Ahora un índice por nombre que se construye una vez, con tests de equivalencia y de velocidad (el de velocidad fallaba antes: 1,8 s). Queda en unos 850 ms, casi todo lectura de fake-indexeddb.
+- Documentos: `arquitectura.md` (coste del lector compartido), `auditoria-seguridad-2026-11/ESTADO.md` §§ 21-22.
+- Entreno en curso al cerrarse la app: sin hallazgos (las series y si están hechas viven en la base; solo se pierde la cuenta atrás del descanso). `ESTADO.md` § 23.
+- CI: `validar-correcciones-auditoria` › `firefox-medianoche` falló una vez (ejecución 320, en un commit que solo cambiaba documentación). El caso abría la página por su cuenta, sin pasar la bienvenida, y esta salía en mitad del Toast del agua, así que se perdía su «Deshacer». Nuevo `auditoria-comun.pasarBienvenidaSiSale` (lo usa `abrir`), llamado también en ese caso antes de actuar. En local, en Chromium, 3 de 3.
+
+## 348. Gratis y de pago: el agua y la creatina, de pago (2026-11-07)
+
+Víctor decide, a raíz de la auditoría (`auditoria-seguridad-2026-11/ESTADO.md` § 20), que el agua y la creatina son de pago, como la nutrición; los pasos, el peso y las medidas siguen gratis.
+
+- Con la prueba terminada piden desbloquear: añadir agua en la tarjeta de Inicio (`InicioTab`) y en su hoja, y cambiar el objetivo (`AguaSheet`); marcar la toma de creatina, guardar la dosis y empezar la carga (`CreatinaHoy`). Quitar la última toma, desmarcar la creatina y cancelar la carga siguen libres, como borrar en el resto.
+- `scripts/ui/validar-desbloqueos.cjs`: con la prueba terminada, «Añadir 250 ml de agua» y «Tomada hoy» abren «Cumbra Fit completa» y no apuntan nada (falla sin el cambio).
+- Documentos: ADR 068, `features/desbloqueo.md`, `desarrollo.md`.
+
+**Verificación:** `validar-desbloqueos.cjs` en local (320 claro, 375 oscuro, 430 claro) correcto, con el Supabase falso.
+- Víctor ejecuta `0032_copias_tope_de_claves.sql` en el proyecto real el 2026-11-07: «Success. No rows returned» (ninguna copia real superaba el tope de las claves). Anotado en `features/social.md`, `features/cuenta.md`, `seguridad.md` y `ESTADO.md`.

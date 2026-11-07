@@ -103,3 +103,14 @@ describe('leerArchivoActividad', () => {
     expect(leerArchivoActividad(new TextEncoder().encode('<gpx><trk><trkseg><trkpt lat="1" lon="2"/><trkpt lat="1.01" lon="2"/></trkseg></trk></gpx>'))).toMatchObject({ formato: 'GPX', resumen: { distanciaM: 1112 } })
   })
 })
+
+describe('actividad muy larga', () => {
+  it('lee un FIT de 150 000 puntos sin sesión ni vueltas (las horas salen de los puntos) sin desbordar la pila', () => {
+    const w = new EscritorFit().definir(RECORD)
+    for (let i = 0; i < 150_000; i++) w.datos(RECORD, [FIT_T0 + i, Math.round((42 + i * 1e-5) * SEMI), Math.round(-0.5 * SEMI), 7500, i * 110])
+    const r = resumirFit(w.archivo())
+    expect(r.duracionSeg).toBe(149_999)
+    expect(r.inicio).toBe((FIT_T0 + 631065600) * 1000)
+    expect(r.distanciaM).toBeGreaterThan(160_000)
+  })
+})

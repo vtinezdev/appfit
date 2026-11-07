@@ -1,6 +1,7 @@
 // Lectura de archivos TCX (Garmin Training Center: Garmin Connect, Polar, Coros, cintas…), con las mismas herramientas
 // que el GPX. Se queda con la distancia y el tiempo de las vueltas del dispositivo, que son los que muestra el reloj, y
 // con las posiciones para el recorrido; sin posiciones (cinta, interior) se importa sin recorrido.
+import { extremos } from './geo'
 import { ETIQUETA, GpxError, parsearGpx, resumirGpx, sugerirTipo, texto, valor, atributo, type PuntoGpx, type ResumenGpx } from './gpx'
 
 const bloques = (xml: string, nombre: string) =>
@@ -57,11 +58,11 @@ export function resumirTcx(xml: string): ResumenGpx {
   const sumar = (nombre: string) => totales.reduce((s, v) => s + Math.max(0, numero(v, nombre) ?? 0), 0)
   const distanciaVueltas = sumar('DistanceMeters')
   const tiempoVueltas = sumar('TotalTimeSeconds')
-  const distanciaPuntos = Math.max(0, ...pistas.flat().map((p) => p.distanciaM ?? 0))
+  const distanciaPuntos = Math.max(0, extremos(pistas.flat().map((p) => p.distanciaM ?? 0))[1])
   let tiempoPuntos = 0
   for (const p of pistas) {
     const horas = p.map((x) => x.t).filter((x): x is number => x !== undefined)
-    if (horas.length >= 2) tiempoPuntos += Math.max(...horas) - Math.min(...horas)
+    if (horas.length >= 2) { const [min, max] = extremos(horas); tiempoPuntos += max - min }
   }
 
   const distanciaM = Math.round(distanciaVueltas || distanciaPuntos || (base?.distanciaM ?? 0))

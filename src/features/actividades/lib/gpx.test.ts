@@ -85,3 +85,15 @@ describe('sugerirTipo', () => {
     expect(sugerirTipo(undefined, 5000, 3600, 20)).toBe('caminar')
   })
 })
+
+describe('actividad muy larga', () => {
+  it('lee un GPX de 150 000 puntos (más de 40 horas a un punto por segundo) sin desbordar la pila', () => {
+    const t0 = Date.parse('2026-10-18T06:00:00Z')
+    const puntos = Array.from({ length: 150_000 }, (_, i) =>
+      `<trkpt lat="${(42 + i * 1e-5).toFixed(6)}" lon="-0.5"><ele>${1000 + (i % 200)}</ele><time>${new Date(t0 + i * 1000).toISOString()}</time></trkpt>`)
+    const r = resumirGpx(parsearGpx(`<gpx><trk><trkseg>${puntos.join('')}</trkseg></trk></gpx>`))
+    expect(r.duracionSeg).toBe(149_999)
+    expect(r.inicio).toBe(t0)
+    expect(r.distanciaM).toBeGreaterThan(160_000)
+  })
+})

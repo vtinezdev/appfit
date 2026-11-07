@@ -25,11 +25,30 @@ export interface OpcionEjercicio {
   catalogId?: string
 }
 
+/**
+ * Nombre y alias normalizados del catálogo → el primer ejercicio que los tiene (el mismo orden que recorrer el catálogo).
+ * Se construye la primera vez: `catalogoDeLocal` se llama por cada serie al calcular el progreso, y normalizar los 268
+ * ejercicios con sus alias en cada llamada costaba segundos con años de historial.
+ */
+let porNombre: Map<string, CatalogExercise> | undefined
+function catalogoPorNombre(): Map<string, CatalogExercise> {
+  if (!porNombre) {
+    porNombre = new Map()
+    for (const c of CATALOGO_EJERCICIOS) {
+      for (const n of [c.name, ...(c.aliases ?? [])]) {
+        const clave = normalizeName(n)
+        if (!porNombre.has(clave)) porNombre.set(clave, c)
+      }
+    }
+  }
+  return porNombre
+}
+
 /** Solo equivalencias exactas para registros antiguos sin metadatos. Nunca enlazar por similitud. */
 export function catalogoDeLocal(e: Exercise): CatalogExercise | undefined {
   if (e.catalogId) return CATALOGO_POR_ID.get(e.catalogId)
   if (e.primaryMuscles !== undefined || e.equipment !== undefined) return undefined
-  return CATALOGO_EJERCICIOS.find(c => [c.name, ...(c.aliases ?? [])].some(n => normalizeName(n) === e.nombreNorm))
+  return catalogoPorNombre().get(e.nombreNorm)
 }
 
 /** Mezcla de lectura: no instala el catálogo ni modifica ejercicios antiguos. */

@@ -65,3 +65,24 @@ export function iniciales(texto: string): string {
   const letras = palabras.length >= 2 ? [...palabras[0]][0] + [...palabras[1]][0] : [...(palabras[0] ?? '')].slice(0, 2).join('')
   return letras.toLocaleUpperCase('es') || '?'
 }
+
+/**
+ * Caracteres invisibles que solo sirven para engañar a la vista en textos de otras personas: controles (salvo tabulador
+ * y saltos de línea), marcas e inversiones de dirección (U+202E da la vuelta a lo que sigue en la línea) y espacios de
+ * ancho cero. Se conservan U+200C y U+200D, que necesitan los emojis compuestos («🏃‍♀️») y algunos alfabetos.
+ */
+const OCULTOS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F؜᠎​‎‏‪-‮⁠-⁤⁦-⁩﻿]/g
+
+export function sinCaracteresOcultos(texto: string): string {
+  return texto.replace(OCULTOS, '')
+}
+
+/** `sinCaracteresOcultos` en cada texto de un valor llegado del servidor (objetos y listas, a cualquier profundidad). */
+export function limpiarTextosRecibidos(valor: unknown): unknown {
+  if (typeof valor === 'string') return sinCaracteresOcultos(valor)
+  if (Array.isArray(valor)) return valor.map(limpiarTextosRecibidos)
+  if (valor !== null && typeof valor === 'object') {
+    return Object.fromEntries(Object.entries(valor).map(([k, v]) => [k, limpiarTextosRecibidos(v)]))
+  }
+  return valor
+}
