@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aplicaCobro, COBRO_ACTIVO, detectarPreviewCobro } from './cobro'
+import { aplicaCobro, COBRO_ACTIVO, detectarPreviewCobro, previewPermitido } from './cobro'
 
 describe('aplicaCobro', () => {
   it('mientras no se pueda pagar, el cobro está apagado', () => {
@@ -18,11 +18,24 @@ describe('aplicaCobro', () => {
 })
 
 describe('detectarPreviewCobro', () => {
+  const local = 'appfit-test.localhost'
+
   it('por la dirección o por lo recordado en la sesión', () => {
-    expect(detectarPreviewCobro('?preview=cobro', null)).toBe(true)
-    expect(detectarPreviewCobro('?x=1&preview=cobro', null)).toBe(true)
-    expect(detectarPreviewCobro('', '1')).toBe(true)
-    expect(detectarPreviewCobro('', null)).toBe(false)
-    expect(detectarPreviewCobro('?preview=otra', null)).toBe(false)
+    expect(detectarPreviewCobro('?preview=cobro', null, local)).toBe(true)
+    expect(detectarPreviewCobro('?x=1&preview=cobro', null, local)).toBe(true)
+    expect(detectarPreviewCobro('', '1', local)).toBe(true)
+    expect(detectarPreviewCobro('', null, local)).toBe(false)
+    expect(detectarPreviewCobro('?preview=otra', null, local)).toBe(false)
+  })
+
+  it('nunca en la web publicada: un enlace así serviría de anzuelo para un engaño', () => {
+    for (const host of ['cumbrafit.app', 'www.cumbrafit.es', 'appfit.pages.dev', 'localhost.cumbrafit.app', 'evil-localhost.com']) {
+      expect(detectarPreviewCobro('?preview=cobro', null, host)).toBe(false)
+      expect(detectarPreviewCobro('', '1', host)).toBe(false)
+    }
+  })
+
+  it('direcciones locales permitidas', () => {
+    for (const host of ['localhost', 'appfit-test.localhost', '127.0.0.1', '[::1]']) expect(previewPermitido(host)).toBe(true)
   })
 })

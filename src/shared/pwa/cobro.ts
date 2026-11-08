@@ -1,6 +1,7 @@
 // Dónde se aplica el cobro (ADR 068): solo en la app de Google Play, y todavía no: `COBRO_ACTIVO` se enciende cuando se
 // pueda pagar con Play Billing (parte 3). La web y el iPhone siguen abiertos. `?preview=cobro` lo enciende en esta sesión
-// para probar el bloqueo en cualquier sitio (solo afecta a quien lo abre así).
+// para probar el bloqueo, solo en direcciones locales: en la web publicada un enlace así serviría de anzuelo para un engaño
+// («tu app está bloqueada, págame y te la desbloqueo»; auditoría de 2026-11, punto 13).
 import type { EntornoAcceso } from '../lib/acceso'
 import { esAppAndroid } from './entorno'
 
@@ -12,8 +13,14 @@ export function aplicaCobro({ activo, appAndroid, preview }: { activo: boolean; 
   return preview || (activo && appAndroid)
 }
 
-/** Puro: `?preview=cobro` en la dirección, o lo recordado en la sesión tras recargar. */
-export function detectarPreviewCobro(search: string, recordado: string | null): boolean {
+/** Puro: solo las direcciones locales (el servidor de desarrollo y la build de las pruebas en `appfit-test.localhost`). */
+export function previewPermitido(host: string): boolean {
+  return host === 'localhost' || host.endsWith('.localhost') || host === '127.0.0.1' || host === '[::1]'
+}
+
+/** Puro: `?preview=cobro` en la dirección, o lo recordado en la sesión tras recargar, y solo en una dirección local. */
+export function detectarPreviewCobro(search: string, recordado: string | null, host: string): boolean {
+  if (!previewPermitido(host)) return false
   return recordado === '1' || new URLSearchParams(search).getAll('preview').includes('cobro')
 }
 
@@ -23,7 +30,7 @@ function previewCobro(): boolean {
   if (preview !== undefined) return preview
   let recordado: string | null = null
   try { recordado = sessionStorage.getItem(CLAVE_PREVIEW) } catch { /* sin almacenamiento de sesión: solo la dirección */ }
-  preview = typeof location !== 'undefined' && detectarPreviewCobro(location.search, recordado)
+  preview = typeof location !== 'undefined' && detectarPreviewCobro(location.search, recordado, location.hostname)
   if (preview) { try { sessionStorage.setItem(CLAVE_PREVIEW, '1') } catch { /* nada que recordar */ } }
   return preview
 }

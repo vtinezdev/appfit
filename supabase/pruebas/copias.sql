@@ -1,4 +1,4 @@
--- Tras 0032. Solo datos sintéticos: PRUEBAS_OK deshace todo.
+-- Tras 0033. Solo datos sintéticos: PRUEBAS_OK deshace todo.
 do $$
 declare
   a uuid := gen_random_uuid();
@@ -42,9 +42,15 @@ begin
   assert public.subir_copia(2, 'ñññ', null) = 3, 'tercera copia';
   assert (select tamano = 6 from public.copias where user_id = a), 'tamaño en bytes';
 
+  -- La copia tiene tope de 10 MB (0033): justo en el tope cabe, un byte más no.
+  assert public.subir_copia(3, repeat('x', 10000000), null) = 4, 'una copia de 10 MB cabe';
+  begin perform public.subir_copia(4, repeat('x', 10000001), null); fallo := false; exception when check_violation then fallo := true; end;
+  assert fallo, 'una copia de más de 10 MB no cabe';
+  assert public.subir_copia(4, 'ñññ', null) = 5, 'quinta copia';
+
   -- Cada cuenta toca solo su copia.
   perform set_config('request.jwt.claims', json_build_object('sub', b)::text, true);
-  assert public.subir_copia(3, '1.iv.ajena', null) is null, 'no pisa la copia de otra cuenta';
+  assert public.subir_copia(5, '1.iv.ajena', null) is null, 'no pisa la copia de otra cuenta';
   perform public.actualizar_claves(v_claves);
   assert (select count(*) from public.copias where user_id = b) = 0, 'no crea fila ajena';
   assert (select datos = 'ñññ' from public.copias where user_id = a), 'la copia de a sigue igual';
