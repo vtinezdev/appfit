@@ -3744,3 +3744,11 @@ Víctor decide, a raíz de la auditoría (`auditoria-seguridad-2026-11/ESTADO.md
 
 **Verificación:** `validar-desbloqueos.cjs` en local (320 claro, 375 oscuro, 430 claro) correcto, con el Supabase falso.
 - Víctor ejecuta `0032_copias_tope_de_claves.sql` en el proyecto real el 2026-11-07: «Success. No rows returned» (ninguna copia real superaba el tope de las claves). Anotado en `features/social.md`, `features/cuenta.md`, `seguridad.md` y `ESTADO.md`.
+
+## 349. Pantalla de fallo con «Exportar una copia de seguridad» y decisiones de la auditoría (2026-11-08)
+
+- `app/FalloAplicacion` (fallo de arranque y límite de errores) ofrece «Exportar una copia de seguridad»: si el fallo se repite en cada arranque, no se llega a Ajustes. Solo lee (`exportarBackup` + `descargarBackup`), no anota `ultimaExportacion`, y un fallo sale en línea. Test en `FalloAplicacion.test.tsx`; `validar-correcciones-auditoria.cjs` descarga la copia desde la pantalla de fallo y la compara con la base.
+- Decisiones de Víctor sobre «Para Víctor» de `auditoria-seguridad-2026-11/ESTADO.md`: 4, 5, 10 y 14 se dejan como están; 6 hecho; 9, 13 y 2, pendientes de una explicación o de concretar.
+- Documentos: `arquitectura.md` (arranque), `desarrollo.md` (recorrido), `ESTADO.md`.
+
+**Verificación:** `validar-correcciones-auditoria.cjs` (caso `almacenamiento`) en local con Chromium, correcto.
