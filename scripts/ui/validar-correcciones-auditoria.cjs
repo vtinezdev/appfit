@@ -138,6 +138,18 @@ async function motor(nombre) {
       await destino.evaluate((boton) => { window.__falloLectura = true; boton.click() })
       await page.getByRole('heading', { name: 'No se ha podido mostrar la pantalla', exact: true }).waitFor()
       await page.getByRole('button', { name: 'Recargar Cumbra Fit', exact: true }).waitFor()
+      // Salida para un fallo que se repite en cada arranque: exportar la copia sin pasar por Ajustes (y sin escribir nada).
+      await page.evaluate(() => { window.__falloLectura = false })
+      const descarga = page.waitForEvent('download')
+      await page.getByRole('button', { name: 'Exportar una copia de seguridad', exact: true }).click()
+      const archivo = await descarga
+      assert.match(archivo.suggestedFilename(), /^cumbra-fit-backup-\d{4}-\d{2}-\d{2}\.json$/)
+      const copia = JSON.parse(qa.fs.readFileSync(await archivo.path(), 'utf8'))
+      delete copia.exportedAt
+      assert.deepEqual(copia, antes, 'la copia lleva todos los registros')
+      assert.ok(copia.entries.length > 0 && copia.pesos.length > 0, 'con datos sembrados')
+      assert.deepEqual(await datos(page), antes, 'exportar desde el fallo no escribe')
+      await captura(page, `${nombre}-fallo-exportar`)
     })
 
     for (const c of [{ width: 320, theme: 'light' }, { width: 375, theme: 'dark', grande: true }, { width: 430, theme: 'light' }]) {
