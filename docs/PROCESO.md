@@ -3756,7 +3756,7 @@ Víctor decide, a raíz de la auditoría (`auditoria-seguridad-2026-11/ESTADO.md
 ## 350. Auditoría: `?preview=cobro` solo en local, copia de 10 MB y perfil sin cambios (2026-11-08)
 
 - Punto 13: `?preview=cobro` solo enciende el bloqueo de pago en direcciones locales (`shared/pwa/cobro.previewPermitido`: `localhost`, `*.localhost`, `127.0.0.1`, `[::1]`). En la web publicada un enlace así servía de anzuelo para un engaño. No se limita a `import.meta.env.DEV` porque `validar-desbloqueos.cjs` lo usa en la CI contra la build (`appfit-test.localhost:5174`). Tests en `cobro.test.ts`.
-- Punto 2: `supabase/migrations/0033_copias_tope_10mb.sql` baja el tope de la copia de 30 a 10 MB, y el aviso de `nubeSupabase.traducir` lo dice. Estimación: tres años de uso intenso (16 425 comidas, 13 188 series, 274 actividades de 800 puntos) ocupan unos 2,5 MB comprimidos y cifrados; sin GPS, 0,8 MB. `copias.sql` comprueba los 10 MB justos y uno más (falla sin 0033). Pendiente de ejecutar en el proyecto real.
+- Punto 2: `supabase/migrations/0033_copias_tope_10mb.sql` baja el tope de la copia de 30 a 10 MB, y el aviso de `nubeSupabase.traducir` lo dice. Estimación: tres años de uso intenso (16 425 comidas, 13 188 series, 274 actividades de 800 puntos) ocupan unos 2,5 MB comprimidos y cifrados; sin GPS, 0,8 MB. `copias.sql` comprueba los 10 MB justos y uno más (falla sin 0033). Víctor la ejecuta en el proyecto real el 2026-11-08 («Success»), tras comprobar que ninguna copia superaba los 10 MB.
 - Punto 9: el perfil deportivo se sigue viendo con una solicitud en cualquier sentido; sin cambios.
 - Documentos: `features/cuenta.md`, `features/social.md` (0033), `features/desbloqueo.md`, `seguridad.md`, `auditoria-seguridad-2026-11/ESTADO.md`.
 
